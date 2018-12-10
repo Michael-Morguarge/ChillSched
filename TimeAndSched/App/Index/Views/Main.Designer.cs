@@ -38,7 +38,6 @@
             this.EditEvent = new System.Windows.Forms.Button();
             this.RemoveButton = new System.Windows.Forms.Button();
             this.TodaysEvents = new System.Windows.Forms.ListBox();
-            this.BookmarkedTimesLBS = new System.Windows.Forms.BindingSource(this.components);
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.ExpStartDate = new System.Windows.Forms.Label();
             this.ExpStartTime = new System.Windows.Forms.Label();
@@ -58,7 +57,6 @@
             this.CalendarTab.SuspendLayout();
             this.YourEvents.SuspendLayout();
             this.CRUDButtonPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.BookmarkedTimesLBS)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
             this.TimeTab.SuspendLayout();
             this.TimeAndCalendarTabular.SuspendLayout();
@@ -169,11 +167,6 @@
             // 
             // TodaysEvents
             // 
-            this.TodaysEvents.DataBindings.Add(new System.Windows.Forms.Binding("SelectedItem", this.BookmarkedTimesLBS, "Title", true));
-            this.TodaysEvents.DataBindings.Add(new System.Windows.Forms.Binding("Tag", this.BookmarkedTimesLBS, "Id", true));
-            this.TodaysEvents.DataBindings.Add(new System.Windows.Forms.Binding("SelectedIndex", this.BookmarkedTimesLBS, "Id", true));
-            this.TodaysEvents.DataBindings.Add(new System.Windows.Forms.Binding("SelectedValue", this.BookmarkedTimesLBS, "Id", true));
-            this.TodaysEvents.DataSource = this.BookmarkedTimesLBS;
             this.TodaysEvents.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TodaysEvents.FormattingEnabled = true;
             this.TodaysEvents.ItemHeight = 16;
@@ -182,12 +175,7 @@
             this.TodaysEvents.Size = new System.Drawing.Size(125, 244);
             this.TodaysEvents.Sorted = true;
             this.TodaysEvents.TabIndex = 1;
-            this.TodaysEvents.ValueMember = "Id";
             this.TodaysEvents.SelectedIndexChanged += new System.EventHandler(this.TodaysEvents_SelectedIndexChanged);
-            // 
-            // BookmarkedTimesLBS
-            // 
-            this.BookmarkedTimesLBS.DataMember = "Times";
             // 
             // flowLayoutPanel1
             // 
@@ -235,7 +223,7 @@
             this.ExpEndDate.Name = "ExpEndDate";
             this.ExpEndDate.Padding = new System.Windows.Forms.Padding(0, 5, 0, 5);
             this.ExpEndDate.Size = new System.Drawing.Size(109, 28);
-            this.ExpEndDate.TabIndex = 5;
+            this.ExpEndDate.TabIndex = 0;
             this.ExpEndDate.Text = "N/A";
             this.ExpEndDate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -248,7 +236,7 @@
             this.ExpEndTime.Name = "ExpEndTime";
             this.ExpEndTime.Padding = new System.Windows.Forms.Padding(0, 5, 0, 5);
             this.ExpEndTime.Size = new System.Drawing.Size(109, 28);
-            this.ExpEndTime.TabIndex = 4;
+            this.ExpEndTime.TabIndex = 0;
             this.ExpEndTime.Text = "N/A";
             this.ExpEndTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -409,7 +397,6 @@
             this.CalendarTab.ResumeLayout(false);
             this.YourEvents.ResumeLayout(false);
             this.CRUDButtonPanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.BookmarkedTimesLBS)).EndInit();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.TimeTab.ResumeLayout(false);
             this.TimeAndCalendarTabular.ResumeLayout(false);
@@ -441,7 +428,6 @@
         private System.Windows.Forms.Button AddEvent;
         private System.Windows.Forms.FlowLayoutPanel CRUDButtonPanel;
         private System.Windows.Forms.Button RemoveButton;
-        private System.Windows.Forms.BindingSource BookmarkedTimesLBS;
         private System.Windows.Forms.Label ExpEndDate;
         private System.Windows.Forms.Label ExpEndTime;
     }

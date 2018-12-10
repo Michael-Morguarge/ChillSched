@@ -114,7 +114,6 @@ namespace TimeAndSched.View
         private void CreateEvent_Click(object sender, EventArgs e)
         {
             _bm.Add();
-            //MessageBox.Show();
         }
 
         #region Controllers [Only use once view is initialized]

@@ -32,7 +32,7 @@ namespace TimeAndSched.Backend.Model
         {
             // check for TimeUtitly formatting with regex
             var timeElements = time.Split(':');
-            var secondsAndTod = timeElements[timeElements.Length-1].Split(' ');
+            var secondsAndTod = timeElements[2].Split(' ');
 
             Hours = int.Parse(timeElements[0]);
             Minutes = int.Parse(timeElements[1]);

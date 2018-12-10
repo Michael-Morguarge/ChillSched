@@ -35,14 +35,15 @@ namespace TimeAndSched.Backend.Model
         public Date(string date)
         {
             var dateElements = date.Split(',');
-            var day = dateElements[0];
-            var monthAndDay = dateElements[1].TrimStart(' ').Split(' ')[0];
+            var dow = dateElements[0];
+            var monthAndDay = dateElements[1].TrimStart(' ').Split(' ');
             var month = monthAndDay[0];
             var day = monthAndDay[1];
             var year = dateElements[2].TrimStart(' ');
-            Month = DateGlobals.GetMonthName(month);
-            Day = day;
-            Year = year;
+
+            Month = month;
+            Day = int.Parse(day);
+            Year = int.Parse(year);
             DayOfWeek = dow;
         }
 

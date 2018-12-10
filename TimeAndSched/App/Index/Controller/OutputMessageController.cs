@@ -165,7 +165,6 @@ namespace TimeAndSched.App.Index.Controller
 
     public class NotifyController : ASetupController<NotifyIcon>
     {
-
         public NotifyController(NotifyIcon control) : base (control)
         {
             //Control is set in base class.
@@ -174,7 +173,6 @@ namespace TimeAndSched.App.Index.Controller
 
     public class LabelController : ASetupController<Label>
     {
-
         public LabelController(Label control) : base(control)
         {
             //Control is set in base class.
@@ -183,7 +181,6 @@ namespace TimeAndSched.App.Index.Controller
 
     public class CalendarController : ASetupController<MonthCalendar>
     {
-
         public CalendarController(MonthCalendar control) : base(control)
         {
             //Control is set in base class.
@@ -236,7 +233,6 @@ namespace TimeAndSched.App.Index.Controller
 
     public class RichTBController : ASetupController<RichTextBox>
     {
-
         public RichTBController(RichTextBox control) : base(control)
         {
             //Control is set in base class.
@@ -250,7 +246,6 @@ namespace TimeAndSched.App.Index.Controller
 
     public class TextBoxController : ASetupController<TextBox>
     {
-
         public TextBoxController(TextBox control) : base(control)
         {
             //Control is set in base class.

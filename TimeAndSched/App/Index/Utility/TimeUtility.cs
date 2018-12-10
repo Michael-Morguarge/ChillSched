@@ -15,8 +15,8 @@ namespace TimeAndSched.App.Index.Utility
             return string.Format(
                 "{0}:{1}:{2} {3}",
                 (now.Hour > 12 ? (now.Hour - 12) : now.Hour),
-                string.Format("{0}".PadLeft(2, '0'), now.Minute),
-                now.Second,
+                now.Minute.ToString().PadLeft(2, '0'),
+                now.Second.ToString().PadLeft(2, '0'),
                 (now.Hour > 12 ? "PM" : "AM")
             );
         }
@@ -26,8 +26,8 @@ namespace TimeAndSched.App.Index.Utility
             return string.Format(
                 "{0}:{1}:{2} {3}",
                 (time.Hour > 12 ? (time.Hour - 12) : time.Hour),
-                string.Format("{0}".PadLeft(2, '0'), time.Minute),
-                time.Second,
+                time.Minute.ToString().PadLeft(2, '0'),
+                time.Second.ToString().PadLeft(2, '0'),
                 (time.Hour > 12 ? "PM" : "AM")
             );
         }

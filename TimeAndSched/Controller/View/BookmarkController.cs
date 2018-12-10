@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using TimeAndSched.Backend.Globals;
 using TimeAndSched.Backend.Model;
 
@@ -22,18 +20,17 @@ namespace TimeAndSched.Controller.View
 
         public void Add(EventDetail bookmark)
         {
-            var activation = DateTime.Parse(bookmark.ActivationDate);
-            var activationDate = new Date(activation.Month, activation.Day, activation.Year, activation.DayOfWeek.ToString());
-            var deactivation = DateTime.Parse(bookmark.DeactivationDate);
-            var deactivationDate = new Date(deactivation.Month, deactivation.Day, deactivation.Year, deactivation.DayOfWeek.ToString());
+            var activationDate = new Date(bookmark.ActivationDate);
+            var activationTime = new Time(bookmark.ActivationTime);
+            var deactivationDate = new Date(bookmark.DeactivationDate);
             var deactivationTime = new Time(bookmark.ActivationTime);
             _bmRepo.AddTime(new Bookmark {
                 Title = bookmark.Title,
                 Comment = bookmark.Comment,
                 ActivationDate = activationDate,
-                ActivationTime = deactivationDate,
+                ActivationTime = activationTime,
                 DeactivationDate = deactivationDate,
-                DeactivationTime = (Time)bookmark[5],
+                DeactivationTime = deactivationTime,
                 DateCreated = TimeGlobals.GetCurrDate,
                 TimeCreated = TimeGlobals.GetCurrTime
             });
