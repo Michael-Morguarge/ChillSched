@@ -1,8 +1,8 @@
-﻿using System.Linq;
-using TimeAndSched.Backend.Globals;
-using TimeAndSched.Backend.Model;
+﻿using Backend.BusinessLogic.Model;
+using Backend.OutputLogic.Utility;
+using System.Linq;
 
-namespace TimeAndSched.Controller.View
+namespace TimeAndSched.View.Controller
 {
     public class BookmarkController
     {
@@ -20,10 +20,11 @@ namespace TimeAndSched.Controller.View
 
         public void Add(EventDetail bookmark)
         {
-            var activationDate = new Date(bookmark.ActivationDate);
-            var activationTime = new Time(bookmark.ActivationTime);
-            var deactivationDate = new Date(bookmark.DeactivationDate);
-            var deactivationTime = new Time(bookmark.ActivationTime);
+            var activationDate = bookmark.ActivationDate;
+            var activationTime = bookmark.ActivationTime;
+            var deactivationDate = bookmark.DeactivationDate;
+            var deactivationTime = bookmark.ActivationTime;
+
             _bmRepo.AddTime(new Bookmark {
                 Title = bookmark.Title,
                 Comment = bookmark.Comment,
@@ -31,8 +32,8 @@ namespace TimeAndSched.Controller.View
                 ActivationTime = activationTime,
                 DeactivationDate = deactivationDate,
                 DeactivationTime = deactivationTime,
-                DateCreated = TimeGlobals.GetCurrDate,
-                TimeCreated = TimeGlobals.GetCurrTime
+                DateCreated = TimeAndDateUtility.GetCurrentDate(),
+                TimeCreated = TimeAndDateUtility.GetCurrentTime()
             });
         }
     }

@@ -1,14 +1,13 @@
-﻿using System;
+﻿using Backend.BusinessLogic.Model;
 using Backend.OutputLogic.Global;
-using Backend.BusinessLogic.Model;
 
 namespace Backend.BusinessLogic.Repository
 {
     public class EventDetailRepository : iEventDetailRepository
     {
-        public void CreateEvent(string title, string comment, Date ad, Time at, Date dd, Time dt)
+        public EventDetail CreateEvent(string title, string comment, Date ad, Time at, Date dd, Time dt)
         {
-            new EventDetail
+            return new EventDetail
             {
                 Id = Ids.CreateId().ToString(),
                 Title = title,
@@ -18,11 +17,6 @@ namespace Backend.BusinessLogic.Repository
                 DeactivationDate = dd,
                 DeactivationTime = dt
             };
-        }
-
-        public EventDetail GetEvent(string id)
-        {
-            throw new NotImplementedException();
         }
     }
 }

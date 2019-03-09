@@ -1,4 +1,6 @@
-﻿namespace TimeAndSched.App.Index.Views
+﻿using System;
+
+namespace TimeAndSched.App.Index.Views
 {
     partial class EventDetails
     {
@@ -51,10 +53,11 @@
             this.BMStartPicker.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BMStartPicker.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             this.BMStartPicker.Location = new System.Drawing.Point(29, 240);
-            this.BMStartPicker.MinDate = new System.DateTime(2018, 6, 27, 0, 0, 0, 0);
+            this.BMStartPicker.MinDate = new System.DateTime(2018, 12, 10, 0, 0, 0, 0);
             this.BMStartPicker.Name = "BMStartPicker";
             this.BMStartPicker.Size = new System.Drawing.Size(274, 24);
             this.BMStartPicker.TabIndex = 3;
+            this.BMStartPicker.MinDate = DateTime.Now;
             // 
             // BookmarkMaker
             // 
@@ -110,9 +113,11 @@
             this.BMEndPicker.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BMEndPicker.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             this.BMEndPicker.Location = new System.Drawing.Point(29, 301);
+            this.BMEndPicker.MinDate = new System.DateTime(2018, 12, 10, 0, 0, 0, 0);
             this.BMEndPicker.Name = "BMEndPicker";
             this.BMEndPicker.Size = new System.Drawing.Size(274, 24);
             this.BMEndPicker.TabIndex = 4;
+            this.BMEndPicker.MinDate = DateTime.Now;
             // 
             // BMCommentTB
             // 

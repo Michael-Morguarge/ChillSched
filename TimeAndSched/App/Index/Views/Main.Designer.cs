@@ -379,7 +379,7 @@
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.BackgroundImage = global::TimeAndSched.Properties.Resources.icon_widgets_48;
+            this.BackgroundImage = global::FrontEnd.Properties.Resources.icon_widgets_48;
             this.ClientSize = new System.Drawing.Size(655, 366);
             this.Controls.Add(this.TimeAndCalendarTabular);
             this.Cursor = System.Windows.Forms.Cursors.Default;

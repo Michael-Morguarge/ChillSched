@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using TimeAndSched.App.Index.Controller;
-using TimeAndSched.Backend.Model;
-using TimeAndSched.Backend.Globals;
+using TimeAndSched.View.Controller;
+using TimeAndSched.FrontEnd.Globals;
+using Backend.BusinessLogic.Repository;
+using Backend.OutputLogic.Utility;
+using Backend.BusinessLogic.Model;
 
 namespace TimeAndSched.App.Index.Views
 {
@@ -18,6 +13,7 @@ namespace TimeAndSched.App.Index.Views
         private CrudPurpose _purpose;
         private ControlAccess _controls;
         private bool _error;
+        public EventDetailRepository _eventDetailRepo;
 
         public EventDetail Results { get; private set; }
 
@@ -26,7 +22,7 @@ namespace TimeAndSched.App.Index.Views
             InitializeComponent();
             Setup();
             SetPurpose(CrudPurpose.None);
-            
+            _eventDetailRepo = new EventDetailRepository();
         }
 
         public EventDetails(ControlAccess controls)
@@ -175,7 +171,15 @@ namespace TimeAndSched.App.Index.Views
             else
             {
                 DialogResult = DialogResult.OK;
-                Results = new EventDetail (titleTB.Text, commentTB.Text, startPicker.Date, startPicker.Time, endPicker.Date, endPicker.Time);
+                Results = new EventDetail();
+                Results = _eventDetailRepo.CreateEvent(
+                    titleTB.Text,
+                    commentTB.Text,
+                    TimeAndDateUtility.ConvertStringDate(startPicker.Date),
+                    TimeAndDateUtility.ConvertStringTime(startPicker.Time),
+                    TimeAndDateUtility.ConvertStringDate(endPicker.Date),
+                    TimeAndDateUtility.ConvertStringTime(endPicker.Time)
+                );
                 _error = false;
             }
         }

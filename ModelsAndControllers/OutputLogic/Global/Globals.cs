@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 
 namespace Backend.OutputLogic.Global
 {
@@ -42,16 +43,6 @@ namespace Backend.OutputLogic.Global
     public enum Months
     {
         None, January, February, March, April, May, June, July, August, September, October, November, December
-    }
-
-    public enum ControlType
-    {
-        None, Label, Forms, TextArea, RichTextArea, IconNotifier, DatePicker, Calendar, ListBox
-    }
-
-    public enum CrudPurpose
-    {
-        None, Create, Edit, Error
     }
 
     public enum TimeOfDay

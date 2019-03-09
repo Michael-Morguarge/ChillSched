@@ -27,7 +27,7 @@ namespace Backend.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
         [global::System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=|DataDirectory|\\Database\\database.a" +
-            "ccdb")]
+            "ccdb;Encrypt Password=False;Mask Password=False")]
         public string databaseConnectionString {
             get {
                 return ((string)(this["databaseConnectionString"]));

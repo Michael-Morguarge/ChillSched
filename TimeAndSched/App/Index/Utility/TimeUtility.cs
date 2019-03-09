@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TimeAndSched.Backend.Globals;
+﻿using Backend.OutputLogic.Global;
+using System;
 
 namespace TimeAndSched.App.Index.Utility
 {
@@ -35,12 +31,12 @@ namespace TimeAndSched.App.Index.Utility
         public static string GetCurrentDate()
         {
             var date = DateTime.Now;
-            return string.Format("{0}, {1} {2}, {3}", date.DayOfWeek, DateGlobals.GetMonthName(date.Month), date.Day, date.Year);
+            return string.Format("{0}, {1} {2}, {3}", date.DayOfWeek, TimeAndDateGlobals.GetMonthName(date.Month), date.Day, date.Year);
         }
 
         public static string FormatDate(DateTime date)
         {
-            return string.Format("{0}, {1} {2}, {3}", date.DayOfWeek, DateGlobals.GetMonthName(date.Month), date.Day, date.Year);
+            return string.Format("{0}, {1} {2}, {3}", date.DayOfWeek, TimeAndDateGlobals.GetMonthName(date.Month), date.Day, date.Year);
         }
 
     }

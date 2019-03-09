@@ -1,17 +1,11 @@
-﻿using System;
+﻿using Backend.OutputLogic.Utility;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using TimeAndSched.App.Index.Controller;
 using TimeAndSched.App.Index.Utility;
-using TimeAndSched.App.Index.Views;
 using TimeAndSched.Backend.Globals;
-using TimeAndSched.Controller.View;
+using TimeAndSched.View.Controller;
 
 namespace TimeAndSched.View
 {
@@ -49,10 +43,10 @@ namespace TimeAndSched.View
 
             _bm = new BookmarkViewController(_controls, new List<object> { calendar.Id, todays_events.Id });
 
-            Time.Text = TimeUtility.GetCurrentTime();
-            Date.Text = TimeUtility.GetCurrentDate();
+            Time.Text = TimeAndDateUtility.GetCurrentStringTime();
+            Date.Text = TimeAndDateUtility.GetCurrentStringDate();
 
-            Bitmap bit = Properties.Resources.ChillSched;
+            Bitmap bit = FrontEnd.Properties.Resources.ChillSched;
             IntPtr pIcon = bit.GetHicon();
             Icon = Icon.FromHandle(pIcon);
             DateTimeIcon.Icon = Icon;

@@ -1,21 +1,15 @@
-﻿using System;
+﻿using Backend.BusinessLogic.Model;
+using Backend.OutputLogic.Utility;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using TimeAndSched.App.Index.Implementations;
-using TimeAndSched.App.Index.Utility;
 using TimeAndSched.App.Index.Views;
-using TimeAndSched.Backend.Globals;
-using TimeAndSched.Backend.Model;
-using TimeAndSched.Controller.View;
+using TimeAndSched.FrontEnd.Globals;
 
-namespace TimeAndSched.App.Index.Controller
+namespace TimeAndSched.View.Controller
 {
-
-
     public class ControlAccess
     {
         private List<LabelController> Labels;
@@ -199,7 +193,7 @@ namespace TimeAndSched.App.Index.Controller
         {
             get
             {
-                return TimeUtility.FormatDate(Control.Value);
+                return TimeAndDateUtility.ConvertDateTimeDate(Control.Value);
             }
         }
 
@@ -207,7 +201,7 @@ namespace TimeAndSched.App.Index.Controller
         {
             get
             {
-                return TimeUtility.FormatTime(Control.Value);
+                return TimeAndDateUtility.ConvertDateTimeTime(Control.Value);
             }
         }
     }
