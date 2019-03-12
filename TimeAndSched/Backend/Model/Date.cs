@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TimeAndSched.Backend.Globals;
+using Backend.OutputLogic.Global;
 
 namespace TimeAndSched.Backend.Model
 {
@@ -13,7 +13,7 @@ namespace TimeAndSched.Backend.Model
         {
             if (defDate)
             {
-                Month = DateGlobals.GetMonthName(DateTime.Now.Month);
+                Month = TimeAndDateGlobals.GetMonthName(DateTime.Now.Month);
                 Day = DateTime.Now.Day;
                 Year = DateTime.Now.Year;
                 DayOfWeek = DateTime.Now.DayOfWeek.ToString();
@@ -26,7 +26,7 @@ namespace TimeAndSched.Backend.Model
 
         public Date(int month, int day, int year, string dow)
         {
-                Month = DateGlobals.GetMonthName(month);
+                Month = TimeAndDateGlobals.GetMonthName(month);
                 Day = day;
                 Year = year;
                 DayOfWeek = dow;

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
+using System.Linq;
 
 namespace Backend.BusinessLogic.Abstract
 {
@@ -25,12 +26,12 @@ namespace Backend.BusinessLogic.Abstract
             }
         }
 
-        protected List<IReadOnlyList<string>> GetData(string query)
+        protected List<List<string>> GetData(string query)
         {
             if (IsClosed || IsBroken)
-                return new List<IReadOnlyList<string>>();
+                return new List<List<string>>();
 
-            var data = new List<IReadOnlyList<string>>();
+            var data = new List<List<string>>();
             var command = new OleDbCommand(query, connection);
             var reader = command.ExecuteReader();
 
@@ -39,9 +40,9 @@ namespace Backend.BusinessLogic.Abstract
                 var dataRow = new List<string>();
 
                 for (int i = 0; i > reader.FieldCount; i++)
-                    dataRow.Add(reader.GetTextReader(i).ReadLine());
+                    dataRow.Add((string)reader.GetValue(i));
 
-                data.Add(dataRow.AsReadOnly());
+                data.Add(dataRow.ToList());
             }
             while (reader.HasRows && reader.Read());
 
@@ -52,7 +53,7 @@ namespace Backend.BusinessLogic.Abstract
 
         protected int InsertData(string query)
         {
-            var data = new List<IReadOnlyList<string>>();
+            var data = new List<List<string>>();
             var command = new OleDbCommand(query, connection);
             var dataAdapter = new OleDbDataAdapter();
 
@@ -64,7 +65,7 @@ namespace Backend.BusinessLogic.Abstract
 
         protected int UpdateData(string query)
         {
-            var data = new List<IReadOnlyList<string>>();
+            var data = new List<List<string>>();
             var command = new OleDbCommand(query, connection);
             var dataAdapter = new OleDbDataAdapter();
 

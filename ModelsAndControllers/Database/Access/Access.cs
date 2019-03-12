@@ -10,10 +10,10 @@ namespace Backend.Database.Access
             Open();
         }
 
-        public List<IReadOnlyList<string>> GetDataFromTable(string query)
+        public List<List<string>> GetDataFromTable(string query)
         {
             if (string.IsNullOrEmpty(query) || string.IsNullOrWhiteSpace(query))
-                return new List<IReadOnlyList<string>>();
+                return new List<List<string>>();
 
             return GetData(query);
         }

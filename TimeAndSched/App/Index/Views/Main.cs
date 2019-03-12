@@ -1,10 +1,11 @@
 ﻿using Backend.OutputLogic.Utility;
+using FrontEnd.Properties;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using TimeAndSched.App.Index.Utility;
-using TimeAndSched.Backend.Globals;
+using TimeAndSched.FrontEnd.Globals;
 using TimeAndSched.View.Controller;
 
 namespace TimeAndSched.View
@@ -46,7 +47,7 @@ namespace TimeAndSched.View
             Time.Text = TimeAndDateUtility.GetCurrentStringTime();
             Date.Text = TimeAndDateUtility.GetCurrentStringDate();
 
-            Bitmap bit = FrontEnd.Properties.Resources.ChillSched;
+            Bitmap bit = Resources.ChillSched;
             IntPtr pIcon = bit.GetHicon();
             Icon = Icon.FromHandle(pIcon);
             DateTimeIcon.Icon = Icon;

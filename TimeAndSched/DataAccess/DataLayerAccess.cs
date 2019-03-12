@@ -3,13 +3,14 @@ using Backend.Database.Access;
 
 namespace TimeAndSched.DataAccess
 {
-    public class DataAccess
+    public class DataAccess : AppSettingsReader
     {
         public AccessDatabase _connection { get; private set; }
 
         public DataAccess()
         {
-            _connection = new AccessDatabase(ConfigurationManager.AppSettings["Backend.Properties.Settings.databaseConnectionString"]);
+            var x = new AppSettingsReader();
+            _connection = new AccessDatabase(x.GetValue("databaseConnectionString", typeof(string)) as string);
         }
     }
 }

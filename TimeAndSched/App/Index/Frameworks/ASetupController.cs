@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TimeAndSched.Backend.Globals;
+using Backend.OutputLogic.Global;
 
 namespace TimeAndSched.App.Index.Implementations
 {
@@ -12,7 +12,7 @@ namespace TimeAndSched.App.Index.Implementations
         public ASetupController(T control)
         {
             Control = control;
-            Id = ControlGlobals.CreateId().ToString();
+            Id = Ids.CreateId().ToString();
         }
 
         public T Control { get; private set; }
@@ -24,7 +24,7 @@ namespace TimeAndSched.App.Index.Implementations
         public ASetupCRUDController(List<T> controllers)
         {
             Controllers = controllers;
-            Id = ControlGlobals.CreateId().ToString();
+            Id = Ids.CreateId().ToString();
         }
 
         public List<T> Controllers { get; set; }
@@ -37,7 +37,7 @@ namespace TimeAndSched.App.Index.Implementations
         {
             Items = items;
             Form = form;
-            Id = ControlGlobals.CreateId().ToString();
+            Id = Ids.CreateId().ToString();
         }
 
         public S Form { get; set; }

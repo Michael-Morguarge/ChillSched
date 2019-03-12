@@ -31,11 +31,13 @@ namespace TimeAndSched.App.Index.Views
             InitializeComponent();
             Setup();
             SetPurpose(CrudPurpose.None);
+            _eventDetailRepo = new EventDetailRepository();
         }
 
         public void SetPurpose(CrudPurpose purpose)
         {
             Results = new EventDetail();
+            _eventDetailRepo = new EventDetailRepository();
             _error = false;
             _purpose = purpose;
             SetTitle();

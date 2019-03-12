@@ -24,7 +24,7 @@ namespace TimeAndSched.Backend.Repository
             return "";
         }
 
-        public IReadOnlyCollection<Bookmark> GetSavedTimes()
+        public IEnumerable<Bookmark> GetSavedTimes()
         {
             return _times.Times.AsReadOnly();
         }

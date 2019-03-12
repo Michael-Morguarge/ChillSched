@@ -29,7 +29,7 @@ namespace Backend.BusinessLogic.Repository
             return null;
         }
 
-        public IReadOnlyCollection<Bookmark> GetSavedTimes()
+        public IEnumerable<Bookmark> GetSavedTimes()
         {
             return _times.Times.AsReadOnly();
         }

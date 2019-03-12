@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using TimeAndSched.Backend.Model;
 
 namespace TimeAndSched.Backend.Implementation
@@ -10,7 +6,7 @@ namespace TimeAndSched.Backend.Implementation
     public interface IBookmarkRepository
     {
         void AddBookmark(Bookmark time);
-        IReadOnlyCollection<Bookmark> GetSavedTimes();
+        IEnumerable<Bookmark> GetSavedTimes();
         string GetBookmark(string title, string id);
         void SaveBookmarks();
     }

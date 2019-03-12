@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema id="databaseDataSet" targetNamespace="http://tempuri.org/databaseDataSet.xsd" xmlns:mstns="http://tempuri.org/databaseDataSet.xsd" xmlns="http://tempuri.org/databaseDataSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+<xs:schema id="ChillSet" targetNamespace="http://tempuri.org/ChillSet.xsd" xmlns:mstns="http://tempuri.org/ChillSet.xsd" xmlns="http://tempuri.org/ChillSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
   <xs:annotation>
     <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
       <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
         <Connections>
-          <Connection AppSettingsPropertyName="databaseConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="databaseConnectionString ()" Provider="System.Data.OleDb" />
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="ChillBase" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="ChillBase (Settings)" PropertyReference="ApplicationSettings.Backend.Properties.Settings.GlobalReference.Default.ChillBase" Provider="System.Data.OleDb" />
         </Connections>
         <Tables>
           <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="EventDetailTableAdapter" GeneratorDataComponentClassName="EventDetailTableAdapter" Name="EventDetail" UserDataComponentName="EventDetailTableAdapter">
             <MainSource>
-              <DbSource ConnectionRef="databaseConnectionString ()" DbObjectName="EventDetail" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+              <DbSource ConnectionRef="ChillBase (Settings)" DbObjectName="EventDetail" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
                 <DeleteCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="false">
                     <CommandText>DELETE FROM `EventDetail` WHERE ((`ID` = ?) AND ((? = 1 AND `Title` IS NULL) OR (`Title` = ?)) AND ((? = 1 AND `ActivationDate` IS NULL) OR (`ActivationDate` = ?)) AND ((? = 1 AND `ActivationTime` IS NULL) OR (`ActivationTime` = ?)) AND ((? = 1 AND `DeactivationDate` IS NULL) OR (`DeactivationDate` = ?)) AND ((? = 1 AND `DeactivationTime` IS NULL) OR (`DeactivationTime` = ?)) AND ((? = 1 AND `DateCreated` IS NULL) OR (`DateCreated` = ?)))</CommandText>
@@ -99,7 +99,7 @@
       </DataSource>
     </xs:appinfo>
   </xs:annotation>
-  <xs:element name="databaseDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="databaseDataSet" msprop:Generator_UserDSName="databaseDataSet">
+  <xs:element name="ChillSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="ChillSet" msprop:Generator_UserDSName="ChillSet">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
         <xs:element name="EventDetail" msprop:Generator_TableClassName="EventDetailDataTable" msprop:Generator_TableVarName="tableEventDetail" msprop:Generator_TablePropName="EventDetail" msprop:Generator_RowDeletingName="EventDetailRowDeleting" msprop:Generator_RowChangingName="EventDetailRowChanging" msprop:Generator_RowEvHandlerName="EventDetailRowChangeEventHandler" msprop:Generator_RowDeletedName="EventDetailRowDeleted" msprop:Generator_UserTableName="EventDetail" msprop:Generator_RowChangedName="EventDetailRowChanged" msprop:Generator_RowEvArgName="EventDetailRowChangeEvent" msprop:Generator_RowClassName="EventDetailRow">

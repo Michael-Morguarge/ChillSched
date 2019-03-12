@@ -6,7 +6,7 @@ namespace Backend.BusinessLogic.Implementation
     public interface iBookmarkRepository
     {
         void AddBookmark(Bookmark time);
-        IReadOnlyCollection<Bookmark> GetSavedTimes();
+        List<Bookmark> GetSavedTimes();
         string GetBookmark(string id);
         void SaveBookmarks();
     }
