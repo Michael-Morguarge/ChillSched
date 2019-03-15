@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("TimeAndSched")]
+[assembly: AssemblyProduct("FrontEnd")]
 [assembly: AssemblyCopyright("Copyright Michael Morguarge©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

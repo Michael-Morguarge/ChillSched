@@ -10,7 +10,7 @@
 
 #pragma warning disable 1591
 
-namespace Backend.Database {
+namespace BackEnd.Database {
     
     
     /// <summary>
@@ -938,7 +938,7 @@ namespace Backend.Database {
         }
     }
 }
-namespace Backend.Database.databaseDataSetTableAdapters {
+namespace BackEnd.Database.databaseDataSetTableAdapters {
     
     
     /// <summary>

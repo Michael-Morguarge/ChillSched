@@ -2,7 +2,7 @@
 using Backend.OutputLogic.Utility;
 using System.Linq;
 
-namespace TimeAndSched.View.Controller
+namespace FrontEnd.View.Controller
 {
     public class BookmarkController
     {

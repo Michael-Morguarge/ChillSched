@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Backend.OutputLogic.Global;
 
-namespace TimeAndSched.App.Index.Implementations
+namespace FrontEnd.App.Index.Implementations
 {
     public abstract class ASetupController<T>
     {

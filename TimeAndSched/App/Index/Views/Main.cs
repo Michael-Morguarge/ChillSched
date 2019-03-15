@@ -4,11 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using TimeAndSched.App.Index.Utility;
-using TimeAndSched.FrontEnd.Globals;
-using TimeAndSched.View.Controller;
+using FrontEnd.Globals;
+using FrontEnd.View.Controller;
 
-namespace TimeAndSched.View
+namespace FrontEnd.View
 {
     public partial class Main : Form
     {
@@ -42,7 +41,7 @@ namespace TimeAndSched.View
 
             TodaysEvents.Tag = _controls.Add(ControlType.ListBox, TodaysEvents);
 
-            _bm = new BookmarkViewController(_controls, new List<object> { calendar.Id, todays_events.Id });
+            _bm = new BookmarkViewController(_controls, new List<object> { User_Calendar.Id, Todays_events.Id });
 
             Time.Text = TimeAndDateUtility.GetCurrentStringTime();
             Date.Text = TimeAndDateUtility.GetCurrentStringDate();
@@ -55,26 +54,26 @@ namespace TimeAndSched.View
 
         private void TimeTicker_Tick(object sender, EventArgs e)
         {
-            time.Control.Text = TimeUtility.GetCurrentTime();
+            User_Time.Control.Text = TimeAndDateUtility.GetCurrentStringTime();
         }
 
         private void DateTicker_Tick(object sender, EventArgs e)
         {
-            date.Control.Text = TimeUtility.GetCurrentDate();
+            User_Date.Control.Text = TimeAndDateUtility.GetCurrentStringDate();
         }
 
         private void TodaysEvents_SelectedIndexChanged(object sender, EventArgs e)
         {
             var nextMonthLastWeek = DateTime.Today.AddMonths(1).AddDays(-7);
             var nextMonth = DateTime.Today.AddMonths(1);
-            calendar.Control.BoldedDates = new[] { nextMonth };
-            calendar.Control.SetDate(nextMonth);
-            comment.Control.Text = "Test comment is a test comment that test the comment section that holds the test text that is inside the text column";
-            title.Control.Text = "Test Title";
-            exp_start_date.Control.Text = string.Format("{0}/{1}/{2}", nextMonth.Month, nextMonth.Day, nextMonth.Year);
-            exp_start_time.Control.Text = TimeUtility.GetCurrentTime();
-            exp_end_date.Control.Text = string.Format("{0}/{1}/{2}", nextMonthLastWeek.Month, nextMonthLastWeek.Day, nextMonthLastWeek.Year);
-            exp_end_time.Control.Text = TimeUtility.GetCurrentTime();
+            User_Calendar.Control.BoldedDates = new[] { nextMonth };
+            User_Calendar.Control.SetDate(nextMonth);
+            User_Comment.Control.Text = "Test comment is a test comment that test the comment section that holds the test text that is inside the text column";
+            User_Title.Control.Text = "Test Title";
+            Exp_Start_Date.Control.Text = string.Format("{0}/{1}/{2}", nextMonth.Month, nextMonth.Day, nextMonth.Year);
+            Exp_Start_Time.Control.Text = TimeAndDateUtility.GetCurrentStringTime();
+            Exp_End_Date.Control.Text = string.Format("{0}/{1}/{2}", nextMonthLastWeek.Month, nextMonthLastWeek.Day, nextMonthLastWeek.Year);
+            Exp_End_Time.Control.Text = TimeAndDateUtility.GetCurrentStringTime();
         }
 
         private void Main_Resize(object sender, EventArgs e)
@@ -103,7 +102,7 @@ namespace TimeAndSched.View
 
         private void Calendar_DateChanged(object sender, DateRangeEventArgs e)
         {
-            MessageBox.Show((string)calendar.Control.Tag);
+            MessageBox.Show((string)User_Calendar.Control.Tag);
         }
 
         private void CreateEvent_Click(object sender, EventArgs e)
@@ -115,7 +114,7 @@ namespace TimeAndSched.View
 
         #region [ ListBoxes ]
 
-        private ListBoxController todays_events
+        private ListBoxController Todays_events
         {
             get { return ((ListBoxController)_controls.Get(ControlType.ListBox, string.Format("{0}", TodaysEvents.Tag))); }
         }
@@ -124,7 +123,7 @@ namespace TimeAndSched.View
 
         #region [ TextBoxes ]
 
-        private RichTBController comment
+        private RichTBController User_Comment
         {
             get { return ((RichTBController)_controls.Get(ControlType.RichTextArea, string.Format("{0}", Comment.Tag))); }
         }
@@ -133,7 +132,7 @@ namespace TimeAndSched.View
 
         #region [ Date ]
 
-        private CalendarController calendar
+        private CalendarController User_Calendar
         {
             get { return ((CalendarController)_controls.Get(ControlType.Calendar, string.Format("{0}", Calendar.Tag))); }
         }
@@ -142,42 +141,42 @@ namespace TimeAndSched.View
 
         #region [ Labels ]
 
-        private LabelController time
+        private LabelController User_Time
         {
             get { return ((LabelController)_controls.Get(ControlType.Label, string.Format("{0}", Time.Tag))); }
         }
 
-        private LabelController date
+        private LabelController User_Date
         {
             get { return ((LabelController)_controls.Get(ControlType.Label, string.Format("{0}", Date.Tag))); }
         }
 
-        private LabelController latest_event
+        private LabelController Latest_Event
         {
             get { return ((LabelController)_controls.Get(ControlType.Label, string.Format("{0}", LatestEvent.Tag))); }
         }
 
-        private LabelController exp_start_date
+        private LabelController Exp_Start_Date
         {
             get { return ((LabelController)_controls.Get(ControlType.Label, string.Format("{0}", ExpStartDate.Tag))); }
         }
 
-        private LabelController exp_start_time
+        private LabelController Exp_Start_Time
         {
             get { return ((LabelController)_controls.Get(ControlType.Label, string.Format("{0}", ExpStartTime.Tag))); }
         }
 
-        private LabelController exp_end_date
+        private LabelController Exp_End_Date
         {
             get { return ((LabelController)_controls.Get(ControlType.Label, string.Format("{0}", ExpEndDate.Tag))); }
         }
 
-        private LabelController exp_end_time
+        private LabelController Exp_End_Time
         {
             get { return ((LabelController)_controls.Get(ControlType.Label, string.Format("{0}", ExpEndTime.Tag))); }
         }
 
-        private LabelController title
+        private LabelController User_Title
         {
             get { return ((LabelController)_controls.Get(ControlType.Label, string.Format("{0}", Title.Tag))); }
         }

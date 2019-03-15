@@ -1,7 +1,7 @@
 ﻿using System.Configuration;
 using Backend.Database.Access;
 
-namespace TimeAndSched.DataAccess
+namespace FrontEnd.DataAccess
 {
     public class DataAccess : AppSettingsReader
     {

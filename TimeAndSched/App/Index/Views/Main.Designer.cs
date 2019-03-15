@@ -1,4 +1,4 @@
-﻿namespace TimeAndSched.View
+﻿namespace FrontEnd.View
 {
     partial class Main
     {

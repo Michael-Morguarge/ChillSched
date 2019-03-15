@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TimeAndSched.FrontEnd.Globals
+namespace FrontEnd.Globals
 {
     public enum ControlType
     {

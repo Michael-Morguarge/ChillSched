@@ -1,14 +1,14 @@
 ﻿using Backend.BusinessLogic.Model;
 using Backend.OutputLogic.Utility;
+using FrontEnd.App.Index.Views;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using TimeAndSched.App.Index.Implementations;
-using TimeAndSched.App.Index.Views;
-using TimeAndSched.FrontEnd.Globals;
+using FrontEnd.Globals;
+using FrontEnd.App.Index.Implementations;
 
-namespace TimeAndSched.View.Controller
+namespace FrontEnd.View.Controller
 {
     public class ControlAccess
     {
@@ -255,7 +255,7 @@ namespace TimeAndSched.View.Controller
     {
         private EventDetail _result;
         private BookmarkController _bookmarks;
-        private EventDetails _form;
+        private GeneralForm _form;
         public ControlAccess _controls;
 
         public BookmarkViewController (ControlAccess controls, List<object> controllers) : base(controllers)
@@ -268,8 +268,8 @@ namespace TimeAndSched.View.Controller
 
         public void Add()
         {
-            _form = new EventDetails(_controls);
-            _form.SetPurpose(CrudPurpose.Create);
+            _form = new GeneralForm();
+            _form.CreateView(CrudPurpose.Create, _controls);
 
             _form.ShowDialog();
             _result = _form.Results;
@@ -278,14 +278,13 @@ namespace TimeAndSched.View.Controller
             {
                 _bookmarks.Add(_result);
             }
-            
             _form.Close();
         }
 
         public void Update()
         {
-            _form = new EventDetails(_controls);
-            _form.SetPurpose(CrudPurpose.Edit);
+            _form = new GeneralForm(_controls);
+            _form.CreateView(CrudPurpose.Edit, _controls);
 
             _form.ShowDialog();
             _result = _form.Results;
