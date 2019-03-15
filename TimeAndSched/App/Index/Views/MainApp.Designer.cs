@@ -1,6 +1,6 @@
 ﻿namespace FrontEnd.View
 {
-    partial class Main
+    partial class MainApp
     {
         /// <summary>
         /// Required designer variable.

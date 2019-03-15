@@ -9,12 +9,12 @@ using FrontEnd.View.Controller;
 
 namespace FrontEnd.View
 {
-    public partial class Main : Form
+    public partial class MainApp : Form
     {
         private BookmarkViewController _bm;
         private ControlAccess _controls;
 
-        public Main()
+        public MainApp()
         {
             InitializeComponent();
             Setup();
