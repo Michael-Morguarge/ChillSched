@@ -1,5 +1,5 @@
-﻿using Backend.BusinessLogic.Model;
-using Backend.OutputLogic.Utility;
+﻿using Backend.Model;
+using Shared.Utility;
 using System.Linq;
 
 namespace FrontEnd.View.Controller

@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>65ece9d6-0f5a-4b9b-b61f-529196014ede</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>SharedItems</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Abstracts\SetupControllerAbstract.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Abstracts\SetupCRUDControllerAbstract.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\iSetupController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Global\Ids.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Implementations\DateRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Implementations\TimeRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\iDateRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\iTimeRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Global\BackEndGlobals.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Date.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Time.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Global\TimeAndDateUtility.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Global\FrontEndGlobals.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Abstracts\SetupRepositoryAbstract.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Model\" />
+  </ItemGroup>
+</Project>

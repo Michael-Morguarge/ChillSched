@@ -58,11 +58,9 @@
             this.BookmarkMaker.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BookmarkMaker.Font = new System.Drawing.Font("Calibri", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BookmarkMaker.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.BookmarkMaker.Location = new System.Drawing.Point(2, 2);
-            this.BookmarkMaker.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BookmarkMaker.Location = new System.Drawing.Point(3, 3);
             this.BookmarkMaker.Name = "BookmarkMaker";
-            this.BookmarkMaker.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.BookmarkMaker.Size = new System.Drawing.Size(327, 315);
+            this.BookmarkMaker.Size = new System.Drawing.Size(491, 484);
             this.BookmarkMaker.TabIndex = 1;
             this.BookmarkMaker.TabStop = false;
             this.BookmarkMaker.Text = "{0} Bookmark";
@@ -70,28 +68,24 @@
             // Confirm
             // 
             this.Confirm.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Confirm.Location = new System.Drawing.Point(52, 283);
-            this.Confirm.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Confirm.Location = new System.Drawing.Point(78, 436);
             this.Confirm.Name = "Confirm";
-            this.Confirm.Size = new System.Drawing.Size(100, 23);
+            this.Confirm.Size = new System.Drawing.Size(150, 35);
             this.Confirm.TabIndex = 5;
             this.Confirm.Text = "...";
             this.Confirm.UseVisualStyleBackColor = true;
-            this.Confirm.Click += new System.EventHandler(this.Confirm_Click);
             // 
             // Cancel
             // 
             this.Cancel.CausesValidation = false;
             this.Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.Cancel.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Cancel.Location = new System.Drawing.Point(169, 283);
-            this.Cancel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Cancel.Location = new System.Drawing.Point(254, 436);
             this.Cancel.Name = "Cancel";
-            this.Cancel.Size = new System.Drawing.Size(100, 23);
+            this.Cancel.Size = new System.Drawing.Size(150, 35);
             this.Cancel.TabIndex = 6;
             this.Cancel.Text = "Cancel";
             this.Cancel.UseVisualStyleBackColor = true;
-            this.Cancel.Click += new System.EventHandler(this.Cancel_Click);
             // 
             // BMEndPicker
             // 
@@ -100,11 +94,10 @@
             this.BMEndPicker.CustomFormat = "";
             this.BMEndPicker.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BMEndPicker.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.BMEndPicker.Location = new System.Drawing.Point(14, 241);
-            this.BMEndPicker.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BMEndPicker.Location = new System.Drawing.Point(21, 371);
             this.BMEndPicker.MinDate = new System.DateTime(2019, 3, 12, 13, 11, 26, 48);
             this.BMEndPicker.Name = "BMEndPicker";
-            this.BMEndPicker.Size = new System.Drawing.Size(301, 24);
+            this.BMEndPicker.Size = new System.Drawing.Size(450, 32);
             this.BMEndPicker.TabIndex = 4;
             this.BMEndPicker.Value = new System.DateTime(2019, 3, 12, 13, 11, 26, 48);
             // 
@@ -112,10 +105,9 @@
             // 
             this.BMCommentTB.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.BMCommentTB.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BMCommentTB.Location = new System.Drawing.Point(14, 88);
-            this.BMCommentTB.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BMCommentTB.Location = new System.Drawing.Point(21, 135);
             this.BMCommentTB.Name = "BMCommentTB";
-            this.BMCommentTB.Size = new System.Drawing.Size(300, 85);
+            this.BMCommentTB.Size = new System.Drawing.Size(450, 131);
             this.BMCommentTB.TabIndex = 2;
             this.BMCommentTB.Text = "";
             // 
@@ -123,21 +115,19 @@
             // 
             this.BMTitleTB.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.BMTitleTB.Font = new System.Drawing.Font("Calibri", 10F);
-            this.BMTitleTB.Location = new System.Drawing.Point(14, 49);
-            this.BMTitleTB.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BMTitleTB.Location = new System.Drawing.Point(21, 75);
             this.BMTitleTB.MaxLength = 100;
             this.BMTitleTB.Name = "BMTitleTB";
-            this.BMTitleTB.Size = new System.Drawing.Size(300, 17);
+            this.BMTitleTB.Size = new System.Drawing.Size(450, 25);
             this.BMTitleTB.TabIndex = 1;
             // 
             // BMEnd
             // 
             this.BMEnd.AutoSize = true;
             this.BMEnd.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BMEnd.Location = new System.Drawing.Point(7, 220);
-            this.BMEnd.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.BMEnd.Location = new System.Drawing.Point(10, 339);
             this.BMEnd.Name = "BMEnd";
-            this.BMEnd.Size = new System.Drawing.Size(142, 19);
+            this.BMEnd.Size = new System.Drawing.Size(208, 29);
             this.BMEnd.TabIndex = 0;
             this.BMEnd.Text = "End Date and Time:";
             // 
@@ -145,10 +135,9 @@
             // 
             this.BMComment.AutoSize = true;
             this.BMComment.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BMComment.Location = new System.Drawing.Point(7, 67);
-            this.BMComment.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.BMComment.Location = new System.Drawing.Point(10, 103);
             this.BMComment.Name = "BMComment";
-            this.BMComment.Size = new System.Drawing.Size(79, 19);
+            this.BMComment.Size = new System.Drawing.Size(119, 29);
             this.BMComment.TabIndex = 0;
             this.BMComment.Text = "Comment:";
             // 
@@ -156,10 +145,9 @@
             // 
             this.BMStart.AutoSize = true;
             this.BMStart.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BMStart.Location = new System.Drawing.Point(7, 177);
-            this.BMStart.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.BMStart.Location = new System.Drawing.Point(10, 272);
             this.BMStart.Name = "BMStart";
-            this.BMStart.Size = new System.Drawing.Size(150, 19);
+            this.BMStart.Size = new System.Drawing.Size(218, 29);
             this.BMStart.TabIndex = 0;
             this.BMStart.Text = "Start Date and Time:";
             // 
@@ -170,11 +158,10 @@
             this.BMStartPicker.CustomFormat = "";
             this.BMStartPicker.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BMStartPicker.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.BMStartPicker.Location = new System.Drawing.Point(14, 198);
-            this.BMStartPicker.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BMStartPicker.Location = new System.Drawing.Point(21, 304);
             this.BMStartPicker.MinDate = new System.DateTime(2019, 3, 12, 13, 11, 26, 34);
             this.BMStartPicker.Name = "BMStartPicker";
-            this.BMStartPicker.Size = new System.Drawing.Size(301, 24);
+            this.BMStartPicker.Size = new System.Drawing.Size(450, 32);
             this.BMStartPicker.TabIndex = 3;
             this.BMStartPicker.Value = new System.DateTime(2019, 3, 12, 13, 11, 26, 34);
             // 
@@ -182,21 +169,19 @@
             // 
             this.BMTitle.AutoSize = true;
             this.BMTitle.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BMTitle.Location = new System.Drawing.Point(7, 28);
-            this.BMTitle.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.BMTitle.Location = new System.Drawing.Point(10, 43);
             this.BMTitle.Name = "BMTitle";
-            this.BMTitle.Size = new System.Drawing.Size(43, 19);
+            this.BMTitle.Size = new System.Drawing.Size(64, 29);
             this.BMTitle.TabIndex = 0;
             this.BMTitle.Text = "Title:";
             // 
             // EventInfoView
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.BookmarkMaker);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "EventInfoView";
-            this.Size = new System.Drawing.Size(331, 320);
+            this.Size = new System.Drawing.Size(497, 492);
             this.BookmarkMaker.ResumeLayout(false);
             this.BookmarkMaker.PerformLayout();
             this.ResumeLayout(false);

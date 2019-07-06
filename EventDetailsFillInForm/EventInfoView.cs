@@ -1,17 +1,18 @@
-﻿using Backend.Model;
+﻿using Backend.Utility;
 using System;
 using System.Windows.Forms;
+using FrontEndGlobals;
+using Backend.Model;
 using FrontEnd.View.Controller;
-using Shared.Utility;
 
 namespace FrontEnd.App.Index.Frameworks
 {
     public partial class EventInfoView : UserControl
     {
-        public ControlsAccess _controls;
         private CrudPurposes _purpose;
         private bool _error;
-        
+        private ControlsAccess _controls;
+
         public bool Error { get; set; }
         public DialogResult DialogResult { get; private set; }
         public EventDetail Results { get; private set; }
@@ -19,11 +20,6 @@ namespace FrontEnd.App.Index.Frameworks
         public EventInfoView()
         {
             InitializeComponent();
-        }
-
-        public void SetControls(ControlsAccess controls)
-        {
-            _controls = controls;
         }
 
         public void SetPurpose(CrudPurposes purpose)
@@ -270,7 +266,6 @@ namespace FrontEnd.App.Index.Frameworks
         {
             get { return (LabelController)_controls.Get((int)ControlsType.Label, string.Format("{0}", BMEnd.Tag)); }
         }
-
 
         #endregion
 

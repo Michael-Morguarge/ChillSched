@@ -1,4 +1,4 @@
-﻿using Backend.BusinessLogic.Abstract;
+﻿using Backend.Database.Abstract;
 using System.Collections.Generic;
 
 namespace Backend.Database.Access

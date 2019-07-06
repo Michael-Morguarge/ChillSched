@@ -1,52 +1,52 @@
-﻿using Backend.BusinessLogic.Repository;
-using FrontEnd.View.Controller;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FrontEnd.View.Controller;
 using System.Windows.Forms;
-using FrontEnd.Globals;
-using Backend.BusinessLogic.Model;
+using Backend.Model;
+using Shared.Utility;
+using Backend.Implementations;
 
 namespace FrontEnd.App.Index.Views
 {
     public partial class GeneralForm : Form
     {
-        private ControlAccess _controls;
+        private ControlsAccess _controls;
         private EventDetailRepository _repo;
 
         public EventDetail Results { get; private set; }
 
         public GeneralForm()
         {
-            InitializeComponent();
-        }
+            InitializeComponent();        }
 
-        public GeneralForm(ControlAccess controls)
+        public GeneralForm(ControlsAccess controls)
         {
             _controls = controls;
         }
 
-        public void CreateView(CrudPurpose purpose, ControlAccess controls)
+        public void CreateView(CrudPurposes purpose, ControlsAccess controls)
         {
-            if (purpose == CrudPurpose.Error)
+            if (purpose == CrudPurposes.Error)
             {
                 Error.Visible = true;
-                //eventInfoView.Visible = false;
+                EIV.Visible = false;
                 return;
             }
             else
             {
                 Error.Visible = false;
-                //eventInfoView.Visible = true;
+                EIV.Visible = true;
                 _repo = new EventDetailRepository();
-                //eventInfoView.SetControls(controls);
-                //eventInfoView.SetPurpose(purpose);
+                EIV.SetControls(controls);
+                EIV.SetPurpose(purpose);
             }
+        }
+
+        private void GeneralForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            var result = EIV.Results;
+            var dialogue = EIV.DialogResult;
+
+            if (dialogue == DialogResult.OK && result != null)
+                Results = result;
         }
     }
 }
