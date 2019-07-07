@@ -21,7 +21,7 @@ namespace FrontEnd.View.Controller
         private List<CalendarController> Calendars;
         private List<DatePickerController> DatePickers;
         private List<ListBoxController> ListBoxes;
-        private List<UserControl> UserControllers;
+        private List<EventDetailUserController> UserControllers;
 
         public ControlsAccess()
         {
@@ -38,7 +38,7 @@ namespace FrontEnd.View.Controller
             ListBoxes = new List<ListBoxController>();
             TextBoxes = new List<TextBoxController>();
             DatePickers = new List<DatePickerController>();
-            UserControllers = new List<UserControl>();
+            UserControllers = new List<EventDetailUserController>();
         }
 
         public string Add(int type, object item)
@@ -289,7 +289,7 @@ namespace FrontEnd.View.Controller
             _form.ShowDialog();
             _result = _form.Results;
 
-            if (_result.Title != null)
+            if (_result != null)
             {
                 _bookmarks.Add(_result);
             }
@@ -309,6 +309,7 @@ namespace FrontEnd.View.Controller
         public void Dispose()
         {
             _form.Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }

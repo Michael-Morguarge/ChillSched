@@ -1,14 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
 using System.Linq;
+using Microsoft.Win32.SafeHandles;
 
 namespace Backend.Database.Abstract
 {
-    public abstract class DataAbstract
+    public abstract class DataAbstract : IDisposable
     {
         private readonly string _connectionString;
         private readonly OleDbConnection _connection;
+        
+        public void Dispose()
+        {
+            _connection.Dispose();
+            GC.SuppressFinalize(this);
+        }
 
         protected DataAbstract(string connString)
         {

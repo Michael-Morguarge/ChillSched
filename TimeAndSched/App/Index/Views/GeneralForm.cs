@@ -15,7 +15,8 @@ namespace FrontEnd.App.Index.Views
 
         public GeneralForm()
         {
-            InitializeComponent();        }
+            InitializeComponent();
+        }
 
         public GeneralForm(ControlsAccess controls)
         {

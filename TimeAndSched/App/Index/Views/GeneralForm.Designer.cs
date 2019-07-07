@@ -51,15 +51,13 @@
             // 
             this.EIV.Error = false;
             this.EIV.Location = new System.Drawing.Point(7, 8);
-            this.EIV.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.EIV.Margin = new System.Windows.Forms.Padding(2);
             this.EIV.Name = "EIV";
             this.EIV.Size = new System.Drawing.Size(331, 320);
             this.EIV.TabIndex = 2;
             // 
             // GeneralForm
             // 
-            this.Height = 371;
-            this.Width = 363;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
@@ -75,7 +73,7 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.WindowsDefaultBounds;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "GeneralForm";
             this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GeneralForm_FormClosing);
