@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace Backend.Model
 {
-    public class Bookmark
+    public class SavedEvent
     {
-        public Bookmark()
+        public SavedEvent()
         {
             Id = Guid.NewGuid().ToString();
         }
@@ -25,14 +25,14 @@ namespace Backend.Model
 
     public class Bookmarks
     {
-        public List<Bookmark> Times { get; private set; }
+        public List<SavedEvent> Times { get; private set; }
 
         public Bookmarks()
         {
-            Times = new List<Bookmark>();
+            Times = new List<SavedEvent>();
         }
 
-        public void AddTime(Bookmark time)
+        public void AddTime(SavedEvent time)
         {
             Times.Add(time);
         }

@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using FrontEnd.App.Index.Implementations;
 using System;
 using SharedItems.Abstracts;
+using FrontEnd.Controller;
 
 namespace FrontEnd.View.Controller
 {

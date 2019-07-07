@@ -5,8 +5,8 @@ namespace Backend.Interface
 {
     public interface IBookmarkRepository
     {
-        void AddBookmark(Bookmark time);
-        List<Bookmark> GetSavedTimes();
+        void AddBookmark(SavedEvent time);
+        List<SavedEvent> GetSavedTimes();
         string GetBookmark(string id);
         void SaveBookmarks();
     }

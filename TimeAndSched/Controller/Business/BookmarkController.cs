@@ -1,21 +1,28 @@
-﻿using Backend.Model;
+﻿using Backend.Implementations;
+using Backend.Model;
+using Shared.Model;
 using Shared.Utility;
 using System.Linq;
 
-namespace FrontEnd.View.Controller
+namespace FrontEnd.Controller
 {
     public class BookmarkController
     {
-        private Bookmarks _bmRepo;
+        private EventRepository _bmRepo;
 
         public BookmarkController()
         {
-            _bmRepo = new Bookmarks();
+            _bmRepo = new EventRepository();
         }
 
-        public Bookmark Bookmark(string id)
+        public SavedEvent Bookmark(string id)
         {
-            return _bmRepo.Times.Single(bm => bm.Id == id);
+            return _bmRepo.GetEvent(id);
+        }
+
+        public Bookmarks GetBookmarks(Date selectedDate)
+        {
+
         }
 
         public void Add(EventDetail bookmark)
@@ -25,7 +32,7 @@ namespace FrontEnd.View.Controller
             var deactivationDate = bookmark.DeactivationDate;
             var deactivationTime = bookmark.ActivationTime;
 
-            _bmRepo.AddTime(new Bookmark {
+            _bmRepo.AddTime(new SavedEvent {
                 Title = bookmark.Title,
                 Comment = bookmark.Comment,
                 ActivationDate = activationDate,
