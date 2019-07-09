@@ -23,11 +23,11 @@ namespace Backend.Model
         public Date DeactivationDate { get; set; }
     }
 
-    public class Bookmarks
+    public class Events
     {
         public List<SavedEvent> Times { get; private set; }
 
-        public Bookmarks()
+        public Events()
         {
             Times = new List<SavedEvent>();
         }

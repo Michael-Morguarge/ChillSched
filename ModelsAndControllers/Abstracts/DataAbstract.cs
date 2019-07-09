@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
 using System.Linq;
-using Microsoft.Win32.SafeHandles;
 
 namespace Backend.Database.Abstract
 {

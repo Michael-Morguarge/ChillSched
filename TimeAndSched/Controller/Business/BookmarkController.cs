@@ -20,7 +20,7 @@ namespace FrontEnd.Controller
             return _bmRepo.GetEvent(id);
         }
 
-        public Bookmarks GetBookmarks(Date selectedDate)
+        public Events GetBookmarks(Date selectedDate)
         {
 
         }
