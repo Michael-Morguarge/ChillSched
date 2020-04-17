@@ -3,10 +3,11 @@ using Backend.Database.Access;
 using Backend.Model;
 using System.Collections.Generic;
 using System.IO;
+using BackEnd.Inferfaces;
 
 namespace Backend.Implementations
 {
-    public class EventRepository
+    public class EventRepository : IEventRepository
     {
         private Events _events;
         private readonly AccessDatabase _dataAccess;
@@ -32,7 +33,7 @@ namespace Backend.Implementations
         public SavedEvent GetEvent(string id)
         {
             SavedEvent theEvent = null;
-            var events = _dataAccess.GetDataFromTable("Some query");
+            //var events = _dataAccess.GetDataFromTable("Some query");
 
             foreach (var aEvent in _events.Times)
             {

@@ -76,7 +76,7 @@
             // 
             // CalendarTab
             // 
-            this.CalendarTab.BackColor = System.Drawing.Color.Black;
+            this.CalendarTab.BackColor = System.Drawing.SystemColors.ControlLight;
             this.CalendarTab.Controls.Add(this.YourEvents);
             this.CalendarTab.Controls.Add(this.Calendar);
             this.CalendarTab.Location = new System.Drawing.Point(4, 22);
@@ -93,7 +93,7 @@
             this.YourEvents.Controls.Add(this.flowLayoutPanel1);
             this.YourEvents.Dock = System.Windows.Forms.DockStyle.Right;
             this.YourEvents.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.YourEvents.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.YourEvents.ForeColor = System.Drawing.SystemColors.Desktop;
             this.YourEvents.Location = new System.Drawing.Point(254, 3);
             this.YourEvents.Name = "YourEvents";
             this.YourEvents.Size = new System.Drawing.Size(371, 317);
@@ -140,7 +140,7 @@
             this.EditEvent.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Silver;
             this.EditEvent.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.EditEvent.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.EditEvent.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.EditEvent.ForeColor = System.Drawing.SystemColors.Desktop;
             this.EditEvent.Location = new System.Drawing.Point(84, 3);
             this.EditEvent.Name = "EditEvent";
             this.EditEvent.Size = new System.Drawing.Size(75, 31);
@@ -218,7 +218,7 @@
             // 
             this.ExpEndDate.Cursor = System.Windows.Forms.Cursors.Default;
             this.ExpEndDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ExpEndDate.ForeColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.ExpEndDate.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ExpEndDate.Location = new System.Drawing.Point(3, 28);
             this.ExpEndDate.Name = "ExpEndDate";
             this.ExpEndDate.Padding = new System.Windows.Forms.Padding(0, 5, 0, 5);
@@ -231,7 +231,7 @@
             // 
             this.ExpEndTime.Cursor = System.Windows.Forms.Cursors.Default;
             this.ExpEndTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ExpEndTime.ForeColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.ExpEndTime.ForeColor = System.Drawing.SystemColors.GrayText;
             this.ExpEndTime.Location = new System.Drawing.Point(118, 28);
             this.ExpEndTime.Name = "ExpEndTime";
             this.ExpEndTime.Padding = new System.Windows.Forms.Padding(0, 5, 0, 5);
@@ -242,7 +242,7 @@
             // 
             // Title
             // 
-            this.Title.BackColor = System.Drawing.Color.Black;
+            this.Title.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.Title.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.Title.Cursor = System.Windows.Forms.Cursors.Default;
             this.Title.Dock = System.Windows.Forms.DockStyle.Top;
@@ -250,7 +250,7 @@
             this.Title.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Title.Location = new System.Drawing.Point(3, 56);
             this.Title.Name = "Title";
-            this.Title.Size = new System.Drawing.Size(227, 27);
+            this.Title.Size = new System.Drawing.Size(223, 27);
             this.Title.TabIndex = 0;
             this.Title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -286,7 +286,7 @@
             // 
             // TimeTab
             // 
-            this.TimeTab.BackColor = System.Drawing.Color.Black;
+            this.TimeTab.BackColor = System.Drawing.SystemColors.ControlLight;
             this.TimeTab.Controls.Add(this.LatestEvent);
             this.TimeTab.Controls.Add(this.ViewEvent);
             this.TimeTab.Controls.Add(this.Date);
@@ -304,8 +304,8 @@
             this.LatestEvent.BackColor = System.Drawing.Color.Transparent;
             this.LatestEvent.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.LatestEvent.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LatestEvent.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.LatestEvent.Location = new System.Drawing.Point(6, 172);
+            this.LatestEvent.ForeColor = System.Drawing.SystemColors.Desktop;
+            this.LatestEvent.Location = new System.Drawing.Point(7, 172);
             this.LatestEvent.Name = "LatestEvent";
             this.LatestEvent.Size = new System.Drawing.Size(535, 127);
             this.LatestEvent.TabIndex = 0;
@@ -327,7 +327,7 @@
             this.Date.BackColor = System.Drawing.Color.Transparent;
             this.Date.Cursor = System.Windows.Forms.Cursors.Cross;
             this.Date.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Date.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.Date.ForeColor = System.Drawing.SystemColors.Desktop;
             this.Date.Location = new System.Drawing.Point(6, 107);
             this.Date.Name = "Date";
             this.Date.Size = new System.Drawing.Size(616, 42);
@@ -340,7 +340,7 @@
             this.Time.BackColor = System.Drawing.Color.White;
             this.Time.Cursor = System.Windows.Forms.Cursors.Cross;
             this.Time.Font = new System.Drawing.Font("Microsoft Sans Serif", 35F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Time.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.Time.ForeColor = System.Drawing.SystemColors.Desktop;
             this.Time.Location = new System.Drawing.Point(144, 29);
             this.Time.Name = "Time";
             this.Time.Size = new System.Drawing.Size(340, 60);
@@ -370,7 +370,7 @@
             this.DateTimeIcon.Visible = true;
             this.DateTimeIcon.DoubleClick += new System.EventHandler(this.DateTimeIcon_DoubleClick);
             // 
-            // Main
+            // MainApp
             // 
             this.AccessibleDescription = "The main window";
             this.AccessibleName = "Main";
@@ -378,15 +378,15 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.BackgroundImage = global::FrontEnd.Properties.Resources.icon_widgets_48;
+            this.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(655, 366);
             this.Controls.Add(this.TimeAndCalendarTabular);
             this.Cursor = System.Windows.Forms.Cursors.Default;
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
-            this.Name = "Main";
+            this.Name = "MainApp";
             this.Opacity = 0.9D;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

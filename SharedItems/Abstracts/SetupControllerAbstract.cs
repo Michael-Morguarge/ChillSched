@@ -1,16 +1,41 @@
-﻿using Shared.Utility;
+﻿using Shared.Interface;
+using Shared.Utility;
 
-namespace FrontEnd.App.Index.Implementations
+namespace SharedItems.Abstracts
 {
-    public abstract class ASetupController<T>
+    /// <summary>
+    /// The setup for controls
+    /// </summary>
+    /// <typeparam name="T">The type</typeparam>
+    public abstract class ASetupController<T> : ISetupController<T>, IControl
     {
+        private T _control;
+        private readonly string _id;
+
+        /// <summary>
+        /// Sets up a controller object
+        /// </summary>
+        /// <param name="control">The control to layer</param>
         public ASetupController(T control)
         {
-            Control = control;
-            Id = Ids.CreateId().ToString();
+            _control = control;
+            _id = Ids.CreateId().ToString().Replace("-", "");
         }
 
-        public T Control { get; private set; }
-        public string Id { get; private set; }
+        /// <summary>
+        /// <see cref="ISetupController{T}.GetControl()"/>
+        /// </summary>
+        public T GetControl()
+        {
+            return _control;
+        }
+
+        /// <summary>
+        /// <see cref="IControl.GetId()"/>
+        /// </summary>
+        public string GetId()
+        {
+            return _id;
+        }
     }
 }

@@ -12,13 +12,13 @@ namespace Backend.DataAccess
 
         public DataLayer()
         {
-            _connStrings = new AppSettingsReader();
+            //_connStrings = new AppSettingsReader();
         }
 
         public void SetDb()
         {
-            Database = new AccessDatabase(_connStrings.GetValue(_connectionName, typeof(string)) as string);
-            Database.OpenConnection();
+            //Database = new AccessDatabase(_connStrings.GetValue(_connectionName, typeof(string)) as string);
+            //Database.OpenConnection();
         }
     }
 }

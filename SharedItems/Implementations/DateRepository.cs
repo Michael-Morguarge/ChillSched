@@ -5,8 +5,14 @@ using Shared.Utility;
 
 namespace Shared.Implementation
 {
+    /// <summary>
+    /// The date repository
+    /// </summary>
     public class DateRepository : IDateRepository
     {
+        /// <summary>
+        /// See <see cref="IDateRepository.GetCustomDate(Months, int, int, DayOfTheWeek)"/>
+        /// </summary>
         public Date GetCustomDate(Months month, int day, int year, DayOfTheWeek dow)
         {
             return new Date
@@ -18,6 +24,9 @@ namespace Shared.Implementation
             };
         }
 
+        /// <summary>
+        /// See <see cref="IDateRepository.GetErrorTime"/>
+        /// </summary>
         public Date GetErrorTime()
         {
             return new Date

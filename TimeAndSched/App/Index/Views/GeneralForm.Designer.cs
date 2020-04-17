@@ -50,7 +50,7 @@
             // EIV
             // 
             this.EIV.Error = false;
-            this.EIV.Location = new System.Drawing.Point(7, 8);
+            this.EIV.Location = new System.Drawing.Point(8, 6);
             this.EIV.Margin = new System.Windows.Forms.Padding(2);
             this.EIV.Name = "EIV";
             this.EIV.Size = new System.Drawing.Size(331, 320);
@@ -61,7 +61,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ClientSize = new System.Drawing.Size(347, 332);
             this.ControlBox = false;
             this.Controls.Add(this.EIV);

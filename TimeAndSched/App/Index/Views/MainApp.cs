@@ -5,14 +5,21 @@ using System.Drawing;
 using System.Windows.Forms;
 using FrontEnd.View.Controller;
 using Shared.Utility;
+using Shared.Interface;
 
 namespace FrontEnd.View
 {
+    /// <summary>
+    /// Partial View Controller
+    /// </summary>
     public partial class MainApp : Form
     {
-        private BookmarkViewController _bm;
+        private EventViewController _bm;
         private ControlsAccess _controls;
 
+        /// <summary>
+        /// Constructor for Partial View Controller
+        /// </summary>
         public MainApp()
         {
             InitializeComponent();
@@ -23,27 +30,25 @@ namespace FrontEnd.View
         {
             _controls = new ControlsAccess();
 
-            Tag = _controls.Add((int)ControlsType.Forms, this);
+            Tag = _controls.AddForm(this);
+            var tag = Tag as string;
 
-            Time.Tag = _controls.Add((int)ControlsType.Label, Time);
-            Date.Tag = _controls.Add((int)ControlsType.Label, Date);
-            LatestEvent.Tag = _controls.Add((int)ControlsType.Label, LatestEvent);
-            ExpStartDate.Tag = _controls.Add((int)ControlsType.Label, ExpStartDate);
-            ExpStartTime.Tag = _controls.Add((int)ControlsType.Label, ExpStartTime);
-            ExpEndDate.Tag = _controls.Add((int)ControlsType.Label, ExpEndDate);
-            ExpEndTime.Tag = _controls.Add((int)ControlsType.Label, ExpEndTime);
-            Title.Tag = _controls.Add((int)ControlsType.Label, Title);
+            Time.Tag = _controls.Add(tag, new LabelController(Time));
+            Date.Tag = _controls.Add(tag, new LabelController(Date));
+            LatestEvent.Tag = _controls.Add(tag, new LabelController(LatestEvent));
+            ExpStartDate.Tag = _controls.Add(tag, new LabelController(ExpStartDate));
+            ExpStartTime.Tag = _controls.Add(tag, new LabelController(ExpStartTime));
+            ExpEndDate.Tag = _controls.Add(tag, new LabelController(ExpEndDate));
+            ExpEndTime.Tag = _controls.Add(tag, new LabelController(ExpEndTime));
+            Title.Tag = _controls.Add(tag, new LabelController(Title));
+            Comment.Tag = _controls.Add(tag, new RichTBController(Comment));
+            Calendar.Tag = _controls.Add(tag, new CalendarController(Calendar));
+            TodaysEvents.Tag = _controls.Add(tag, new ListBoxController(TodaysEvents));
 
-            Comment.Tag = _controls.Add((int)ControlsType.RichTextArea, Comment);
+            _bm = new EventViewController(_controls, new List<IControl> { User_Calendar, Todays_Events });
 
-            Calendar.Tag = _controls.Add((int)ControlsType.Calendar, Calendar);
-
-            TodaysEvents.Tag = _controls.Add((int)ControlsType.ListBox, TodaysEvents);
-
-            _bm = new BookmarkViewController(_controls, new List<object> { User_Calendar.Id, Todays_events.Id });
-
-            Time.Text = TimeAndDateUtility.GetCurrentStringTime();
-            Date.Text = TimeAndDateUtility.GetCurrentStringDate();
+            Time.Text = TimeAndDateUtility.GetCurrentTimeString();
+            Date.Text = TimeAndDateUtility.GetCurrentDateString();
 
             Bitmap bit = Resources.ChillSched;
             IntPtr pIcon = bit.GetHicon();
@@ -53,26 +58,26 @@ namespace FrontEnd.View
 
         private void TimeTicker_Tick(object sender, EventArgs e)
         {
-            User_Time.Control.Text = TimeAndDateUtility.GetCurrentStringTime();
+            User_Time.GetControl().Text = TimeAndDateUtility.GetCurrentTimeString();
         }
 
         private void DateTicker_Tick(object sender, EventArgs e)
         {
-            User_Date.Control.Text = TimeAndDateUtility.GetCurrentStringDate();
+            User_Date.GetControl().Text = TimeAndDateUtility.GetCurrentDateString();
         }
 
         private void TodaysEvents_SelectedIndexChanged(object sender, EventArgs e)
         {
             var nextMonthLastWeek = DateTime.Today.AddMonths(1).AddDays(-7);
             var nextMonth = DateTime.Today.AddMonths(1);
-            User_Calendar.Control.BoldedDates = new[] { nextMonth };
-            User_Calendar.Control.SetDate(nextMonth);
-            User_Comment.Control.Text = "Test comment is a test comment that test the comment section that holds the test text that is inside the text column";
-            User_Title.Control.Text = "Test Title";
-            Exp_Start_Date.Control.Text = string.Format("{0}/{1}/{2}", nextMonth.Month, nextMonth.Day, nextMonth.Year);
-            Exp_Start_Time.Control.Text = TimeAndDateUtility.GetCurrentStringTime();
-            Exp_End_Date.Control.Text = string.Format("{0}/{1}/{2}", nextMonthLastWeek.Month, nextMonthLastWeek.Day, nextMonthLastWeek.Year);
-            Exp_End_Time.Control.Text = TimeAndDateUtility.GetCurrentStringTime();
+            User_Calendar.GetControl().BoldedDates = new[] { nextMonth };
+            User_Calendar.GetControl().SetDate(nextMonth);
+            User_Comment.GetControl().Text = "Test comment is a test comment that test the comment section that holds the test text that is inside the text column";
+            User_Title.GetControl().Text = "Test Title";
+            Exp_Start_Date.GetControl().Text = string.Format("{0}/{1}/{2}", nextMonth.Month, nextMonth.Day, nextMonth.Year);
+            Exp_Start_Time.GetControl().Text = TimeAndDateUtility.GetCurrentTimeString();
+            Exp_End_Date.GetControl().Text = string.Format("{0}/{1}/{2}", nextMonthLastWeek.Month, nextMonthLastWeek.Day, nextMonthLastWeek.Year);
+            Exp_End_Time.GetControl().Text = TimeAndDateUtility.GetCurrentTimeString();
         }
 
         private void Main_Resize(object sender, EventArgs e)
@@ -101,7 +106,7 @@ namespace FrontEnd.View
 
         private void Calendar_DateChanged(object sender, DateRangeEventArgs e)
         {
-            MessageBox.Show((string)User_Calendar.Control.Tag);
+            MessageBox.Show(User_Calendar.GetId());
         }
 
         private void CreateEvent_Click(object sender, EventArgs e)
@@ -113,9 +118,9 @@ namespace FrontEnd.View
 
         #region [ ListBoxes ]
 
-        private ListBoxController Todays_events
+        private ListBoxController Todays_Events
         {
-            get { return ((ListBoxController)_controls.Get((int)ControlsType.ListBox, string.Format("{0}", TodaysEvents.Tag))); }
+            get { return ((ListBoxController)_controls.Get(Tag as string, TodaysEvents.Tag as string)); }
         }
 
         #endregion
@@ -124,7 +129,7 @@ namespace FrontEnd.View
 
         private RichTBController User_Comment
         {
-            get { return ((RichTBController)_controls.Get((int)ControlsType.RichTextArea, string.Format("{0}", Comment.Tag))); }
+            get { return ((RichTBController)_controls.Get(Tag as string, Comment.Tag as string)); }
         }
 
         #endregion
@@ -133,7 +138,7 @@ namespace FrontEnd.View
 
         private CalendarController User_Calendar
         {
-            get { return ((CalendarController)_controls.Get((int)ControlsType.Calendar, string.Format("{0}", Calendar.Tag))); }
+            get { return ((CalendarController)_controls.Get(Tag as string, Calendar.Tag as string)); }
         }
 
         #endregion
@@ -142,42 +147,42 @@ namespace FrontEnd.View
 
         private LabelController User_Time
         {
-            get { return ((LabelController)_controls.Get((int)ControlsType.Label, string.Format("{0}", Time.Tag))); }
+            get { return ((LabelController)_controls.Get(Tag as string, Time.Tag as string)); }
         }
 
         private LabelController User_Date
         {
-            get { return ((LabelController)_controls.Get((int)ControlsType.Label, string.Format("{0}", Date.Tag))); }
+            get { return ((LabelController)_controls.Get(Tag as string, Date.Tag as string)); }
         }
 
         private LabelController Latest_Event
         {
-            get { return ((LabelController)_controls.Get((int)ControlsType.Label, string.Format("{0}", LatestEvent.Tag))); }
+            get { return ((LabelController)_controls.Get(Tag as string, LatestEvent.Tag as string)); }
         }
 
         private LabelController Exp_Start_Date
         {
-            get { return ((LabelController)_controls.Get((int)ControlsType.Label, string.Format("{0}", ExpStartDate.Tag))); }
+            get { return ((LabelController)_controls.Get(Tag as string, ExpStartDate.Tag as string)); }
         }
 
         private LabelController Exp_Start_Time
         {
-            get { return ((LabelController)_controls.Get((int)ControlsType.Label, string.Format("{0}", ExpStartTime.Tag))); }
+            get { return ((LabelController)_controls.Get(Tag as string, ExpStartTime.Tag as string)); }
         }
 
         private LabelController Exp_End_Date
         {
-            get { return ((LabelController)_controls.Get((int)ControlsType.Label, string.Format("{0}", ExpEndDate.Tag))); }
+            get { return ((LabelController)_controls.Get(Tag as string, ExpEndDate.Tag as string)); }
         }
 
         private LabelController Exp_End_Time
         {
-            get { return ((LabelController)_controls.Get((int)ControlsType.Label, string.Format("{0}", ExpEndTime.Tag))); }
+            get { return ((LabelController)_controls.Get(Tag as string, ExpEndTime.Tag as string)); }
         }
 
         private LabelController User_Title
         {
-            get { return ((LabelController)_controls.Get((int)ControlsType.Label, string.Format("{0}", Title.Tag))); }
+            get { return ((LabelController)_controls.Get(Tag as string, Title.Tag as string)); }
         }
 
         #endregion

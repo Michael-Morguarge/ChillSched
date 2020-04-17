@@ -4,31 +4,51 @@ using System.Windows.Forms;
 using FrontEnd.View.Controller;
 using Shared.Utility;
 
-namespace FrontEnd.App.Index.Frameworks
+namespace FrontEnd.App.Parts
 {
+    /// <summary>
+    /// Partial View Controller
+    /// </summary>
     public partial class EventInfoView : UserControl
     {
-        public ControlsAccess _controls;
         private CrudPurposes _purpose;
         private bool _error;
-        
+        private string _parentId;
+        private ControlsAccess _controls;
+
+        /// <summary>
+        /// Whether an error occurred
+        /// </summary>
         public bool Error { get; set; }
+
+        /// <summary>
+        /// The dialog result
+        /// </summary>
         public DialogResult DialogResult { get; private set; }
-        public EventDetail Results { get; private set; }
+
+        /// <summary>
+        /// The created/edited event data
+        /// </summary>
+        public SavedEvent Results { get; private set; }
         
+        /// <summary>
+        /// Constructor for the Partial Veiw Controllers
+        /// </summary>
         public EventInfoView()
         {
             InitializeComponent();
         }
 
-        public void SetControls(ControlsAccess controls)
+        public void SetControls(string parentId, ControlsAccess controls)
         {
             _controls = controls;
+            _parentId = parentId;
+            Setup();
         }
 
         public void SetPurpose(CrudPurposes purpose)
         {
-            Results = new EventDetail();
+            Results = new SavedEvent();
             _error = false;
             _purpose = purpose;
             SetTitle();
@@ -101,24 +121,30 @@ namespace FrontEnd.App.Index.Frameworks
             }
         }
 
+        internal void SetValues(SavedEvent anEvent)
+        {
+            //throw new NotImplementedException();
+        }
+
         private void Setup()
         {
-            BMTitle.Tag = _controls.Add((int)ControlsType.Label, BMTitle);
-            BMComment.Tag = _controls.Add((int)ControlsType.Label, BMComment);
-            BMStart.Tag = _controls.Add((int)ControlsType.Label, BMStart);
-            BMEnd.Tag = _controls.Add((int)ControlsType.Label, BMEnd);
+            BMTitle.Tag = _controls.Add(_parentId, new LabelController(BMTitle));
+            BMComment.Tag = _controls.Add(_parentId, new LabelController(BMComment));
+            BMStart.Tag = _controls.Add(_parentId, new LabelController(BMStart));
+            BMEnd.Tag = _controls.Add(_parentId, new LabelController(BMEnd));
 
-            BMTitleTB.Tag = _controls.Add((int)ControlsType.TextArea, BMTitleTB);
-            BMCommentTB.Tag = _controls.Add((int)ControlsType.RichTextArea, BMCommentTB);
+            BMTitleTB.Tag = _controls.Add(_parentId, new TextBoxController(BMTitleTB));
+            BMCommentTB.Tag = _controls.Add(_parentId, new RichTBController(BMCommentTB));
 
-            BMStartPicker.Tag = _controls.Add((int)ControlsType.DatePicker, BMStartPicker);
-            BMStartPicker.MinDate = DateTime.Today;
-            BMEndPicker.Tag = _controls.Add((int)ControlsType.DatePicker, BMEndPicker);
+            BMStartPicker.Tag = _controls.Add(_parentId, new DatePickerController(BMStartPicker));
+            BMStartPicker.MinDate = DateTime.Now;
+            BMEndPicker.Tag = _controls.Add(_parentId, new DatePickerController(BMEndPicker));
+            BMEndPicker.MinDate = DateTime.Now;
         }
 
         private void Cancel_Click(object sender, EventArgs e)
         {
-            var result = MessageBox.Show("Do you want to discard this bookmark?", "You worked so hard on it :(", MessageBoxButtons.YesNo);
+            var result = MessageBox.Show("Do you want to discard this bookmark?", "All progress lost if not submitted", MessageBoxButtons.YesNo);
             if (result == DialogResult.No || result == DialogResult.None)
             {
                 DialogResult = DialogResult.None;
@@ -128,32 +154,36 @@ namespace FrontEnd.App.Index.Frameworks
         private void Confirm_Click(object sender, EventArgs e)
         {
             bool error = false;
+            var title = Title.GetControl();
 
             if (TitleTB.Text == "")
             {
-                Title.Control.Text = (Title.Control.Text.Contains("*") ? Title.Control.Text : string.Format("{0}*", Title.Control.Text));
+                title.Text = (title.Text.Contains("*") ? title.Text : string.Format("{0}*", title.Text));
                 error = true;
             }
             else
             {
-                Title.Control.Text = (Title.Control.Text.Contains("*") ? Title.Control.Text.Remove(Title.Control.Text.Length - 1) : Title.Control.Text);
+                title.Text = (title.Text.Contains("*") ? title.Text.Remove(title.Text.Length - 1) : title.Text);
             }
 
-            if (!CheckStartAndEndDate)
+            var start = Start.GetControl();
+            var end = End.GetControl();
+            if (CheckStartAndEndDate())
             {
-                Start.Control.Text = (Start.Control.Text.Contains("*") ? Start.Control.Text : string.Format("{0}*", Start.Control.Text));
-                End.Control.Text = (End.Control.Text.Contains("*") ? End.Control.Text : string.Format("{0}*", End.Control.Text));
+                start.Text = (start.Text.Contains("*") ? start.Text : string.Format("{0}*", start.Text));
+                end.Text = (end.Text.Contains("*") ? end.Text : string.Format("{0}*", end.Text));
                 error = true;
             }
-            else if (!CheckMinDate)
+            else if (CheckMinDate())
             {
-                Start.Control.Text = (Start.Control.Text.Contains("*") ? Start.Control.Text : string.Format("{0}*", Start.Control.Text));
+                start.Text = (start.Text.Contains("*") ? start.Text : string.Format("{0}*", start.Text));
+                end.Text = (end.Text.Contains("*") ? end.Text : string.Format("{0}*", end.Text));
                 error = true;
             }
             else
             {
-                Start.Control.Text = (Start.Control.Text.Contains("*") ? Start.Control.Text.Remove(Start.Control.Text.Length - 1) : Start.Control.Text);
-                End.Control.Text = (End.Control.Text.Contains("*") ? End.Control.Text.Remove(End.Control.Text.Length - 1) : End.Control.Text);
+                start.Text = (start.Text.Contains("*") ? start.Text.Remove(start.Text.Length - 1) : start.Text);
+                end.Text = (end.Text.Contains("*") ? end.Text.Remove(end.Text.Length - 1) : end.Text);
             }
 
             if (error)
@@ -164,33 +194,40 @@ namespace FrontEnd.App.Index.Frameworks
             else
             {
                 DialogResult = DialogResult.OK;
-                Results = new EventDetail()
+                Results = new SavedEvent()
                 {
                     Title = TitleTB.Text,
                     Comment = CommentTB.Text,
                     ActivationDate = TimeAndDateUtility.ConvertStringDate(StartPicker.Date),
                     ActivationTime = TimeAndDateUtility.ConvertStringTime(StartPicker.Time),
                     DeactivationDate = TimeAndDateUtility.ConvertStringDate(EndPicker.Date),
-                    DeactivationTime = TimeAndDateUtility.ConvertStringTime(StartPicker.Time)
+                    DeactivationTime = TimeAndDateUtility.ConvertStringTime(EndPicker.Time)
                 };
 
                 _error = false;
+
+                ((Form)TopLevelControl).Close();
             }
         }
 
-        private bool CheckStartAndEndDate
+        private bool CheckStartAndEndDate()
         {
-            get
-            {
-                return (StartPicker.Control.Value == EndPicker.Control.Value
-                  && StartPicker.Control.Value.ToUniversalTime() < EndPicker.Control.Value.ToUniversalTime())
-                  || (StartPicker.Control.Value < EndPicker.Control.Value);
-            }
+            var startPicker = StartPicker.GetControl();
+            var endPicker = EndPicker.GetControl();
+
+            return (startPicker.Value == endPicker.Value && startPicker.Value.ToUniversalTime() > endPicker.Value.ToUniversalTime())
+                   || (startPicker.Value > endPicker.Value);
         }
 
-        private bool CheckMinDate
+        private bool CheckMinDate()
         {
-            get { return StartPicker.Control.MinDate < StartPicker.Control.Value; }
+            var startPicker = StartPicker.GetControl();
+            var endPicker = EndPicker.GetControl();
+
+            return (startPicker.Value < startPicker.MinDate || startPicker.Value.ToUniversalTime() < startPicker.MinDate.ToUniversalTime()
+                       || endPicker.Value < endPicker.MinDate || endPicker.Value.ToUniversalTime() < endPicker.MinDate.ToUniversalTime())
+                   && (startPicker.Value < DateTime.Now || startPicker.Value.ToUniversalTime() < DateTime.Now.ToUniversalTime()
+                       || endPicker.Value < DateTime.Now || endPicker.Value.ToUniversalTime() < DateTime.Now.ToUniversalTime()); 
         }
 
         private void EventInfo_FormClosing(object sender, FormClosingEventArgs e)
@@ -205,16 +242,16 @@ namespace FrontEnd.App.Index.Frameworks
 
         public void CleanUp()
         {
-            _controls.Remove((int)ControlsType.Label, Title.Id);
-            _controls.Remove((int)ControlsType.Label, Comment.Id);
-            _controls.Remove((int)ControlsType.Label, Start.Id);
-            _controls.Remove((int)ControlsType.Label, End.Id);
+            _controls.Remove(_parentId, BMTitle.Tag as string);
+            _controls.Remove(_parentId, BMComment.Tag as string);
+            _controls.Remove(_parentId, BMStart.Tag as string);
+            _controls.Remove(_parentId, BMEnd.Tag as string);
 
-            _controls.Remove((int)ControlsType.TextArea, TitleTB.Id);
-            _controls.Remove((int)ControlsType.RichTextArea, CommentTB.Id);
+            _controls.Remove(_parentId, BMTitleTB.Tag as string);
+            _controls.Remove(_parentId, BMCommentTB.Tag as string);
 
-            _controls.Remove((int)ControlsType.DatePicker, StartPicker.Id);
-            _controls.Remove((int)ControlsType.DatePicker, EndPicker.Id);
+            _controls.Remove(_parentId, BMStartPicker.Tag as string);
+            _controls.Remove(_parentId, BMEndPicker.Tag as string);
         }
 
         #endregion
@@ -225,12 +262,12 @@ namespace FrontEnd.App.Index.Frameworks
 
         private TextBoxController TitleTB
         {
-            get { return (TextBoxController)_controls.Get((int)ControlsType.TextArea, string.Format("{0}", BMTitleTB.Tag)); }
+            get { return (TextBoxController)_controls.Get(_parentId, BMTitleTB.Tag as string); }
         }
 
         private RichTBController CommentTB
         {
-            get { return (RichTBController)_controls.Get((int)ControlsType.RichTextArea, string.Format("{0}", BMCommentTB.Tag)); }
+            get { return (RichTBController)_controls.Get(_parentId, BMCommentTB.Tag as string); }
         }
 
         #endregion
@@ -239,12 +276,12 @@ namespace FrontEnd.App.Index.Frameworks
 
         private DatePickerController StartPicker
         {
-            get { return (DatePickerController)_controls.Get((int)ControlsType.DatePicker, string.Format("{0}", BMStartPicker.Tag)); }
+            get { return (DatePickerController)_controls.Get(_parentId, BMStartPicker.Tag as string); }
         }
 
         private DatePickerController EndPicker
         {
-            get { return (DatePickerController)_controls.Get((int)ControlsType.DatePicker, string.Format("{0}", BMEndPicker.Tag)); }
+            get { return (DatePickerController)_controls.Get(_parentId, BMEndPicker.Tag as string); }
         }
 
         #endregion
@@ -253,24 +290,23 @@ namespace FrontEnd.App.Index.Frameworks
 
         private LabelController Title
         {
-            get { return (LabelController)_controls.Get((int)ControlsType.Label, string.Format("{0}", BMTitle.Tag)); }
+            get { return (LabelController)_controls.Get(_parentId, BMTitle.Tag as string); }
+        }                                               
+                                                        
+        private LabelController Comment                 
+        {                                               
+            get { return (LabelController)_controls.Get(_parentId, BMComment.Tag as string); }
+        }                                               
+                                                        
+        private LabelController Start                   
+        {                                               
+            get { return (LabelController)_controls.Get(_parentId, BMStart.Tag as string); }
+        }                                               
+                                                        
+        private LabelController End                     
+        {                                               
+            get { return (LabelController)_controls.Get(_parentId, BMEnd.Tag as string); }
         }
-
-        private LabelController Comment
-        {
-            get { return (LabelController)_controls.Get((int)ControlsType.Label, string.Format("{0}", BMComment.Tag)); }
-        }
-
-        private LabelController Start
-        {
-            get { return (LabelController)_controls.Get((int)ControlsType.Label, string.Format("{0}", BMStart.Tag)); }
-        }
-
-        private LabelController End
-        {
-            get { return (LabelController)_controls.Get((int)ControlsType.Label, string.Format("{0}", BMEnd.Tag)); }
-        }
-
 
         #endregion
 

@@ -4,11 +4,18 @@ using System;
 
 namespace Shared.Utility
 {
+    /// <summary>
+    /// The time and date utility
+    /// </summary>
     public static class TimeAndDateUtility
     {
         #region Time
 
-        public static string GetCurrentStringTime()
+        /// <summary>
+        /// The current string time
+        /// </summary>
+        /// <returns>The current time</returns>
+        public static string GetCurrentTimeString()
         {
             var now = DateTime.Now;
             return string.Format(
@@ -16,10 +23,14 @@ namespace Shared.Utility
                 (now.Hour > 12 ? (now.Hour - 12) : now.Hour),
                 now.Minute.ToString().PadLeft(2, '0'),
                 now.Second.ToString().PadLeft(2, '0'),
-                (now.Hour > 12 ? "PM" : "AM")
+                (now.Hour > 12 ? TimeAndDateGlobals.GetTimeOfDay(12) : TimeAndDateGlobals.GetTimeOfDay(0))
             );
         }
 
+        /// <summary>
+        /// The current time object
+        /// </summary>
+        /// <returns>The current time</returns>
         public static Time GetCurrentTime()
         {
             var now = DateTime.Now;
@@ -28,21 +39,47 @@ namespace Shared.Utility
                 Hours = now.Hour,
                 Minutes = now.Minute,
                 Seconds = now.Second,
-                TimeofDay = (now.Hour > 12 ? "PM" : "AM")
+                TimeofDay = (now.Hour > 12 ? TimeAndDateGlobals.GetTimeOfDay(12) : TimeAndDateGlobals.GetTimeOfDay(0))
             };
         }
 
-        public static string ConvertDateTimeTime(DateTime time)
+        /// <summary>
+        /// Converts datetime to time string
+        /// </summary>
+        /// <param name="time"></param>
+        /// <returns>The string converted time</returns>
+        public static string ConvertDateTimeTimeString(DateTime time)
         {
             return string.Format(
                 "{0}:{1}:{2} {3}",
-                (time.Hour > 12 ? (time.Hour - 12) : time.Hour),
+                (time.Hour > 12 ? (time.Hour - 12) : time.Hour).ToString().PadRight(2, '0'),
                 time.Minute.ToString().PadLeft(2, '0'),
                 time.Second.ToString().PadLeft(2, '0'),
-                (time.Hour > 12 ? "PM" : "AM")
+                (time.Hour > 12 ? TimeAndDateGlobals.GetTimeOfDay(12) : TimeAndDateGlobals.GetTimeOfDay(0))
             );
         }
 
+        /// <summary>
+        /// Converts datetime to a time object
+        /// </summary>
+        /// <param name="time">The datetime time</param>
+        /// <returns>The converted time</returns>
+        public static Time ConvertDateTimeToTime(DateTime time)
+        {
+            return new Time
+            {
+                Hours = time.Hour,
+                Minutes = time.Minute,
+                Seconds = time.Second,
+                TimeofDay = (time.Hour > 12 ? TimeAndDateGlobals.GetTimeOfDay(12) : TimeAndDateGlobals.GetTimeOfDay(0))
+            };
+        }
+
+        /// <summary>
+        /// Converts the datetime to 
+        /// </summary>
+        /// <param name="time">The string time</param>
+        /// <returns>The converted string time</returns>
         public static Time ConvertStringTime(string time)
         {
             var timeElements = time.Split(':');
@@ -61,31 +98,44 @@ namespace Shared.Utility
 
         #region Date
 
-        public static Date GetCurrentDate()
-        {
-            var date = DateTime.Now;
-
-            return new Date
-            {
-                Month = TimeAndDateGlobals.GetMonthName(DateTime.Now.Month),
-                Day = DateTime.Now.Day,
-                Year = DateTime.Now.Year,
-                DayOfWeek = DateTime.Now.DayOfWeek.ToString()
-            };
-        }
-
-        public static string GetCurrentStringDate()
+        /// <summary>
+        /// Gets the current date
+        /// </summary>
+        /// <returns>The current date string</returns>
+        public static string GetCurrentDateString()
         {
             var date = DateTime.Now;
             return string.Format(
                 "{0}, {1} {2}, {3}",
-                TimeAndDateGlobals.GetDayOfTheWeek((int) date.DayOfWeek),
+                TimeAndDateGlobals.GetDayOfTheWeek((int)date.DayOfWeek),
                 TimeAndDateGlobals.GetMonthName(date.Month),
                 date.Day,
                 date.Year
             );
         }
 
+        /// <summary>
+        /// Gets the current date
+        /// </summary>
+        /// <returns>The current date object</returns>
+        public static Date GetCurrentDate()
+        {
+            var now = DateTime.Now;
+
+            return new Date
+            {
+                Month = TimeAndDateGlobals.GetMonthName(now.Month),
+                Day = now.Day,
+                Year = now.Year,
+                DayOfWeek = now.DayOfWeek.ToString()
+            };
+        }
+        
+        /// <summary>
+        /// Converts a string date into a date object
+        /// </summary>
+        /// <param name="date">The string date</param>
+        /// <returns>The date object</returns>
         public static Date ConvertStringDate(string date)
         {
             var dateElements = date.Split(',');
@@ -104,7 +154,28 @@ namespace Shared.Utility
             };
         }
 
-        public static string ConvertDateTimeDate(DateTime date)
+        /// <summary>
+        /// Converts a datetime into a date object
+        /// </summary>
+        /// <param name="date">The date</param>
+        /// <returns>A date object</returns>
+        public static Date ConvertDateTimeDate(DateTime date)
+        {
+            return new Date
+            {
+                DayOfWeek = TimeAndDateGlobals.GetDayOfTheWeek((int)date.DayOfWeek),
+                Month = TimeAndDateGlobals.GetMonthName(date.Month),
+                Day = date.Day,
+                Year = date.Year
+            };
+        }
+
+        /// <summary>
+        /// Converts a datetime into a date string
+        /// </summary>
+        /// <param name="date">The date</param>
+        /// <returns>The date string</returns>
+        public static string ConvertDateTimeDateString(DateTime date)
         {
             return string.Format(
                 "{0}, {1} {2}, {3}",
@@ -115,6 +186,14 @@ namespace Shared.Utility
             );
         }
 
+        /// <summary>
+        /// Creates a custom date
+        /// </summary>
+        /// <param name="month">The month</param>
+        /// <param name="day">The day</param>
+        /// <param name="year">The year</param>
+        /// <param name="dow">The day of the week</param>
+        /// <returns>A date object</returns>
         public static Date GetCustomDate(Months month, int day, int year, DayOfTheWeek dow)
         {
             return new Date

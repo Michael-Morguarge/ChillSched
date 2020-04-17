@@ -117,16 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="TimeTicker.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="TimeTicker.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>108, 32</value>
-  </metadata>
-  <metadata name="DateTicker.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  </data>
+  <data name="DateTicker.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>218, 32</value>
-  </metadata>
-  <metadata name="GeneralToolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  </data>
+  <data name="GeneralToolTip.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>327, 32</value>
-  </metadata>
-  <metadata name="DateTimeIcon.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  </data>
+  <data name="DateTimeIcon.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>461, 32</value>
-  </metadata>
+  </data>
 </root>
