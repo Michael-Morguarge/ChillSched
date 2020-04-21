@@ -10,7 +10,7 @@
 
 #pragma warning disable 1591
 
-namespace BackEnd.Database {
+namespace BackEnd.Properties.DataSources {
     
     
     /// <summary>
@@ -20,9 +20,9 @@ namespace BackEnd.Database {
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
     [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedDataSetSchema")]
-    [global::System.Xml.Serialization.XmlRootAttribute("databaseDataSet")]
+    [global::System.Xml.Serialization.XmlRootAttribute("ChillSchedDB")]
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.DataSet")]
-    public partial class databaseDataSet : global::System.Data.DataSet {
+    public partial class ChillSchedDB : global::System.Data.DataSet {
         
         private EventDetailDataTable tableEventDetail;
         
@@ -30,7 +30,7 @@ namespace BackEnd.Database {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-        public databaseDataSet() {
+        public ChillSchedDB() {
             this.BeginInit();
             this.InitClass();
             global::System.ComponentModel.CollectionChangeEventHandler schemaChangedHandler = new global::System.ComponentModel.CollectionChangeEventHandler(this.SchemaChanged);
@@ -41,7 +41,7 @@ namespace BackEnd.Database {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-        protected databaseDataSet(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+        protected ChillSchedDB(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                 base(info, context, false) {
             if ((this.IsBinarySerialized(info, context) == true)) {
                 this.InitVars(false);
@@ -127,7 +127,7 @@ namespace BackEnd.Database {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         public override global::System.Data.DataSet Clone() {
-            databaseDataSet cln = ((databaseDataSet)(base.Clone()));
+            ChillSchedDB cln = ((ChillSchedDB)(base.Clone()));
             cln.InitVars();
             cln.SchemaSerializationMode = this.SchemaSerializationMode;
             return cln;
@@ -199,9 +199,9 @@ namespace BackEnd.Database {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         private void InitClass() {
-            this.DataSetName = "databaseDataSet";
+            this.DataSetName = "ChillSchedDB";
             this.Prefix = "";
-            this.Namespace = "http://tempuri.org/databaseDataSet.xsd";
+            this.Namespace = "http://tempuri.org/ChillSchedDB.xsd";
             this.EnforceConstraints = true;
             this.SchemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
             this.tableEventDetail = new EventDetailDataTable();
@@ -225,7 +225,7 @@ namespace BackEnd.Database {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedDataSetSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
-            databaseDataSet ds = new databaseDataSet();
+            ChillSchedDB ds = new ChillSchedDB();
             global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
             global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
             global::System.Xml.Schema.XmlSchemaAny any = new global::System.Xml.Schema.XmlSchemaAny();
@@ -287,11 +287,7 @@ namespace BackEnd.Database {
             
             private global::System.Data.DataColumn columnActivationDate;
             
-            private global::System.Data.DataColumn columnActivationTime;
-            
             private global::System.Data.DataColumn columnDeactivationDate;
-            
-            private global::System.Data.DataColumn columnDeactivationTime;
             
             private global::System.Data.DataColumn columnDateCreated;
             
@@ -364,25 +360,9 @@ namespace BackEnd.Database {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public global::System.Data.DataColumn ActivationTimeColumn {
-                get {
-                    return this.columnActivationTime;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public global::System.Data.DataColumn DeactivationDateColumn {
                 get {
                     return this.columnDeactivationDate;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public global::System.Data.DataColumn DeactivationTimeColumn {
-                get {
-                    return this.columnDeactivationTime;
                 }
             }
             
@@ -439,16 +419,14 @@ namespace BackEnd.Database {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public EventDetailRow AddEventDetailRow(string Title, string Comment, string ActivationDate, string ActivationTime, string DeactivationDate, string DeactivationTime, string DateCreated, string EId) {
+            public EventDetailRow AddEventDetailRow(string Title, string Comment, System.DateTime ActivationDate, System.DateTime DeactivationDate, System.DateTime DateCreated, string EId) {
                 EventDetailRow rowEventDetailRow = ((EventDetailRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
                         Title,
                         Comment,
                         ActivationDate,
-                        ActivationTime,
                         DeactivationDate,
-                        DeactivationTime,
                         DateCreated,
                         EId};
                 rowEventDetailRow.ItemArray = columnValuesArray;
@@ -484,9 +462,7 @@ namespace BackEnd.Database {
                 this.columnTitle = base.Columns["Title"];
                 this.columnComment = base.Columns["Comment"];
                 this.columnActivationDate = base.Columns["ActivationDate"];
-                this.columnActivationTime = base.Columns["ActivationTime"];
                 this.columnDeactivationDate = base.Columns["DeactivationDate"];
-                this.columnDeactivationTime = base.Columns["DeactivationTime"];
                 this.columnDateCreated = base.Columns["DateCreated"];
                 this.columnEId = base.Columns["EId"];
             }
@@ -500,15 +476,11 @@ namespace BackEnd.Database {
                 base.Columns.Add(this.columnTitle);
                 this.columnComment = new global::System.Data.DataColumn("Comment", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnComment);
-                this.columnActivationDate = new global::System.Data.DataColumn("ActivationDate", typeof(string), null, global::System.Data.MappingType.Element);
+                this.columnActivationDate = new global::System.Data.DataColumn("ActivationDate", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnActivationDate);
-                this.columnActivationTime = new global::System.Data.DataColumn("ActivationTime", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnActivationTime);
-                this.columnDeactivationDate = new global::System.Data.DataColumn("DeactivationDate", typeof(string), null, global::System.Data.MappingType.Element);
+                this.columnDeactivationDate = new global::System.Data.DataColumn("DeactivationDate", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDeactivationDate);
-                this.columnDeactivationTime = new global::System.Data.DataColumn("DeactivationTime", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnDeactivationTime);
-                this.columnDateCreated = new global::System.Data.DataColumn("DateCreated", typeof(string), null, global::System.Data.MappingType.Element);
+                this.columnDateCreated = new global::System.Data.DataColumn("DateCreated", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDateCreated);
                 this.columnEId = new global::System.Data.DataColumn("EId", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnEId);
@@ -519,13 +491,8 @@ namespace BackEnd.Database {
                 this.columnID.AutoIncrementStep = -1;
                 this.columnID.AllowDBNull = false;
                 this.columnID.Unique = true;
-                this.columnTitle.MaxLength = 255;
+                this.columnTitle.MaxLength = 536870910;
                 this.columnComment.MaxLength = 536870910;
-                this.columnActivationDate.MaxLength = 255;
-                this.columnActivationTime.MaxLength = 255;
-                this.columnDeactivationDate.MaxLength = 255;
-                this.columnDeactivationTime.MaxLength = 255;
-                this.columnDateCreated.MaxLength = 255;
                 this.columnEId.MaxLength = 536870910;
             }
             
@@ -594,7 +561,7 @@ namespace BackEnd.Database {
             public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
                 global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
                 global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                databaseDataSet ds = new databaseDataSet();
+                ChillSchedDB ds = new ChillSchedDB();
                 global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
                 any1.Namespace = "http://www.w3.org/2001/XMLSchema";
                 any1.MinOccurs = new decimal(0);
@@ -712,10 +679,10 @@ namespace BackEnd.Database {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public string ActivationDate {
+            public System.DateTime ActivationDate {
                 get {
                     try {
-                        return ((string)(this[this.tableEventDetail.ActivationDateColumn]));
+                        return ((global::System.DateTime)(this[this.tableEventDetail.ActivationDateColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'ActivationDate\' in table \'EventDetail\' is DBNull.", e);
@@ -728,26 +695,10 @@ namespace BackEnd.Database {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public string ActivationTime {
+            public System.DateTime DeactivationDate {
                 get {
                     try {
-                        return ((string)(this[this.tableEventDetail.ActivationTimeColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'ActivationTime\' in table \'EventDetail\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableEventDetail.ActivationTimeColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public string DeactivationDate {
-                get {
-                    try {
-                        return ((string)(this[this.tableEventDetail.DeactivationDateColumn]));
+                        return ((global::System.DateTime)(this[this.tableEventDetail.DeactivationDateColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'DeactivationDate\' in table \'EventDetail\' is DBNull.", e);
@@ -760,26 +711,10 @@ namespace BackEnd.Database {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public string DeactivationTime {
+            public System.DateTime DateCreated {
                 get {
                     try {
-                        return ((string)(this[this.tableEventDetail.DeactivationTimeColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'DeactivationTime\' in table \'EventDetail\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableEventDetail.DeactivationTimeColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public string DateCreated {
-                get {
-                    try {
-                        return ((string)(this[this.tableEventDetail.DateCreatedColumn]));
+                        return ((global::System.DateTime)(this[this.tableEventDetail.DateCreatedColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'DateCreated\' in table \'EventDetail\' is DBNull.", e);
@@ -844,18 +779,6 @@ namespace BackEnd.Database {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public bool IsActivationTimeNull() {
-                return this.IsNull(this.tableEventDetail.ActivationTimeColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public void SetActivationTimeNull() {
-                this[this.tableEventDetail.ActivationTimeColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public bool IsDeactivationDateNull() {
                 return this.IsNull(this.tableEventDetail.DeactivationDateColumn);
             }
@@ -864,18 +787,6 @@ namespace BackEnd.Database {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public void SetDeactivationDateNull() {
                 this[this.tableEventDetail.DeactivationDateColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public bool IsDeactivationTimeNull() {
-                return this.IsNull(this.tableEventDetail.DeactivationTimeColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public void SetDeactivationTimeNull() {
-                this[this.tableEventDetail.DeactivationTimeColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -938,7 +849,7 @@ namespace BackEnd.Database {
         }
     }
 }
-namespace BackEnd.Database.databaseDataSetTableAdapters {
+namespace BackEnd.Properties.DataSources.ChillSchedDBTableAdapters {
     
     
     /// <summary>
@@ -1066,75 +977,59 @@ namespace BackEnd.Database.databaseDataSetTableAdapters {
             tableMapping.ColumnMappings.Add("Title", "Title");
             tableMapping.ColumnMappings.Add("Comment", "Comment");
             tableMapping.ColumnMappings.Add("ActivationDate", "ActivationDate");
-            tableMapping.ColumnMappings.Add("ActivationTime", "ActivationTime");
             tableMapping.ColumnMappings.Add("DeactivationDate", "DeactivationDate");
-            tableMapping.ColumnMappings.Add("DeactivationTime", "DeactivationTime");
             tableMapping.ColumnMappings.Add("DateCreated", "DateCreated");
             tableMapping.ColumnMappings.Add("EId", "EId");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::System.Data.OleDb.OleDbCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = @"DELETE FROM `EventDetail` WHERE ((`ID` = ?) AND ((? = 1 AND `Title` IS NULL) OR (`Title` = ?)) AND ((? = 1 AND `ActivationDate` IS NULL) OR (`ActivationDate` = ?)) AND ((? = 1 AND `ActivationTime` IS NULL) OR (`ActivationTime` = ?)) AND ((? = 1 AND `DeactivationDate` IS NULL) OR (`DeactivationDate` = ?)) AND ((? = 1 AND `DeactivationTime` IS NULL) OR (`DeactivationTime` = ?)) AND ((? = 1 AND `DateCreated` IS NULL) OR (`DateCreated` = ?)))";
+            this._adapter.DeleteCommand.CommandText = "DELETE FROM `EventDetail` WHERE ((`ID` = ?) AND ((? = 1 AND `ActivationDate` IS N" +
+                "ULL) OR (`ActivationDate` = ?)) AND ((? = 1 AND `DeactivationDate` IS NULL) OR (" +
+                "`DeactivationDate` = ?)) AND ((? = 1 AND `DateCreated` IS NULL) OR (`DateCreated" +
+                "` = ?)))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_ID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ID", global::System.Data.DataRowVersion.Original, false, null));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_Title", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Title", global::System.Data.DataRowVersion.Original, true, null));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_Title", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Title", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_ActivationDate", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ActivationDate", global::System.Data.DataRowVersion.Original, true, null));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_ActivationDate", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ActivationDate", global::System.Data.DataRowVersion.Original, false, null));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_ActivationTime", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ActivationTime", global::System.Data.DataRowVersion.Original, true, null));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_ActivationTime", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ActivationTime", global::System.Data.DataRowVersion.Original, false, null));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_ActivationDate", global::System.Data.OleDb.OleDbType.Date, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ActivationDate", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_DeactivationDate", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "DeactivationDate", global::System.Data.DataRowVersion.Original, true, null));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_DeactivationDate", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "DeactivationDate", global::System.Data.DataRowVersion.Original, false, null));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_DeactivationTime", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "DeactivationTime", global::System.Data.DataRowVersion.Original, true, null));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_DeactivationTime", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "DeactivationTime", global::System.Data.DataRowVersion.Original, false, null));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_DeactivationDate", global::System.Data.OleDb.OleDbType.Date, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "DeactivationDate", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_DateCreated", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "DateCreated", global::System.Data.DataRowVersion.Original, true, null));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_DateCreated", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "DateCreated", global::System.Data.DataRowVersion.Original, false, null));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_DateCreated", global::System.Data.OleDb.OleDbType.Date, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "DateCreated", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.InsertCommand = new global::System.Data.OleDb.OleDbCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = "INSERT INTO `EventDetail` (`Title`, `Comment`, `ActivationDate`, `ActivationTime`" +
-                ", `DeactivationDate`, `DeactivationTime`, `DateCreated`, `EId`) VALUES (?, ?, ?," +
-                " ?, ?, ?, ?, ?)";
+            this._adapter.InsertCommand.CommandText = "INSERT INTO `EventDetail` (`Title`, `Comment`, `ActivationDate`, `DeactivationDat" +
+                "e`, `DateCreated`, `EId`) VALUES (?, ?, ?, ?, ?, ?)";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Title", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Title", global::System.Data.DataRowVersion.Current, false, null));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Title", global::System.Data.OleDb.OleDbType.LongVarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Title", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Comment", global::System.Data.OleDb.OleDbType.LongVarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Comment", global::System.Data.DataRowVersion.Current, false, null));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("ActivationDate", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ActivationDate", global::System.Data.DataRowVersion.Current, false, null));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("ActivationTime", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ActivationTime", global::System.Data.DataRowVersion.Current, false, null));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("DeactivationDate", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "DeactivationDate", global::System.Data.DataRowVersion.Current, false, null));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("DeactivationTime", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "DeactivationTime", global::System.Data.DataRowVersion.Current, false, null));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("DateCreated", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "DateCreated", global::System.Data.DataRowVersion.Current, false, null));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("ActivationDate", global::System.Data.OleDb.OleDbType.Date, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ActivationDate", global::System.Data.DataRowVersion.Current, false, null));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("DeactivationDate", global::System.Data.OleDb.OleDbType.Date, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "DeactivationDate", global::System.Data.DataRowVersion.Current, false, null));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("DateCreated", global::System.Data.OleDb.OleDbType.Date, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "DateCreated", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("EId", global::System.Data.OleDb.OleDbType.LongVarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "EId", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand = new global::System.Data.OleDb.OleDbCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE `EventDetail` SET `Title` = ?, `Comment` = ?, `ActivationDate` = ?, `ActivationTime` = ?, `DeactivationDate` = ?, `DeactivationTime` = ?, `DateCreated` = ?, `EId` = ? WHERE ((`ID` = ?) AND ((? = 1 AND `Title` IS NULL) OR (`Title` = ?)) AND ((? = 1 AND `ActivationDate` IS NULL) OR (`ActivationDate` = ?)) AND ((? = 1 AND `ActivationTime` IS NULL) OR (`ActivationTime` = ?)) AND ((? = 1 AND `DeactivationDate` IS NULL) OR (`DeactivationDate` = ?)) AND ((? = 1 AND `DeactivationTime` IS NULL) OR (`DeactivationTime` = ?)) AND ((? = 1 AND `DateCreated` IS NULL) OR (`DateCreated` = ?)))";
+            this._adapter.UpdateCommand.CommandText = @"UPDATE `EventDetail` SET `Title` = ?, `Comment` = ?, `ActivationDate` = ?, `DeactivationDate` = ?, `DateCreated` = ?, `EId` = ? WHERE ((`ID` = ?) AND ((? = 1 AND `ActivationDate` IS NULL) OR (`ActivationDate` = ?)) AND ((? = 1 AND `DeactivationDate` IS NULL) OR (`DeactivationDate` = ?)) AND ((? = 1 AND `DateCreated` IS NULL) OR (`DateCreated` = ?)))";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Title", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Title", global::System.Data.DataRowVersion.Current, false, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Title", global::System.Data.OleDb.OleDbType.LongVarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Title", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Comment", global::System.Data.OleDb.OleDbType.LongVarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Comment", global::System.Data.DataRowVersion.Current, false, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("ActivationDate", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ActivationDate", global::System.Data.DataRowVersion.Current, false, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("ActivationTime", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ActivationTime", global::System.Data.DataRowVersion.Current, false, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("DeactivationDate", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "DeactivationDate", global::System.Data.DataRowVersion.Current, false, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("DeactivationTime", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "DeactivationTime", global::System.Data.DataRowVersion.Current, false, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("DateCreated", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "DateCreated", global::System.Data.DataRowVersion.Current, false, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("ActivationDate", global::System.Data.OleDb.OleDbType.Date, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ActivationDate", global::System.Data.DataRowVersion.Current, false, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("DeactivationDate", global::System.Data.OleDb.OleDbType.Date, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "DeactivationDate", global::System.Data.DataRowVersion.Current, false, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("DateCreated", global::System.Data.OleDb.OleDbType.Date, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "DateCreated", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("EId", global::System.Data.OleDb.OleDbType.LongVarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "EId", global::System.Data.DataRowVersion.Current, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_ID", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ID", global::System.Data.DataRowVersion.Original, false, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_Title", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Title", global::System.Data.DataRowVersion.Original, true, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_Title", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "Title", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_ActivationDate", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ActivationDate", global::System.Data.DataRowVersion.Original, true, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_ActivationDate", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ActivationDate", global::System.Data.DataRowVersion.Original, false, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_ActivationTime", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ActivationTime", global::System.Data.DataRowVersion.Original, true, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_ActivationTime", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ActivationTime", global::System.Data.DataRowVersion.Original, false, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_ActivationDate", global::System.Data.OleDb.OleDbType.Date, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "ActivationDate", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_DeactivationDate", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "DeactivationDate", global::System.Data.DataRowVersion.Original, true, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_DeactivationDate", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "DeactivationDate", global::System.Data.DataRowVersion.Original, false, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_DeactivationTime", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "DeactivationTime", global::System.Data.DataRowVersion.Original, true, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_DeactivationTime", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "DeactivationTime", global::System.Data.DataRowVersion.Original, false, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_DeactivationDate", global::System.Data.OleDb.OleDbType.Date, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "DeactivationDate", global::System.Data.DataRowVersion.Original, false, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("IsNull_DateCreated", global::System.Data.OleDb.OleDbType.Integer, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "DateCreated", global::System.Data.DataRowVersion.Original, true, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_DateCreated", global::System.Data.OleDb.OleDbType.VarWChar, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "DateCreated", global::System.Data.DataRowVersion.Original, false, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.OleDb.OleDbParameter("Original_DateCreated", global::System.Data.OleDb.OleDbType.Date, 0, global::System.Data.ParameterDirection.Input, ((byte)(0)), ((byte)(0)), "DateCreated", global::System.Data.DataRowVersion.Original, false, null));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.OleDb.OleDbConnection();
-            this._connection.ConnectionString = "";
+            this._connection.ConnectionString = global::BackEnd.Properties.Settings.Default.ChillSchedDB;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1143,8 +1038,8 @@ namespace BackEnd.Database.databaseDataSetTableAdapters {
             this._commandCollection = new global::System.Data.OleDb.OleDbCommand[1];
             this._commandCollection[0] = new global::System.Data.OleDb.OleDbCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT ID, Title, Comment, ActivationDate, ActivationTime, DeactivationDate, Deac" +
-                "tivationTime, DateCreated, EId FROM EventDetail";
+            this._commandCollection[0].CommandText = "SELECT ID, Title, Comment, ActivationDate, DeactivationDate, DateCreated, EId FRO" +
+                "M EventDetail";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -1152,7 +1047,7 @@ namespace BackEnd.Database.databaseDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int Fill(databaseDataSet.EventDetailDataTable dataTable) {
+        public virtual int Fill(ChillSchedDB.EventDetailDataTable dataTable) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
             if ((this.ClearBeforeFill == true)) {
                 dataTable.Clear();
@@ -1165,9 +1060,9 @@ namespace BackEnd.Database.databaseDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual databaseDataSet.EventDetailDataTable GetData() {
+        public virtual ChillSchedDB.EventDetailDataTable GetData() {
             this.Adapter.SelectCommand = this.CommandCollection[0];
-            databaseDataSet.EventDetailDataTable dataTable = new databaseDataSet.EventDetailDataTable();
+            ChillSchedDB.EventDetailDataTable dataTable = new ChillSchedDB.EventDetailDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
         }
@@ -1175,14 +1070,14 @@ namespace BackEnd.Database.databaseDataSetTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(databaseDataSet.EventDetailDataTable dataTable) {
+        public virtual int Update(ChillSchedDB.EventDetailDataTable dataTable) {
             return this.Adapter.Update(dataTable);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(databaseDataSet dataSet) {
+        public virtual int Update(ChillSchedDB dataSet) {
             return this.Adapter.Update(dataSet, "EventDetail");
         }
         
@@ -1205,50 +1100,14 @@ namespace BackEnd.Database.databaseDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(int Original_ID, string Original_Title, string Original_ActivationDate, string Original_ActivationTime, string Original_DeactivationDate, string Original_DeactivationTime, string Original_DateCreated) {
+        public virtual int Delete(int Original_ID, System.DateTime Original_ActivationDate, System.DateTime Original_DeactivationDate, System.DateTime Original_DateCreated) {
             this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_ID));
-            if ((Original_Title == null)) {
-                throw new global::System.ArgumentNullException("Original_Title");
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[1].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[2].Value = ((string)(Original_Title));
-            }
-            if ((Original_ActivationDate == null)) {
-                throw new global::System.ArgumentNullException("Original_ActivationDate");
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[3].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[4].Value = ((string)(Original_ActivationDate));
-            }
-            if ((Original_ActivationTime == null)) {
-                throw new global::System.ArgumentNullException("Original_ActivationTime");
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[5].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[6].Value = ((string)(Original_ActivationTime));
-            }
-            if ((Original_DeactivationDate == null)) {
-                throw new global::System.ArgumentNullException("Original_DeactivationDate");
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[7].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[8].Value = ((string)(Original_DeactivationDate));
-            }
-            if ((Original_DeactivationTime == null)) {
-                throw new global::System.ArgumentNullException("Original_DeactivationTime");
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[9].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[10].Value = ((string)(Original_DeactivationTime));
-            }
-            if ((Original_DateCreated == null)) {
-                throw new global::System.ArgumentNullException("Original_DateCreated");
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[11].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[12].Value = ((string)(Original_DateCreated));
-            }
+            this.Adapter.DeleteCommand.Parameters[1].Value = ((object)(0));
+            this.Adapter.DeleteCommand.Parameters[2].Value = ((System.DateTime)(Original_ActivationDate));
+            this.Adapter.DeleteCommand.Parameters[3].Value = ((object)(0));
+            this.Adapter.DeleteCommand.Parameters[4].Value = ((System.DateTime)(Original_DeactivationDate));
+            this.Adapter.DeleteCommand.Parameters[5].Value = ((object)(0));
+            this.Adapter.DeleteCommand.Parameters[6].Value = ((System.DateTime)(Original_DateCreated));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -1269,7 +1128,7 @@ namespace BackEnd.Database.databaseDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(string Title, string Comment, string ActivationDate, string ActivationTime, string DeactivationDate, string DeactivationTime, string DateCreated, string EId) {
+        public virtual int Insert(string Title, string Comment, System.DateTime ActivationDate, System.DateTime DeactivationDate, System.DateTime DateCreated, string EId) {
             if ((Title == null)) {
                 throw new global::System.ArgumentNullException("Title");
             }
@@ -1282,41 +1141,14 @@ namespace BackEnd.Database.databaseDataSetTableAdapters {
             else {
                 this.Adapter.InsertCommand.Parameters[1].Value = ((string)(Comment));
             }
-            if ((ActivationDate == null)) {
-                throw new global::System.ArgumentNullException("ActivationDate");
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[2].Value = ((string)(ActivationDate));
-            }
-            if ((ActivationTime == null)) {
-                throw new global::System.ArgumentNullException("ActivationTime");
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[3].Value = ((string)(ActivationTime));
-            }
-            if ((DeactivationDate == null)) {
-                throw new global::System.ArgumentNullException("DeactivationDate");
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[4].Value = ((string)(DeactivationDate));
-            }
-            if ((DeactivationTime == null)) {
-                throw new global::System.ArgumentNullException("DeactivationTime");
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[5].Value = ((string)(DeactivationTime));
-            }
-            if ((DateCreated == null)) {
-                throw new global::System.ArgumentNullException("DateCreated");
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[6].Value = ((string)(DateCreated));
-            }
+            this.Adapter.InsertCommand.Parameters[2].Value = ((System.DateTime)(ActivationDate));
+            this.Adapter.InsertCommand.Parameters[3].Value = ((System.DateTime)(DeactivationDate));
+            this.Adapter.InsertCommand.Parameters[4].Value = ((System.DateTime)(DateCreated));
             if ((EId == null)) {
                 throw new global::System.ArgumentNullException("EId");
             }
             else {
-                this.Adapter.InsertCommand.Parameters[7].Value = ((string)(EId));
+                this.Adapter.InsertCommand.Parameters[5].Value = ((string)(EId));
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -1338,7 +1170,7 @@ namespace BackEnd.Database.databaseDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(string Title, string Comment, string ActivationDate, string ActivationTime, string DeactivationDate, string DeactivationTime, string DateCreated, string EId, int Original_ID, string Original_Title, string Original_ActivationDate, string Original_ActivationTime, string Original_DeactivationDate, string Original_DeactivationTime, string Original_DateCreated) {
+        public virtual int Update(string Title, string Comment, System.DateTime ActivationDate, System.DateTime DeactivationDate, System.DateTime DateCreated, string EId, int Original_ID, System.DateTime Original_ActivationDate, System.DateTime Original_DeactivationDate, System.DateTime Original_DateCreated) {
             if ((Title == null)) {
                 throw new global::System.ArgumentNullException("Title");
             }
@@ -1351,85 +1183,22 @@ namespace BackEnd.Database.databaseDataSetTableAdapters {
             else {
                 this.Adapter.UpdateCommand.Parameters[1].Value = ((string)(Comment));
             }
-            if ((ActivationDate == null)) {
-                throw new global::System.ArgumentNullException("ActivationDate");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[2].Value = ((string)(ActivationDate));
-            }
-            if ((ActivationTime == null)) {
-                throw new global::System.ArgumentNullException("ActivationTime");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[3].Value = ((string)(ActivationTime));
-            }
-            if ((DeactivationDate == null)) {
-                throw new global::System.ArgumentNullException("DeactivationDate");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[4].Value = ((string)(DeactivationDate));
-            }
-            if ((DeactivationTime == null)) {
-                throw new global::System.ArgumentNullException("DeactivationTime");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[5].Value = ((string)(DeactivationTime));
-            }
-            if ((DateCreated == null)) {
-                throw new global::System.ArgumentNullException("DateCreated");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[6].Value = ((string)(DateCreated));
-            }
+            this.Adapter.UpdateCommand.Parameters[2].Value = ((System.DateTime)(ActivationDate));
+            this.Adapter.UpdateCommand.Parameters[3].Value = ((System.DateTime)(DeactivationDate));
+            this.Adapter.UpdateCommand.Parameters[4].Value = ((System.DateTime)(DateCreated));
             if ((EId == null)) {
                 throw new global::System.ArgumentNullException("EId");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[7].Value = ((string)(EId));
+                this.Adapter.UpdateCommand.Parameters[5].Value = ((string)(EId));
             }
-            this.Adapter.UpdateCommand.Parameters[8].Value = ((int)(Original_ID));
-            if ((Original_Title == null)) {
-                throw new global::System.ArgumentNullException("Original_Title");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[9].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[10].Value = ((string)(Original_Title));
-            }
-            if ((Original_ActivationDate == null)) {
-                throw new global::System.ArgumentNullException("Original_ActivationDate");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[11].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[12].Value = ((string)(Original_ActivationDate));
-            }
-            if ((Original_ActivationTime == null)) {
-                throw new global::System.ArgumentNullException("Original_ActivationTime");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[13].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[14].Value = ((string)(Original_ActivationTime));
-            }
-            if ((Original_DeactivationDate == null)) {
-                throw new global::System.ArgumentNullException("Original_DeactivationDate");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[15].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[16].Value = ((string)(Original_DeactivationDate));
-            }
-            if ((Original_DeactivationTime == null)) {
-                throw new global::System.ArgumentNullException("Original_DeactivationTime");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[17].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[18].Value = ((string)(Original_DeactivationTime));
-            }
-            if ((Original_DateCreated == null)) {
-                throw new global::System.ArgumentNullException("Original_DateCreated");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[19].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[20].Value = ((string)(Original_DateCreated));
-            }
+            this.Adapter.UpdateCommand.Parameters[6].Value = ((int)(Original_ID));
+            this.Adapter.UpdateCommand.Parameters[7].Value = ((object)(0));
+            this.Adapter.UpdateCommand.Parameters[8].Value = ((System.DateTime)(Original_ActivationDate));
+            this.Adapter.UpdateCommand.Parameters[9].Value = ((object)(0));
+            this.Adapter.UpdateCommand.Parameters[10].Value = ((System.DateTime)(Original_DeactivationDate));
+            this.Adapter.UpdateCommand.Parameters[11].Value = ((object)(0));
+            this.Adapter.UpdateCommand.Parameters[12].Value = ((System.DateTime)(Original_DateCreated));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -1538,7 +1307,7 @@ namespace BackEnd.Database.databaseDataSetTableAdapters {
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-        private int UpdateUpdatedRows(databaseDataSet dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
+        private int UpdateUpdatedRows(ChillSchedDB dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             int result = 0;
             if ((this._eventDetailTableAdapter != null)) {
                 global::System.Data.DataRow[] updatedRows = dataSet.EventDetail.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
@@ -1557,7 +1326,7 @@ namespace BackEnd.Database.databaseDataSetTableAdapters {
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-        private int UpdateInsertedRows(databaseDataSet dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
+        private int UpdateInsertedRows(ChillSchedDB dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             int result = 0;
             if ((this._eventDetailTableAdapter != null)) {
                 global::System.Data.DataRow[] addedRows = dataSet.EventDetail.Select(null, null, global::System.Data.DataViewRowState.Added);
@@ -1575,7 +1344,7 @@ namespace BackEnd.Database.databaseDataSetTableAdapters {
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-        private int UpdateDeletedRows(databaseDataSet dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows) {
+        private int UpdateDeletedRows(ChillSchedDB dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows) {
             int result = 0;
             if ((this._eventDetailTableAdapter != null)) {
                 global::System.Data.DataRow[] deletedRows = dataSet.EventDetail.Select(null, null, global::System.Data.DataViewRowState.Deleted);
@@ -1617,7 +1386,7 @@ namespace BackEnd.Database.databaseDataSetTableAdapters {
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-        public virtual int UpdateAll(databaseDataSet dataSet) {
+        public virtual int UpdateAll(ChillSchedDB dataSet) {
             if ((dataSet == null)) {
                 throw new global::System.ArgumentNullException("dataSet");
             }

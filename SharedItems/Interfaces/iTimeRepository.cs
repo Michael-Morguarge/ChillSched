@@ -1,6 +1,6 @@
 ﻿
 using Shared.Model;
-using Shared.Utility;
+using Shared.Global;
 
 namespace Shared.Interface
 {

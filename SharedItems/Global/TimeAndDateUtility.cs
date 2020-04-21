@@ -1,8 +1,7 @@
-﻿
-using Shared.Model;
+﻿using Shared.Model;
 using System;
 
-namespace Shared.Utility
+namespace Shared.Global
 {
     /// <summary>
     /// The time and date utility
@@ -20,7 +19,7 @@ namespace Shared.Utility
             var now = DateTime.Now;
             return string.Format(
                 "{0}:{1}:{2} {3}",
-                (now.Hour > 12 ? (now.Hour - 12) : now.Hour),
+                (now.Hour == 0 || now.Hour > 12 ? Math.Abs(now.Hour - 12) : now.Hour),
                 now.Minute.ToString().PadLeft(2, '0'),
                 now.Second.ToString().PadLeft(2, '0'),
                 (now.Hour > 12 ? TimeAndDateGlobals.GetTimeOfDay(12) : TimeAndDateGlobals.GetTimeOfDay(0))
@@ -36,7 +35,7 @@ namespace Shared.Utility
             var now = DateTime.Now;
             return new Time
             {
-                Hours = now.Hour,
+                Hours = now.Hour == 0 ? 12 : now.Hour,
                 Minutes = now.Minute,
                 Seconds = now.Second,
                 TimeofDay = (now.Hour > 12 ? TimeAndDateGlobals.GetTimeOfDay(12) : TimeAndDateGlobals.GetTimeOfDay(0))
@@ -46,16 +45,32 @@ namespace Shared.Utility
         /// <summary>
         /// Converts datetime to time string
         /// </summary>
-        /// <param name="time"></param>
+        /// <param name="time">The time to convert</param>
         /// <returns>The string converted time</returns>
-        public static string ConvertDateTimeTimeString(DateTime time)
+        public static string ConvertTime_String(DateTime time)
         {
             return string.Format(
                 "{0}:{1}:{2} {3}",
-                (time.Hour > 12 ? (time.Hour - 12) : time.Hour).ToString().PadRight(2, '0'),
+                (time.Hour == 0 || time.Hour > 12 ? Math.Abs(time.Hour - 12) : time.Hour).ToString().PadRight(2, '0'),
                 time.Minute.ToString().PadLeft(2, '0'),
                 time.Second.ToString().PadLeft(2, '0'),
                 (time.Hour > 12 ? TimeAndDateGlobals.GetTimeOfDay(12) : TimeAndDateGlobals.GetTimeOfDay(0))
+            );
+        }
+
+        /// <summary>
+        /// Converts datetime to time string
+        /// </summary>
+        /// <param name="time">The time to convert</param>
+        /// <returns>The string converted time</returns>
+        public static string ConvertTime_String(Time time)
+        {
+            return string.Format(
+                "{0}:{1}:{2} {3}",
+                time.Hours.ToString().PadRight(2, '0'),
+                time.Minutes.ToString().PadLeft(2, '0'),
+                time.Seconds.ToString().PadLeft(2, '0'),
+                time.TimeofDay
             );
         }
 
@@ -64,11 +79,11 @@ namespace Shared.Utility
         /// </summary>
         /// <param name="time">The datetime time</param>
         /// <returns>The converted time</returns>
-        public static Time ConvertDateTimeToTime(DateTime time)
+        public static Time ConvertTime_Time(DateTime time)
         {
             return new Time
             {
-                Hours = time.Hour,
+                Hours = time.Hour == 0 ? 12 : time.Hour,
                 Minutes = time.Minute,
                 Seconds = time.Second,
                 TimeofDay = (time.Hour > 12 ? TimeAndDateGlobals.GetTimeOfDay(12) : TimeAndDateGlobals.GetTimeOfDay(0))
@@ -80,7 +95,7 @@ namespace Shared.Utility
         /// </summary>
         /// <param name="time">The string time</param>
         /// <returns>The converted string time</returns>
-        public static Time ConvertStringTime(string time)
+        public static Time ConvertString_Time(string time)
         {
             var timeElements = time.Split(':');
             var secondsAndTod = timeElements[2].Split(' ');
@@ -108,7 +123,7 @@ namespace Shared.Utility
             return string.Format(
                 "{0}, {1} {2}, {3}",
                 TimeAndDateGlobals.GetDayOfTheWeek((int)date.DayOfWeek),
-                TimeAndDateGlobals.GetMonthName(date.Month),
+                TimeAndDateGlobals.GetMonth(date.Month),
                 date.Day,
                 date.Year
             );
@@ -124,7 +139,7 @@ namespace Shared.Utility
 
             return new Date
             {
-                Month = TimeAndDateGlobals.GetMonthName(now.Month),
+                Month = TimeAndDateGlobals.GetMonth(now.Month),
                 Day = now.Day,
                 Year = now.Year,
                 DayOfWeek = now.DayOfWeek.ToString()
@@ -136,7 +151,7 @@ namespace Shared.Utility
         /// </summary>
         /// <param name="date">The string date</param>
         /// <returns>The date object</returns>
-        public static Date ConvertStringDate(string date)
+        public static Date ConvertString_Date(string date)
         {
             var dateElements = date.Split(',');
             var dow = dateElements[0];
@@ -159,12 +174,12 @@ namespace Shared.Utility
         /// </summary>
         /// <param name="date">The date</param>
         /// <returns>A date object</returns>
-        public static Date ConvertDateTimeDate(DateTime date)
+        public static Date ConvertDate_Date(DateTime date)
         {
             return new Date
             {
                 DayOfWeek = TimeAndDateGlobals.GetDayOfTheWeek((int)date.DayOfWeek),
-                Month = TimeAndDateGlobals.GetMonthName(date.Month),
+                Month = TimeAndDateGlobals.GetMonth(date.Month),
                 Day = date.Day,
                 Year = date.Year
             };
@@ -175,15 +190,55 @@ namespace Shared.Utility
         /// </summary>
         /// <param name="date">The date</param>
         /// <returns>The date string</returns>
-        public static string ConvertDateTimeDateString(DateTime date)
+        public static string ConvertDate_String(DateTime date, bool shorten = false)
         {
-            return string.Format(
-                "{0}, {1} {2}, {3}",
-                TimeAndDateGlobals.GetDayOfTheWeek((int)date.DayOfWeek),
-                TimeAndDateGlobals.GetMonthName(date.Month),
-                date.Day,
-                date.Year
-            );
+            var dateString = string.Empty;
+
+            if (shorten)
+                dateString = string.Format(
+                    "{0} / {1} / {2}",
+                    (int)TimeAndDateGlobals.GetMonth(TimeAndDateGlobals.GetMonth(date.Month)),
+                    date.Day,
+                    date.Year
+                );
+            else
+                dateString = string.Format(
+                    "{0}, {1} {2}, {3}",
+                    TimeAndDateGlobals.GetDayOfTheWeek((int)date.DayOfWeek),
+                    TimeAndDateGlobals.GetMonth(date.Month),
+                    date.Day,
+                    date.Year
+                );
+
+            return dateString;
+        }
+
+        /// <summary>
+        /// Converts a datetime into a date string
+        /// </summary>
+        /// <param name="date">The date</param>
+        /// <returns>The date string</returns>
+        public static string ConvertDate_String(Date date, bool shorten = false)
+        {
+            var dateString = string.Empty;
+
+            if (shorten)
+                dateString = string.Format(
+                    "{0} / {1} / {2}",
+                    (int)TimeAndDateGlobals.GetMonth(date.Month),
+                    date.Day,
+                    date.Year
+                );
+            else
+                dateString = string.Format(
+                    "{0}, {1} {2}, {3}",
+                    date.DayOfWeek,
+                    date.Month,
+                    date.Day,
+                    date.Year
+                );
+
+            return dateString;
         }
 
         /// <summary>
@@ -194,11 +249,11 @@ namespace Shared.Utility
         /// <param name="year">The year</param>
         /// <param name="dow">The day of the week</param>
         /// <returns>A date object</returns>
-        public static Date GetCustomDate(Months month, int day, int year, DayOfTheWeek dow)
+        public static Date MakeCustomDate(Months month, int day, int year, DayOfTheWeek dow)
         {
             return new Date
             {
-                Month = TimeAndDateGlobals.GetMonthName((int) month),
+                Month = TimeAndDateGlobals.GetMonth((int) month),
                 Day = day,
                 Year = year,
                 DayOfWeek = TimeAndDateGlobals.GetDayOfTheWeek((int) dow)
@@ -206,5 +261,28 @@ namespace Shared.Utility
         }
 
         #endregion Date
+
+        #region Comparisons
+
+        public static bool IsWithinRange(Date beginDate, Date dateToCheckDate, Date endDate)
+        {
+            var beginMonthInt = TimeAndDateGlobals.GetMonth(beginDate.Month);
+            var dateToCheckMonthInt = TimeAndDateGlobals.GetMonth(dateToCheckDate.Month);
+            var endMonthInt = TimeAndDateGlobals.GetMonth(endDate.Month);
+
+            var beginMatchRange =
+                dateToCheckDate.Year >= beginDate.Year
+                && dateToCheckMonthInt >= beginMonthInt
+                && dateToCheckDate.Day >= beginDate.Day;
+
+            var endMatchRange =
+                endDate.Year >= dateToCheckDate.Year
+                && endMonthInt >= dateToCheckMonthInt
+                && endDate.Day >= dateToCheckDate.Day;
+
+            return (beginMatchRange) && (endMatchRange);
+        }
+
+        #endregion Comparisons
     }
 }

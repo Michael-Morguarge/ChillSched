@@ -1,6 +1,7 @@
 ﻿using Shared.Model;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Backend.Model
 {
@@ -11,7 +12,7 @@ namespace Backend.Model
             Id = Guid.NewGuid().ToString();
         }
 
-        public string Id { get; private set; }
+        public string Id { get; set; }
         public string Title { get; set; }
         public string Comment { get; set; }
         public bool Completed { get; set; }
@@ -23,18 +24,49 @@ namespace Backend.Model
         public Date DeactivationDate { get; set; }
     }
 
+    // Needs major rework
+
     public class Events
     {
-        public List<SavedEvent> Times { get; private set; }
+        public List<SavedEvent> SavedEvents;
 
         public Events()
         {
-            Times = new List<SavedEvent>();
+            SavedEvents = new List<SavedEvent>();
         }
 
-        public void AddTime(SavedEvent time)
+        public SavedEvent GetEvent(string id)
         {
-            Times.Add(time);
+            if (string.IsNullOrEmpty(id))
+                return null;
+
+            var @event = SavedEvents.SingleOrDefault(x => x.Id == id);
+
+            return @event;
+        }
+
+        public void AddEvent(SavedEvent @event)
+        {
+            if (@event == null)
+                throw new Exception("Event cannot be added.");
+
+            SavedEvents.Add(@event);
+        }
+
+        public void UpdateEvent(SavedEvent @event)
+        {
+            var existingEvent = SavedEvents.SingleOrDefault(x => x.Id == @event.Id);
+
+            if (existingEvent == null)
+                throw new Exception("Event not found.");
+
+            existingEvent.ActivationDate = @event.ActivationDate;
+            existingEvent.ActivationTime = @event.ActivationTime;
+            existingEvent.Comment = @event.Comment;
+            existingEvent.Completed = @event.Completed;
+            existingEvent.DeactivationDate = @event.DeactivationDate;
+            existingEvent.DeactivationTime = @event.DeactivationTime;
+            existingEvent.Title = @event.Title;
         }
     }
 }

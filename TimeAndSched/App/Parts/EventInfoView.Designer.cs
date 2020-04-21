@@ -71,7 +71,7 @@
             // 
             this.Confirm.BackColor = System.Drawing.SystemColors.ControlLight;
             this.Confirm.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Confirm.ForeColor = System.Drawing.SystemColors.Desktop;
+            this.Confirm.ForeColor = System.Drawing.SystemColors.ControlText;
             this.Confirm.Location = new System.Drawing.Point(52, 283);
             this.Confirm.Margin = new System.Windows.Forms.Padding(2);
             this.Confirm.Name = "Confirm";
@@ -86,7 +86,7 @@
             this.Cancel.CausesValidation = false;
             this.Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.Cancel.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Cancel.ForeColor = System.Drawing.SystemColors.Desktop;
+            this.Cancel.ForeColor = System.Drawing.SystemColors.ControlText;
             this.Cancel.Location = new System.Drawing.Point(169, 283);
             this.Cancel.Margin = new System.Windows.Forms.Padding(2);
             this.Cancel.Name = "Cancel";

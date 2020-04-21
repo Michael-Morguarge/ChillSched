@@ -1,21 +1,23 @@
 ﻿using FrontEnd.Properties;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using FrontEnd.View.Controller;
-using Shared.Utility;
-using Shared.Interface;
+using Shared.Global;
+using FrontEnd.Controller.Prompts;
+using FrontEnd.Controller.Parts;
+using System.Linq;
+using Backend.Model;
 
-namespace FrontEnd.View
+namespace FrontEnd.App.Views
 {
     /// <summary>
     /// Partial View Controller
     /// </summary>
     public partial class MainApp : Form
     {
-        private EventViewController _bm;
         private ControlsAccess _controls;
+        private EventViewController _events;
 
         /// <summary>
         /// Constructor for Partial View Controller
@@ -29,6 +31,7 @@ namespace FrontEnd.View
         private void SetupControls()
         {
             _controls = new ControlsAccess();
+            _events = new EventViewController(_controls);
 
             Tag = _controls.AddForm(this);
             var tag = Tag as string;
@@ -41,14 +44,15 @@ namespace FrontEnd.View
             ExpEndDate.Tag = _controls.Add(tag, new LabelController(ExpEndDate));
             ExpEndTime.Tag = _controls.Add(tag, new LabelController(ExpEndTime));
             Title.Tag = _controls.Add(tag, new LabelController(Title));
-            Comment.Tag = _controls.Add(tag, new RichTBController(Comment));
+            Comment.Tag = _controls.Add(tag, new TextBoxController(Comment));
             Calendar.Tag = _controls.Add(tag, new CalendarController(Calendar));
             TodaysEvents.Tag = _controls.Add(tag, new ListBoxController(TodaysEvents));
 
-            _bm = new EventViewController(_controls, new List<IControl> { User_Calendar, Todays_Events });
-
+            Todays_Events.SetMembers("Title", "Id");
             Time.Text = TimeAndDateUtility.GetCurrentTimeString();
             Date.Text = TimeAndDateUtility.GetCurrentDateString();
+
+            UpdateTodaysEvents();
 
             Bitmap bit = Resources.ChillSched;
             IntPtr pIcon = bit.GetHicon();
@@ -64,20 +68,6 @@ namespace FrontEnd.View
         private void DateTicker_Tick(object sender, EventArgs e)
         {
             User_Date.GetControl().Text = TimeAndDateUtility.GetCurrentDateString();
-        }
-
-        private void TodaysEvents_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            var nextMonthLastWeek = DateTime.Today.AddMonths(1).AddDays(-7);
-            var nextMonth = DateTime.Today.AddMonths(1);
-            User_Calendar.GetControl().BoldedDates = new[] { nextMonth };
-            User_Calendar.GetControl().SetDate(nextMonth);
-            User_Comment.GetControl().Text = "Test comment is a test comment that test the comment section that holds the test text that is inside the text column";
-            User_Title.GetControl().Text = "Test Title";
-            Exp_Start_Date.GetControl().Text = string.Format("{0}/{1}/{2}", nextMonth.Month, nextMonth.Day, nextMonth.Year);
-            Exp_Start_Time.GetControl().Text = TimeAndDateUtility.GetCurrentTimeString();
-            Exp_End_Date.GetControl().Text = string.Format("{0}/{1}/{2}", nextMonthLastWeek.Month, nextMonthLastWeek.Day, nextMonthLastWeek.Year);
-            Exp_End_Time.GetControl().Text = TimeAndDateUtility.GetCurrentTimeString();
         }
 
         private void Main_Resize(object sender, EventArgs e)
@@ -104,15 +94,98 @@ namespace FrontEnd.View
             e.Cancel = true;
         }
 
+        private void TodaysEvents_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //Get events to show in listbox
+            //Highlight events past date and time
+
+            var id = ((SavedEvent)Todays_Events.SelectedIndex()).Id;
+            var @event = _events.GetEvent(id);
+            SetEventDetails(@event);
+        }
+
         private void Calendar_DateChanged(object sender, DateRangeEventArgs e)
         {
-            MessageBox.Show(User_Calendar.GetId());
+            User_Calendar.GetControl().BoldedDates = new[] { User_Calendar.GetControl().SelectionStart };
+            ClearEventDetails();
+            UpdateTodaysEvents();
         }
 
         private void CreateEvent_Click(object sender, EventArgs e)
         {
-            _bm.Add();
+            if (_events.Add())
+            {
+                ClearEventDetails();
+                UpdateTodaysEvents();
+            }
         }
+
+        private void EditEvent_Click(object sender, EventArgs e)
+        {
+            var id = ((SavedEvent)Todays_Events.SelectedIndex()).Id;
+            if (_events.Update(id))
+            {
+                ClearEventDetails();
+                UpdateTodaysEvents();
+            }
+
+        }
+
+        private void RemoveButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TodaysEvents_SelectedValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TodaysEvents_Leave(object sender, EventArgs e)
+        {
+
+        }
+
+        #region Helpers
+
+        private void SetEventDetails(SavedEvent @event)
+        {
+            Exp_Start_Date.SetText(TimeAndDateUtility.ConvertDate_String(@event.ActivationDate, true));
+            Exp_Start_Time.SetText(TimeAndDateUtility.ConvertTime_String(@event.ActivationTime));
+            Exp_End_Date.SetText(TimeAndDateUtility.ConvertDate_String(@event.DeactivationDate, true));
+            Exp_End_Time.SetText(TimeAndDateUtility.ConvertTime_String(@event.DeactivationTime));
+
+            User_Title.SetText(@event.Title);
+
+            User_Comment.SetText(@event.Comment);
+        }
+
+        private void ClearEventDetails()
+        {
+            const string dash = "-";
+            const string no_comment = "No comment";
+
+            Exp_Start_Date.SetText(dash);
+            Exp_Start_Time.SetText(dash);
+            Exp_End_Date.SetText(dash);
+            Exp_End_Time.SetText(dash);
+
+            User_Title.SetText(dash);
+
+            User_Comment.SetText(no_comment);
+        }
+
+        private void UpdateTodaysEvents()
+        {
+            var selectedDate = User_Calendar.GetControl().SelectionRange.Start;
+            User_Calendar.GetControl().BoldedDates = new[] { selectedDate };
+            var date = TimeAndDateUtility.ConvertDate_Date(selectedDate);
+            var eventList = _events.GetAll(date).OrderBy(x => x.Title).Select(x => (object)x).Distinct().ToArray();
+
+            Todays_Events.Update(eventList);
+        }
+
+        #endregion Helpers
 
         #region Controllers [Only use once view is initialized]
 
@@ -127,9 +200,9 @@ namespace FrontEnd.View
 
         #region [ TextBoxes ]
 
-        private RichTBController User_Comment
+        private TextBoxController User_Comment
         {
-            get { return ((RichTBController)_controls.Get(Tag as string, Comment.Tag as string)); }
+            get { return ((TextBoxController)_controls.Get(Tag as string, Comment.Tag as string)); }
         }
 
         #endregion
@@ -184,6 +257,7 @@ namespace FrontEnd.View
         {
             get { return ((LabelController)_controls.Get(Tag as string, Title.Tag as string)); }
         }
+
 
         #endregion
 

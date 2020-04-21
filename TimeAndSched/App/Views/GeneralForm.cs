@@ -1,11 +1,14 @@
 ﻿using FrontEnd.View.Controller;
 using System.Windows.Forms;
 using Backend.Model;
-using Shared.Utility;
+using Shared.Global;
 using Backend.Implementations;
 
-namespace FrontEnd.App.Index.Views
+namespace FrontEnd.App.Views
 {
+    /// <summary>
+    /// Partial class for General Form
+    /// </summary>
     public partial class GeneralForm : Form
     {
         private readonly string _id;
@@ -16,8 +19,12 @@ namespace FrontEnd.App.Index.Views
         /// The data returned from the prompt
         /// </summary>
         public SavedEvent Results { get; private set; }
-        
 
+        /// <summary>
+        /// The forms dialog result
+        /// </summary>
+        public DialogResult PromptResult { get; private set; }
+        
         /// <summary>
         /// The constructor for General Forms
         /// </summary>
@@ -31,6 +38,10 @@ namespace FrontEnd.App.Index.Views
             _id = Tag as string;
         }
 
+        /// <summary>
+        /// Creates a view with the
+        /// </summary>
+        /// <param name="purpose">The purpose of the form</param>
         public void CreateView(CrudPurposes purpose)
         {
             if (purpose == CrudPurposes.Error)
@@ -54,10 +65,20 @@ namespace FrontEnd.App.Index.Views
         private void GeneralForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             var result = EIV.Results;
-            var dialogue = EIV.DialogResult;
+            var dialog = EIV.DialogResult;
 
-            if (dialogue == DialogResult.OK && result != null)
+            if (dialog == DialogResult.OK && result != null)
+            {
                 Results = result;
+                PromptResult = dialog;
+            }
+            else if (dialog == DialogResult.None)
+                e.Cancel = true;
+            else
+            {
+                e.Cancel = false;
+                PromptResult = dialog;
+            }
         }
     }
 }

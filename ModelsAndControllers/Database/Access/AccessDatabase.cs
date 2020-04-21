@@ -7,39 +7,39 @@ namespace Backend.Database.Access
     {
         public AccessDatabase(string connection) : base(connection)
         {
-            Open();
+            //connection set in base class
         }
 
-        public List<List<string>> GetDataFromTable(string query)
+        public List<List<string>> Get(string query)
         {
-            if (string.IsNullOrEmpty(query) || string.IsNullOrWhiteSpace(query))
+            if (string.IsNullOrEmpty(query))
                 return new List<List<string>>();
 
             return GetData(query);
         }
 
-        public int Update(string query)
+        public bool Update(string query)
         {
-            if (string.IsNullOrEmpty(query) || string.IsNullOrWhiteSpace(query))
-                return -1;
+            if (string.IsNullOrEmpty(query))
+                return false;
 
-            return UpdateData(query);
+            return UpdateData(query) > 0;
         }
 
-        public int Insert(string query)
+        public bool Insert(string query)
         {
-            if (string.IsNullOrEmpty(query) || string.IsNullOrWhiteSpace(query))
-                return -1;
+            if (string.IsNullOrEmpty(query))
+                return false;
 
-            return InsertData(query);
+            return InsertData(query) > 0;
         }
 
-        public int Delete(string query)
+        public bool Delete(string query)
         {
-            if (string.IsNullOrEmpty(query) || string.IsNullOrWhiteSpace(query))
-                return -1;
+            if (string.IsNullOrEmpty(query))
+                return false;
 
-            return DeleteData(query);
+            return DeleteData(query) > 0;
         }
 
         public bool OpenConnection()

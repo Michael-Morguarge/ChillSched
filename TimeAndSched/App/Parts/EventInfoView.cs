@@ -2,7 +2,8 @@
 using System;
 using System.Windows.Forms;
 using FrontEnd.View.Controller;
-using Shared.Utility;
+using Shared.Global;
+using FrontEnd.Controller.Parts;
 
 namespace FrontEnd.App.Parts
 {
@@ -134,7 +135,7 @@ namespace FrontEnd.App.Parts
             BMEnd.Tag = _controls.Add(_parentId, new LabelController(BMEnd));
 
             BMTitleTB.Tag = _controls.Add(_parentId, new TextBoxController(BMTitleTB));
-            BMCommentTB.Tag = _controls.Add(_parentId, new RichTBController(BMCommentTB));
+            BMCommentTB.Tag = _controls.Add(_parentId, new TextBoxController(BMCommentTB));
 
             BMStartPicker.Tag = _controls.Add(_parentId, new DatePickerController(BMStartPicker));
             BMStartPicker.MinDate = DateTime.Now;
@@ -145,7 +146,12 @@ namespace FrontEnd.App.Parts
         private void Cancel_Click(object sender, EventArgs e)
         {
             var result = MessageBox.Show("Do you want to discard this bookmark?", "All progress lost if not submitted", MessageBoxButtons.YesNo);
-            if (result == DialogResult.No || result == DialogResult.None)
+
+            if (result == DialogResult.Yes)
+            {
+                DialogResult = DialogResult.Cancel;
+            }
+            else if (result == DialogResult.No || result == DialogResult.None)
             {
                 DialogResult = DialogResult.None;
             }
@@ -174,7 +180,8 @@ namespace FrontEnd.App.Parts
                 end.Text = (end.Text.Contains("*") ? end.Text : string.Format("{0}*", end.Text));
                 error = true;
             }
-            else if (CheckMinDate())
+
+            if (CheckMinDate())
             {
                 start.Text = (start.Text.Contains("*") ? start.Text : string.Format("{0}*", start.Text));
                 end.Text = (end.Text.Contains("*") ? end.Text : string.Format("{0}*", end.Text));
@@ -198,10 +205,10 @@ namespace FrontEnd.App.Parts
                 {
                     Title = TitleTB.Text,
                     Comment = CommentTB.Text,
-                    ActivationDate = TimeAndDateUtility.ConvertStringDate(StartPicker.Date),
-                    ActivationTime = TimeAndDateUtility.ConvertStringTime(StartPicker.Time),
-                    DeactivationDate = TimeAndDateUtility.ConvertStringDate(EndPicker.Date),
-                    DeactivationTime = TimeAndDateUtility.ConvertStringTime(EndPicker.Time)
+                    ActivationDate = TimeAndDateUtility.ConvertString_Date(StartPicker.Date),
+                    ActivationTime = TimeAndDateUtility.ConvertString_Time(StartPicker.Time),
+                    DeactivationDate = TimeAndDateUtility.ConvertString_Date(EndPicker.Date),
+                    DeactivationTime = TimeAndDateUtility.ConvertString_Time(EndPicker.Time)
                 };
 
                 _error = false;
@@ -215,8 +222,7 @@ namespace FrontEnd.App.Parts
             var startPicker = StartPicker.GetControl();
             var endPicker = EndPicker.GetControl();
 
-            return (startPicker.Value == endPicker.Value && startPicker.Value.ToUniversalTime() > endPicker.Value.ToUniversalTime())
-                   || (startPicker.Value > endPicker.Value);
+            return (startPicker.Value == endPicker.Value) || (startPicker.Value > endPicker.Value);
         }
 
         private bool CheckMinDate()
@@ -224,10 +230,8 @@ namespace FrontEnd.App.Parts
             var startPicker = StartPicker.GetControl();
             var endPicker = EndPicker.GetControl();
 
-            return (startPicker.Value < startPicker.MinDate || startPicker.Value.ToUniversalTime() < startPicker.MinDate.ToUniversalTime()
-                       || endPicker.Value < endPicker.MinDate || endPicker.Value.ToUniversalTime() < endPicker.MinDate.ToUniversalTime())
-                   && (startPicker.Value < DateTime.Now || startPicker.Value.ToUniversalTime() < DateTime.Now.ToUniversalTime()
-                       || endPicker.Value < DateTime.Now || endPicker.Value.ToUniversalTime() < DateTime.Now.ToUniversalTime()); 
+            return (startPicker.Value < startPicker.MinDate || endPicker.Value < endPicker.MinDate)
+                   || (startPicker.Value < DateTime.Now || endPicker.Value < DateTime.Now); 
         }
 
         private void EventInfo_FormClosing(object sender, FormClosingEventArgs e)
@@ -265,9 +269,9 @@ namespace FrontEnd.App.Parts
             get { return (TextBoxController)_controls.Get(_parentId, BMTitleTB.Tag as string); }
         }
 
-        private RichTBController CommentTB
+        private TextBoxController CommentTB
         {
-            get { return (RichTBController)_controls.Get(_parentId, BMCommentTB.Tag as string); }
+            get { return (TextBoxController)_controls.Get(_parentId, BMCommentTB.Tag as string); }
         }
 
         #endregion
@@ -311,6 +315,5 @@ namespace FrontEnd.App.Parts
         #endregion
 
         #endregion
-
     }
 }

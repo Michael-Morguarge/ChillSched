@@ -1,5 +1,5 @@
 ﻿using Shared.Interface;
-using Shared.Utility;
+using Shared.Global;
 using System.Collections.Generic;
 
 namespace SharedItems.Abstracts
@@ -20,7 +20,7 @@ namespace SharedItems.Abstracts
         public SetupCRUDControllerAbstract(T controller)
         {
             _control = controller;
-            _id = Ids.CreateId().ToString();
+            _id = Generate.Id().ToString();
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace SharedItems.Abstracts
         {
             _items = items;
             _form = form;
-            _id = Ids.CreateId().ToString();
+            _id = Generate.Id().ToString();
         }
 
         /// <summary>

@@ -1,4 +1,6 @@
-﻿namespace FrontEnd.App.Index.Views
+﻿using FrontEnd.App.Parts;
+
+namespace FrontEnd.App.Views
 {
     partial class GeneralForm
     {
@@ -29,7 +31,7 @@
         private void InitializeComponent()
         {
             this.Error = new System.Windows.Forms.Label();
-            this.EIV = new FrontEnd.App.Index.Frameworks.EventInfoView();
+            this.EIV = new FrontEnd.App.Parts.EventInfoView();
             this.SuspendLayout();
             // 
             // Error
@@ -85,6 +87,6 @@
         #endregion
 
         private System.Windows.Forms.Label Error;
-        private Frameworks.EventInfoView EIV;
+        private EventInfoView EIV;
     }
 }

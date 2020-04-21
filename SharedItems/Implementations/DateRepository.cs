@@ -1,7 +1,7 @@
 ﻿
 using Shared.Model;
 using Shared.Interface;
-using Shared.Utility;
+using Shared.Global;
 
 namespace Shared.Implementation
 {
@@ -17,7 +17,7 @@ namespace Shared.Implementation
         {
             return new Date
             {
-                Month = TimeAndDateGlobals.GetMonthName((int)month),
+                Month = TimeAndDateGlobals.GetMonth((int)month),
                 Day = day,
                 Year = year,
                 DayOfWeek = TimeAndDateGlobals.GetDayOfTheWeek((int)dow)

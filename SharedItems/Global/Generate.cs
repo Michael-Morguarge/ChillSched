@@ -1,13 +1,13 @@
 ﻿using System;
 
-namespace Shared.Utility
+namespace Shared.Global
 {
     /// <summary>
     /// The id
     /// </summary>
-    public class Ids
+    public class Generate
     {
-        public static Guid CreateId()
+        public static Guid Id()
         {
             return Guid.NewGuid();
         }

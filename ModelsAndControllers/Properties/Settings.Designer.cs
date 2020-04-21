@@ -28,9 +28,9 @@ namespace BackEnd.Properties {
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
         [global::System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=|DataDirectory|\\Database\\database.a" +
             "ccdb;Encrypt Password=False;Mask Password=False")]
-        public string databaseConnectionString {
+        public string ChillSchedDB {
             get {
-                return ((string)(this["databaseConnectionString"]));
+                return ((string)(this["ChillSchedDB"]));
             }
         }
     }

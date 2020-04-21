@@ -1,7 +1,7 @@
 ﻿
 using Shared.Model;
 using Shared.Interface;
-using Shared.Utility;
+using Shared.Global;
 
 namespace Shared.Implementation
 {

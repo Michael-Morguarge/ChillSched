@@ -1,5 +1,5 @@
 ﻿using Shared.Interface;
-using Shared.Utility;
+using Shared.Global;
 
 namespace SharedItems.Abstracts
 {
@@ -19,7 +19,7 @@ namespace SharedItems.Abstracts
         public ASetupController(T control)
         {
             _control = control;
-            _id = Ids.CreateId().ToString().Replace("-", "");
+            _id = Generate.Id().ToString().Replace("-", "");
         }
 
         /// <summary>

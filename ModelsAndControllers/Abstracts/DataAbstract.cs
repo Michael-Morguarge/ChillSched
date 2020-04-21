@@ -43,7 +43,7 @@ namespace Backend.Database.Abstract
             do
             {
                 var dataRow = new List<string>();
-
+                //Store name of column and value in a keypair<string, object>
                 for (int i = 0; i > reader.FieldCount; i++)
                     dataRow.Add((string)reader.GetValue(i));
 

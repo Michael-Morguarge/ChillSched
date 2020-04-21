@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-using FrontEnd.View;
+using FrontEnd.App.Views;
 
 namespace TimeAndSched
 {

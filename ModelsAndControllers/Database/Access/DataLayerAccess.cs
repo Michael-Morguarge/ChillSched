@@ -1,24 +1,60 @@
-﻿using System.Configuration;
-using Backend.Database.Access;
+﻿using System.Collections.Generic;
+using System.Configuration;
 
-namespace Backend.DataAccess
+namespace Backend.Database.Access
 {
     public class DataLayer : AppSettingsReader
     {
-        private const string _connectionName = "databaseConnectionString";
-
-        public AccessDatabase Database { get; protected set; }
-        private AppSettingsReader _connStrings;
+        private const string _connectionName = "ChillSchedDB";
+        private AccessDatabase _database;
 
         public DataLayer()
         {
-            //_connStrings = new AppSettingsReader();
+            var connString = ConfigurationManager.ConnectionStrings[_connectionName].ConnectionString;
+            _database = new AccessDatabase(connString);
         }
 
-        public void SetDb()
+        public List<List<string>> Get(string query)
         {
-            //Database = new AccessDatabase(_connStrings.GetValue(_connectionName, typeof(string)) as string);
-            //Database.OpenConnection();
+            var filteredQuery = FilterQuery(query);
+            
+            return _database.Get(filteredQuery);
+        }
+
+        public bool Add(string query)
+        {
+            var filteredQuery = FilterQuery(query);
+
+            return _database.Insert(filteredQuery);
+        }
+
+        public bool Update(string query)
+        {
+            var filteredQuery = FilterQuery(query);
+
+            return _database.Update(filteredQuery);
+        }
+
+        public bool Delete(string query)
+        {
+            var filteredQuery = FilterQuery(query);
+
+            return _database.Delete(filteredQuery);
+        }
+
+        private string FilterQuery(string originalQuery)
+        {
+            return originalQuery;
+        }
+
+        public void Open()
+        {
+            _database.OpenConnection();
+        }
+
+        public void Close()
+        {
+            _database.CloseConnection();
         }
     }
 }
