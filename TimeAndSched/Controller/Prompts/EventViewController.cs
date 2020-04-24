@@ -14,8 +14,8 @@ namespace FrontEnd.Controller.Prompts
     /// </summary>
     public class EventViewController
     {
-        private EventController _eventController;
-        private ControlsAccess _controls;
+        private readonly EventController _eventController;
+        private readonly ControlsAccess _controls;
 
         /// <summary>
         /// Constructor for Event View
@@ -39,41 +39,74 @@ namespace FrontEnd.Controller.Prompts
 
         public bool Add()
         {
-            var added = false;
-            var form = new GeneralForm(_controls); //move to constructor
-            form.CreateView(CrudPurposes.Create);
+            bool added = false;
 
-            form.ShowDialog();
-            var result = form.Results;
-            var dialogResult = form.PromptResult;
-
-            if (dialogResult != DialogResult.Cancel && result != null)
+            try
             {
-                added = _eventController.CreateEvent(result);
-            }
+                GeneralForm form = new GeneralForm(_controls);
+                form.CreateView(CrudPurposes.Create);
 
-            form.Dispose();
+                form.ShowDialog();
+                SavedEvent result = form.Results;
+                DialogResult dialogResult = form.PromptResult;
+
+                if (dialogResult != DialogResult.Cancel && result != null)
+                {
+                    added = _eventController.CreateEvent(result);
+                }
+
+                form.Dispose();
+            }
+            catch (Exception)
+            {
+                added = false;
+            }
 
             return added;
         }
 
-        public bool Update(string id)
+        public bool ToggleStatus(string id)
         {
-            var updated = false;
+            bool updated;
 
-            var form = new GeneralForm(_controls);
-            form.CreateView(CrudPurposes.Edit);
-
-            form.ShowDialog();
-            var result = form.Results;
-            var dialogResult = form.PromptResult;
-
-            if (dialogResult != DialogResult.Cancel && result != null)
+            try
             {
-                updated = _eventController.EditEvent(result);
+                updated = _eventController.ToggleStatus(id);
+
+            }
+            catch (Exception)
+            {
+                updated = false;
             }
 
-            form.Dispose();
+            return updated;
+        }
+
+        public bool Update(string id)
+        {
+            bool updated = false;
+
+            try
+            {
+                GeneralForm form = new GeneralForm(_controls);
+                SavedEvent @event = _eventController.GetEvent(id);
+                form.CreateView(CrudPurposes.Edit, @event);
+
+                form.ShowDialog();
+                SavedEvent result = form.Results;
+                DialogResult dialogResult = form.PromptResult;
+
+                if (dialogResult != DialogResult.Cancel && result != null)
+                {
+                    result.Id = id;
+                    updated = _eventController.EditEvent(result);
+                }
+
+                form.Dispose();
+            }
+            catch (Exception) {
+                updated = false;
+            }
 
             return updated;
         }

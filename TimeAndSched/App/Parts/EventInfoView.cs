@@ -55,6 +55,37 @@ namespace FrontEnd.App.Parts
             SetTitle();
         }
 
+        public void SetValues(SavedEvent @event)
+        {
+            TitleTB.SetText(@event.Title);
+            CommentTB.SetText(@event.Comment ?? string.Empty);
+
+            DateTime start = TimeAndDateUtility.ConvertDateAndTime_Date(@event.ActivationDate, @event.ActivationTime);
+            DateTime end = TimeAndDateUtility.ConvertDateAndTime_Date(@event.DeactivationDate, @event.DeactivationTime);
+
+            StartPicker.SetDates(start.Date, start, DateTime.MaxValue);
+            EndPicker.SetDates(end.Date, end, DateTime.MaxValue);
+
+            if (start < DateTime.Now)
+            {
+                StartPicker.GetControl().Enabled = false;
+            }
+
+            if (end < DateTime.Now)
+            {
+                EndPicker.GetControl().Enabled = false;
+            }
+
+            if (!StartPicker.GetControl().Enabled && !EndPicker.GetControl().Enabled)
+            {
+                TitleTB.GetControl().Enabled = false;
+                CommentTB.GetControl().Enabled = false;
+
+                _purpose = CrudPurposes.None;
+                SetTitle();
+            }
+        }
+
         private void SetTitle()
         {
             switch (_purpose)
@@ -94,6 +125,7 @@ namespace FrontEnd.App.Parts
                         Cancel.Text = "Cancel";
                         return;
                     }
+
                 case CrudPurposes.Error:
                     {
                         Error = true;
@@ -122,11 +154,6 @@ namespace FrontEnd.App.Parts
             }
         }
 
-        internal void SetValues(SavedEvent anEvent)
-        {
-            //throw new NotImplementedException();
-        }
-
         private void Setup()
         {
             BMTitle.Tag = _controls.Add(_parentId, new LabelController(BMTitle));
@@ -145,52 +172,58 @@ namespace FrontEnd.App.Parts
 
         private void Cancel_Click(object sender, EventArgs e)
         {
-            var result = MessageBox.Show("Do you want to discard this bookmark?", "All progress lost if not submitted", MessageBoxButtons.YesNo);
-
-            if (result == DialogResult.Yes)
+            if (Cancel.Text == "Ok")
             {
                 DialogResult = DialogResult.Cancel;
             }
-            else if (result == DialogResult.No || result == DialogResult.None)
+            else
             {
-                DialogResult = DialogResult.None;
+                DialogResult result = MessageBox.Show("Do you want to discard the changes to the Event?", "All progress lost if not submitted", MessageBoxButtons.YesNo);
+
+                if (result == DialogResult.Yes)
+                {
+                    DialogResult = DialogResult.Cancel;
+                }
+                else if (result == DialogResult.No || result == DialogResult.None)
+                {
+                    DialogResult = DialogResult.None;
+                }
             }
         }
 
         private void Confirm_Click(object sender, EventArgs e)
         {
             bool error = false;
-            var title = Title.GetControl();
+            Label title = Title.GetControl();
 
             if (TitleTB.Text == "")
             {
-                title.Text = (title.Text.Contains("*") ? title.Text : string.Format("{0}*", title.Text));
+                title.Text = title.Text.Contains("*") ? title.Text : string.Format("{0}*", title.Text);
                 error = true;
             }
             else
             {
-                title.Text = (title.Text.Contains("*") ? title.Text.Remove(title.Text.Length - 1) : title.Text);
+                title.Text = title.Text.Contains("*") ? title.Text.Remove(title.Text.Length - 1) : title.Text;
             }
 
-            var start = Start.GetControl();
-            var end = End.GetControl();
+            Label start = Start.GetControl();
+            Label end = End.GetControl();
             if (CheckStartAndEndDate())
             {
-                start.Text = (start.Text.Contains("*") ? start.Text : string.Format("{0}*", start.Text));
-                end.Text = (end.Text.Contains("*") ? end.Text : string.Format("{0}*", end.Text));
+                start.Text = start.Text.Contains("*") ? start.Text : string.Format("{0}*", start.Text);
+                end.Text = end.Text.Contains("*") ? end.Text : string.Format("{0}*", end.Text);
                 error = true;
             }
-
-            if (CheckMinDate())
+            else if (CheckMinDate())
             {
-                start.Text = (start.Text.Contains("*") ? start.Text : string.Format("{0}*", start.Text));
-                end.Text = (end.Text.Contains("*") ? end.Text : string.Format("{0}*", end.Text));
+                start.Text = start.Text.Contains("*") ? start.Text : string.Format("{0}*", start.Text);
+                end.Text = end.Text.Contains("*") ? end.Text : string.Format("{0}*", end.Text);
                 error = true;
             }
             else
             {
-                start.Text = (start.Text.Contains("*") ? start.Text.Remove(start.Text.Length - 1) : start.Text);
-                end.Text = (end.Text.Contains("*") ? end.Text.Remove(end.Text.Length - 1) : end.Text);
+                start.Text = start.Text.Contains("*") ? start.Text.Remove(start.Text.Length - 1) : start.Text;
+                end.Text = end.Text.Contains("*") ? end.Text.Remove(end.Text.Length - 1) : end.Text;
             }
 
             if (error)
@@ -219,19 +252,19 @@ namespace FrontEnd.App.Parts
 
         private bool CheckStartAndEndDate()
         {
-            var startPicker = StartPicker.GetControl();
-            var endPicker = EndPicker.GetControl();
+            DateTimePicker startPicker = StartPicker.GetControl();
+            DateTimePicker endPicker = EndPicker.GetControl();
 
             return (startPicker.Value == endPicker.Value) || (startPicker.Value > endPicker.Value);
         }
 
         private bool CheckMinDate()
         {
-            var startPicker = StartPicker.GetControl();
-            var endPicker = EndPicker.GetControl();
+            DateTimePicker startPicker = StartPicker.GetControl();
+            DateTimePicker endPicker = EndPicker.GetControl();
 
-            return (startPicker.Value < startPicker.MinDate || endPicker.Value < endPicker.MinDate)
-                   || (startPicker.Value < DateTime.Now || endPicker.Value < DateTime.Now); 
+            return (startPicker.Enabled && (startPicker.Value < startPicker.MinDate || startPicker.Value < DateTime.Now))
+                   || (endPicker.Enabled && (endPicker.Value < endPicker.MinDate || endPicker.Value < DateTime.Now));
         }
 
         private void EventInfo_FormClosing(object sender, FormClosingEventArgs e)
@@ -264,53 +297,27 @@ namespace FrontEnd.App.Parts
 
         #region [ TextBoxes ]
 
-        private TextBoxController TitleTB
-        {
-            get { return (TextBoxController)_controls.Get(_parentId, BMTitleTB.Tag as string); }
-        }
+        private TextBoxController TitleTB => (TextBoxController)_controls.Get(_parentId, BMTitleTB.Tag as string);
 
-        private TextBoxController CommentTB
-        {
-            get { return (TextBoxController)_controls.Get(_parentId, BMCommentTB.Tag as string); }
-        }
+        private TextBoxController CommentTB => (TextBoxController)_controls.Get(_parentId, BMCommentTB.Tag as string);
 
         #endregion
 
         #region [ Date ]
 
-        private DatePickerController StartPicker
-        {
-            get { return (DatePickerController)_controls.Get(_parentId, BMStartPicker.Tag as string); }
-        }
+        private DatePickerController StartPicker => (DatePickerController)_controls.Get(_parentId, BMStartPicker.Tag as string);
 
-        private DatePickerController EndPicker
-        {
-            get { return (DatePickerController)_controls.Get(_parentId, BMEndPicker.Tag as string); }
-        }
+        private DatePickerController EndPicker => (DatePickerController)_controls.Get(_parentId, BMEndPicker.Tag as string);
 
         #endregion
 
         #region [ Labels ]
 
-        private LabelController Title
-        {
-            get { return (LabelController)_controls.Get(_parentId, BMTitle.Tag as string); }
-        }                                               
-                                                        
-        private LabelController Comment                 
-        {                                               
-            get { return (LabelController)_controls.Get(_parentId, BMComment.Tag as string); }
-        }                                               
-                                                        
-        private LabelController Start                   
-        {                                               
-            get { return (LabelController)_controls.Get(_parentId, BMStart.Tag as string); }
-        }                                               
-                                                        
-        private LabelController End                     
-        {                                               
-            get { return (LabelController)_controls.Get(_parentId, BMEnd.Tag as string); }
-        }
+        private LabelController Title => (LabelController)_controls.Get(_parentId, BMTitle.Tag as string);
+
+        private LabelController Start => (LabelController)_controls.Get(_parentId, BMStart.Tag as string);
+
+        private LabelController End => (LabelController)_controls.Get(_parentId, BMEnd.Tag as string);
 
         #endregion
 

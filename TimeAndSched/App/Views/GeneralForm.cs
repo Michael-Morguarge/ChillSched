@@ -2,7 +2,6 @@
 using System.Windows.Forms;
 using Backend.Model;
 using Shared.Global;
-using Backend.Implementations;
 
 namespace FrontEnd.App.Views
 {
@@ -12,8 +11,7 @@ namespace FrontEnd.App.Views
     public partial class GeneralForm : Form
     {
         private readonly string _id;
-        private ControlsAccess _controls;
-        private EventRepository _repo;
+        private readonly ControlsAccess _controls;
 
         /// <summary>
         /// The data returned from the prompt
@@ -39,33 +37,35 @@ namespace FrontEnd.App.Views
         }
 
         /// <summary>
-        /// Creates a view with the
+        /// Creates a view within a popup form
         /// </summary>
         /// <param name="purpose">The purpose of the form</param>
-        public void CreateView(CrudPurposes purpose)
+        /// <param name="event">The event</param>
+        public void CreateView(CrudPurposes purpose, SavedEvent @event = null)
         {
             if (purpose == CrudPurposes.Error)
             {
                 Error.Visible = true;
                 EIV.Visible = false;
-                return;
             }
             else
             {
                 Error.Visible = false;
                 EIV.Visible = true;
-                _repo = new EventRepository();
-                var anEvent = _repo.GetEvent("");
                 EIV.SetControls(_id, _controls);
                 EIV.SetPurpose(purpose);
-                EIV.SetValues(anEvent);
+            }
+            
+            if (purpose == CrudPurposes.Edit)
+            {
+                EIV.SetValues(@event);
             }
         }
 
         private void GeneralForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            var result = EIV.Results;
-            var dialog = EIV.DialogResult;
+            SavedEvent result = EIV.Results;
+            DialogResult dialog = EIV.DialogResult;
 
             if (dialog == DialogResult.OK && result != null)
             {
@@ -73,7 +73,9 @@ namespace FrontEnd.App.Views
                 PromptResult = dialog;
             }
             else if (dialog == DialogResult.None)
+            {
                 e.Cancel = true;
+            }
             else
             {
                 e.Cancel = false;

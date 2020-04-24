@@ -16,6 +16,8 @@ namespace Backend.Model
         public string Title { get; set; }
         public string Comment { get; set; }
         public bool Completed { get; set; }
+        public Date DateCompleted { get; set; }
+        public Time TimeCompleted { get; set; }
         public Time TimeCreated { get; set; }
         public Date DateCreated { get; set; }
         public Time ActivationTime { get; set; }
@@ -40,7 +42,7 @@ namespace Backend.Model
             if (string.IsNullOrEmpty(id))
                 return null;
 
-            var @event = SavedEvents.SingleOrDefault(x => x.Id == id);
+            SavedEvent @event = SavedEvents.SingleOrDefault(x => x.Id == id);
 
             return @event;
         }
@@ -55,7 +57,7 @@ namespace Backend.Model
 
         public void UpdateEvent(SavedEvent @event)
         {
-            var existingEvent = SavedEvents.SingleOrDefault(x => x.Id == @event.Id);
+            SavedEvent existingEvent = SavedEvents.SingleOrDefault(x => x.Id == @event.Id);
 
             if (existingEvent == null)
                 throw new Exception("Event not found.");

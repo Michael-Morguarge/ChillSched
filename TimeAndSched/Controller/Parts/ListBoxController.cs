@@ -1,5 +1,4 @@
 ﻿using SharedItems.Abstracts;
-using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace FrontEnd.Controller.Parts

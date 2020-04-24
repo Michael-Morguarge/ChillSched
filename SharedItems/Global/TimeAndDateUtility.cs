@@ -16,13 +16,13 @@ namespace Shared.Global
         /// <returns>The current time</returns>
         public static string GetCurrentTimeString()
         {
-            var now = DateTime.Now;
+            DateTime now = DateTime.Now;
             return string.Format(
                 "{0}:{1}:{2} {3}",
-                (now.Hour == 0 || now.Hour > 12 ? Math.Abs(now.Hour - 12) : now.Hour),
+                now.Hour == 0 || now.Hour > 12 ? Math.Abs(now.Hour - 12) : now.Hour,
                 now.Minute.ToString().PadLeft(2, '0'),
                 now.Second.ToString().PadLeft(2, '0'),
-                (now.Hour > 12 ? TimeAndDateGlobals.GetTimeOfDay(12) : TimeAndDateGlobals.GetTimeOfDay(0))
+                now.Hour > 12 ? TimeAndDateGlobals.GetTimeOfDay(12) : TimeAndDateGlobals.GetTimeOfDay(0)
             );
         }
 
@@ -32,13 +32,13 @@ namespace Shared.Global
         /// <returns>The current time</returns>
         public static Time GetCurrentTime()
         {
-            var now = DateTime.Now;
+            DateTime now = DateTime.Now;
             return new Time
             {
-                Hours = now.Hour == 0 ? 12 : now.Hour,
+                Hours = now.Hour == 0 || now.Hour > 12 ? Math.Abs(now.Hour - 12) : now.Hour,
                 Minutes = now.Minute,
                 Seconds = now.Second,
-                TimeofDay = (now.Hour > 12 ? TimeAndDateGlobals.GetTimeOfDay(12) : TimeAndDateGlobals.GetTimeOfDay(0))
+                TimeofDay = now.Hour > 12 ? TimeAndDateGlobals.GetTimeOfDay(12) : TimeAndDateGlobals.GetTimeOfDay(0)
             };
         }
 
@@ -51,10 +51,10 @@ namespace Shared.Global
         {
             return string.Format(
                 "{0}:{1}:{2} {3}",
-                (time.Hour == 0 || time.Hour > 12 ? Math.Abs(time.Hour - 12) : time.Hour).ToString().PadRight(2, '0'),
+                (time.Hour == 0 || time.Hour > 12 ? Math.Abs(time.Hour - 12) : time.Hour).ToString().PadLeft(2, '0'),
                 time.Minute.ToString().PadLeft(2, '0'),
                 time.Second.ToString().PadLeft(2, '0'),
-                (time.Hour > 12 ? TimeAndDateGlobals.GetTimeOfDay(12) : TimeAndDateGlobals.GetTimeOfDay(0))
+                time.Hour > 12 ? TimeAndDateGlobals.GetTimeOfDay(12) : TimeAndDateGlobals.GetTimeOfDay(0)
             );
         }
 
@@ -67,7 +67,7 @@ namespace Shared.Global
         {
             return string.Format(
                 "{0}:{1}:{2} {3}",
-                time.Hours.ToString().PadRight(2, '0'),
+                time.Hours.ToString().PadLeft(2, '0'),
                 time.Minutes.ToString().PadLeft(2, '0'),
                 time.Seconds.ToString().PadLeft(2, '0'),
                 time.TimeofDay
@@ -83,10 +83,10 @@ namespace Shared.Global
         {
             return new Time
             {
-                Hours = time.Hour == 0 ? 12 : time.Hour,
+                Hours = time.Hour == 0 || time.Hour > 12 ? Math.Abs(time.Hour - 12) : time.Hour,
                 Minutes = time.Minute,
                 Seconds = time.Second,
-                TimeofDay = (time.Hour > 12 ? TimeAndDateGlobals.GetTimeOfDay(12) : TimeAndDateGlobals.GetTimeOfDay(0))
+                TimeofDay = time.Hour > 12 ? TimeAndDateGlobals.GetTimeOfDay(12) : TimeAndDateGlobals.GetTimeOfDay(0)
             };
         }
 
@@ -97,8 +97,8 @@ namespace Shared.Global
         /// <returns>The converted string time</returns>
         public static Time ConvertString_Time(string time)
         {
-            var timeElements = time.Split(':');
-            var secondsAndTod = timeElements[2].Split(' ');
+            string[] timeElements = time.Split(':');
+            string[] secondsAndTod = timeElements[2].Split(' ');
 
             return new Time
             {
@@ -119,7 +119,7 @@ namespace Shared.Global
         /// <returns>The current date string</returns>
         public static string GetCurrentDateString()
         {
-            var date = DateTime.Now;
+            DateTime date = DateTime.Now;
             return string.Format(
                 "{0}, {1} {2}, {3}",
                 TimeAndDateGlobals.GetDayOfTheWeek((int)date.DayOfWeek),
@@ -135,7 +135,7 @@ namespace Shared.Global
         /// <returns>The current date object</returns>
         public static Date GetCurrentDate()
         {
-            var now = DateTime.Now;
+            DateTime now = DateTime.Now;
 
             return new Date
             {
@@ -153,12 +153,12 @@ namespace Shared.Global
         /// <returns>The date object</returns>
         public static Date ConvertString_Date(string date)
         {
-            var dateElements = date.Split(',');
-            var dow = dateElements[0];
-            var monthAndDay = dateElements[1].TrimStart(' ').Split(' ');
-            var month = monthAndDay[0];
-            var day = int.Parse(monthAndDay[1]);
-            var year = int.Parse(dateElements[2].TrimStart(' '));
+            string[] dateElements = date.Split(',');
+            string dow = dateElements[0];
+            string[] monthAndDay = dateElements[1].TrimStart(' ').Split(' ');
+            string month = monthAndDay[0];
+            int day = int.Parse(monthAndDay[1]);
+            int year = int.Parse(dateElements[2].TrimStart(' '));
 
             return new Date
             {
@@ -192,17 +192,14 @@ namespace Shared.Global
         /// <returns>The date string</returns>
         public static string ConvertDate_String(DateTime date, bool shorten = false)
         {
-            var dateString = string.Empty;
-
-            if (shorten)
-                dateString = string.Format(
+            string dateString = shorten
+                ? string.Format(
                     "{0} / {1} / {2}",
                     (int)TimeAndDateGlobals.GetMonth(TimeAndDateGlobals.GetMonth(date.Month)),
                     date.Day,
                     date.Year
-                );
-            else
-                dateString = string.Format(
+                )
+                : string.Format(
                     "{0}, {1} {2}, {3}",
                     TimeAndDateGlobals.GetDayOfTheWeek((int)date.DayOfWeek),
                     TimeAndDateGlobals.GetMonth(date.Month),
@@ -220,17 +217,14 @@ namespace Shared.Global
         /// <returns>The date string</returns>
         public static string ConvertDate_String(Date date, bool shorten = false)
         {
-            var dateString = string.Empty;
-
-            if (shorten)
-                dateString = string.Format(
+            string dateString = shorten
+                ? string.Format(
                     "{0} / {1} / {2}",
                     (int)TimeAndDateGlobals.GetMonth(date.Month),
                     date.Day,
                     date.Year
-                );
-            else
-                dateString = string.Format(
+                )
+                : string.Format(
                     "{0}, {1} {2}, {3}",
                     date.DayOfWeek,
                     date.Month,
@@ -262,25 +256,91 @@ namespace Shared.Global
 
         #endregion Date
 
+        #region DateTime
+
+        /// <summary>
+        /// Converts a Date and Time object into a DateTime object
+        /// </summary>
+        /// <param name="date">The date</param>
+        /// <param name="time">The time</param>
+        /// <returns>A datetime object</returns>
+        public static DateTime ConvertDateAndTime_Date(Date date, Time time = null)
+        {
+            DateTime newDate = new DateTime(
+                date.Year,
+                (int) TimeAndDateGlobals.GetMonth(date.Month),
+                date.Day,
+                time == null ? 12 :time.Hours,
+                time == null ? 0 : time.Minutes,
+                time == null ? 0 : time.Seconds
+            );
+
+            newDate = time == null ? newDate : TimeAndDateGlobals.GetTimeOfDay(time.TimeofDay) == 0 ? newDate : newDate.AddHours(12);
+
+            return newDate;
+        }
+
+        #endregion DateTime
+
         #region Comparisons
 
-        public static bool IsWithinRange(Date beginDate, Date dateToCheckDate, Date endDate)
+        /// <summary>
+        /// Checks if date is within range
+        /// </summary>
+        /// <param name="beginDate">The start date</param>
+        /// <param name="dateToCheck">Date to examine</param>
+        /// <param name="endDate">The end date</param>
+        /// <returns>Whether the date is within range</returns>
+        public static bool IsWithinRange(Date beginDate, Date dateToCheck, Date endDate)
         {
-            var beginMonthInt = TimeAndDateGlobals.GetMonth(beginDate.Month);
-            var dateToCheckMonthInt = TimeAndDateGlobals.GetMonth(dateToCheckDate.Month);
-            var endMonthInt = TimeAndDateGlobals.GetMonth(endDate.Month);
+            DateTime begin = ConvertDateAndTime_Date(beginDate);
+            DateTime end = ConvertDateAndTime_Date(endDate);
+            DateTime curr = ConvertDateAndTime_Date(dateToCheck);
 
-            var beginMatchRange =
-                dateToCheckDate.Year >= beginDate.Year
-                && dateToCheckMonthInt >= beginMonthInt
-                && dateToCheckDate.Day >= beginDate.Day;
+            bool beginMatchRange = curr >= begin;
+            bool endMatchRange = curr <= end;
 
-            var endMatchRange =
-                endDate.Year >= dateToCheckDate.Year
-                && endMonthInt >= dateToCheckMonthInt
-                && endDate.Day >= dateToCheckDate.Day;
+            return beginMatchRange && endMatchRange;
+        }
 
-            return (beginMatchRange) && (endMatchRange);
+        /// <summary>
+        /// Checks if date is within range
+        /// </summary>
+        /// <param name="beginDate">The start date</param>
+        /// <param name="beginTime">The start time</param>
+        /// <param name="dateToCheck">Date to examine</param>
+        /// <param name="timeToCheck">Time to examine</param>
+        /// <param name="endDate">The end date</param>
+        /// <param name="endTime">The end time</param>
+        /// <returns>Whether the date is within range</returns>
+        public static bool IsWithinRange(Date beginDate, Time beginTime, Date dateToCheck, Time timeToCheck, Date endDate, Time endTime)
+        {
+            DateTime begin = ConvertDateAndTime_Date(beginDate, beginTime);
+            DateTime end = ConvertDateAndTime_Date(endDate, endTime);
+            DateTime curr = ConvertDateAndTime_Date(dateToCheck, timeToCheck);
+
+            bool beginMatchRange = curr >= begin;
+            bool endMatchRange = curr <= end;
+
+            return beginMatchRange && endMatchRange;
+        }
+
+        /// <summary>
+        /// Checks if date is before range
+        /// </summary>
+        /// <param name="beginDate">The start date</param>
+        /// <param name="beginTime">The start time</param>
+        /// <param name="dateToCheck">Date to examine</param>
+        /// <param name="timeToCheck">Time to examine</param>
+        /// <returns>Whether the date is before range</returns>
+        public static bool IsBeforeRange(Date beginDate, Time beginTime, Date dateToCheck, Time timeToCheck)
+        {
+            DateTime begin = ConvertDateAndTime_Date(beginDate, beginTime);
+            DateTime curr = ConvertDateAndTime_Date(dateToCheck, timeToCheck);
+
+            bool beginMatchRange = curr < begin;
+
+            return beginMatchRange;
         }
 
         #endregion Comparisons

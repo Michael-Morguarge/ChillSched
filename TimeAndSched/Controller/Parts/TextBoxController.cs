@@ -29,9 +29,6 @@ namespace FrontEnd.Controller.Parts
         /// <summary>
         /// The text entered from the form
         /// </summary>
-        public string Text
-        {
-            get { return GetControl().Text; }
-        }
+        public string Text => GetControl().Text;
     }
 }

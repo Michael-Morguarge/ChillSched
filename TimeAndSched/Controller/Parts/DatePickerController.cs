@@ -1,5 +1,6 @@
 ﻿using Shared.Global;
 using SharedItems.Abstracts;
+using System;
 using System.Windows.Forms;
 
 namespace FrontEnd.Controller.Parts
@@ -19,25 +20,44 @@ namespace FrontEnd.Controller.Parts
         }
 
         /// <summary>
-        /// The formatted date
+        /// Sets the date for the control
         /// </summary>
-        public string Date
+        /// <param name="date">The date to display</param>
+        public void SetDates(DateTime min, DateTime date, DateTime max)
         {
-            get
+            if (min < max)
             {
-                return TimeAndDateUtility.ConvertDate_String(GetControl().Value);
+                GetControl().MinDate = min;
+                GetControl().Value = date;
+                GetControl().MaxDate = max;
+            }
+            else if (min > max)
+            {
+                GetControl().MinDate = max;
+                GetControl().Value = date;
+                GetControl().MaxDate = min;
+            }
+            else
+            {
+                GetControl().MinDate = DateTime.MinValue;
+                GetControl().Value = date;
+                GetControl().MaxDate = DateTime.MaxValue;
             }
         }
+
+        public void SetMinMaxDate(DateTime date)
+        {
+            GetControl().MinDate = date;
+        }
+
+        /// <summary>
+        /// The formatted date
+        /// </summary>
+        public string Date => TimeAndDateUtility.ConvertDate_String(GetControl().Value);
 
         /// <summary>
         /// The formatted time
         /// </summary>
-        public string Time
-        {
-            get
-            {
-                return TimeAndDateUtility.ConvertTime_String(GetControl().Value);
-            }
-        }
+        public string Time => TimeAndDateUtility.ConvertTime_String(GetControl().Value);
     }
 }

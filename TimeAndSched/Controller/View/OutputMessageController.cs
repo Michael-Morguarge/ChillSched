@@ -12,7 +12,7 @@ namespace FrontEnd.View.Controller
     public class ControlsAccess
     {
         /*Form ID => Control ID, Control*/
-        private Dictionary<string, Dictionary<string, IControl>> Controls;
+        private readonly Dictionary<string, Dictionary<string, IControl>> Controls;
 
         /// <summary>
         /// Constructor for ControlsAccess class
@@ -29,7 +29,7 @@ namespace FrontEnd.View.Controller
         /// <returns>The ID of the form</returns>
         public string AddForm(Form aForm)
         {
-            var form = new FormController(aForm);
+            FormController form = new FormController(aForm);
             Controls.Add(form.GetId(), new Dictionary<string, IControl>());
 
             return form.GetId();
@@ -37,7 +37,7 @@ namespace FrontEnd.View.Controller
 
         public string Add(string formId, IControl aControl)
         {
-            var form = Controls.Single(x => x.Key == formId).Value;
+            Dictionary<string, IControl> form = Controls.Single(x => x.Key == formId).Value;
             form.Add(aControl.GetId(), aControl);
 
             return aControl.GetId();
@@ -45,13 +45,13 @@ namespace FrontEnd.View.Controller
 
         public void Remove(string formId, string controlId)
         {
-            var form = Controls.Single(x => x.Key == formId).Value;
+            Dictionary<string, IControl> form = Controls.Single(x => x.Key == formId).Value;
             form.Remove(controlId);
         }
 
         public IControl Get(string formId, string controlId)
         {
-            var form = Controls.Single(x => x.Key == formId).Value;
+            Dictionary<string, IControl> form = Controls.Single(x => x.Key == formId).Value;
             form.TryGetValue(controlId, out IControl control);
 
             return control;

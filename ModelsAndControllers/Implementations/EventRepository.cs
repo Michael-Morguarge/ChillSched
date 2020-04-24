@@ -17,7 +17,7 @@ namespace Backend.Implementations
     /// </summary>
     public class EventRepository : IEventRepository
     {
-        private Events _events;
+        private readonly Events _events;
         private readonly DataLayer _dataAccess;
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace Backend.Implementations
 
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
@@ -57,7 +57,7 @@ namespace Backend.Implementations
         {
             try
             {
-                var existingEvent = _events.SavedEvents.SingleOrDefault(x => x.Id == @event.Id);
+                SavedEvent existingEvent = _events.SavedEvents.SingleOrDefault(x => x.Id == @event.Id);
 
                 if (existingEvent == null)
                     throw new Exception("Event not found.");
@@ -72,7 +72,7 @@ namespace Backend.Implementations
 
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
@@ -85,14 +85,14 @@ namespace Backend.Implementations
         {
             try
             {
-                var existingEvent = _events.SavedEvents.SingleOrDefault(x => x.Id == id);
+                SavedEvent existingEvent = _events.SavedEvents.SingleOrDefault(x => x.Id == id);
 
                 if (existingEvent == null)
                     throw new Exception("Event not found.");
 
                 return _events.SavedEvents.Remove(existingEvent);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
@@ -109,7 +109,7 @@ namespace Backend.Implementations
             if (string.IsNullOrEmpty(id))
                 return null;
 
-            var @event = _events.SavedEvents.SingleOrDefault(x => x.Id == id);
+            SavedEvent @event = _events.SavedEvents.SingleOrDefault(x => x.Id == id);
 
             return @event;
         }
@@ -128,7 +128,7 @@ namespace Backend.Implementations
 
         public void SaveBookmarks()
         {
-            foreach (var bookmark in _events.SavedEvents)
+            foreach (SavedEvent bookmark in _events.SavedEvents)
             {
                 File.WriteAllText(string.Format(@".\Resources\Bookmarks\{0}_{1}.eventsaved", bookmark.Title, bookmark.Id), "");
             }

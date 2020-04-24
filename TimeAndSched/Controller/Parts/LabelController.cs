@@ -1,4 +1,5 @@
 ﻿using SharedItems.Abstracts;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace FrontEnd.Controller.Parts
@@ -24,6 +25,15 @@ namespace FrontEnd.Controller.Parts
         public void SetText(string text)
         {
             GetControl().Text = text;
+        }
+
+        /// <summary>
+        /// Sets the background color
+        /// </summary>
+        /// <param name="color">The background color</param>
+        public void SetBackColor(Color color)
+        {
+            GetControl().BackColor = color;
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Shared.Global
         /// <returns>The string month</returns>
         public static string GetMonth(int aMonth)
         {
-            var month = string.Empty;
+            string month = string.Empty;
 
             switch(aMonth)
             {
@@ -42,7 +42,7 @@ namespace Shared.Global
         /// <returns>The Integer month</returns>
         public static Months GetMonth(string aMonth)
         {
-            var month = Months.None;
+            Months month = Months.None;
 
             switch (aMonth)
             {
@@ -71,7 +71,7 @@ namespace Shared.Global
         /// <returns>The string day</returns>
         public static string GetDayOfTheWeek(int theDayOfWeek)
         {
-            var dayOfWeek = string.Empty;
+            string dayOfWeek = string.Empty;
 
             switch (theDayOfWeek)
             {
@@ -95,7 +95,7 @@ namespace Shared.Global
         /// <returns>The Integer day</returns>
         public static int GetDayOfTheWeek(string theDayOfWeek)
         {
-            var dayOfWeek = -1;
+            int dayOfWeek = -1;
 
             switch (theDayOfWeek)
             {
@@ -119,12 +119,12 @@ namespace Shared.Global
         /// <returns>The string time of day</returns>
         public static string GetTimeOfDay(int timeOfDay)
         {
-            var morning = string.Empty;
+            string morning = string.Empty;
 
             switch (timeOfDay)
             {
                 case (int)TimeOfDay.AM: morning = "AM"; break;
-                case (int)TimeOfDay.PM: morning =  "PM"; break;
+                case (int)TimeOfDay.PM: morning = "PM"; break;
                 default: break;
             };
 
@@ -138,7 +138,7 @@ namespace Shared.Global
         /// <returns>The Integer time of day</returns>
         public static int GetTimeOfDay(string timeOfDay)
         {
-            var morning = -1;
+            int morning = -1;
 
             switch (timeOfDay)
             {

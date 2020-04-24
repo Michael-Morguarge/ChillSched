@@ -251,3 +251,4 @@ ModelManifest.xml
 TimeAndSched/Properties/Settings\.settings
 
 TimeAndSched/Properties/Settings1\.Designer\.cs
+/ModelsAndControllers/Backend.ruleset
