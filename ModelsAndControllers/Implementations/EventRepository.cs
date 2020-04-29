@@ -1,4 +1,4 @@
-﻿using Backend.Database.Access;
+﻿//using Backend.Database.Access;
 using Backend.Model;
 using System.Collections.Generic;
 using System.IO;
@@ -10,23 +10,32 @@ using Shared.Global;
 
 namespace Backend.Implementations
 {
-    // Needs major rework
-
     /// <summary>
     /// Class for the Event Repository
     /// </summary>
     public class EventRepository : IEventRepository
     {
-        private readonly Events _events;
-        private readonly DataLayer _dataAccess;
+        private const string DateSeparator = "+";
+        private const string AssignSeparator = "=";
+        private const string EventSeparator = "~~~";
+        private const string Quotation = "\"";
+        private const string Tilde = "~";
+        private const string TildeReplace = "{TILDE}";
+        private const string PlusReplace = "{PLUS}";
+        private const string NewlineReplace = "{NEWLINE}";
+        private const string QuotationReplace = "{D_QUOTE}";
+
+        //private readonly DataLayer _dataAccess;
+
+        private readonly List<SavedEvent> SavedEvents;
 
         /// <summary>
         /// Construtor for the EventRepository
         /// </summary>
         public EventRepository()
         {
-            _events = new Events();
-            _dataAccess = new DataLayer();
+            SavedEvents = new List<SavedEvent>();
+            //_dataAccess = new DataLayer();
 
             // Tables needed from database (Find a way to use model objects to format data)
             // Get rid of Bookmarks
@@ -40,7 +49,7 @@ namespace Backend.Implementations
         {
             try
             {
-                _events.AddEvent(aEvent);
+                SavedEvents.Add(aEvent);
 
                 return true;
             }
@@ -57,7 +66,7 @@ namespace Backend.Implementations
         {
             try
             {
-                SavedEvent existingEvent = _events.SavedEvents.SingleOrDefault(x => x.Id == @event.Id);
+                SavedEvent existingEvent = SavedEvents.SingleOrDefault(x => x.Id == @event.Id);
 
                 if (existingEvent == null)
                     throw new Exception("Event not found.");
@@ -85,12 +94,12 @@ namespace Backend.Implementations
         {
             try
             {
-                SavedEvent existingEvent = _events.SavedEvents.SingleOrDefault(x => x.Id == id);
+                SavedEvent existingEvent = SavedEvents.SingleOrDefault(x => x.Id == id);
 
                 if (existingEvent == null)
                     throw new Exception("Event not found.");
 
-                return _events.SavedEvents.Remove(existingEvent);
+                return SavedEvents.Remove(existingEvent);
             }
             catch (Exception)
             {
@@ -109,7 +118,7 @@ namespace Backend.Implementations
             if (string.IsNullOrEmpty(id))
                 return null;
 
-            SavedEvent @event = _events.SavedEvents.SingleOrDefault(x => x.Id == id);
+            SavedEvent @event = SavedEvents.SingleOrDefault(x => x.Id == id);
 
             return @event;
         }
@@ -120,12 +129,11 @@ namespace Backend.Implementations
         public IEnumerable<SavedEvent> GetEvents(Date start, Date end)
         {
             return
-                _events.SavedEvents
-                       .Where(x =>
-                            TimeAndDateUtility.IsWithinRange(start, x.ActivationDate, end)
-                            || TimeAndDateUtility.IsWithinRange(start, x.DeactivationDate, end))
-                       .ToList()
-                       .AsReadOnly();
+                SavedEvents.Where(x =>
+                                TimeAndDateUtility.IsWithinRange(start, x.ActivationDate, end)
+                                || TimeAndDateUtility.IsWithinRange(start, x.DeactivationDate, end))
+                           .ToList()
+                           .AsReadOnly();
         }
 
         /// <summary>
@@ -134,10 +142,9 @@ namespace Backend.Implementations
         public IEnumerable<SavedEvent> GetEvents(Date date)
         {
             return
-                _events.SavedEvents
-                       .Where(x => TimeAndDateUtility.IsWithinRange(x.ActivationDate, date, x.DeactivationDate))
-                       .ToList()
-                       .AsReadOnly();
+                SavedEvents.Where(x => TimeAndDateUtility.IsWithinRange(x.ActivationDate, date, x.DeactivationDate))
+                           .ToList()
+                           .AsReadOnly();
         }
 
         /// <summary>
@@ -145,55 +152,116 @@ namespace Backend.Implementations
         /// </summary>
         public IEnumerable<SavedEvent> GetEvents()
         {
-            return _events.SavedEvents.AsReadOnly();
+            return SavedEvents.AsReadOnly();
         }
 
         /// <summary>
         /// Implements <see cref="IEventRepository.LoadEvents()" />
         /// </summary>
-        public void LoadEvents()
+        public bool LoadEvents()
         {
-            string dateSeparator = "+";
-            string assignSeparator = "=";
-            string eventSeparator = "~~~";
-            string tildeReplace = "{TILDE}";
-            string plusReplace = "{PLUS}";
-            string newlineReplace = "{NEWLINE}";
+            bool loaded = false;
 
-            string content = File.ReadAllText("..\\..\\Resources\\Events\\temp.saved");
-            if (string.IsNullOrEmpty(content))
+            try
             {
+                string content = File.ReadAllText("..\\..\\Resources\\Events\\temp.saved");
 
-            }
-            else
-            {
-                string[][][][] eventsArray = 
-                    content.Split(new[] { eventSeparator }, StringSplitOptions.None)
-                           .Select(x =>
-                                x.Split(new[] { newlineReplace }, StringSplitOptions.None)
-                                 .Select(y =>
-                                    y.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
-                                     .Select(z => z.Split(new[] { assignSeparator }, StringSplitOptions.None))
-                                     .ToArray())
-                                 .ToArray())
-                           .ToArray();
-
-                List<SavedEvent> events = new List<SavedEvent>();
-
-                foreach (string[][][] level1 in eventsArray)
+                if (!string.IsNullOrEmpty(content))
                 {
-                    foreach (string[][] level2 in level1)
-                    {
-                        foreach (string[] level3 in level2)
-                        {
-                            foreach(string level4 in level3)
-                            {
+                    List<List<List<KeyValuePair<string, string>>>> eventsArray =
+                        content.Split(new[] { EventSeparator }, StringSplitOptions.None)
+                               .Select(x =>
+                                   x.Split(new[] { NewlineReplace }, StringSplitOptions.None)
+                                     .Select(y =>
+                                         y.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
+                                          .Select(z =>
+                                              z.Split(new[] { AssignSeparator }, StringSplitOptions.None))
+                                          .Select(a => new KeyValuePair<string, string>(a[0], a[1]))
+                                          .ToList())
+                                    .ToList())
+                               .ToList();
 
+                    List<SavedEvent> events = new List<SavedEvent>();
+
+                    foreach (List<List<KeyValuePair<string, string>>> level1 in eventsArray)
+                    {
+                        foreach (List<KeyValuePair<string, string>> level2 in level1)
+                        {
+                            if (level2.Any())
+                            {
+                                SavedEvent item = CreateEventFromLoadedData(level2);
+                                SavedEvents.Add(item);
                             }
                         }
                     }
+
+                    loaded = true;
                 }
             }
+            catch (Exception)
+            {
+                loaded = false;
+            }
+
+            return loaded;
+        }
+
+        private SavedEvent CreateEventFromLoadedData(List<KeyValuePair<string, string>> data)
+        {
+            string id = data.Single(x => x.Key == "Id").Value.Replace(Quotation, string.Empty);
+
+            string title =
+                data.Single(x => x.Key == "Title").Value
+                    .Replace(Quotation, string.Empty)
+                    .Replace(QuotationReplace, Quotation)
+                    .Replace(PlusReplace, DateSeparator)
+                    .Replace(TildeReplace, Tilde);
+
+            string comment =
+                data.Single(x => x.Key == "Comment").Value
+                    .Replace(Quotation, string.Empty)
+                    .Replace(QuotationReplace, Quotation)
+                    .Replace(NewlineReplace, Environment.NewLine)
+                    .Replace(PlusReplace, DateSeparator)
+                    .Replace(TildeReplace, Tilde);
+
+            bool completed = bool.Parse(data.Single(x => x.Key == "Completed").Value.Replace(Quotation, string.Empty));
+
+            (Date Date, Time Time) created_date_time = GetDateAndTime(data, "DateCreated");
+            (Date Date, Time Time) completed_date_time = GetDateAndTime(data, "DateCompleted");
+            (Date Date, Time Time) activation_date_time = GetDateAndTime(data, "ActivationDate");
+            (Date Date, Time Time) deactivation_date_time = GetDateAndTime(data, "DeactivationDate");
+
+            SavedEvent outgoing =
+                new SavedEvent
+                {
+                    Id = id,
+                    Title = title,
+                    Comment = comment,
+                    DateCreated = created_date_time.Date,
+                    TimeCreated = created_date_time.Time,
+                    Completed = completed,
+                    DateCompleted = completed_date_time.Date,
+                    TimeCompleted = completed_date_time.Time,
+                    ActivationDate = activation_date_time.Date,
+                    ActivationTime = activation_date_time.Time,
+                    DeactivationDate = deactivation_date_time.Date,
+                    DeactivationTime = deactivation_date_time.Time
+                };
+            return outgoing;
+        }
+
+        private (Date Date, Time Time) GetDateAndTime(List<KeyValuePair<string, string>> dateAndTime, string field)
+        {
+            string[] date_time =
+                dateAndTime.Single(x => x.Key == field).Value
+                           .Replace(Quotation, string.Empty)
+                           .Split(new[] { DateSeparator }, StringSplitOptions.RemoveEmptyEntries);
+            bool containsBoth = date_time.Length == 2;
+            Date date = containsBoth ? TimeAndDateUtility.ConvertString_Date(date_time[0]) : null;
+            Time time = containsBoth ? TimeAndDateUtility.ConvertString_Time(date_time[1]) : null;
+
+            return (date, time);
         }
 
         /// <summary>
@@ -202,7 +270,7 @@ namespace Backend.Implementations
         public void SaveEvents()
         {
             string eventString = string.Empty;
-            foreach (SavedEvent @event in _events.SavedEvents)
+            foreach (SavedEvent @event in SavedEvents)
             {
                 string completed = @event.Completed ? "True" : "False";
 
@@ -218,11 +286,14 @@ namespace Backend.Implementations
                 string inactiveDate = TimeAndDateUtility.ConvertDate_String(@event.DeactivationDate);
                 string inactiveTime = TimeAndDateUtility.ConvertTime_String(@event.DeactivationTime);
 
+                string title = @event.Title.Replace(Quotation, QuotationReplace).Replace(DateSeparator, PlusReplace).Replace(Tilde, TildeReplace);
+                string comment = @event.Comment.Replace(Quotation, QuotationReplace).Replace(Environment.NewLine, NewlineReplace).Replace(DateSeparator, PlusReplace).Replace(Tilde, TildeReplace);
+
                 eventString +=
                     $"Id=\"{@event.Id}\"{Environment.NewLine}" +
-                    $"Title=\"{@event.Title.Replace("+", "{PLUS}").Replace("~", "{TILDE}")}\"{Environment.NewLine}" +
-                    $"Comment=\"{@event.Comment.Replace(Environment.NewLine, "{NEWLINE}").Replace("+", "{PLUS}").Replace("~", "{TILDE}")}\"{Environment.NewLine}" +
-                    $"Complete=\"{completed}\"{Environment.NewLine}" +
+                    $"Title=\"{title}\"{Environment.NewLine}" +
+                    $"Comment=\"{comment}\"{Environment.NewLine}" +
+                    $"Completed=\"{completed}\"{Environment.NewLine}" +
                     $"DateCreated=\"{createdDate}+{createdTime}\"{Environment.NewLine}" +
                     $"DateCompleted=\"{completeDate}+{completeTime}\"{Environment.NewLine}" +
                     $"ActivationDate=\"{activeDate}+{activeTime}\"{Environment.NewLine}" +

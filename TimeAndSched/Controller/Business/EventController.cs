@@ -132,9 +132,9 @@ namespace FrontEnd.Controller
             return _eventRepo.DeleteEvent(id);
         }
 
-        public void LoadEvents()
+        public bool LoadEvents()
         {
-            _eventRepo.LoadEvents();
+            return _eventRepo.LoadEvents();
         }
 
         public void SaveEvents()

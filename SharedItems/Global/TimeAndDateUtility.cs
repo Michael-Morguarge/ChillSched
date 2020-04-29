@@ -104,16 +104,23 @@ namespace Shared.Global
         /// <returns>The converted string time</returns>
         public static Time ConvertString_Time(string time)
         {
-            string[] timeElements = time.Split(':');
-            string[] secondsAndTod = timeElements[2].Split(' ');
+            Time aTime = null;
 
-            return new Time
+            if (!string.IsNullOrEmpty(time))
             {
-                Hours = int.Parse(timeElements[0]),
-                Minutes = int.Parse(timeElements[1]),
-                Seconds = int.Parse(secondsAndTod[0]),
-                TimeofDay = secondsAndTod[1]
-            };
+                string[] timeElements = time.Split(':');
+                string[] secondsAndTod = timeElements[2].Split(' ');
+
+                aTime = new Time
+                {
+                    Hours = int.Parse(timeElements[0]),
+                    Minutes = int.Parse(timeElements[1]),
+                    Seconds = int.Parse(secondsAndTod[0]),
+                    TimeofDay = secondsAndTod[1]
+                };
+            }
+
+            return aTime;
         }
 
         #endregion Time
@@ -170,20 +177,26 @@ namespace Shared.Global
         /// <returns>The date object</returns>
         public static Date ConvertString_Date(string date)
         {
-            string[] dateElements = date.Split(',');
-            string dow = dateElements[0];
-            string[] monthAndDay = dateElements[1].TrimStart(' ').Split(' ');
-            string month = monthAndDay[0];
-            int day = int.Parse(monthAndDay[1]);
-            int year = int.Parse(dateElements[2].TrimStart(' '));
-
-            return new Date
+            Date aDate = null;
+            if (!string.IsNullOrEmpty(date))
             {
-                Month = month,
-                Day = day,
-                Year = year,
-                DayOfWeek = dow
-            };
+                string[] dateElements = date.Split(',');
+                string dow = dateElements[0];
+                string[] monthAndDay = dateElements[1].TrimStart(' ').Split(' ');
+                string month = monthAndDay[0];
+                int day = int.Parse(monthAndDay[1]);
+                int year = int.Parse(dateElements[2].TrimStart(' '));
+
+                aDate = new Date
+                {
+                    Month = month,
+                    Day = day,
+                    Year = year,
+                    DayOfWeek = dow
+                };
+            }
+            
+            return aDate;
         }
 
         /// <summary>

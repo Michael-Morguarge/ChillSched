@@ -1,74 +1,79 @@
 ﻿using Shared.Model;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Backend.Model
 {
+    /// <summary>
+    /// Model for events
+    /// </summary>
     public class SavedEvent
     {
+        /// <summary>
+        /// Sets the event id
+        /// </summary>
         public SavedEvent()
         {
             Id = Guid.NewGuid().ToString();
         }
 
+        /// <summary>
+        /// The event id
+        /// </summary>
         public string Id { get; set; }
+
+        /// <summary>
+        /// The title of the event
+        /// </summary>
         public string Title { get; set; }
+
+        /// <summary>
+        /// The comment for the event
+        /// </summary>
         public string Comment { get; set; }
+
+        /// <summary>
+        /// Whether the event is complete
+        /// </summary>
         public bool Completed { get; set; }
+
+        /// <summary>
+        /// The date the event was completed
+        /// </summary>
         public Date DateCompleted { get; set; }
+
+        /// <summary>
+        /// The time the event was completed
+        /// </summary>
         public Time TimeCompleted { get; set; }
+
+        /// <summary>
+        /// The time the event was created
+        /// </summary>
         public Time TimeCreated { get; set; }
+        
+        /// <summary>
+        /// The date the event was created
+        /// </summary>
         public Date DateCreated { get; set; }
+
+        /// <summary>
+        /// The time the event is set to start
+        /// </summary>
         public Time ActivationTime { get; set; }
+        
+        /// <summary>
+        /// The time the event is set to end
+        /// </summary>
         public Time DeactivationTime { get; set; }
+
+        /// <summary>
+        /// The date the event is set to start
+        /// </summary>
         public Date ActivationDate { get; set; }
+
+        /// <summary>
+        /// The date the event is set to end
+        /// </summary>
         public Date DeactivationDate { get; set; }
-    }
-
-    // Needs major rework
-
-    public class Events
-    {
-        public List<SavedEvent> SavedEvents;
-
-        public Events()
-        {
-            SavedEvents = new List<SavedEvent>();
-        }
-
-        public SavedEvent GetEvent(string id)
-        {
-            if (string.IsNullOrEmpty(id))
-                return null;
-
-            SavedEvent @event = SavedEvents.SingleOrDefault(x => x.Id == id);
-
-            return @event;
-        }
-
-        public void AddEvent(SavedEvent @event)
-        {
-            if (@event == null)
-                throw new Exception("Event cannot be added.");
-
-            SavedEvents.Add(@event);
-        }
-
-        public void UpdateEvent(SavedEvent @event)
-        {
-            SavedEvent existingEvent = SavedEvents.SingleOrDefault(x => x.Id == @event.Id);
-
-            if (existingEvent == null)
-                throw new Exception("Event not found.");
-
-            existingEvent.ActivationDate = @event.ActivationDate;
-            existingEvent.ActivationTime = @event.ActivationTime;
-            existingEvent.Comment = @event.Comment;
-            existingEvent.Completed = @event.Completed;
-            existingEvent.DeactivationDate = @event.DeactivationDate;
-            existingEvent.DeactivationTime = @event.DeactivationTime;
-            existingEvent.Title = @event.Title;
-        }
     }
 }

@@ -58,6 +58,7 @@ namespace FrontEnd.App.Views
             Date.Text = TimeAndDateUtility.GetCurrentDateString();
 
             _events.LoadEvents();
+            UpdateCalendar();
             UpdateTodaysEvents();
             UpdateEventList();
 
@@ -107,7 +108,7 @@ namespace FrontEnd.App.Views
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
-            DialogResult result = MessageBox.Show("Exit ChillSched", "Are you sure you want to exit?", MessageBoxButtons.YesNo);
+            DialogResult result = MessageBox.Show("Are you sure you want to exit?", "Exit ChillSched", MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
             {
                 _events.SaveEvents();

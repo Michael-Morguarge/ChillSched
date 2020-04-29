@@ -61,7 +61,8 @@ namespace BackEnd.Inferfaces
         /// <summary>
         /// Loads the events from the save file
         /// </summary>
-        void LoadEvents();
+        /// <returns>Whether the events are loaded</returns>
+        bool LoadEvents();
 
         /// <summary>
         /// Saves to the events to a save file
