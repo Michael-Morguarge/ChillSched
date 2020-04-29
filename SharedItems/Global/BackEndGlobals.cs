@@ -1,5 +1,4 @@
-﻿
-namespace Shared.Global
+﻿namespace Shared.Global
 {
     /// <summary>
     /// Globals for time and date

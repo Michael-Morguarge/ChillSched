@@ -1,4 +1,5 @@
 ﻿using SharedItems.Abstracts;
+using System;
 using System.Windows.Forms;
 
 namespace FrontEnd.Controller.Parts
@@ -16,5 +17,11 @@ namespace FrontEnd.Controller.Parts
         {
             //Control is set in base class.
         }
+
+        /// <summary>
+        /// Sets dates to be bolded
+        /// </summary>
+        /// <param name="dates">The dates to bold on the calendar</param>
+        public void SetBoldedDates(params DateTime[] dates) => GetControl().BoldedDates = dates ?? new DateTime[0];
     }
 }

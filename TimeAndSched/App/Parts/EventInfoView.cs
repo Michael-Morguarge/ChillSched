@@ -59,19 +59,20 @@ namespace FrontEnd.App.Parts
         {
             TitleTB.SetText(@event.Title);
             CommentTB.SetText(@event.Comment ?? string.Empty);
+            DateTime now = DateTime.Now;
 
             DateTime start = TimeAndDateUtility.ConvertDateAndTime_Date(@event.ActivationDate, @event.ActivationTime);
             DateTime end = TimeAndDateUtility.ConvertDateAndTime_Date(@event.DeactivationDate, @event.DeactivationTime);
 
-            StartPicker.SetDates(start.Date, start, DateTime.MaxValue);
-            EndPicker.SetDates(end.Date, end, DateTime.MaxValue);
+            StartPicker.SetDates(now > start ? start.Date : now.Date, start, DateTime.MaxValue);
+            EndPicker.SetDates(now > end ? end.Date : now.Date, end, DateTime.MaxValue);
 
-            if (start < DateTime.Now)
+            if (start < now)
             {
                 StartPicker.GetControl().Enabled = false;
             }
 
-            if (end < DateTime.Now)
+            if (end < now)
             {
                 EndPicker.GetControl().Enabled = false;
             }

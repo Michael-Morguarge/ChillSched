@@ -45,11 +45,6 @@ namespace FrontEnd.Controller.Parts
             }
         }
 
-        public void SetMinMaxDate(DateTime date)
-        {
-            GetControl().MinDate = date;
-        }
-
         /// <summary>
         /// The formatted date
         /// </summary>

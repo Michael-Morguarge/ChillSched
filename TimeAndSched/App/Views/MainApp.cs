@@ -6,7 +6,6 @@ using FrontEnd.View.Controller;
 using Shared.Global;
 using FrontEnd.Controller.Prompts;
 using FrontEnd.Controller.Parts;
-using System.Linq;
 using Backend.Model;
 using Shared.Model;
 
@@ -48,15 +47,19 @@ namespace FrontEnd.App.Views
             EventStatus.Tag = _controls.Add(tag, new LabelController(EventStatus));
             CompletedDate.Tag = _controls.Add(tag, new LabelController(CompletedDate));
             CreateDate.Tag = _controls.Add(tag, new LabelController(CreateDate));
+            LastUpdated.Tag = _controls.Add(tag, new LabelController(LastUpdated));
             Comment.Tag = _controls.Add(tag, new TextBoxController(Comment));
             Calendar.Tag = _controls.Add(tag, new CalendarController(Calendar));
             TodaysEvents.Tag = _controls.Add(tag, new ListBoxController(TodaysEvents));
+            EventListView.Tag = _controls.Add(tag, new ListViewController(EventListView));
 
             Todays_Events.SetMembers("Title", "Id");
             Time.Text = TimeAndDateUtility.GetCurrentTimeString();
             Date.Text = TimeAndDateUtility.GetCurrentDateString();
 
+            _events.LoadEvents();
             UpdateTodaysEvents();
+            UpdateEventList();
 
             Bitmap bit = Resources.ChillSched;
             IntPtr pIcon = bit.GetHicon();
@@ -66,12 +69,26 @@ namespace FrontEnd.App.Views
 
         private void TimeTicker_Tick(object sender, EventArgs e)
         {
-            User_Time.GetControl().Text = TimeAndDateUtility.GetCurrentTimeString();
+            Time time = TimeAndDateUtility.GetCurrentTime();
+            string timeString = TimeAndDateUtility.ConvertTime_String(time);
+
+            User_Time.SetText(timeString);
+            NextUpdateProgress.Value = time.Seconds % 15;
+
+            if (time.Seconds % 15 == 0)
+            {
+                UpdateEventList();
+            }
+
+            if (time.Seconds % 5 == 0)
+            {
+                UpdateEventDetails();
+            }
         }
 
         private void DateTicker_Tick(object sender, EventArgs e)
         {
-            User_Date.GetControl().Text = TimeAndDateUtility.GetCurrentDateString();
+            User_Date.SetText(TimeAndDateUtility.GetCurrentDateString());
         }
 
         private void Main_Resize(object sender, EventArgs e)
@@ -90,41 +107,26 @@ namespace FrontEnd.App.Views
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
-            WindowState = FormWindowState.Minimized;
-            if (WindowState == FormWindowState.Minimized)
+            DialogResult result = MessageBox.Show("Exit ChillSched", "Are you sure you want to exit?", MessageBoxButtons.YesNo);
+            if (result == DialogResult.Yes)
+            {
+                _events.SaveEvents();
+            }
+            else
             {
                 Hide();
+                WindowState = FormWindowState.Minimized;
+                e.Cancel = true;
             }
-            e.Cancel = true;
         }
 
         private void TodaysEvents_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //Get events to show in listbox
-            //Highlight events past date and time
-            try
-            {
-                string id = ((SavedEvent)Todays_Events.SelectedIndex()).Id;
-                SavedEvent @event = _events.GetEvent(id);
-
-                Date currDate = TimeAndDateUtility.GetCurrentDate();
-                Time currTime = TimeAndDateUtility.GetCurrentTime();
-
-                Date eventStartDate = @event.ActivationDate;
-                Time eventStartTime = @event.ActivationTime;
-
-                SetEventDetails(@event);
-                ToggleButtons(true, TimeAndDateUtility.IsBeforeRange(eventStartDate, eventStartTime, currDate, currTime));
-            }
-            catch (Exception)
-            {
-                // Log
-            }
+            UpdateEventDetails();
         }
 
         private void Calendar_DateChanged(object sender, DateRangeEventArgs e)
         {
-            User_Calendar.GetControl().BoldedDates = new[] { User_Calendar.GetControl().SelectionStart };
             ClearEventDetails();
             UpdateTodaysEvents();
             ToggleButtons();
@@ -137,6 +139,8 @@ namespace FrontEnd.App.Views
                 ClearEventDetails();
                 UpdateTodaysEvents();
                 ToggleButtons();
+                UpdateEventList();
+                UpdateCalendar();
             }
         }
 
@@ -148,6 +152,8 @@ namespace FrontEnd.App.Views
                 ClearEventDetails();
                 UpdateTodaysEvents();
                 ToggleButtons();
+                UpdateEventList();
+                UpdateCalendar();
             }
         }
 
@@ -159,12 +165,22 @@ namespace FrontEnd.App.Views
                 ClearEventDetails();
                 UpdateTodaysEvents();
                 ToggleButtons();
+                UpdateEventList();
+                UpdateCalendar();
             }
         }
 
         private void RemoveButton_Click(object sender, EventArgs e)
         {
-
+            string id = ((SavedEvent)Todays_Events.SelectedIndex()).Id;
+            if (_events.Remove(id))
+            {
+                ClearEventDetails();
+                UpdateTodaysEvents();
+                ToggleButtons();
+                UpdateEventList();
+                UpdateCalendar();
+            }
         }
 
         #region Helpers
@@ -219,6 +235,31 @@ namespace FrontEnd.App.Views
             ToggleStatus.BackColor = ToggleStatus.Enabled ? Color.WhiteSmoke : Color.Transparent;
         }
 
+        private void UpdateEventDetails()
+        {
+            try
+            {
+                string id = ((SavedEvent)Todays_Events.SelectedIndex())?.Id;
+                if (id != null)
+                {
+                    SavedEvent @event = _events.GetEvent(id);
+
+                    Date currDate = TimeAndDateUtility.GetCurrentDate();
+                    Time currTime = TimeAndDateUtility.GetCurrentTime();
+
+                    Date eventStartDate = @event.ActivationDate;
+                    Time eventStartTime = @event.ActivationTime;
+
+                    SetEventDetails(@event);
+                    ToggleButtons(true, TimeAndDateUtility.IsBeforeRange(eventStartDate, eventStartTime, currDate, currTime));
+                }
+            }
+            catch (Exception)
+            {
+                // Log
+            }
+        }
+
         private void ClearEventDetails()
         {
             const string dash = "-";
@@ -241,11 +282,27 @@ namespace FrontEnd.App.Views
         private void UpdateTodaysEvents()
         {
             DateTime selectedDate = User_Calendar.GetControl().SelectionRange.Start;
-            User_Calendar.GetControl().BoldedDates = new[] { selectedDate };
             Date date = TimeAndDateUtility.ConvertDate_Date(selectedDate);
-            object[] eventList = _events.GetAll(date).OrderBy(x => x.Title).Select(x => (object)x).Distinct().ToArray();
+            object[] eventList = _events.GetAll(date);
 
             Todays_Events.Update(eventList);
+        }
+
+        private void UpdateCalendar()
+        {
+            DateTime[] dates = _events.GetAllEventDates();
+            User_Calendar.SetBoldedDates(dates);
+        }
+
+        private void UpdateEventList()
+        {
+            ListViewItem[] events = _events.GetAll(EventListView.Groups);
+
+            Time time = TimeAndDateUtility.GetCurrentTime();
+            string timeString = TimeAndDateUtility.ConvertTime_String(time);
+            string dateString = TimeAndDateUtility.GetCurrentDateString(true);
+            Event_View.Update(events);
+            Last_Updated.SetText($"Last Updated: {dateString} {timeString}");
         }
 
         #endregion Helpers
@@ -255,6 +312,8 @@ namespace FrontEnd.App.Views
         #region [ ListBoxes ]
 
         private ListBoxController Todays_Events => (ListBoxController)_controls.Get(Tag as string, TodaysEvents.Tag as string);
+
+        private ListViewController Event_View => (ListViewController)_controls.Get(Tag as string, EventListView.Tag as string);
 
         #endregion
 
@@ -291,6 +350,8 @@ namespace FrontEnd.App.Views
         private LabelController Completion_Date => (LabelController)_controls.Get(Tag as string, CompletedDate.Tag as string);
 
         private LabelController Created_Date => (LabelController)_controls.Get(Tag as string, CreateDate.Tag as string);
+
+        private LabelController Last_Updated => (LabelController)_controls.Get(Tag as string, LastUpdated.Tag as string);
 
         #endregion
 

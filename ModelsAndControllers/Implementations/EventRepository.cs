@@ -79,9 +79,9 @@ namespace Backend.Implementations
         }
 
         /// <summary>
-        /// Implements <see cref="IEventRepository.RemoveEvent(string)" />
+        /// Implements <see cref="IEventRepository.DeleteEvent(string)" />
         /// </summary>
-        public bool RemoveEvent(string id)
+        public bool DeleteEvent(string id)
         {
             try
             {
@@ -115,23 +115,122 @@ namespace Backend.Implementations
         }
 
         /// <summary>
+        /// Implements <see cref="IEventRepository.GetEvents(Date, Date)" />
+        /// </summary>
+        public IEnumerable<SavedEvent> GetEvents(Date start, Date end)
+        {
+            return
+                _events.SavedEvents
+                       .Where(x =>
+                            TimeAndDateUtility.IsWithinRange(start, x.ActivationDate, end)
+                            || TimeAndDateUtility.IsWithinRange(start, x.DeactivationDate, end))
+                       .ToList()
+                       .AsReadOnly();
+        }
+
+        /// <summary>
         /// Implements <see cref="IEventRepository.GetEvents(Date)" />
         /// </summary>
         public IEnumerable<SavedEvent> GetEvents(Date date)
         {
-            return 
+            return
                 _events.SavedEvents
                        .Where(x => TimeAndDateUtility.IsWithinRange(x.ActivationDate, date, x.DeactivationDate))
                        .ToList()
                        .AsReadOnly();
         }
 
-        public void SaveBookmarks()
+        /// <summary>
+        /// Implements <see cref="IEventRepository.GetEvents()" />
+        /// </summary>
+        public IEnumerable<SavedEvent> GetEvents()
         {
-            foreach (SavedEvent bookmark in _events.SavedEvents)
+            return _events.SavedEvents.AsReadOnly();
+        }
+
+        /// <summary>
+        /// Implements <see cref="IEventRepository.LoadEvents()" />
+        /// </summary>
+        public void LoadEvents()
+        {
+            string dateSeparator = "+";
+            string assignSeparator = "=";
+            string eventSeparator = "~~~";
+            string tildeReplace = "{TILDE}";
+            string plusReplace = "{PLUS}";
+            string newlineReplace = "{NEWLINE}";
+
+            string content = File.ReadAllText("..\\..\\Resources\\Events\\temp.saved");
+            if (string.IsNullOrEmpty(content))
             {
-                File.WriteAllText(string.Format(@".\Resources\Bookmarks\{0}_{1}.eventsaved", bookmark.Title, bookmark.Id), "");
+
             }
+            else
+            {
+                string[][][][] eventsArray = 
+                    content.Split(new[] { eventSeparator }, StringSplitOptions.None)
+                           .Select(x =>
+                                x.Split(new[] { newlineReplace }, StringSplitOptions.None)
+                                 .Select(y =>
+                                    y.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
+                                     .Select(z => z.Split(new[] { assignSeparator }, StringSplitOptions.None))
+                                     .ToArray())
+                                 .ToArray())
+                           .ToArray();
+
+                List<SavedEvent> events = new List<SavedEvent>();
+
+                foreach (string[][][] level1 in eventsArray)
+                {
+                    foreach (string[][] level2 in level1)
+                    {
+                        foreach (string[] level3 in level2)
+                        {
+                            foreach(string level4 in level3)
+                            {
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Implements <see cref="IEventRepository.SaveEvents()" />
+        /// </summary>
+        public void SaveEvents()
+        {
+            string eventString = string.Empty;
+            foreach (SavedEvent @event in _events.SavedEvents)
+            {
+                string completed = @event.Completed ? "True" : "False";
+
+                string createdDate = TimeAndDateUtility.ConvertDate_String(@event.DateCreated);
+                string createdTime = TimeAndDateUtility.ConvertTime_String(@event.TimeCreated);
+
+                string completeDate = TimeAndDateUtility.ConvertDate_String(@event.DateCompleted);
+                string completeTime = TimeAndDateUtility.ConvertTime_String(@event.TimeCompleted);
+
+                string activeDate = TimeAndDateUtility.ConvertDate_String(@event.ActivationDate);
+                string activeTime = TimeAndDateUtility.ConvertTime_String(@event.ActivationTime);
+
+                string inactiveDate = TimeAndDateUtility.ConvertDate_String(@event.DeactivationDate);
+                string inactiveTime = TimeAndDateUtility.ConvertTime_String(@event.DeactivationTime);
+
+                eventString +=
+                    $"Id=\"{@event.Id}\"{Environment.NewLine}" +
+                    $"Title=\"{@event.Title.Replace("+", "{PLUS}").Replace("~", "{TILDE}")}\"{Environment.NewLine}" +
+                    $"Comment=\"{@event.Comment.Replace(Environment.NewLine, "{NEWLINE}").Replace("+", "{PLUS}").Replace("~", "{TILDE}")}\"{Environment.NewLine}" +
+                    $"Complete=\"{completed}\"{Environment.NewLine}" +
+                    $"DateCreated=\"{createdDate}+{createdTime}\"{Environment.NewLine}" +
+                    $"DateCompleted=\"{completeDate}+{completeTime}\"{Environment.NewLine}" +
+                    $"ActivationDate=\"{activeDate}+{activeTime}\"{Environment.NewLine}" +
+                    $"DeactivationDate=\"{inactiveDate}+{inactiveTime}\"{Environment.NewLine}" +
+                    $"~~~{Environment.NewLine}";
+            }
+
+            File.WriteAllText("..\\..\\Resources\\Events\\temp.saved", eventString);
         }
     }
 }

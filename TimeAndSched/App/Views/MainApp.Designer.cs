@@ -29,6 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.ListViewGroup listViewGroup5 = new System.Windows.Forms.ListViewGroup("Complete", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup6 = new System.Windows.Forms.ListViewGroup("Upcoming", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup7 = new System.Windows.Forms.ListViewGroup("Happening Now", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup8 = new System.Windows.Forms.ListViewGroup("Overdue", System.Windows.Forms.HorizontalAlignment.Center);
             this.TimeTicker = new System.Windows.Forms.Timer(this.components);
             this.DateTicker = new System.Windows.Forms.Timer(this.components);
             this.CalendarTab = new System.Windows.Forms.TabPage();
@@ -37,6 +41,8 @@
             this.AddEvent = new System.Windows.Forms.Button();
             this.EditEvent = new System.Windows.Forms.Button();
             this.RemoveButton = new System.Windows.Forms.Button();
+            this.splitter1 = new System.Windows.Forms.Splitter();
+            this.ToggleStatus = new System.Windows.Forms.Button();
             this.TodaysEvents = new System.Windows.Forms.ListBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.ExpStartDate = new System.Windows.Forms.Label();
@@ -45,8 +51,19 @@
             this.ExpEndTime = new System.Windows.Forms.Label();
             this.Title = new System.Windows.Forms.Label();
             this.Comment = new System.Windows.Forms.RichTextBox();
+            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this.EventStatus = new System.Windows.Forms.Label();
+            this.CompletedDate = new System.Windows.Forms.Label();
+            this.CreateDate = new System.Windows.Forms.Label();
             this.Calendar = new System.Windows.Forms.MonthCalendar();
             this.TimeTab = new System.Windows.Forms.TabPage();
+            this.NextUpdateIn = new System.Windows.Forms.Label();
+            this.NextUpdateProgress = new System.Windows.Forms.ProgressBar();
+            this.LastUpdated = new System.Windows.Forms.Label();
+            this.CurrMonthsEvents = new System.Windows.Forms.Label();
+            this.EventListView = new System.Windows.Forms.ListView();
+            this.EventTitle = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.TimeTilEvent = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.LatestEvent = new System.Windows.Forms.Label();
             this.ViewEvent = new System.Windows.Forms.Button();
             this.Date = new System.Windows.Forms.Label();
@@ -54,19 +71,13 @@
             this.TimeAndCalendarTabular = new System.Windows.Forms.TabControl();
             this.GeneralToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.DateTimeIcon = new System.Windows.Forms.NotifyIcon(this.components);
-            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
-            this.EventStatus = new System.Windows.Forms.Label();
-            this.CompletedDate = new System.Windows.Forms.Label();
-            this.CreateDate = new System.Windows.Forms.Label();
-            this.ToggleStatus = new System.Windows.Forms.Button();
-            this.splitter1 = new System.Windows.Forms.Splitter();
             this.CalendarTab.SuspendLayout();
             this.YourEvents.SuspendLayout();
             this.CRUDButtonPanel.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
+            this.flowLayoutPanel2.SuspendLayout();
             this.TimeTab.SuspendLayout();
             this.TimeAndCalendarTabular.SuspendLayout();
-            this.flowLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // TimeTicker
@@ -179,6 +190,31 @@
             this.RemoveButton.UseVisualStyleBackColor = false;
             this.RemoveButton.Click += new System.EventHandler(this.RemoveButton_Click);
             // 
+            // splitter1
+            // 
+            this.splitter1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.splitter1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.splitter1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.splitter1.Location = new System.Drawing.Point(276, 3);
+            this.splitter1.Name = "splitter1";
+            this.splitter1.Size = new System.Drawing.Size(5, 31);
+            this.splitter1.TabIndex = 0;
+            this.splitter1.TabStop = false;
+            // 
+            // ToggleStatus
+            // 
+            this.ToggleStatus.BackColor = System.Drawing.Color.Transparent;
+            this.ToggleStatus.Enabled = false;
+            this.ToggleStatus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ToggleStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ToggleStatus.Location = new System.Drawing.Point(287, 3);
+            this.ToggleStatus.Name = "ToggleStatus";
+            this.ToggleStatus.Size = new System.Drawing.Size(159, 31);
+            this.ToggleStatus.TabIndex = 1;
+            this.ToggleStatus.Text = "Toggle Status";
+            this.ToggleStatus.UseVisualStyleBackColor = false;
+            this.ToggleStatus.Click += new System.EventHandler(this.ToggleStatus_Click);
+            // 
             // TodaysEvents
             // 
             this.TodaysEvents.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -286,6 +322,48 @@
             this.Comment.Tag = "Comment";
             this.Comment.Text = "No comment";
             // 
+            // flowLayoutPanel2
+            // 
+            this.flowLayoutPanel2.Controls.Add(this.EventStatus);
+            this.flowLayoutPanel2.Controls.Add(this.CompletedDate);
+            this.flowLayoutPanel2.Controls.Add(this.CreateDate);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 245);
+            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(521, 55);
+            this.flowLayoutPanel2.TabIndex = 4;
+            // 
+            // EventStatus
+            // 
+            this.EventStatus.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.EventStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EventStatus.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.EventStatus.Location = new System.Drawing.Point(3, 0);
+            this.EventStatus.Name = "EventStatus";
+            this.EventStatus.Size = new System.Drawing.Size(514, 26);
+            this.EventStatus.TabIndex = 0;
+            this.EventStatus.Text = "-";
+            this.EventStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // CompletedDate
+            // 
+            this.CompletedDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CompletedDate.Location = new System.Drawing.Point(3, 26);
+            this.CompletedDate.Name = "CompletedDate";
+            this.CompletedDate.Size = new System.Drawing.Size(254, 26);
+            this.CompletedDate.TabIndex = 2;
+            this.CompletedDate.Text = "-";
+            this.CompletedDate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // CreateDate
+            // 
+            this.CreateDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CreateDate.Location = new System.Drawing.Point(263, 26);
+            this.CreateDate.Name = "CreateDate";
+            this.CreateDate.Size = new System.Drawing.Size(254, 26);
+            this.CreateDate.TabIndex = 3;
+            this.CreateDate.Text = "-";
+            this.CreateDate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // Calendar
             // 
             this.Calendar.BackColor = System.Drawing.SystemColors.ControlLightLight;
@@ -305,6 +383,11 @@
             // TimeTab
             // 
             this.TimeTab.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.TimeTab.Controls.Add(this.NextUpdateIn);
+            this.TimeTab.Controls.Add(this.NextUpdateProgress);
+            this.TimeTab.Controls.Add(this.LastUpdated);
+            this.TimeTab.Controls.Add(this.CurrMonthsEvents);
+            this.TimeTab.Controls.Add(this.EventListView);
             this.TimeTab.Controls.Add(this.LatestEvent);
             this.TimeTab.Controls.Add(this.ViewEvent);
             this.TimeTab.Controls.Add(this.Date);
@@ -316,6 +399,100 @@
             this.TimeTab.Size = new System.Drawing.Size(1060, 391);
             this.TimeTab.TabIndex = 0;
             this.TimeTab.Text = "Welcome";
+            // 
+            // NextUpdateIn
+            // 
+            this.NextUpdateIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.NextUpdateIn.Location = new System.Drawing.Point(638, 325);
+            this.NextUpdateIn.Name = "NextUpdateIn";
+            this.NextUpdateIn.Size = new System.Drawing.Size(208, 26);
+            this.NextUpdateIn.TabIndex = 3;
+            this.NextUpdateIn.Text = "Next Update In:";
+            this.NextUpdateIn.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // NextUpdateProgress
+            // 
+            this.NextUpdateProgress.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.NextUpdateProgress.Cursor = System.Windows.Forms.Cursors.Default;
+            this.NextUpdateProgress.Location = new System.Drawing.Point(846, 325);
+            this.NextUpdateProgress.MarqueeAnimationSpeed = 200;
+            this.NextUpdateProgress.Maximum = 15;
+            this.NextUpdateProgress.Name = "NextUpdateProgress";
+            this.NextUpdateProgress.Size = new System.Drawing.Size(208, 26);
+            this.NextUpdateProgress.Step = 1;
+            this.NextUpdateProgress.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.NextUpdateProgress.TabIndex = 0;
+            // 
+            // LastUpdated
+            // 
+            this.LastUpdated.BackColor = System.Drawing.Color.Transparent;
+            this.LastUpdated.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LastUpdated.Location = new System.Drawing.Point(638, 360);
+            this.LastUpdated.Name = "LastUpdated";
+            this.LastUpdated.Size = new System.Drawing.Size(416, 26);
+            this.LastUpdated.TabIndex = 2;
+            this.LastUpdated.Text = "-";
+            this.LastUpdated.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // CurrMonthsEvents
+            // 
+            this.CurrMonthsEvents.BackColor = System.Drawing.Color.Transparent;
+            this.CurrMonthsEvents.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CurrMonthsEvents.Location = new System.Drawing.Point(638, 0);
+            this.CurrMonthsEvents.Name = "CurrMonthsEvents";
+            this.CurrMonthsEvents.Size = new System.Drawing.Size(416, 26);
+            this.CurrMonthsEvents.TabIndex = 0;
+            this.CurrMonthsEvents.Text = "Month at a Glance";
+            this.CurrMonthsEvents.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // EventListView
+            // 
+            this.EventListView.Alignment = System.Windows.Forms.ListViewAlignment.SnapToGrid;
+            this.EventListView.AutoArrange = false;
+            this.EventListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.EventTitle,
+            this.TimeTilEvent});
+            this.EventListView.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.EventListView.FullRowSelect = true;
+            this.EventListView.GridLines = true;
+            listViewGroup5.Header = "Complete";
+            listViewGroup5.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup5.Name = "Complete";
+            listViewGroup6.Header = "Upcoming";
+            listViewGroup6.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup6.Name = "Upcoming";
+            listViewGroup7.Header = "Happening Now";
+            listViewGroup7.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup7.Name = "HappeningNow";
+            listViewGroup8.Header = "Overdue";
+            listViewGroup8.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup8.Name = "Overdue";
+            this.EventListView.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
+            listViewGroup5,
+            listViewGroup6,
+            listViewGroup7,
+            listViewGroup8});
+            this.EventListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.EventListView.HideSelection = false;
+            this.EventListView.Location = new System.Drawing.Point(638, 29);
+            this.EventListView.MultiSelect = false;
+            this.EventListView.Name = "EventListView";
+            this.EventListView.Size = new System.Drawing.Size(416, 293);
+            this.EventListView.Sorting = System.Windows.Forms.SortOrder.Ascending;
+            this.EventListView.TabIndex = 1;
+            this.EventListView.UseCompatibleStateImageBehavior = false;
+            this.EventListView.View = System.Windows.Forms.View.Details;
+            // 
+            // EventTitle
+            // 
+            this.EventTitle.Text = "Title";
+            this.EventTitle.Width = 188;
+            // 
+            // TimeTilEvent
+            // 
+            this.TimeTilEvent.Text = "Time Until Event";
+            this.TimeTilEvent.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TimeTilEvent.Width = 219;
             // 
             // LatestEvent
             // 
@@ -388,70 +565,6 @@
             this.DateTimeIcon.Visible = true;
             this.DateTimeIcon.DoubleClick += new System.EventHandler(this.DateTimeIcon_DoubleClick);
             // 
-            // flowLayoutPanel2
-            // 
-            this.flowLayoutPanel2.Controls.Add(this.EventStatus);
-            this.flowLayoutPanel2.Controls.Add(this.CompletedDate);
-            this.flowLayoutPanel2.Controls.Add(this.CreateDate);
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 245);
-            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(521, 55);
-            this.flowLayoutPanel2.TabIndex = 4;
-            // 
-            // EventStatus
-            // 
-            this.EventStatus.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.EventStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.EventStatus.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.EventStatus.Location = new System.Drawing.Point(3, 0);
-            this.EventStatus.Name = "EventStatus";
-            this.EventStatus.Size = new System.Drawing.Size(514, 26);
-            this.EventStatus.TabIndex = 0;
-            this.EventStatus.Text = "-";
-            this.EventStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // CompletedDate
-            // 
-            this.CompletedDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CompletedDate.Location = new System.Drawing.Point(3, 26);
-            this.CompletedDate.Name = "CompletedDate";
-            this.CompletedDate.Size = new System.Drawing.Size(254, 26);
-            this.CompletedDate.TabIndex = 2;
-            this.CompletedDate.Text = "-";
-            this.CompletedDate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // CreateDate
-            // 
-            this.CreateDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CreateDate.Location = new System.Drawing.Point(263, 26);
-            this.CreateDate.Name = "CreateDate";
-            this.CreateDate.Size = new System.Drawing.Size(254, 26);
-            this.CreateDate.TabIndex = 3;
-            this.CreateDate.Text = "-";
-            this.CreateDate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // ToggleStatus
-            // 
-            this.ToggleStatus.BackColor = System.Drawing.Color.Transparent;
-            this.ToggleStatus.Enabled = false;
-            this.ToggleStatus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ToggleStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ToggleStatus.Location = new System.Drawing.Point(292, 3);
-            this.ToggleStatus.Name = "ToggleStatus";
-            this.ToggleStatus.Size = new System.Drawing.Size(159, 31);
-            this.ToggleStatus.TabIndex = 1;
-            this.ToggleStatus.Text = "Toggle Status";
-            this.ToggleStatus.UseVisualStyleBackColor = false;
-            this.ToggleStatus.Click += new System.EventHandler(this.ToggleStatus_Click);
-            // 
-            // splitter1
-            // 
-            this.splitter1.Location = new System.Drawing.Point(276, 3);
-            this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(10, 31);
-            this.splitter1.TabIndex = 5;
-            this.splitter1.TabStop = false;
-            // 
             // MainApp
             // 
             this.AccessibleDescription = "The main window";
@@ -480,9 +593,9 @@
             this.YourEvents.ResumeLayout(false);
             this.CRUDButtonPanel.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel2.ResumeLayout(false);
             this.TimeTab.ResumeLayout(false);
             this.TimeAndCalendarTabular.ResumeLayout(false);
-            this.flowLayoutPanel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -519,6 +632,13 @@
         private System.Windows.Forms.Label CreateDate;
         private System.Windows.Forms.Button ToggleStatus;
         private System.Windows.Forms.Splitter splitter1;
+        private System.Windows.Forms.ListView EventListView;
+        private System.Windows.Forms.ColumnHeader EventTitle;
+        private System.Windows.Forms.ColumnHeader TimeTilEvent;
+        private System.Windows.Forms.Label CurrMonthsEvents;
+        private System.Windows.Forms.ProgressBar NextUpdateProgress;
+        private System.Windows.Forms.Label LastUpdated;
+        private System.Windows.Forms.Label NextUpdateIn;
     }
 }
 

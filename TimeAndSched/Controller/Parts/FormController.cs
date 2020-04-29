@@ -22,9 +22,6 @@ namespace FrontEnd.Controller.Parts
         /// Sets the form icon
         /// </summary>
         /// <param name="icon">The icon to use</param>
-        public void SetIcon(Icon icon)
-        {
-            GetControl().Icon = icon;
-        }
+        public void SetIcon(Icon icon) => GetControl().Icon = icon;
     }
 }

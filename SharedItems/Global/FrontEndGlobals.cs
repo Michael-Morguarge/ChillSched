@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Shared.Global
+﻿namespace Shared.Global
 {
     /// <summary>
     /// Crud purpose
@@ -8,5 +6,10 @@ namespace Shared.Global
     public enum CrudPurposes
     {
         None, Create, Edit, Error
+    }
+
+    public enum DateCompare
+    {
+        None = -1, Before = 0, During = 1, After = 2
     }
 }

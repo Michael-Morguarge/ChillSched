@@ -21,10 +21,7 @@ namespace FrontEnd.Controller.Parts
         /// Sets the textbox text
         /// </summary>
         /// <param name="text">Text to set</param>
-        public void SetText(string text)
-        {
-            GetControl().Text = text;
-        }
+        public void SetText(string text) => GetControl().Text = text;
 
         /// <summary>
         /// The text entered from the form
