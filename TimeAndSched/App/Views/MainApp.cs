@@ -106,6 +106,11 @@ namespace FrontEnd.App.Views
             WindowState = FormWindowState.Normal;
         }
 
+        private void AboutStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("ChillSched - 2020", "About");
+        }
+
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
             DialogResult result = MessageBox.Show("Are you sure you want to exit?", "Exit ChillSched", MessageBoxButtons.YesNo);
@@ -115,10 +120,13 @@ namespace FrontEnd.App.Views
             }
             else
             {
-                Hide();
-                WindowState = FormWindowState.Minimized;
                 e.Cancel = true;
             }
+        }
+
+        private void CloseStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
         }
 
         private void TodaysEvents_SelectedIndexChanged(object sender, EventArgs e)
@@ -137,6 +145,7 @@ namespace FrontEnd.App.Views
         {
             if (_events.Add())
             {
+                _events.SaveEvents();
                 ClearEventDetails();
                 UpdateTodaysEvents();
                 ToggleButtons();
@@ -150,6 +159,7 @@ namespace FrontEnd.App.Views
             string id = ((SavedEvent)Todays_Events.SelectedIndex()).Id;
             if (_events.Update(id))
             {
+                _events.SaveEvents();
                 ClearEventDetails();
                 UpdateTodaysEvents();
                 ToggleButtons();
@@ -163,6 +173,7 @@ namespace FrontEnd.App.Views
             string id = ((SavedEvent)Todays_Events.SelectedIndex()).Id;
             if (_events.ToggleStatus(id))
             {
+                _events.SaveEvents();
                 ClearEventDetails();
                 UpdateTodaysEvents();
                 ToggleButtons();
@@ -176,12 +187,23 @@ namespace FrontEnd.App.Views
             string id = ((SavedEvent)Todays_Events.SelectedIndex()).Id;
             if (_events.Remove(id))
             {
+                _events.SaveEvents();
                 ClearEventDetails();
                 UpdateTodaysEvents();
                 ToggleButtons();
                 UpdateEventList();
                 UpdateCalendar();
             }
+        }
+
+        private void EventBackupStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ManageMessagesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
 
         #region Helpers
