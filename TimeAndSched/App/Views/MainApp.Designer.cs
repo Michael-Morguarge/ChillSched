@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewGroup listViewGroup9 = new System.Windows.Forms.ListViewGroup("Complete", System.Windows.Forms.HorizontalAlignment.Center);
-            System.Windows.Forms.ListViewGroup listViewGroup10 = new System.Windows.Forms.ListViewGroup("Upcoming", System.Windows.Forms.HorizontalAlignment.Center);
-            System.Windows.Forms.ListViewGroup listViewGroup11 = new System.Windows.Forms.ListViewGroup("Happening Now", System.Windows.Forms.HorizontalAlignment.Center);
-            System.Windows.Forms.ListViewGroup listViewGroup12 = new System.Windows.Forms.ListViewGroup("Overdue", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup5 = new System.Windows.Forms.ListViewGroup("Complete", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup6 = new System.Windows.Forms.ListViewGroup("Upcoming", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup7 = new System.Windows.Forms.ListViewGroup("Happening Now", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup8 = new System.Windows.Forms.ListViewGroup("Overdue", System.Windows.Forms.HorizontalAlignment.Center);
             this.TimeTicker = new System.Windows.Forms.Timer(this.components);
             this.DateTicker = new System.Windows.Forms.Timer(this.components);
             this.CalendarTab = new System.Windows.Forms.TabPage();
@@ -73,13 +73,16 @@
             this.DateTimeIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.ChillSchedMenuStrip = new System.Windows.Forms.MenuStrip();
             this.WelcomeToChillSchedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.MessagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.EventsStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.EventStatsStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.CreateEventStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AboutStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CloseStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.EventsStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.CreateEventStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.EventStatsStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MessagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.manageMessagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.DateTimeIconMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.OpenStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.CloseStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.CalendarTab.SuspendLayout();
             this.YourEvents.SuspendLayout();
             this.CRUDButtonPanel.SuspendLayout();
@@ -88,6 +91,7 @@
             this.TimeTab.SuspendLayout();
             this.TimeAndCalendarTabular.SuspendLayout();
             this.ChillSchedMenuStrip.SuspendLayout();
+            this.DateTimeIconMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // TimeTicker
@@ -471,23 +475,23 @@
             this.EventListView.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.EventListView.FullRowSelect = true;
             this.EventListView.GridLines = true;
-            listViewGroup9.Header = "Complete";
-            listViewGroup9.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
-            listViewGroup9.Name = "Complete";
-            listViewGroup10.Header = "Upcoming";
-            listViewGroup10.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
-            listViewGroup10.Name = "Upcoming";
-            listViewGroup11.Header = "Happening Now";
-            listViewGroup11.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
-            listViewGroup11.Name = "HappeningNow";
-            listViewGroup12.Header = "Overdue";
-            listViewGroup12.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
-            listViewGroup12.Name = "Overdue";
+            listViewGroup5.Header = "Complete";
+            listViewGroup5.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup5.Name = "Complete";
+            listViewGroup6.Header = "Upcoming";
+            listViewGroup6.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup6.Name = "Upcoming";
+            listViewGroup7.Header = "Happening Now";
+            listViewGroup7.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup7.Name = "HappeningNow";
+            listViewGroup8.Header = "Overdue";
+            listViewGroup8.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup8.Name = "Overdue";
             this.EventListView.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup9,
-            listViewGroup10,
-            listViewGroup11,
-            listViewGroup12});
+            listViewGroup5,
+            listViewGroup6,
+            listViewGroup7,
+            listViewGroup8});
             this.EventListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.EventListView.HideSelection = false;
             this.EventListView.Location = new System.Drawing.Point(638, 29);
@@ -577,6 +581,10 @@
             // 
             // DateTimeIcon
             // 
+            this.DateTimeIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.DateTimeIcon.BalloonTipText = "ChillSched is hidden";
+            this.DateTimeIcon.BalloonTipTitle = "ChillSched";
+            this.DateTimeIcon.ContextMenuStrip = this.DateTimeIconMenuStrip;
             this.DateTimeIcon.Text = "Open";
             this.DateTimeIcon.Visible = true;
             this.DateTimeIcon.DoubleClick += new System.EventHandler(this.DateTimeIcon_DoubleClick);
@@ -610,15 +618,19 @@
             this.WelcomeToChillSchedToolStripMenuItem.Size = new System.Drawing.Size(175, 28);
             this.WelcomeToChillSchedToolStripMenuItem.Text = "Welcome to ChillSched";
             // 
-            // MessagesToolStripMenuItem
+            // AboutStripMenuItem
             // 
-            this.MessagesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.manageMessagesToolStripMenuItem});
-            this.MessagesToolStripMenuItem.Name = "MessagesToolStripMenuItem";
-            this.MessagesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.M)));
-            this.MessagesToolStripMenuItem.Size = new System.Drawing.Size(81, 28);
-            this.MessagesToolStripMenuItem.Text = "Messages";
+            this.AboutStripMenuItem.Name = "AboutStripMenuItem";
+            this.AboutStripMenuItem.Size = new System.Drawing.Size(116, 24);
+            this.AboutStripMenuItem.Text = "About";
+            this.AboutStripMenuItem.Click += new System.EventHandler(this.AboutStripMenuItem_Click);
+            // 
+            // CloseStripMenuItem
+            // 
+            this.CloseStripMenuItem.Name = "CloseStripMenuItem";
+            this.CloseStripMenuItem.Size = new System.Drawing.Size(116, 24);
+            this.CloseStripMenuItem.Text = "Close";
+            this.CloseStripMenuItem.Click += new System.EventHandler(this.CloseStripMenuItem_Click);
             // 
             // EventsStripMenuItem
             // 
@@ -630,15 +642,6 @@
             this.EventsStripMenuItem.Size = new System.Drawing.Size(61, 28);
             this.EventsStripMenuItem.Text = "Events";
             // 
-            // EventStatsStripMenuItem
-            // 
-            this.EventStatsStripMenuItem.Name = "EventStatsStripMenuItem";
-            this.EventStatsStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.B)));
-            this.EventStatsStripMenuItem.Size = new System.Drawing.Size(243, 24);
-            this.EventStatsStripMenuItem.Text = "Event Search";
-            this.EventStatsStripMenuItem.Click += new System.EventHandler(this.EventBackupStripMenuItem_Click);
-            // 
             // CreateEventStripMenuItem
             // 
             this.CreateEventStripMenuItem.Name = "CreateEventStripMenuItem";
@@ -649,19 +652,24 @@
             this.CreateEventStripMenuItem.ToolTipText = "Create an event";
             this.CreateEventStripMenuItem.Click += new System.EventHandler(this.CreateEvent_Click);
             // 
-            // AboutStripMenuItem
+            // EventStatsStripMenuItem
             // 
-            this.AboutStripMenuItem.Name = "AboutStripMenuItem";
-            this.AboutStripMenuItem.Size = new System.Drawing.Size(180, 24);
-            this.AboutStripMenuItem.Text = "About";
-            this.AboutStripMenuItem.Click += new System.EventHandler(this.AboutStripMenuItem_Click);
+            this.EventStatsStripMenuItem.Name = "EventStatsStripMenuItem";
+            this.EventStatsStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.B)));
+            this.EventStatsStripMenuItem.Size = new System.Drawing.Size(243, 24);
+            this.EventStatsStripMenuItem.Text = "Event Search";
+            this.EventStatsStripMenuItem.Click += new System.EventHandler(this.EventBackupStripMenuItem_Click);
             // 
-            // CloseStripMenuItem
+            // MessagesToolStripMenuItem
             // 
-            this.CloseStripMenuItem.Name = "CloseStripMenuItem";
-            this.CloseStripMenuItem.Size = new System.Drawing.Size(180, 24);
-            this.CloseStripMenuItem.Text = "Close";
-            this.CloseStripMenuItem.Click += new System.EventHandler(this.CloseStripMenuItem_Click);
+            this.MessagesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.manageMessagesToolStripMenuItem});
+            this.MessagesToolStripMenuItem.Name = "MessagesToolStripMenuItem";
+            this.MessagesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.M)));
+            this.MessagesToolStripMenuItem.Size = new System.Drawing.Size(81, 28);
+            this.MessagesToolStripMenuItem.Text = "Messages";
             // 
             // manageMessagesToolStripMenuItem
             // 
@@ -671,6 +679,30 @@
             this.manageMessagesToolStripMenuItem.Size = new System.Drawing.Size(279, 24);
             this.manageMessagesToolStripMenuItem.Text = "Manage Messages";
             this.manageMessagesToolStripMenuItem.Click += new System.EventHandler(this.ManageMessagesToolStripMenuItem_Click);
+            // 
+            // DateTimeIconMenuStrip
+            // 
+            this.DateTimeIconMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.OpenStripMenuItem,
+            this.CloseStripMenuItem1});
+            this.DateTimeIconMenuStrip.Name = "DateTimeIconMenuStrip";
+            this.DateTimeIconMenuStrip.Size = new System.Drawing.Size(181, 74);
+            // 
+            // OpenStripMenuItem
+            // 
+            this.OpenStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.OpenStripMenuItem.Name = "OpenStripMenuItem";
+            this.OpenStripMenuItem.Size = new System.Drawing.Size(180, 24);
+            this.OpenStripMenuItem.Text = "Open";
+            this.OpenStripMenuItem.Click += new System.EventHandler(this.DateTimeIcon_DoubleClick);
+            // 
+            // CloseStripMenuItem1
+            // 
+            this.CloseStripMenuItem1.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.CloseStripMenuItem1.Name = "CloseStripMenuItem1";
+            this.CloseStripMenuItem1.Size = new System.Drawing.Size(180, 24);
+            this.CloseStripMenuItem1.Text = "Close";
+            this.CloseStripMenuItem1.Click += new System.EventHandler(this.CloseStripMenuItem_Click);
             // 
             // MainApp
             // 
@@ -708,6 +740,7 @@
             this.TimeAndCalendarTabular.ResumeLayout(false);
             this.ChillSchedMenuStrip.ResumeLayout(false);
             this.ChillSchedMenuStrip.PerformLayout();
+            this.DateTimeIconMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -760,6 +793,9 @@
         private System.Windows.Forms.ToolStripMenuItem AboutStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem CloseStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem manageMessagesToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip DateTimeIconMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem OpenStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem CloseStripMenuItem1;
     }
 }
 
