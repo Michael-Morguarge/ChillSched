@@ -6,10 +6,16 @@ using System.Linq;
 
 namespace Backend.Implementations
 {
+    /// <summary>
+    /// Class for the Message Repository
+    /// </summary>
     public class MessageRepository : IMessageRepository
     {
         private readonly List<Message> Messages;
 
+        /// <summary>
+        /// Constructor for the Message Repository
+        /// </summary>
         public MessageRepository()
         {
             Messages = new List<Message>();

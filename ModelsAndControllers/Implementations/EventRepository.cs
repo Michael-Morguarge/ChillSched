@@ -23,6 +23,7 @@ namespace Backend.Implementations
         private const string TildeReplace = "{TILDE}";
         private const string PlusReplace = "{PLUS}";
         private const string NewlineReplace = "{NEWLINE}";
+        private const string InnerNewlineReplace = "{INNERNEWLINE}";
         private const string QuotationReplace = "{D_QUOTE}";
 
         //private readonly DataLayer _dataAccess;
@@ -164,7 +165,12 @@ namespace Backend.Implementations
 
             try
             {
-                string content = File.ReadAllText(".\\Resources\\Events\\temp.saved");
+                string content = string.Empty;
+#if DEBUG
+                content = File.ReadAllText("..\\..\\Resources\\Events\\temp.saved");
+#else
+                content = File.ReadAllText(".\\Resources\\Events\\temp.saved");
+#endif 
 
                 if (!string.IsNullOrEmpty(content))
                 {
@@ -176,7 +182,7 @@ namespace Backend.Implementations
                                          y.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
                                           .Select(z =>
                                               z.Split(new[] { AssignSeparator }, StringSplitOptions.None))
-                                          .Select(a => new KeyValuePair<string, string>(a[0], a[1]))
+                                          .Select(a => new KeyValuePair<string, string>(a[0], a.ElementAtOrDefault(1) ?? string.Empty))
                                           .ToList())
                                     .ToList())
                                .ToList();
@@ -198,7 +204,7 @@ namespace Backend.Implementations
                     loaded = true;
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 loaded = false;
             }
@@ -221,7 +227,7 @@ namespace Backend.Implementations
                 data.Single(x => x.Key == "Comment").Value
                     .Replace(Quotation, string.Empty)
                     .Replace(QuotationReplace, Quotation)
-                    .Replace(NewlineReplace, Environment.NewLine)
+                    .Replace(InnerNewlineReplace, Environment.NewLine)
                     .Replace(PlusReplace, DateSeparator)
                     .Replace(TildeReplace, Tilde);
 
@@ -287,7 +293,7 @@ namespace Backend.Implementations
                 string inactiveTime = TimeAndDateUtility.ConvertTime_String(@event.DeactivationTime);
 
                 string title = @event.Title.Replace(Quotation, QuotationReplace).Replace(DateSeparator, PlusReplace).Replace(Tilde, TildeReplace);
-                string comment = @event.Comment.Replace(Quotation, QuotationReplace).Replace(Environment.NewLine, NewlineReplace).Replace(DateSeparator, PlusReplace).Replace(Tilde, TildeReplace);
+                string comment = @event.Comment.Replace(Quotation, QuotationReplace).Replace(Environment.NewLine, InnerNewlineReplace).Replace("\n", InnerNewlineReplace).Replace(DateSeparator, PlusReplace).Replace(Tilde, TildeReplace);
 
                 eventString +=
                     $"Id=\"{@event.Id}\"{Environment.NewLine}" +

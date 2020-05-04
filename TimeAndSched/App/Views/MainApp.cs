@@ -18,6 +18,7 @@ namespace FrontEnd.App.Views
     {
         private ControlsAccess _controls;
         private EventViewController _events;
+        private MessageViewController _messages;
 
         /// <summary>
         /// Constructor for Partial View Controller
@@ -31,7 +32,6 @@ namespace FrontEnd.App.Views
         private void SetupControls()
         {
             _controls = new ControlsAccess();
-            _events = new EventViewController(_controls);
 
             Tag = _controls.AddForm(this);
             string tag = Tag as string;
@@ -57,15 +57,18 @@ namespace FrontEnd.App.Views
             Time.Text = TimeAndDateUtility.GetCurrentTimeString();
             Date.Text = TimeAndDateUtility.GetCurrentDateString();
 
-            _events.LoadEvents();
-            UpdateCalendar();
-            UpdateTodaysEvents();
-            UpdateEventList();
-
             Bitmap bit = Resources.ChillSched;
             IntPtr pIcon = bit.GetHicon();
             Icon = Icon.FromHandle(pIcon);
             DateTimeIcon.Icon = Icon;
+
+            _events = new EventViewController(_controls);
+            _messages = new MessageViewController(_controls);
+
+            _events.LoadEvents();
+            UpdateCalendar();
+            UpdateTodaysEvents();
+            UpdateEventList();
         }
 
         private void TimeTicker_Tick(object sender, EventArgs e)
