@@ -247,3 +247,8 @@ ModelManifest.xml
 *.dgml
 *.csproj
 *.laccdb
+
+TimeAndSched/Properties/Settings\.settings
+
+TimeAndSched/Properties/Settings1\.Designer\.cs
+/ModelsAndControllers/Backend.ruleset

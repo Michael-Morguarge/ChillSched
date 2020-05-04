@@ -1,14 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
 using System.Linq;
 
 namespace Backend.Database.Abstract
 {
-    public abstract class DataAbstract
+    public abstract class DataAbstract : IDisposable
     {
         private readonly string _connectionString;
         private readonly OleDbConnection _connection;
+        
+        public void Dispose()
+        {
+            _connection.Dispose();
+            GC.SuppressFinalize(this);
+        }
 
         protected DataAbstract(string connString)
         {
@@ -29,14 +36,14 @@ namespace Backend.Database.Abstract
             if (IsClosed || IsBroken)
                 return new List<List<string>>();
 
-            var data = new List<List<string>>();
-            var command = new OleDbCommand(query, _connection);
-            var reader = command.ExecuteReader();
+            List<List<string>> data = new List<List<string>>();
+            OleDbCommand command = new OleDbCommand(query, _connection);
+            OleDbDataReader reader = command.ExecuteReader();
 
             do
             {
-                var dataRow = new List<string>();
-
+                List<string> dataRow = new List<string>();
+                //Store name of column and value in a keypair<string, object>
                 for (int i = 0; i > reader.FieldCount; i++)
                     dataRow.Add((string)reader.GetValue(i));
 
@@ -51,26 +58,26 @@ namespace Backend.Database.Abstract
 
         protected int InsertData(string query)
         {
-            var data = new List<List<string>>();
-            var command = new OleDbCommand(query, _connection);
-            var dataAdapter = new OleDbDataAdapter
+            List<List<string>> data = new List<List<string>>();
+            OleDbCommand command = new OleDbCommand(query, _connection);
+            OleDbDataAdapter dataAdapter = new OleDbDataAdapter
             {
                 InsertCommand = command
             };
-            var effected = dataAdapter.InsertCommand.ExecuteNonQuery();
+            int effected = dataAdapter.InsertCommand.ExecuteNonQuery();
 
             return effected;
         }
 
         protected int UpdateData(string query)
         {
-            var data = new List<List<string>>();
-            var command = new OleDbCommand(query, _connection);
-            var dataAdapter = new OleDbDataAdapter
+            List<List<string>> data = new List<List<string>>();
+            OleDbCommand command = new OleDbCommand(query, _connection);
+            OleDbDataAdapter dataAdapter = new OleDbDataAdapter
             {
                 UpdateCommand = command
             };
-            var effected = dataAdapter.InsertCommand.ExecuteNonQuery();
+            int effected = dataAdapter.InsertCommand.ExecuteNonQuery();
 
             return effected;
         }
@@ -88,38 +95,14 @@ namespace Backend.Database.Abstract
             }
         }
 
-        protected bool IsUsing
-        {
-            get
-            {
-                return new List<ConnectionState> {
+        protected bool IsUsing => new List<ConnectionState> {
                     ConnectionState.Connecting, ConnectionState.Executing, ConnectionState.Fetching
                 }.Contains(_connection.State);
-            }
-        }
 
-        protected bool IsOpen
-        {
-            get
-            {
-                return _connection.State == ConnectionState.Open;
-            }
-        }
+        protected bool IsOpen => _connection.State == ConnectionState.Open;
 
-        protected bool IsClosed
-        {
-            get
-            {
-                return _connection.State == ConnectionState.Closed;
-            }
-        }
+        protected bool IsClosed => _connection.State == ConnectionState.Closed;
 
-        protected bool IsBroken
-        {
-            get
-            {
-                return _connection.State == ConnectionState.Broken;
-            }
-        }
+        protected bool IsBroken => _connection.State == ConnectionState.Broken;
     }
 }

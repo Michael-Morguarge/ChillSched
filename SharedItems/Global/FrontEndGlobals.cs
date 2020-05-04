@@ -1,22 +1,15 @@
-﻿using System;
-
-namespace Shared.Utility
+﻿namespace Shared.Global
 {
-    public enum ControlsType
-    {
-        None, Label, Forms, TextArea, RichTextArea, IconNotifier, DatePicker, Calendar, ListBox, UserForm
-    }
-
+    /// <summary>
+    /// Crud purpose
+    /// </summary>
     public enum CrudPurposes
     {
         None, Create, Edit, Error
     }
 
-    public struct ControlGlobals
+    public enum DateCompare
     {
-        public static Guid CreateId()
-        {
-            return Guid.NewGuid();
-        }
+        None = -1, Before = 0, During = 1, After = 2
     }
 }
