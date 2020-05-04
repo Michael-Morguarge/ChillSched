@@ -22,7 +22,6 @@ namespace Backend.Implementations
         private const string Tilde = "~";
         private const string TildeReplace = "{TILDE}";
         private const string PlusReplace = "{PLUS}";
-        private const string NewlineReplace = "{NEWLINE}";
         private const string InnerNewlineReplace = "{INNERNEWLINE}";
         private const string QuotationReplace = "{D_QUOTE}";
 
@@ -174,37 +173,29 @@ namespace Backend.Implementations
 
                 if (!string.IsNullOrEmpty(content))
                 {
-                    List<List<List<KeyValuePair<string, string>>>> eventsArray =
-                        content.Split(new[] { EventSeparator }, StringSplitOptions.None)
+                    List<List<KeyValuePair<string, string>>> eventsArray =
+                        content.Split(new[] { EventSeparator }, StringSplitOptions.RemoveEmptyEntries)
                                .Select(x =>
-                                   x.Split(new[] { NewlineReplace }, StringSplitOptions.None)
-                                     .Select(y =>
-                                         y.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
-                                          .Select(z =>
-                                              z.Split(new[] { AssignSeparator }, StringSplitOptions.None))
-                                          .Select(a => new KeyValuePair<string, string>(a[0], a.ElementAtOrDefault(1) ?? string.Empty))
-                                          .ToList())
+                                   x.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
+                                    .Select(y =>
+                                        y.Split(new[] { AssignSeparator }, StringSplitOptions.None))
+                                         .Select(a => new KeyValuePair<string, string>(a[0], a.ElementAtOrDefault(1) ?? string.Empty))
                                     .ToList())
+                               .Where(x => x.Any())
                                .ToList();
 
                     List<SavedEvent> events = new List<SavedEvent>();
 
-                    foreach (List<List<KeyValuePair<string, string>>> level1 in eventsArray)
+                    foreach (List<KeyValuePair<string, string>> eventData in eventsArray)
                     {
-                        foreach (List<KeyValuePair<string, string>> level2 in level1)
-                        {
-                            if (level2.Any())
-                            {
-                                SavedEvent item = CreateEventFromLoadedData(level2);
-                                SavedEvents.Add(item);
-                            }
-                        }
+                        SavedEvent item = CreateEventFromLoadedData(eventData);
+                        SavedEvents.Add(item);
                     }
 
                     loaded = true;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 loaded = false;
             }
