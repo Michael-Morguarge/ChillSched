@@ -164,7 +164,7 @@ namespace Backend.Implementations
 
             try
             {
-                string content = File.ReadAllText("..\\..\\Resources\\Events\\temp.saved");
+                string content = File.ReadAllText(".\\Resources\\Events\\temp.saved");
 
                 if (!string.IsNullOrEmpty(content))
                 {
@@ -301,7 +301,7 @@ namespace Backend.Implementations
                     $"~~~{Environment.NewLine}";
             }
 
-            File.WriteAllText("..\\..\\Resources\\Events\\temp.saved", eventString);
+            File.WriteAllText(".\\Resources\\Events\\temp.saved", eventString);
         }
     }
 }

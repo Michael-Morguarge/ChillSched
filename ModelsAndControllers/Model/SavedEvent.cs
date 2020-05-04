@@ -1,5 +1,5 @@
-﻿using Shared.Model;
-using System;
+﻿using Shared.Global;
+using Shared.Model;
 
 namespace Backend.Model
 {
@@ -13,7 +13,7 @@ namespace Backend.Model
         /// </summary>
         public SavedEvent()
         {
-            Id = Guid.NewGuid().ToString();
+            Id = Generate.Id().ToString();
         }
 
         /// <summary>
