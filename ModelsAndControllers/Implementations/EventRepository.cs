@@ -307,7 +307,11 @@ namespace Backend.Implementations
                     $"~~~{Environment.NewLine}";
             }
 
+#if DEBUG
+            File.WriteAllText("..\\..\\Resources\\Events\\tempNew.saved", eventString);
+#else
             File.WriteAllText(".\\Resources\\Events\\temp.saved", eventString);
+#endif
         }
     }
 }
