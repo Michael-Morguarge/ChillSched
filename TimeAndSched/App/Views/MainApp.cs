@@ -8,6 +8,7 @@ using FrontEnd.Controller.Prompts;
 using FrontEnd.Controller.Parts;
 using Backend.Model;
 using Shared.Model;
+using FrontEnd.App.Prompts;
 
 namespace FrontEnd.App.Views
 {
@@ -32,7 +33,18 @@ namespace FrontEnd.App.Views
         private void SetupControls()
         {
             _controls = new ControlsAccess();
+            Setup();
+            _events = new EventViewController(_controls);
+            _messages = new MessageViewController(_controls);
 
+            _events.LoadEvents();
+            UpdateCalendar();
+            UpdateTodaysEvents();
+            UpdateEventList();
+        }
+
+        private void Setup()
+        {
             Tag = _controls.AddForm(this);
             string tag = Tag as string;
 
@@ -53,22 +65,16 @@ namespace FrontEnd.App.Views
             TodaysEvents.Tag = _controls.Add(tag, new ListBoxController(TodaysEvents));
             EventListView.Tag = _controls.Add(tag, new ListViewController(EventListView));
 
+            EIV.SetControls(tag, _controls, _events);
+
             Todays_Events.SetMembers("Title", "Id");
-            Time.Text = TimeAndDateUtility.GetCurrentTimeString();
-            Date.Text = TimeAndDateUtility.GetCurrentDateString();
+            User_Time.SetText(TimeAndDateUtility.GetCurrentTimeString());
+            User_Date.SetText(TimeAndDateUtility.GetCurrentDateString());
 
             Bitmap bit = Resources.ChillSched;
             IntPtr pIcon = bit.GetHicon();
             Icon = Icon.FromHandle(pIcon);
             DateTimeIcon.Icon = Icon;
-
-            _events = new EventViewController(_controls);
-            _messages = new MessageViewController(_controls);
-
-            _events.LoadEvents();
-            UpdateCalendar();
-            UpdateTodaysEvents();
-            UpdateEventList();
         }
 
         private void TimeTicker_Tick(object sender, EventArgs e)
@@ -99,6 +105,7 @@ namespace FrontEnd.App.Views
         {
             if (WindowState == FormWindowState.Minimized)
             {
+                ShowInTaskbar = false;
                 Hide();
             }
         }
@@ -107,6 +114,9 @@ namespace FrontEnd.App.Views
         {
             Show();
             WindowState = FormWindowState.Normal;
+            TopMost = true;
+            TopMost = false;
+            ShowInTaskbar = true;
         }
 
         private void AboutStripMenuItem_Click(object sender, EventArgs e)
@@ -206,7 +216,8 @@ namespace FrontEnd.App.Views
 
         private void ManageMessagesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            SearchView view = new SearchView(_controls, _messages);
+            view.ShowDialog();
         }
 
         #region Helpers
@@ -266,18 +277,21 @@ namespace FrontEnd.App.Views
             try
             {
                 string id = ((SavedEvent)Todays_Events.SelectedIndex())?.Id;
-                if (id != null)
+                if (!string.IsNullOrEmpty(id))
                 {
                     SavedEvent @event = _events.GetEvent(id);
 
-                    Date currDate = TimeAndDateUtility.GetCurrentDate();
-                    Time currTime = TimeAndDateUtility.GetCurrentTime();
+                    if (@event != null)
+                    {
+                        Date currDate = TimeAndDateUtility.GetCurrentDate();
+                        Time currTime = TimeAndDateUtility.GetCurrentTime();
 
-                    Date eventStartDate = @event.ActivationDate;
-                    Time eventStartTime = @event.ActivationTime;
+                        Date eventStartDate = @event.ActivationDate;
+                        Time eventStartTime = @event.ActivationTime;
 
-                    SetEventDetails(@event);
-                    ToggleButtons(true, TimeAndDateUtility.IsBeforeRange(eventStartDate, eventStartTime, currDate, currTime));
+                        SetEventDetails(@event);
+                        ToggleButtons(true, TimeAndDateUtility.IsBeforeRange(eventStartDate, eventStartTime, currDate, currTime));
+                    }
                 }
             }
             catch (Exception)

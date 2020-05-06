@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewGroup listViewGroup5 = new System.Windows.Forms.ListViewGroup("Complete", System.Windows.Forms.HorizontalAlignment.Center);
-            System.Windows.Forms.ListViewGroup listViewGroup6 = new System.Windows.Forms.ListViewGroup("Upcoming", System.Windows.Forms.HorizontalAlignment.Center);
-            System.Windows.Forms.ListViewGroup listViewGroup7 = new System.Windows.Forms.ListViewGroup("Happening Now", System.Windows.Forms.HorizontalAlignment.Center);
-            System.Windows.Forms.ListViewGroup listViewGroup8 = new System.Windows.Forms.ListViewGroup("Overdue", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Complete", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Upcoming", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("Happening Now", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("Overdue", System.Windows.Forms.HorizontalAlignment.Center);
             this.TimeTicker = new System.Windows.Forms.Timer(this.components);
             this.DateTicker = new System.Windows.Forms.Timer(this.components);
             this.CalendarTab = new System.Windows.Forms.TabPage();
@@ -71,18 +71,28 @@
             this.TimeAndCalendarTabular = new System.Windows.Forms.TabControl();
             this.GeneralToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.DateTimeIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.DateTimeIconMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.OpenStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.CloseStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.ChillSchedMenuStrip = new System.Windows.Forms.MenuStrip();
-            this.WelcomeToChillSchedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.AboutStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.CloseStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EventsStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CreateEventStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EventStatsStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MessagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.manageMessagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.DateTimeIconMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.OpenStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.CloseStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.SearchTab = new System.Windows.Forms.TabPage();
+            this.BottomToolStripPanel = new System.Windows.Forms.ToolStripPanel();
+            this.TopToolStripPanel = new System.Windows.Forms.ToolStripPanel();
+            this.RightToolStripPanel = new System.Windows.Forms.ToolStripPanel();
+            this.LeftToolStripPanel = new System.Windows.Forms.ToolStripPanel();
+            this.ContentPanel = new System.Windows.Forms.ToolStripContentPanel();
+            this.SearchViews = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.WelcomeToChillSchedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.AboutStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.CloseStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.EIV = new FrontEnd.App.Parts.EventsInfoView();
             this.CalendarTab.SuspendLayout();
             this.YourEvents.SuspendLayout();
             this.CRUDButtonPanel.SuspendLayout();
@@ -90,8 +100,10 @@
             this.flowLayoutPanel2.SuspendLayout();
             this.TimeTab.SuspendLayout();
             this.TimeAndCalendarTabular.SuspendLayout();
-            this.ChillSchedMenuStrip.SuspendLayout();
             this.DateTimeIconMenuStrip.SuspendLayout();
+            this.ChillSchedMenuStrip.SuspendLayout();
+            this.SearchTab.SuspendLayout();
+            this.SearchViews.SuspendLayout();
             this.SuspendLayout();
             // 
             // TimeTicker
@@ -111,15 +123,16 @@
             this.CalendarTab.BackColor = System.Drawing.SystemColors.ControlLight;
             this.CalendarTab.Controls.Add(this.YourEvents);
             this.CalendarTab.Controls.Add(this.Calendar);
-            this.CalendarTab.Location = new System.Drawing.Point(4, 22);
+            this.CalendarTab.Location = new System.Drawing.Point(4, 29);
             this.CalendarTab.Name = "CalendarTab";
             this.CalendarTab.Padding = new System.Windows.Forms.Padding(3);
-            this.CalendarTab.Size = new System.Drawing.Size(1060, 391);
+            this.CalendarTab.Size = new System.Drawing.Size(1060, 393);
             this.CalendarTab.TabIndex = 0;
-            this.CalendarTab.Text = "CalendarTab";
+            this.CalendarTab.Text = "Calendar";
             // 
             // YourEvents
             // 
+            this.YourEvents.Controls.Add(this.EIV);
             this.YourEvents.Controls.Add(this.CRUDButtonPanel);
             this.YourEvents.Controls.Add(this.TodaysEvents);
             this.YourEvents.Controls.Add(this.flowLayoutPanel1);
@@ -128,16 +141,14 @@
             this.YourEvents.ForeColor = System.Drawing.SystemColors.ControlText;
             this.YourEvents.Location = new System.Drawing.Point(251, 3);
             this.YourEvents.Name = "YourEvents";
-            this.YourEvents.Size = new System.Drawing.Size(806, 385);
+            this.YourEvents.Size = new System.Drawing.Size(806, 387);
             this.YourEvents.TabIndex = 0;
             this.YourEvents.TabStop = false;
             this.YourEvents.Text = "Events for day";
             // 
             // CRUDButtonPanel
             // 
-            this.CRUDButtonPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.CRUDButtonPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.CRUDButtonPanel.Controls.Add(this.AddEvent);
             this.CRUDButtonPanel.Controls.Add(this.EditEvent);
             this.CRUDButtonPanel.Controls.Add(this.RemoveButton);
@@ -145,7 +156,7 @@
             this.CRUDButtonPanel.Controls.Add(this.ToggleStatus);
             this.CRUDButtonPanel.Location = new System.Drawing.Point(7, 339);
             this.CRUDButtonPanel.Name = "CRUDButtonPanel";
-            this.CRUDButtonPanel.Size = new System.Drawing.Size(793, 40);
+            this.CRUDButtonPanel.Size = new System.Drawing.Size(793, 42);
             this.CRUDButtonPanel.TabIndex = 0;
             // 
             // AddEvent
@@ -412,10 +423,10 @@
             this.TimeTab.Controls.Add(this.Date);
             this.TimeTab.Controls.Add(this.Time);
             this.TimeTab.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TimeTab.Location = new System.Drawing.Point(4, 22);
+            this.TimeTab.Location = new System.Drawing.Point(4, 29);
             this.TimeTab.Name = "TimeTab";
             this.TimeTab.Padding = new System.Windows.Forms.Padding(3);
-            this.TimeTab.Size = new System.Drawing.Size(1060, 391);
+            this.TimeTab.Size = new System.Drawing.Size(1060, 393);
             this.TimeTab.TabIndex = 0;
             this.TimeTab.Text = "Welcome";
             // 
@@ -475,23 +486,23 @@
             this.EventListView.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.EventListView.FullRowSelect = true;
             this.EventListView.GridLines = true;
-            listViewGroup5.Header = "Complete";
-            listViewGroup5.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
-            listViewGroup5.Name = "Complete";
-            listViewGroup6.Header = "Upcoming";
-            listViewGroup6.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
-            listViewGroup6.Name = "Upcoming";
-            listViewGroup7.Header = "Happening Now";
-            listViewGroup7.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
-            listViewGroup7.Name = "HappeningNow";
-            listViewGroup8.Header = "Overdue";
-            listViewGroup8.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
-            listViewGroup8.Name = "Overdue";
+            listViewGroup1.Header = "Complete";
+            listViewGroup1.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup1.Name = "Complete";
+            listViewGroup2.Header = "Upcoming";
+            listViewGroup2.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup2.Name = "Upcoming";
+            listViewGroup3.Header = "Happening Now";
+            listViewGroup3.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup3.Name = "HappeningNow";
+            listViewGroup4.Header = "Overdue";
+            listViewGroup4.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup4.Name = "Overdue";
             this.EventListView.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup5,
-            listViewGroup6,
-            listViewGroup7,
-            listViewGroup8});
+            listViewGroup1,
+            listViewGroup2,
+            listViewGroup3,
+            listViewGroup4});
             this.EventListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.EventListView.HideSelection = false;
             this.EventListView.Location = new System.Drawing.Point(638, 29);
@@ -567,11 +578,14 @@
             // 
             this.TimeAndCalendarTabular.Controls.Add(this.TimeTab);
             this.TimeAndCalendarTabular.Controls.Add(this.CalendarTab);
+            this.TimeAndCalendarTabular.Controls.Add(this.SearchTab);
             this.TimeAndCalendarTabular.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.TimeAndCalendarTabular.Location = new System.Drawing.Point(12, 38);
+            this.TimeAndCalendarTabular.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TimeAndCalendarTabular.Location = new System.Drawing.Point(13, 36);
+            this.TimeAndCalendarTabular.Multiline = true;
             this.TimeAndCalendarTabular.Name = "TimeAndCalendarTabular";
             this.TimeAndCalendarTabular.SelectedIndex = 0;
-            this.TimeAndCalendarTabular.Size = new System.Drawing.Size(1068, 417);
+            this.TimeAndCalendarTabular.Size = new System.Drawing.Size(1068, 426);
             this.TimeAndCalendarTabular.TabIndex = 0;
             // 
             // GeneralToolTip
@@ -589,6 +603,31 @@
             this.DateTimeIcon.Visible = true;
             this.DateTimeIcon.DoubleClick += new System.EventHandler(this.DateTimeIcon_DoubleClick);
             // 
+            // DateTimeIconMenuStrip
+            // 
+            this.DateTimeIconMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.OpenStripMenuItem,
+            this.CloseStripMenuItem1});
+            this.DateTimeIconMenuStrip.Name = "DateTimeIconMenuStrip";
+            this.DateTimeIconMenuStrip.RightToLeft = System.Windows.Forms.RightToLeft.Inherit;
+            this.DateTimeIconMenuStrip.Size = new System.Drawing.Size(111, 52);
+            // 
+            // OpenStripMenuItem
+            // 
+            this.OpenStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.OpenStripMenuItem.Name = "OpenStripMenuItem";
+            this.OpenStripMenuItem.Size = new System.Drawing.Size(110, 24);
+            this.OpenStripMenuItem.Text = "Open";
+            this.OpenStripMenuItem.Click += new System.EventHandler(this.DateTimeIcon_DoubleClick);
+            // 
+            // CloseStripMenuItem1
+            // 
+            this.CloseStripMenuItem1.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.CloseStripMenuItem1.Name = "CloseStripMenuItem1";
+            this.CloseStripMenuItem1.Size = new System.Drawing.Size(110, 24);
+            this.CloseStripMenuItem1.Text = "Close";
+            this.CloseStripMenuItem1.Click += new System.EventHandler(this.CloseStripMenuItem_Click);
+            // 
             // ChillSchedMenuStrip
             // 
             this.ChillSchedMenuStrip.AutoSize = false;
@@ -605,32 +644,6 @@
             this.ChillSchedMenuStrip.Size = new System.Drawing.Size(1092, 32);
             this.ChillSchedMenuStrip.TabIndex = 1;
             this.ChillSchedMenuStrip.Text = "ChillSchedMenuStrip";
-            // 
-            // WelcomeToChillSchedToolStripMenuItem
-            // 
-            this.WelcomeToChillSchedToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.AboutStripMenuItem,
-            this.CloseStripMenuItem});
-            this.WelcomeToChillSchedToolStripMenuItem.Image = global::FrontEnd.Properties.Resources.ChillSched;
-            this.WelcomeToChillSchedToolStripMenuItem.Name = "WelcomeToChillSchedToolStripMenuItem";
-            this.WelcomeToChillSchedToolStripMenuItem.RightToLeftAutoMirrorImage = true;
-            this.WelcomeToChillSchedToolStripMenuItem.ShowShortcutKeys = false;
-            this.WelcomeToChillSchedToolStripMenuItem.Size = new System.Drawing.Size(175, 28);
-            this.WelcomeToChillSchedToolStripMenuItem.Text = "Welcome to ChillSched";
-            // 
-            // AboutStripMenuItem
-            // 
-            this.AboutStripMenuItem.Name = "AboutStripMenuItem";
-            this.AboutStripMenuItem.Size = new System.Drawing.Size(116, 24);
-            this.AboutStripMenuItem.Text = "About";
-            this.AboutStripMenuItem.Click += new System.EventHandler(this.AboutStripMenuItem_Click);
-            // 
-            // CloseStripMenuItem
-            // 
-            this.CloseStripMenuItem.Name = "CloseStripMenuItem";
-            this.CloseStripMenuItem.Size = new System.Drawing.Size(116, 24);
-            this.CloseStripMenuItem.Text = "Close";
-            this.CloseStripMenuItem.Click += new System.EventHandler(this.CloseStripMenuItem_Click);
             // 
             // EventsStripMenuItem
             // 
@@ -680,29 +693,125 @@
             this.manageMessagesToolStripMenuItem.Text = "Manage Messages";
             this.manageMessagesToolStripMenuItem.Click += new System.EventHandler(this.ManageMessagesToolStripMenuItem_Click);
             // 
-            // DateTimeIconMenuStrip
+            // SearchTab
             // 
-            this.DateTimeIconMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.OpenStripMenuItem,
-            this.CloseStripMenuItem1});
-            this.DateTimeIconMenuStrip.Name = "DateTimeIconMenuStrip";
-            this.DateTimeIconMenuStrip.Size = new System.Drawing.Size(181, 74);
+            this.SearchTab.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.SearchTab.Controls.Add(this.SearchViews);
+            this.SearchTab.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.SearchTab.Location = new System.Drawing.Point(4, 29);
+            this.SearchTab.Name = "SearchTab";
+            this.SearchTab.Padding = new System.Windows.Forms.Padding(3);
+            this.SearchTab.Size = new System.Drawing.Size(1060, 393);
+            this.SearchTab.TabIndex = 1;
+            this.SearchTab.Text = "Search";
             // 
-            // OpenStripMenuItem
+            // BottomToolStripPanel
             // 
-            this.OpenStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.OpenStripMenuItem.Name = "OpenStripMenuItem";
-            this.OpenStripMenuItem.Size = new System.Drawing.Size(180, 24);
-            this.OpenStripMenuItem.Text = "Open";
-            this.OpenStripMenuItem.Click += new System.EventHandler(this.DateTimeIcon_DoubleClick);
+            this.BottomToolStripPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.BottomToolStripPanel.Location = new System.Drawing.Point(0, 175);
+            this.BottomToolStripPanel.Name = "BottomToolStripPanel";
+            this.BottomToolStripPanel.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            this.BottomToolStripPanel.RowMargin = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.BottomToolStripPanel.Size = new System.Drawing.Size(150, 0);
             // 
-            // CloseStripMenuItem1
+            // TopToolStripPanel
             // 
-            this.CloseStripMenuItem1.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.CloseStripMenuItem1.Name = "CloseStripMenuItem1";
-            this.CloseStripMenuItem1.Size = new System.Drawing.Size(180, 24);
-            this.CloseStripMenuItem1.Text = "Close";
-            this.CloseStripMenuItem1.Click += new System.EventHandler(this.CloseStripMenuItem_Click);
+            this.TopToolStripPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.TopToolStripPanel.Location = new System.Drawing.Point(0, 0);
+            this.TopToolStripPanel.Name = "TopToolStripPanel";
+            this.TopToolStripPanel.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            this.TopToolStripPanel.RowMargin = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.TopToolStripPanel.Size = new System.Drawing.Size(150, 25);
+            // 
+            // RightToolStripPanel
+            // 
+            this.RightToolStripPanel.Dock = System.Windows.Forms.DockStyle.Right;
+            this.RightToolStripPanel.Location = new System.Drawing.Point(1092, 0);
+            this.RightToolStripPanel.Name = "RightToolStripPanel";
+            this.RightToolStripPanel.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.RightToolStripPanel.RowMargin = new System.Windows.Forms.Padding(0, 3, 0, 0);
+            this.RightToolStripPanel.Size = new System.Drawing.Size(0, 462);
+            // 
+            // LeftToolStripPanel
+            // 
+            this.LeftToolStripPanel.Dock = System.Windows.Forms.DockStyle.Left;
+            this.LeftToolStripPanel.Location = new System.Drawing.Point(0, 0);
+            this.LeftToolStripPanel.Name = "LeftToolStripPanel";
+            this.LeftToolStripPanel.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.LeftToolStripPanel.RowMargin = new System.Windows.Forms.Padding(0, 3, 0, 0);
+            this.LeftToolStripPanel.Size = new System.Drawing.Size(0, 462);
+            // 
+            // ContentPanel
+            // 
+            this.ContentPanel.AutoScroll = true;
+            this.ContentPanel.Size = new System.Drawing.Size(1092, 462);
+            // 
+            // SearchViews
+            // 
+            this.SearchViews.Appearance = System.Windows.Forms.TabAppearance.Buttons;
+            this.SearchViews.Controls.Add(this.tabPage1);
+            this.SearchViews.Controls.Add(this.tabPage2);
+            this.SearchViews.Location = new System.Drawing.Point(6, 6);
+            this.SearchViews.Multiline = true;
+            this.SearchViews.Name = "SearchViews";
+            this.SearchViews.SelectedIndex = 0;
+            this.SearchViews.Size = new System.Drawing.Size(1048, 381);
+            this.SearchViews.TabIndex = 2;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Location = new System.Drawing.Point(4, 28);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(1040, 349);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 25);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(1040, 352);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // WelcomeToChillSchedToolStripMenuItem
+            // 
+            this.WelcomeToChillSchedToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.AboutStripMenuItem,
+            this.CloseStripMenuItem});
+            this.WelcomeToChillSchedToolStripMenuItem.Image = global::FrontEnd.Properties.Resources.ChillSched;
+            this.WelcomeToChillSchedToolStripMenuItem.Name = "WelcomeToChillSchedToolStripMenuItem";
+            this.WelcomeToChillSchedToolStripMenuItem.RightToLeftAutoMirrorImage = true;
+            this.WelcomeToChillSchedToolStripMenuItem.ShowShortcutKeys = false;
+            this.WelcomeToChillSchedToolStripMenuItem.Size = new System.Drawing.Size(175, 28);
+            this.WelcomeToChillSchedToolStripMenuItem.Text = "Welcome to ChillSched";
+            // 
+            // AboutStripMenuItem
+            // 
+            this.AboutStripMenuItem.Name = "AboutStripMenuItem";
+            this.AboutStripMenuItem.Size = new System.Drawing.Size(116, 24);
+            this.AboutStripMenuItem.Text = "About";
+            this.AboutStripMenuItem.Click += new System.EventHandler(this.AboutStripMenuItem_Click);
+            // 
+            // CloseStripMenuItem
+            // 
+            this.CloseStripMenuItem.Name = "CloseStripMenuItem";
+            this.CloseStripMenuItem.Size = new System.Drawing.Size(116, 24);
+            this.CloseStripMenuItem.Text = "Close";
+            this.CloseStripMenuItem.Click += new System.EventHandler(this.CloseStripMenuItem_Click);
+            // 
+            // EIV
+            // 
+            this.EIV.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.EIV.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.EIV.Location = new System.Drawing.Point(0, 0);
+            this.EIV.Name = "EIV";
+            this.EIV.Size = new System.Drawing.Size(806, 387);
+            this.EIV.TabIndex = 2;
             // 
             // MainApp
             // 
@@ -713,7 +822,7 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(1092, 462);
+            this.ClientSize = new System.Drawing.Size(1092, 466);
             this.Controls.Add(this.ChillSchedMenuStrip);
             this.Controls.Add(this.TimeAndCalendarTabular);
             this.Cursor = System.Windows.Forms.Cursors.Default;
@@ -724,7 +833,6 @@
             this.Name = "MainApp";
             this.Opacity = 0.95D;
             this.ShowIcon = false;
-            this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ChillSched";
@@ -738,9 +846,11 @@
             this.flowLayoutPanel2.ResumeLayout(false);
             this.TimeTab.ResumeLayout(false);
             this.TimeAndCalendarTabular.ResumeLayout(false);
+            this.DateTimeIconMenuStrip.ResumeLayout(false);
             this.ChillSchedMenuStrip.ResumeLayout(false);
             this.ChillSchedMenuStrip.PerformLayout();
-            this.DateTimeIconMenuStrip.ResumeLayout(false);
+            this.SearchTab.ResumeLayout(false);
+            this.SearchViews.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -796,6 +906,16 @@
         private System.Windows.Forms.ContextMenuStrip DateTimeIconMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem OpenStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem CloseStripMenuItem1;
+        private System.Windows.Forms.TabPage SearchTab;
+        private System.Windows.Forms.ToolStripPanel BottomToolStripPanel;
+        private System.Windows.Forms.ToolStripPanel TopToolStripPanel;
+        private System.Windows.Forms.ToolStripPanel RightToolStripPanel;
+        private System.Windows.Forms.ToolStripPanel LeftToolStripPanel;
+        private System.Windows.Forms.ToolStripContentPanel ContentPanel;
+        private System.Windows.Forms.TabControl SearchViews;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private Parts.EventsInfoView EIV;
     }
 }
 

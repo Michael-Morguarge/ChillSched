@@ -29,9 +29,10 @@ namespace Testing.Backend
         {
             #region Data
 
-            Message actual = new Message
+            AppMessage actual = new AppMessage
             {
                 Id = "1",
+                Title = "1",
                 DateCreated = TimeAndDateUtility.ConvertDate_Date(DateTime.Today),
                 TimeCreated = TimeAndDateUtility.ConvertTime_Time(DateTime.Today),
                 Quote = "Test quote",
@@ -43,10 +44,11 @@ namespace Testing.Backend
             #endregion Data
 
             bool testAdd = repository.AddMessage(actual);
-            Message result = repository.GetMessage(actual.Id);
+            AppMessage result = repository.GetMessage(actual.Id);
 
             Assert.IsTrue(testAdd);
             Assert.AreEqual(actual.Id, result.Id);
+            Assert.AreEqual(actual.Title, result.Title);
             Assert.AreEqual(
                 TimeAndDateUtility.ConvertDateAndTime_Date(actual.DateCreated, actual.TimeCreated),
                 TimeAndDateUtility.ConvertDateAndTime_Date(result.DateCreated, result.TimeCreated)
@@ -61,9 +63,10 @@ namespace Testing.Backend
         {
             #region Data
 
-            Message actual = new Message
+            AppMessage actual = new AppMessage
             {
                 Id = "1",
+                Title = "1",
                 DateCreated = TimeAndDateUtility.ConvertDate_Date(DateTime.Today),
                 TimeCreated = TimeAndDateUtility.ConvertTime_Time(DateTime.Today),
                 Quote = "Test quote",
@@ -75,7 +78,7 @@ namespace Testing.Backend
             #endregion Data
 
             bool testAdd = repository.AddMessage(actual);
-            Message result = repository.GetMessage("2");
+            AppMessage result = repository.GetMessage("2");
 
             Assert.IsTrue(testAdd);
             Assert.IsNull(result);
@@ -86,9 +89,10 @@ namespace Testing.Backend
         {
             #region Data
 
-            Message actual = new Message
+            AppMessage actual = new AppMessage
             {
                 Id = "1",
+                Title = "1",
                 DateCreated = TimeAndDateUtility.ConvertDate_Date(DateTime.Today),
                 TimeCreated = TimeAndDateUtility.ConvertTime_Time(DateTime.Today),
                 Quote = "Test quote",
@@ -100,7 +104,7 @@ namespace Testing.Backend
             #endregion Data
 
             bool testAdd = repository.AddMessage(actual);
-            Message result = repository.GetMessage(null);
+            AppMessage result = repository.GetMessage(null);
 
             Assert.IsTrue(testAdd);
             Assert.IsNull(result);
@@ -111,9 +115,10 @@ namespace Testing.Backend
         {
             #region Data
 
-            Message actual1 = new Message
+            AppMessage actual1 = new AppMessage
             {
                 Id = "1",
+                Title = "1",
                 DateCreated = TimeAndDateUtility.ConvertDate_Date(DateTime.Today),
                 TimeCreated = TimeAndDateUtility.ConvertTime_Time(DateTime.Today),
                 Quote = "Test quote",
@@ -122,9 +127,10 @@ namespace Testing.Backend
                 Source = "From somewhere"
             };
 
-            Message actual2 = new Message
+            AppMessage actual2 = new AppMessage
             {
                 Id = "2",
+                Title = "2",
                 DateCreated = TimeAndDateUtility.ConvertDate_Date(DateTime.Today),
                 TimeCreated = TimeAndDateUtility.ConvertTime_Time(DateTime.Today),
                 Quote = "Test quote",
@@ -136,7 +142,7 @@ namespace Testing.Backend
             #endregion Data
 
             bool testAdd = repository.AddMessage(actual1) && repository.AddMessage(actual2);
-            List<Message> result = repository.GetMessages().ToList();
+            List<AppMessage> result = repository.GetMessages().ToList();
 
             Assert.IsTrue(testAdd);
             Assert.AreEqual(2, result.Count());
@@ -147,9 +153,10 @@ namespace Testing.Backend
         {
             #region Data
 
-            Message actual1 = new Message
+            AppMessage actual1 = new AppMessage
             {
                 Id = "1",
+                Title = "1",
                 DateCreated = TimeAndDateUtility.ConvertDate_Date(DateTime.Today),
                 TimeCreated = TimeAndDateUtility.ConvertTime_Time(DateTime.Today),
                 Quote = "Test quote 1",
@@ -158,9 +165,10 @@ namespace Testing.Backend
                 Source = "From somewhere"
             };
 
-            Message actual2 = new Message
+            AppMessage actual2 = new AppMessage
             {
                 Id = "2",
+                Title = "2",
                 DateCreated = TimeAndDateUtility.ConvertDate_Date(DateTime.Today),
                 TimeCreated = TimeAndDateUtility.ConvertTime_Time(DateTime.Today),
                 Quote = "Test quote 2",
@@ -172,7 +180,7 @@ namespace Testing.Backend
             #endregion Data
 
             bool testAdd = repository.AddMessage(actual1) && repository.AddMessage(actual2);
-            List<Message> result = repository.GetMessages("1").ToList();
+            List<AppMessage> result = repository.GetMessages("1").ToList();
 
             Assert.IsTrue(testAdd);
             Assert.AreEqual(1, result.Count());
@@ -183,9 +191,10 @@ namespace Testing.Backend
         {
             #region Data
 
-            Message actual1 = new Message
+            AppMessage actual1 = new AppMessage
             {
                 Id = "1",
+                Title = "1",
                 DateCreated = TimeAndDateUtility.ConvertDate_Date(DateTime.Today),
                 TimeCreated = TimeAndDateUtility.ConvertTime_Time(DateTime.Today),
                 Quote = "Test quote",
@@ -194,9 +203,10 @@ namespace Testing.Backend
                 Source = "From somewhere"
             };
 
-            Message actual2 = new Message
+            AppMessage actual2 = new AppMessage
             {
                 Id = "2",
+                Title = "2",
                 DateCreated = TimeAndDateUtility.ConvertDate_Date(DateTime.Today),
                 TimeCreated = TimeAndDateUtility.ConvertTime_Time(DateTime.Today),
                 Quote = "Test quote",
@@ -208,7 +218,7 @@ namespace Testing.Backend
             #endregion Data
 
             bool testAdd = repository.AddMessage(actual1) && repository.AddMessage(actual2);
-            List<Message> result = repository.GetMessages(null).ToList();
+            List<AppMessage> result = repository.GetMessages(null).ToList();
 
             Assert.IsTrue(testAdd);
             Assert.AreEqual(0, result.Count());
@@ -223,9 +233,10 @@ namespace Testing.Backend
         {
             #region Data
 
-            Message actual = new Message
+            AppMessage actual = new AppMessage
             {
                 Id = "1",
+                Title = "1",
                 DateCreated = TimeAndDateUtility.ConvertDate_Date(DateTime.Today),
                 TimeCreated = TimeAndDateUtility.ConvertTime_Time(DateTime.Today),
                 Quote = "Test quote",
@@ -258,9 +269,10 @@ namespace Testing.Backend
         {
             #region Data
 
-            Message actual = new Message
+            AppMessage actual = new AppMessage
             {
                 Id = "1",
+                Title = "1",
                 DateCreated = TimeAndDateUtility.ConvertDate_Date(DateTime.Today),
                 TimeCreated = TimeAndDateUtility.ConvertTime_Time(DateTime.Today),
                 Quote = "Test quote",
@@ -269,9 +281,10 @@ namespace Testing.Backend
                 Source = "From somewhere"
             };
 
-            Message actual2 = new Message
+            AppMessage actual2 = new AppMessage
             {
                 Id = "1",
+                Title = "2",
                 DateCreated = actual.DateCreated,
                 TimeCreated = actual.TimeCreated,
                 Quote = "Quote test",
@@ -290,9 +303,10 @@ namespace Testing.Backend
 
             Assert.IsTrue(testUpdate);
 
-            Message result = repository.GetMessage(actual2.Id);
+            AppMessage result = repository.GetMessage(actual2.Id);
 
             Assert.AreEqual(actual2.Id, result.Id);
+            Assert.AreEqual(actual2.Title, result.Title);
             Assert.AreEqual(
                 TimeAndDateUtility.ConvertDateAndTime_Date(actual2.DateCreated, actual2.TimeCreated),
                 TimeAndDateUtility.ConvertDateAndTime_Date(result.DateCreated, result.TimeCreated)
@@ -307,9 +321,10 @@ namespace Testing.Backend
         {
             #region Data
 
-            Message actual = new Message
+            AppMessage actual = new AppMessage
             {
                 Id = "1",
+                Title = "1",
                 DateCreated = TimeAndDateUtility.ConvertDate_Date(DateTime.Today),
                 TimeCreated = TimeAndDateUtility.ConvertTime_Time(DateTime.Today),
                 Quote = "Test quote",
@@ -318,9 +333,10 @@ namespace Testing.Backend
                 Source = "From somewhere"
             };
 
-            Message actual2 = new Message
+            AppMessage actual2 = new AppMessage
             {
                 Id = "2",
+                Title = "2",
                 DateCreated = TimeAndDateUtility.ConvertDate_Date(DateTime.Today),
                 TimeCreated = TimeAndDateUtility.ConvertTime_Time(DateTime.Today),
                 Quote = "Quote test",
@@ -357,9 +373,10 @@ namespace Testing.Backend
         {
             #region Data
 
-            Message actual1 = new Message
+            AppMessage actual1 = new AppMessage
             {
                 Id = "1",
+                Title = "1",
                 DateCreated = TimeAndDateUtility.ConvertDate_Date(DateTime.Today),
                 TimeCreated = TimeAndDateUtility.ConvertTime_Time(DateTime.Today),
                 Quote = "Test quote",
@@ -368,9 +385,10 @@ namespace Testing.Backend
                 Source = "From somewhere"
             };
 
-            Message actual2 = new Message
+            AppMessage actual2 = new AppMessage
             {
                 Id = "2",
+                Title = "2",
                 DateCreated = TimeAndDateUtility.ConvertDate_Date(DateTime.Today),
                 TimeCreated = TimeAndDateUtility.ConvertTime_Time(DateTime.Today),
                 Quote = "Quote test",
@@ -383,7 +401,7 @@ namespace Testing.Backend
 
             bool testAdd = repository.AddMessage(actual1) && repository.AddMessage(actual2);
             bool testDelete = repository.DeleteMessage(actual1.Id);
-            Message result = repository.GetMessage(actual1.Id);
+            AppMessage result = repository.GetMessage(actual1.Id);
 
             Assert.IsTrue(testAdd);
             Assert.IsTrue(testDelete);
@@ -395,9 +413,10 @@ namespace Testing.Backend
         {
             #region Data
 
-            Message actual1 = new Message
+            AppMessage actual1 = new AppMessage
             {
                 Id = "1",
+                Title = "1",
                 DateCreated = TimeAndDateUtility.ConvertDate_Date(DateTime.Today),
                 TimeCreated = TimeAndDateUtility.ConvertTime_Time(DateTime.Today),
                 Quote = "Test quote",
@@ -406,9 +425,10 @@ namespace Testing.Backend
                 Source = "From somewhere"
             };
 
-            Message actual2 = new Message
+            AppMessage actual2 = new AppMessage
             {
                 Id = "2",
+                Title = "2",
                 DateCreated = TimeAndDateUtility.ConvertDate_Date(DateTime.Today),
                 TimeCreated = TimeAndDateUtility.ConvertTime_Time(DateTime.Today),
                 Quote = "Quote test",

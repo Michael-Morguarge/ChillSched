@@ -6,15 +6,20 @@ namespace BackEnd.Model
     /// <summary>
     /// Model for messages
     /// </summary>
-    public class Message
+    public class AppMessage
     {
         /// <summary>
         /// Sets the message id
         /// </summary>
-        public Message()
+        public AppMessage()
         {
             Id = Generate.Id().ToString();
         }
+
+        /// <summary>
+        /// The title of the message
+        /// </summary>
+        public string Title { get; set; }
 
         /// <summary>
         /// The Id of the message

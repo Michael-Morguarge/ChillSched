@@ -1,5 +1,5 @@
 ﻿using Backend.Model;
-using FrontEnd.App.Views;
+using FrontEnd.App.Prompts;
 using FrontEnd.View.Controller;
 using Shared.Global;
 using Shared.Model;
@@ -162,12 +162,12 @@ namespace FrontEnd.Controller.Prompts
 
             try
             {
-                GeneralForm form = new GeneralForm(_controls);
+                EventCrudView form = new EventCrudView(_controls);
                 form.CreateView(CrudPurposes.Create);
 
                 form.ShowDialog();
-                SavedEvent result = form.Results;
-                DialogResult dialogResult = form.PromptResult;
+                SavedEvent result = form.Data.Results;
+                DialogResult dialogResult = form.Data.DialogResult;
 
                 if (dialogResult != DialogResult.Cancel && result != null)
                 {
@@ -216,13 +216,13 @@ namespace FrontEnd.Controller.Prompts
 
             try
             {
-                GeneralForm form = new GeneralForm(_controls);
+                EventCrudView form = new EventCrudView(_controls);
                 SavedEvent @event = _eventController.GetEvent(id);
                 form.CreateView(CrudPurposes.Edit, @event);
 
                 form.ShowDialog();
-                SavedEvent result = form.Results;
-                DialogResult dialogResult = form.PromptResult;
+                SavedEvent result = form.Data.Results;
+                DialogResult dialogResult = form.Data.DialogResult;
 
                 if (dialogResult != DialogResult.Cancel && result != null)
                 {
