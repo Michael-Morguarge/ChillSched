@@ -1,4 +1,4 @@
-﻿using BackEnd.Model;
+﻿using Backend.Model;
 using System.Collections.Generic;
 
 namespace Backend.Inferfaces

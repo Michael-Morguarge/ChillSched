@@ -2,7 +2,7 @@
 using Shared.Model;
 using System.Collections.Generic;
 
-namespace BackEnd.Inferfaces
+namespace Backend.Inferfaces
 {
     /// <summary>
     /// Interface for IEventRepository
@@ -49,6 +49,13 @@ namespace BackEnd.Inferfaces
         /// <param name="date">The current date</param>
         /// <returns>A list of saved events</returns>
         IEnumerable<SavedEvent> GetEvents(Date date);
+
+        /// <summary>
+        /// Gets all events
+        /// </summary>
+        /// <param name="searchTerm">The searchTerm</param>
+        /// <returns>A list of saved events</returns>
+        IEnumerable<SavedEvent> GetEvents(string searchTerm);
 
         /// <summary>
         /// Gets all events

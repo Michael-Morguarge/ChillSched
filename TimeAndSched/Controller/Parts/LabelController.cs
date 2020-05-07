@@ -29,5 +29,11 @@ namespace FrontEnd.Controller.Parts
         /// </summary>
         /// <param name="color">The background color</param>
         public void SetBackColor(Color color) => GetControl().BackColor = color;
+
+        /// <summary>
+        /// Sets the fore color
+        /// </summary>
+        /// <param name="color">The fore color</param>
+        public void SetForeColor(Color color) => GetControl().ForeColor = color;
     }
 }

@@ -65,7 +65,7 @@
             this.YourEvents.Size = new System.Drawing.Size(804, 325);
             this.YourEvents.TabIndex = 1;
             this.YourEvents.TabStop = false;
-            this.YourEvents.Text = "Events for day";
+            this.YourEvents.Text = "Text Goes Here";
             // 
             // TodaysEvents
             // 
@@ -79,6 +79,7 @@
             this.TodaysEvents.Name = "TodaysEvents";
             this.TodaysEvents.Size = new System.Drawing.Size(257, 292);
             this.TodaysEvents.TabIndex = 1;
+            this.TodaysEvents.SelectedIndexChanged += new System.EventHandler(this.TodaysEvents_SelectedIndexChanged);
             // 
             // flowLayoutPanel1
             // 
@@ -223,9 +224,10 @@
             this.CRUDButtonPanel.Controls.Add(this.RemoveButton);
             this.CRUDButtonPanel.Controls.Add(this.splitter1);
             this.CRUDButtonPanel.Controls.Add(this.ToggleStatus);
-            this.CRUDButtonPanel.Location = new System.Drawing.Point(278, 336);
+            this.CRUDButtonPanel.Enabled = false;
+            this.CRUDButtonPanel.Location = new System.Drawing.Point(5, 339);
             this.CRUDButtonPanel.Name = "CRUDButtonPanel";
-            this.CRUDButtonPanel.Size = new System.Drawing.Size(531, 45);
+            this.CRUDButtonPanel.Size = new System.Drawing.Size(804, 45);
             this.CRUDButtonPanel.TabIndex = 2;
             // 
             // AddEvent
@@ -246,6 +248,7 @@
             this.AddEvent.TabIndex = 2;
             this.AddEvent.Text = "Create";
             this.AddEvent.UseVisualStyleBackColor = true;
+            this.AddEvent.Click += new System.EventHandler(this.AddEvent_Click);
             // 
             // EditEvent
             // 
@@ -265,6 +268,7 @@
             this.EditEvent.TabIndex = 3;
             this.EditEvent.Text = "Edit";
             this.EditEvent.UseVisualStyleBackColor = false;
+            this.EditEvent.Click += new System.EventHandler(this.EditEvent_Click);
             // 
             // RemoveButton
             // 
@@ -283,6 +287,7 @@
             this.RemoveButton.TabIndex = 4;
             this.RemoveButton.Text = "Remove";
             this.RemoveButton.UseVisualStyleBackColor = false;
+            this.RemoveButton.Click += new System.EventHandler(this.RemoveButton_Click);
             // 
             // splitter1
             // 
@@ -308,6 +313,7 @@
             this.ToggleStatus.TabIndex = 1;
             this.ToggleStatus.Text = "Toggle Status";
             this.ToggleStatus.UseVisualStyleBackColor = false;
+            this.ToggleStatus.Click += new System.EventHandler(this.ToggleStatus_Click);
             // 
             // EventsInfoView
             // 
@@ -316,7 +322,7 @@
             this.Controls.Add(this.CRUDButtonPanel);
             this.Controls.Add(this.YourEvents);
             this.Name = "EventsInfoView";
-            this.Size = new System.Drawing.Size(806, 387);
+            this.Size = new System.Drawing.Size(814, 387);
             this.YourEvents.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel2.ResumeLayout(false);

@@ -2,7 +2,7 @@
 using Backend.Model;
 using System.Collections.Generic;
 using System.IO;
-using BackEnd.Inferfaces;
+using Backend.Inferfaces;
 using System.Linq;
 using System;
 using Shared.Model;
@@ -134,6 +134,19 @@ namespace Backend.Implementations
                                 || TimeAndDateUtility.IsWithinRange(start, x.DeactivationDate, end))
                            .ToList()
                            .AsReadOnly();
+        }
+
+        /// <summary>
+        /// Implements <see cref="IEventRepository.GetEvents(string)" />
+        /// </summary>
+        public IEnumerable<SavedEvent> GetEvents(string searchTerm)
+        {
+            string loweredString = searchTerm.ToLower();
+            return SavedEvents.Where(x =>
+                                x.Title.ToLower().Contains(loweredString)
+                                || x.Comment.ToLower().Contains(loweredString))
+                              .ToList()
+                              .AsReadOnly();
         }
 
         /// <summary>

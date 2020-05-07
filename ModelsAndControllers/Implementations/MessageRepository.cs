@@ -1,5 +1,5 @@
 ﻿using Backend.Inferfaces;
-using BackEnd.Model;
+using Backend.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -96,12 +96,13 @@ namespace Backend.Implementations
 
             if (!string.IsNullOrEmpty(searchTerm))
             {
+                string loweredString = searchTerm.ToLower();
                 messages =
                     Messages.Where(x =>
-                        x.Title.Contains(searchTerm)
-                        || x.Author.Contains(searchTerm)
-                        || x.Quote.Contains(searchTerm)
-                        || x.Source.Contains(searchTerm)
+                        x.Title.Contains(loweredString)
+                        || x.Author.ToLower().Contains(loweredString)
+                        || x.Quote.ToLower().Contains(loweredString)
+                        || x.Source.ToLower().Contains(loweredString)
                     );
             }
 

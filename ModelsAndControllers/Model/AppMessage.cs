@@ -1,7 +1,7 @@
 ﻿using Shared.Global;
 using Shared.Model;
 
-namespace BackEnd.Model
+namespace Backend.Model
 {
     /// <summary>
     /// Model for messages

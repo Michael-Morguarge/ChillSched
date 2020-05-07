@@ -46,6 +46,12 @@ namespace FrontEnd.Controller.Parts
         }
 
         /// <summary>
+        /// Enables the control
+        /// </summary>
+        /// <param name="enable">Whether to enable the control</param>
+        public void Enable(bool enable) => GetControl().Enabled = enable;
+
+        /// <summary>
         /// The formatted date
         /// </summary>
         public string Date => TimeAndDateUtility.ConvertDate_String(GetControl().Value);

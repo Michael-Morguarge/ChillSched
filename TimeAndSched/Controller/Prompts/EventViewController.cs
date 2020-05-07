@@ -120,7 +120,7 @@ namespace FrontEnd.Controller.Prompts
                         + (span.Minutes > 0 ? mins + " " : string.Empty)
                         + (span.Seconds > 0 ? secs : string.Empty);
 
-            return new string[] { @event.Title, resultString };
+            return new string[] { @event.Title, resultString.Trim() };
         }
 
         /// <summary>
@@ -133,13 +133,15 @@ namespace FrontEnd.Controller.Prompts
         }
 
         /// <summary>
-        /// Gets all the events on a specific date
+        /// Gets all events between a specific range
         /// </summary>
-        /// <param name="date">The date to search with</param>
-        /// <returns></returns>
-        public object[] GetAll(Date date)
+        /// <param name="start">The start date</param>
+        /// <param name="end">The end date</param>
+        /// <param name="searchTerm">The term to search with</param>
+        /// <returns>The list of saved events</returns>
+        public object[] GetAll(Date start = null, Date end = null, string searchTerm = null)
         {
-            return _eventController.GetEvents(date).Select(x => (object)x).Distinct().ToArray();
+            return _eventController.GetEvents(start, end, searchTerm).Select(x => (object)x).Distinct().ToArray();
         }
 
         /// <summary>

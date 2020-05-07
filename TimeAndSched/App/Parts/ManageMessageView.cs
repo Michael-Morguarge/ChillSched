@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using FrontEnd.View.Controller;
-using BackEnd.Model;
+using Backend.Model;
 using FrontEnd.Controller.Parts;
 using FrontEnd.Controller.Prompts;
 
@@ -50,6 +43,15 @@ namespace FrontEnd.App.Parts
             Setup();
         }
 
+        /// <summary>
+        /// Sets the title of the Group Box
+        /// </summary>
+        /// <param name="title">The title to set</param>
+        public void SetTitle(string title)
+        {
+            MessagesGB.Text = title;
+        }
+
         private void Setup()
         {
             SearchBox.Tag = _controls.Add(_parentId, new TextBoxController(SearchBox));
@@ -58,10 +60,12 @@ namespace FrontEnd.App.Parts
             MessagesLB.SetMembers("Title", "Id");
         }
 
-        private void SearchBox_KeyDown(object sender, KeyEventArgs e)
+        private void SearchBox_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.KeyData == Keys.Enter)
+            if (e.KeyCode == Keys.Enter)
+            {
                 SearchButton.PerformClick();
+            }
         }
 
         private void SearchButton_Click(object sender, EventArgs e)

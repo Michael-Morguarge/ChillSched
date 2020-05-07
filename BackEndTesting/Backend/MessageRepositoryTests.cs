@@ -1,10 +1,8 @@
 using Backend.Inferfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using BackEnd.Model;
+using Backend.Model;
 using Shared.Global;
 using System;
-using Shared.Model;
 using Backend.Implementations;
 using System.Collections.Generic;
 using System.Linq;
