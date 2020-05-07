@@ -2,7 +2,7 @@
 using Backend.Model;
 using System.Collections.Generic;
 using System.IO;
-using BackEnd.Inferfaces;
+using Backend.Inferfaces;
 using System.Linq;
 using System;
 using Shared.Model;
@@ -22,7 +22,7 @@ namespace Backend.Implementations
         private const string Tilde = "~";
         private const string TildeReplace = "{TILDE}";
         private const string PlusReplace = "{PLUS}";
-        private const string NewlineReplace = "{NEWLINE}";
+        private const string InnerNewlineReplace = "{INNERNEWLINE}";
         private const string QuotationReplace = "{D_QUOTE}";
 
         //private readonly DataLayer _dataAccess;
@@ -137,6 +137,19 @@ namespace Backend.Implementations
         }
 
         /// <summary>
+        /// Implements <see cref="IEventRepository.GetEvents(string)" />
+        /// </summary>
+        public IEnumerable<SavedEvent> GetEvents(string searchTerm)
+        {
+            string loweredString = searchTerm.ToLower();
+            return SavedEvents.Where(x =>
+                                x.Title.ToLower().Contains(loweredString)
+                                || x.Comment.ToLower().Contains(loweredString))
+                              .ToList()
+                              .AsReadOnly();
+        }
+
+        /// <summary>
         /// Implements <see cref="IEventRepository.GetEvents(Date)" />
         /// </summary>
         public IEnumerable<SavedEvent> GetEvents(Date date)
@@ -164,35 +177,32 @@ namespace Backend.Implementations
 
             try
             {
-                string content = File.ReadAllText(".\\Resources\\Events\\temp.saved");
+                string content = string.Empty;
+#if DEBUG
+                content = File.ReadAllText("..\\..\\Resources\\Events\\temp.saved");
+#else
+                content = File.ReadAllText(".\\Resources\\Events\\temp.saved");
+#endif 
 
                 if (!string.IsNullOrEmpty(content))
                 {
-                    List<List<List<KeyValuePair<string, string>>>> eventsArray =
-                        content.Split(new[] { EventSeparator }, StringSplitOptions.None)
+                    List<List<KeyValuePair<string, string>>> eventsArray =
+                        content.Split(new[] { EventSeparator }, StringSplitOptions.RemoveEmptyEntries)
                                .Select(x =>
-                                   x.Split(new[] { NewlineReplace }, StringSplitOptions.None)
-                                     .Select(y =>
-                                         y.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
-                                          .Select(z =>
-                                              z.Split(new[] { AssignSeparator }, StringSplitOptions.None))
-                                          .Select(a => new KeyValuePair<string, string>(a[0], a[1]))
-                                          .ToList())
+                                   x.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
+                                    .Select(y =>
+                                        y.Split(new[] { AssignSeparator }, StringSplitOptions.None))
+                                         .Select(a => new KeyValuePair<string, string>(a[0], a.ElementAtOrDefault(1) ?? string.Empty))
                                     .ToList())
+                               .Where(x => x.Any())
                                .ToList();
 
                     List<SavedEvent> events = new List<SavedEvent>();
 
-                    foreach (List<List<KeyValuePair<string, string>>> level1 in eventsArray)
+                    foreach (List<KeyValuePair<string, string>> eventData in eventsArray)
                     {
-                        foreach (List<KeyValuePair<string, string>> level2 in level1)
-                        {
-                            if (level2.Any())
-                            {
-                                SavedEvent item = CreateEventFromLoadedData(level2);
-                                SavedEvents.Add(item);
-                            }
-                        }
+                        SavedEvent item = CreateEventFromLoadedData(eventData);
+                        SavedEvents.Add(item);
                     }
 
                     loaded = true;
@@ -221,7 +231,7 @@ namespace Backend.Implementations
                 data.Single(x => x.Key == "Comment").Value
                     .Replace(Quotation, string.Empty)
                     .Replace(QuotationReplace, Quotation)
-                    .Replace(NewlineReplace, Environment.NewLine)
+                    .Replace(InnerNewlineReplace, Environment.NewLine)
                     .Replace(PlusReplace, DateSeparator)
                     .Replace(TildeReplace, Tilde);
 
@@ -287,7 +297,7 @@ namespace Backend.Implementations
                 string inactiveTime = TimeAndDateUtility.ConvertTime_String(@event.DeactivationTime);
 
                 string title = @event.Title.Replace(Quotation, QuotationReplace).Replace(DateSeparator, PlusReplace).Replace(Tilde, TildeReplace);
-                string comment = @event.Comment.Replace(Quotation, QuotationReplace).Replace(Environment.NewLine, NewlineReplace).Replace(DateSeparator, PlusReplace).Replace(Tilde, TildeReplace);
+                string comment = @event.Comment.Replace(Quotation, QuotationReplace).Replace(Environment.NewLine, InnerNewlineReplace).Replace("\n", InnerNewlineReplace).Replace(DateSeparator, PlusReplace).Replace(Tilde, TildeReplace);
 
                 eventString +=
                     $"Id=\"{@event.Id}\"{Environment.NewLine}" +
@@ -301,7 +311,11 @@ namespace Backend.Implementations
                     $"~~~{Environment.NewLine}";
             }
 
+#if DEBUG
+            File.WriteAllText("..\\..\\Resources\\Events\\tempNew.saved", eventString);
+#else
             File.WriteAllText(".\\Resources\\Events\\temp.saved", eventString);
+#endif
         }
     }
 }

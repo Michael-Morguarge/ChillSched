@@ -1,24 +1,30 @@
 ﻿using Backend.Inferfaces;
-using BackEnd.Model;
+using Backend.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Backend.Implementations
 {
+    /// <summary>
+    /// Class for the Message Repository
+    /// </summary>
     public class MessageRepository : IMessageRepository
     {
-        private readonly List<Message> Messages;
+        private readonly List<AppMessage> Messages;
 
+        /// <summary>
+        /// Constructor for the Message Repository
+        /// </summary>
         public MessageRepository()
         {
-            Messages = new List<Message>();
+            Messages = new List<AppMessage>();
         }
 
         /// <summary>
-        /// Implements <see cref="IMessageRepository.AddMessage(Message)" />
+        /// Implements <see cref="IMessageRepository.AddMessage(AppMessage)" />
         /// </summary>
-        public bool AddMessage(Message toAdd)
+        public bool AddMessage(AppMessage toAdd)
         {
             bool added = false;
 
@@ -42,7 +48,7 @@ namespace Backend.Implementations
             {
                 if (!string.IsNullOrEmpty(id))
                 {
-                    Message existingMessage = Messages.SingleOrDefault(x => x.Id == id);
+                    AppMessage existingMessage = Messages.SingleOrDefault(x => x.Id == id);
 
                     if (existingMessage == null)
                         throw new Exception();
@@ -61,9 +67,9 @@ namespace Backend.Implementations
         /// <summary>
         /// Implements <see cref="IMessageRepository.GetMessage(string)" />
         /// </summary>
-        public Message GetMessage(string id)
+        public AppMessage GetMessage(string id)
         {
-            Message message = null;
+            AppMessage message = null;
 
             if (!string.IsNullOrEmpty(id))
             {
@@ -76,7 +82,7 @@ namespace Backend.Implementations
         /// <summary>
         /// Implements <see cref="IMessageRepository.GetMessages()" />
         /// </summary>
-        public IEnumerable<Message> GetMessages()
+        public IEnumerable<AppMessage> GetMessages()
         {
             return Messages.AsReadOnly();
         }
@@ -84,17 +90,19 @@ namespace Backend.Implementations
         /// <summary>
         /// Implements <see cref="IMessageRepository.GetMessages(string)" />
         /// </summary>
-        public IEnumerable<Message> GetMessages(string searchTerm)
+        public IEnumerable<AppMessage> GetMessages(string searchTerm)
         {
-            IEnumerable<Message> messages = new List<Message>();
+            IEnumerable<AppMessage> messages = new List<AppMessage>();
 
             if (!string.IsNullOrEmpty(searchTerm))
             {
+                string loweredString = searchTerm.ToLower();
                 messages =
                     Messages.Where(x =>
-                        x.Author.Contains(searchTerm)
-                        || x.Quote.Contains(searchTerm)
-                        || x.Source.Contains(searchTerm)
+                        x.Title.Contains(loweredString)
+                        || x.Author.ToLower().Contains(loweredString)
+                        || x.Quote.ToLower().Contains(loweredString)
+                        || x.Source.ToLower().Contains(loweredString)
                     );
             }
 
@@ -118,21 +126,17 @@ namespace Backend.Implementations
         }
 
         /// <summary>
-        /// Implements <see cref="IMessageRepository.UpdateMessage(Message)" />
+        /// Implements <see cref="IMessageRepository.UpdateMessage(AppMessage)" />
         /// </summary>
-        public bool UpdateMessage(Message toUpdate)
+        public bool UpdateMessage(AppMessage toUpdate)
         {
             bool updated = false;
 
             try
             {
-                if (toUpdate == null)
+                if (toUpdate != null)
                 {
-                    updated = false;
-                }
-                else
-                {
-                    Message message = Messages.SingleOrDefault(x => x.Id == toUpdate.Id);
+                    AppMessage message = Messages.SingleOrDefault(x => x.Id == toUpdate.Id);
 
                     if (message != null)
                     {

@@ -5,7 +5,7 @@ using Shared.Global;
 using System.Collections.Generic;
 using System;
 using System.Linq;
-using BackEnd.Inferfaces;
+using Backend.Inferfaces;
 
 namespace FrontEnd.Controller
 {
@@ -55,19 +55,72 @@ namespace FrontEnd.Controller
         /// <param name="start">The start date</param>
         /// <param name="end">The end date</param>
         /// <returns>The list of events between date range</returns>
-        public IEnumerable<SavedEvent> GetEvents(Date start, Date end)
+        public IEnumerable<SavedEvent> GetEvents(Date start = null, Date end = null, string searchTerm = null)
         {
-            return _eventRepo.GetEvents(start, end).OrderBy(x => x.Title);
+            IEnumerable<SavedEvent> events = new List<SavedEvent>();
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                events = GetSearchResults(start, end, searchTerm);
+            }
+            else if (end != null || start != null)
+            {
+                events = GetDateRestrictedResults(start, end);
+            }
+            else
+            {
+                events = _eventRepo.GetEvents();
+            }
+
+            return events.Any() ? events.OrderBy(x => x.Title) : events;
         }
 
-        /// <summary>
-        /// Gets all events for that date
-        /// </summary>
-        /// <param name="selectedDate">The date to search with</param>
-        /// <returns>The events on that specified date</returns>
-        public IEnumerable<SavedEvent> GetEvents(Date selectedDate)
+        private IEnumerable<SavedEvent> GetDateRestrictedResults(Date start, Date end)
         {
-            return _eventRepo.GetEvents(selectedDate).OrderBy(x => x.Title);
+            bool nullStart = start == null;
+            bool nullEnd = end == null;
+
+            new List<SavedEvent>();
+            Date min = TimeAndDateUtility.ConvertDate_Date(DateTime.MinValue);
+
+            IEnumerable<SavedEvent> events = !nullEnd && !nullStart ?
+                _eventRepo.GetEvents(start, end).ToList() : (nullEnd && !nullStart ?
+                    _eventRepo.GetEvents(start).ToList() : (nullStart && !nullEnd ?
+                        _eventRepo.GetEvents(min, end).ToList() : new List<SavedEvent>()));
+
+            return events;
+        }
+
+        private IEnumerable<SavedEvent> GetSearchResults(Date start, Date end, string searchTerm)
+        {
+            bool nullStart = start == null;
+            bool nullEnd = end == null;
+            bool nullSearch = string.IsNullOrEmpty(searchTerm);
+
+            IEnumerable<SavedEvent> events = new List<SavedEvent>();
+            Date min = TimeAndDateUtility.ConvertDate_Date(DateTime.MinValue);
+
+            List<SavedEvent> searchEvents = _eventRepo.GetEvents(searchTerm).ToList();
+
+            List<SavedEvent> dateEvents;
+            if (!nullStart && !nullEnd)
+                dateEvents = _eventRepo.GetEvents(start, end).ToList();
+            else
+                dateEvents = nullEnd && !nullStart ?
+                    _eventRepo.GetEvents(start).ToList() : (nullStart && !nullEnd ?
+                        _eventRepo.GetEvents(min, end).ToList() : new List<SavedEvent>());
+
+            bool searchHasResults = searchEvents.Any();
+            bool dateHasResults = dateEvents.Any();
+
+            if (searchHasResults && dateHasResults)
+                events = searchEvents.Concat(dateEvents).GroupBy(x => x.Id).Select(x => x.First());
+            else
+                events = searchHasResults ?
+                    searchEvents : (dateHasResults ?
+                        dateEvents : new List<SavedEvent>());
+
+            return events;
         }
 
         /// <summary>

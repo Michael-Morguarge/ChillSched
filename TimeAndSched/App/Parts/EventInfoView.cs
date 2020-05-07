@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using FrontEnd.View.Controller;
 using Shared.Global;
 using FrontEnd.Controller.Parts;
+using FrontEnd.Controller.Models;
 
 namespace FrontEnd.App.Parts
 {
@@ -13,24 +14,13 @@ namespace FrontEnd.App.Parts
     public partial class EventInfoView : UserControl
     {
         private CrudPurposes _purpose;
-        private bool _error;
         private string _parentId;
         private ControlsAccess _controls;
 
         /// <summary>
-        /// Whether an error occurred
+        /// The data of the prompt
         /// </summary>
-        public bool Error { get; set; }
-
-        /// <summary>
-        /// The dialog result
-        /// </summary>
-        public DialogResult DialogResult { get; private set; }
-
-        /// <summary>
-        /// The created/edited event data
-        /// </summary>
-        public SavedEvent Results { get; private set; }
+        public DialogResultData<SavedEvent> Data { get; private set; }
         
         /// <summary>
         /// Constructor for the Partial Veiw Controllers
@@ -44,13 +34,14 @@ namespace FrontEnd.App.Parts
         {
             _controls = controls;
             _parentId = parentId;
+            Data = new DialogResultData<SavedEvent>();
             Setup();
         }
 
         public void SetPurpose(CrudPurposes purpose)
         {
-            Results = new SavedEvent();
-            _error = false;
+            Data.Results = new SavedEvent();
+            Data.Error = false;
             _purpose = purpose;
             SetTitle();
         }
@@ -93,7 +84,7 @@ namespace FrontEnd.App.Parts
             {
                 case CrudPurposes.None:
                     {
-                        Error = false;
+                        Data.Error = false;
                         BookmarkMaker.Enabled = true;
                         Confirm.Enabled = false;
                         Confirm.Visible = false;
@@ -105,7 +96,7 @@ namespace FrontEnd.App.Parts
 
                 case CrudPurposes.Create:
                     {
-                        Error = false;
+                        Data.Error = false;
                         BookmarkMaker.Enabled = true;
                         Confirm.Enabled = true;
                         Confirm.Visible = true;
@@ -117,7 +108,7 @@ namespace FrontEnd.App.Parts
 
                 case CrudPurposes.Edit:
                     {
-                        Error = false;
+                        Data.Error = false;
                         BookmarkMaker.Enabled = true;
                         Confirm.Enabled = true;
                         Confirm.Visible = true;
@@ -129,7 +120,7 @@ namespace FrontEnd.App.Parts
 
                 case CrudPurposes.Error:
                     {
-                        Error = true;
+                        Data.Error = true;
                         Confirm.Enabled = false;
                         Confirm.Visible = false;
                         BookmarkMaker.Enabled = false;
@@ -142,7 +133,7 @@ namespace FrontEnd.App.Parts
 
                 default:
                     {
-                        Error = true;
+                        Data.Error = true;
                         Confirm.Enabled = false;
                         Confirm.Visible = false;
                         BookmarkMaker.Enabled = false;
@@ -158,7 +149,6 @@ namespace FrontEnd.App.Parts
         private void Setup()
         {
             BMTitle.Tag = _controls.Add(_parentId, new LabelController(BMTitle));
-            BMComment.Tag = _controls.Add(_parentId, new LabelController(BMComment));
             BMStart.Tag = _controls.Add(_parentId, new LabelController(BMStart));
             BMEnd.Tag = _controls.Add(_parentId, new LabelController(BMEnd));
 
@@ -175,7 +165,7 @@ namespace FrontEnd.App.Parts
         {
             if (Cancel.Text == "Ok")
             {
-                DialogResult = DialogResult.Cancel;
+                Data.DialogResult = DialogResult.Cancel;
             }
             else
             {
@@ -183,11 +173,11 @@ namespace FrontEnd.App.Parts
 
                 if (result == DialogResult.Yes)
                 {
-                    DialogResult = DialogResult.Cancel;
+                    Data.DialogResult = DialogResult.Cancel;
                 }
                 else if (result == DialogResult.No || result == DialogResult.None)
                 {
-                    DialogResult = DialogResult.None;
+                    Data.DialogResult = DialogResult.None;
                 }
             }
         }
@@ -229,13 +219,13 @@ namespace FrontEnd.App.Parts
 
             if (error)
             {
-                DialogResult = DialogResult.None;
-                _error = true;
+                Data.DialogResult = DialogResult.None;
+                Data.Error = true;
             }
             else
             {
-                DialogResult = DialogResult.OK;
-                Results = new SavedEvent()
+                Data.DialogResult = DialogResult.OK;
+                Data.Results = new SavedEvent()
                 {
                     Title = TitleTB.Text,
                     Comment = CommentTB.Text,
@@ -245,7 +235,7 @@ namespace FrontEnd.App.Parts
                     DeactivationTime = TimeAndDateUtility.ConvertString_Time(EndPicker.Time)
                 };
 
-                _error = false;
+                Data.Error = false;
 
                 ((Form)TopLevelControl).Close();
             }
@@ -268,28 +258,19 @@ namespace FrontEnd.App.Parts
                    || (endPicker.Enabled && (endPicker.Value < endPicker.MinDate || endPicker.Value < DateTime.Now));
         }
 
-        private void EventInfo_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (!_error)
-            {
-                CleanUp();
-            }
-        }
-
         #region Cleanup
 
         public void CleanUp()
         {
-            _controls.Remove(_parentId, BMTitle.Tag as string);
-            _controls.Remove(_parentId, BMComment.Tag as string);
-            _controls.Remove(_parentId, BMStart.Tag as string);
-            _controls.Remove(_parentId, BMEnd.Tag as string);
+            _controls.Remove(_parentId, Title.GetId());
+            _controls.Remove(_parentId, Start.GetId());
+            _controls.Remove(_parentId, End.GetId());
 
-            _controls.Remove(_parentId, BMTitleTB.Tag as string);
-            _controls.Remove(_parentId, BMCommentTB.Tag as string);
+            _controls.Remove(_parentId, TitleTB.GetId());
+            _controls.Remove(_parentId, CommentTB.GetId());
 
-            _controls.Remove(_parentId, BMStartPicker.Tag as string);
-            _controls.Remove(_parentId, BMEndPicker.Tag as string);
+            _controls.Remove(_parentId, StartPicker.GetId());
+            _controls.Remove(_parentId, EndPicker.GetId());
         }
 
         #endregion

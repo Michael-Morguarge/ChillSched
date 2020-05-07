@@ -2,38 +2,35 @@
 using System.Windows.Forms;
 using Backend.Model;
 using Shared.Global;
+using FrontEnd.Controller.Models;
 
-namespace FrontEnd.App.Views
+namespace FrontEnd.App.Prompts
 {
     /// <summary>
     /// Partial class for General Form
     /// </summary>
-    public partial class GeneralForm : Form
+    public partial class EventCrudView : Form
     {
         private readonly string _id;
         private readonly ControlsAccess _controls;
 
         /// <summary>
-        /// The data returned from the prompt
+        /// The data for the prompt
         /// </summary>
-        public SavedEvent Results { get; private set; }
-
-        /// <summary>
-        /// The forms dialog result
-        /// </summary>
-        public DialogResult PromptResult { get; private set; }
+        public DialogResultData<SavedEvent> Data { get; private set; }
         
         /// <summary>
         /// The constructor for General Forms
         /// </summary>
         /// <param name="controls">The library of existing controls</param>
-        public GeneralForm(ControlsAccess controls)
+        public EventCrudView(ControlsAccess controls)
         {
             InitializeComponent();
             _controls = controls;
             
             Tag = _controls.AddForm(this);
             _id = Tag as string;
+            Data = new DialogResultData<SavedEvent>();
         }
 
         /// <summary>
@@ -64,13 +61,15 @@ namespace FrontEnd.App.Views
 
         private void GeneralForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            SavedEvent result = EIV.Results;
-            DialogResult dialog = EIV.DialogResult;
+            DialogResultData<SavedEvent> data = EIV.Data;
+            SavedEvent result = data.Results;
+            DialogResult dialog = data.DialogResult;
 
             if (dialog == DialogResult.OK && result != null)
             {
-                Results = result;
-                PromptResult = dialog;
+                Data.Results = result;
+                Data.DialogResult = dialog;
+                EIV.CleanUp();
             }
             else if (dialog == DialogResult.None)
             {
@@ -79,7 +78,8 @@ namespace FrontEnd.App.Views
             else
             {
                 e.Cancel = false;
-                PromptResult = dialog;
+                Data.DialogResult = dialog;
+                EIV.CleanUp();
             }
         }
     }

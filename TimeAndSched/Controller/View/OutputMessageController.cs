@@ -32,6 +32,9 @@ namespace FrontEnd.View.Controller
             FormController form = new FormController(aForm);
             Controls.Add(form.GetId(), new Dictionary<string, IControl>());
 
+            Dictionary<string, IControl> dict = Controls.Single(x => x.Key == form.GetId()).Value;
+            dict.Add(form.GetId(), form);
+
             return form.GetId();
         }
 

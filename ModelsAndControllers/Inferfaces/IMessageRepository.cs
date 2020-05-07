@@ -1,4 +1,4 @@
-﻿using BackEnd.Model;
+﻿using Backend.Model;
 using System.Collections.Generic;
 
 namespace Backend.Inferfaces
@@ -13,14 +13,14 @@ namespace Backend.Inferfaces
         /// </summary>
         /// <param name="toAdd">The message to add</param>
         /// <returns>Whether the message was added</returns>
-        bool AddMessage(Message toAdd);
+        bool AddMessage(AppMessage toAdd);
 
         /// <summary>
         /// Updates the message
         /// </summary>
         /// <param name="toUpdate">The message to update</param>
         /// <returns>Whether the message was updated</returns>
-        bool UpdateMessage(Message toUpdate);
+        bool UpdateMessage(AppMessage toUpdate);
 
         /// <summary>
         /// Deletes the message
@@ -34,20 +34,20 @@ namespace Backend.Inferfaces
         /// </summary>
         /// <param name="id">The id of the message</param>
         /// <returns>The message</returns>
-        Message GetMessage(string id);
+        AppMessage GetMessage(string id);
 
         /// <summary>
         /// Gets all messages
         /// </summary>
         /// <returns>All messages</returns>
-        IEnumerable<Message> GetMessages();
+        IEnumerable<AppMessage> GetMessages();
 
         /// <summary>
         /// Gets all the messages based on the search term
         /// </summary>
         /// <param name="searchTerm">The term to search with</param>
         /// <returns>All messages filtered by search term</returns>
-        IEnumerable<Message> GetMessages(string searchTerm);
+        IEnumerable<AppMessage> GetMessages(string searchTerm);
 
         /// <summary>
         /// Loads the messages

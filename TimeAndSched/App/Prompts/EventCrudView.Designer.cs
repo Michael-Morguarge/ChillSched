@@ -1,8 +1,8 @@
 ﻿using FrontEnd.App.Parts;
 
-namespace FrontEnd.App.Views
+namespace FrontEnd.App.Prompts
 {
-    partial class GeneralForm
+    partial class EventCrudView
     {
         /// <summary>
         /// Required designer variable.
@@ -51,14 +51,13 @@ namespace FrontEnd.App.Views
             // 
             // EIV
             // 
-            this.EIV.Error = false;
             this.EIV.Location = new System.Drawing.Point(8, 6);
             this.EIV.Margin = new System.Windows.Forms.Padding(2);
             this.EIV.Name = "EIV";
             this.EIV.Size = new System.Drawing.Size(331, 320);
             this.EIV.TabIndex = 2;
             // 
-            // GeneralForm
+            // EventCrudView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -68,15 +67,16 @@ namespace FrontEnd.App.Views
             this.ControlBox = false;
             this.Controls.Add(this.EIV);
             this.Controls.Add(this.Error);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "GeneralForm";
+            this.Name = "EventCrudView";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "GeneralForm";
+            this.Text = "Event";
             this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GeneralForm_FormClosing);
             this.ResumeLayout(false);

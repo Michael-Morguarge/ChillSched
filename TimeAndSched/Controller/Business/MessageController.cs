@@ -1,6 +1,6 @@
 ﻿using Backend.Implementations;
 using Backend.Inferfaces;
-using BackEnd.Model;
+using Backend.Model;
 using Shared.Global;
 using System.Collections.Generic;
 
@@ -26,7 +26,7 @@ namespace FrontEnd.Controller.Business
         /// </summary>
         /// <param name="id">The message id</param>
         /// <returns>The message</returns>
-        public Message GetMessage(string id)
+        public AppMessage GetMessage(string id)
         {
             return _messageRepo.GetMessage(id);
         }
@@ -36,7 +36,7 @@ namespace FrontEnd.Controller.Business
         /// </summary>
         /// <param name="searchTerm">The term to filter with</param>
         /// <returns>Filtered list of messages</returns>
-        public IEnumerable<Message> GetMessages(string searchTerm)
+        public IEnumerable<AppMessage> GetMessages(string searchTerm)
         {
             return _messageRepo.GetMessages(searchTerm);
         }
@@ -45,7 +45,7 @@ namespace FrontEnd.Controller.Business
         /// Gets the all the messages
         /// </summary>
         /// <returns>The list of messages</returns>
-        public IEnumerable<Message> GetMessages()
+        public IEnumerable<AppMessage> GetMessages()
         {
             return _messageRepo.GetMessages();
         }
@@ -55,12 +55,17 @@ namespace FrontEnd.Controller.Business
         /// </summary>
         /// <param name="message">The message to create</param>
         /// <returns>Whether the message was created</returns>
-        public bool CreateMessage(Message message)
+        public bool CreateMessage(AppMessage message)
         {
-            message.DateCreated = TimeAndDateUtility.GetCurrentDate();
-            message.TimeCreated = TimeAndDateUtility.GetCurrentTime();
+            if (message != null)
+            {
+                message.DateCreated = TimeAndDateUtility.GetCurrentDate();
+                message.TimeCreated = TimeAndDateUtility.GetCurrentTime();
+            }
 
-            return _messageRepo.AddMessage(message);
+            bool added = _messageRepo.AddMessage(message);
+
+            return added;
         }
 
         /// <summary>
@@ -68,9 +73,11 @@ namespace FrontEnd.Controller.Business
         /// </summary>
         /// <param name="message">The message to update</param>
         /// <returns>Whether the message was updated</returns>
-        public bool EditMessage(Message message)
+        public bool EditMessage(AppMessage message)
         {
-            return _messageRepo.UpdateMessage(message);
+            bool updated = _messageRepo.UpdateMessage(message);
+
+            return updated;
         }
 
         /// <summary>
@@ -90,17 +97,16 @@ namespace FrontEnd.Controller.Business
         /// <returns>Whether the message was updated</returns>
         public bool ToggleShow(string id)
         {
-            Message message = GetMessage(id);
+            AppMessage message = GetMessage(id);
 
-            if (message == null)
-                return false;
+            if (message != null)
+            {
+                message.Show = !message.Show;
+            }
 
-            if (message.Show)
-                message.Show = false;
-            else
-                message.Show = true;
+            bool updated = _messageRepo.UpdateMessage(message);
 
-            return _messageRepo.UpdateMessage(message);
+            return updated;
         }
     }
 }

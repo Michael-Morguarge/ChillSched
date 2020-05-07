@@ -302,12 +302,16 @@ namespace Shared.Global
                 date.Year,
                 (int)TimeAndDateGlobals.GetMonth(date.Month),
                 date.Day,
-                time == null ? 12 : time.Hours,
+                time == null ? 0 : time.Hours,
                 time == null ? 0 : time.Minutes,
                 time == null ? 0 : time.Seconds
             );
 
-            newDate = time == null ? newDate : TimeAndDateGlobals.GetTimeOfDay(time.TimeofDay) == 0 ? newDate : newDate.AddHours(12);
+            newDate = time == null ? 
+                newDate : 
+                    (TimeAndDateGlobals.GetTimeOfDay(time.TimeofDay) == 0 && time.Hours == 12 ?
+                        newDate.AddHours(-12) : (TimeAndDateGlobals.GetTimeOfDay(time.TimeofDay) == 0 ?
+                            newDate : newDate.AddHours(12)));
 
             return newDate;
         }
