@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace Shared.Interface
+﻿namespace Shared.Interface
 {
     /// <summary>
     /// The setup

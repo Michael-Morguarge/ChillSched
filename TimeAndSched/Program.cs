@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using FrontEnd.App.Views;
 
-namespace TimeAndSched
+namespace FrontEnd
 {
     static class Program
     {

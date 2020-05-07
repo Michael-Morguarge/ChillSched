@@ -7,7 +7,7 @@ using System;
 using System.Linq;
 using Backend.Inferfaces;
 
-namespace FrontEnd.Controller
+namespace FrontEnd.Controller.Business
 {
     /// <summary>
     /// Controller for Events
