@@ -13,15 +13,15 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 3.1.101
     - name: Setup NuGet.exe for use with actions
       uses: NuGet/setup-nuget@v1.0.2
-    - name: Install dependencies
-      run: dotnet restore $Env:GITHUB_WORKSPACE\ChillSched.sln
-    - name: Build
-      run: dotnet build --configuration Debug --no-restore
+    - name: Setup .NET Core SDK
+      uses: actions/setup-dotnet@v1.4.0
+      with:
+        dotnet-version: '3.1.100'
+    - name: Restore Nuget 
+      run: nuget restore $Env:GITHUB_WORKSPACE\ChillSched.sln 
+    - name: Build solution
+      run: dotnet build $Env:GITHUB_WORKSPACE\ChillSched.sln --configuration Debug --no-restore
     - name: Test
       run: dotnet test --no-restore --verbosity normal
