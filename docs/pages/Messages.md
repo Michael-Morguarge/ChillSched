@@ -1,3 +1,3 @@
 # MESSAGE/QUOTE FEATURES
 
-[![Image](../resources/ChillSchedheader.png)](.)
+[![Image](../resources/ChillSchedheader.png)](../.)
