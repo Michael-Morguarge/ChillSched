@@ -18,7 +18,7 @@ jobs:
       with:
         dotnet-version: 3.1.101
     - name: Install dependencies
-      run: dotnet restore ./ChillSched/BackEndTesting/Testing.csproj
+      run: dotnet restore $Env:GITHUB_WORKSPACE\ChillSched.sln
     - name: Build
       run: dotnet build --configuration Debug --no-restore
     - name: Test
