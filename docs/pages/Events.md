@@ -1,6 +1,6 @@
 # EVENT FEATURES
 
-![Image](../resources/ChillSchedheader.png)
+[![Image](../resources/ChillSchedheader.png)](../README.md)
 
 ## Creation / Modification
 

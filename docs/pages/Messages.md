@@ -1,1 +1,3 @@
-# Welcome to the ChillSched wiki
+# MESSAGE/QUOTE FEATURES
+
+[![Image](../resources/ChillSchedheader.png)](../README.md)
