@@ -18,7 +18,7 @@ jobs:
       with:
         dotnet-version: 3.1.101
     - name: Install dependencies
-      run: dotnet restore ./ChillSched.sln --configuration Debug
+      run: dotnet restore ./ChillSched.sln
     - name: Build
       run: dotnet build ./ChillSched.sln --configuration Debug --no-restore
     - name: Test
