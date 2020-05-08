@@ -1,4 +1,10 @@
-## Welcome to GitHub Pages
+# CHILLSCHED
+
+![Image](resources/ChillSchedheader.png)
+
+**ChillSched** is a portable desktop scheduling app that tracks events down to the second.
+
+## Test
 
 You can use the [editor on GitHub](https://github.com/mikeyjm145/ChillSched/edit/master/docs/README.md) to maintain and preview the content for your website in Markdown files.
 
