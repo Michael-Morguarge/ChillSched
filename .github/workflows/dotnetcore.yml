@@ -23,8 +23,3 @@ jobs:
            .\MSBuild.exe $Env:GITHUB_WORKSPACE\ChillSched.sln
     - name: Test
       run: dotnet test --no-restore --verbosity normal
-    - name: Archive code coverage results
-      uses: actions/upload-artifact@v1
-      with:
-        name: Test Results
-        path: CI Test Results/test.results
