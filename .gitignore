@@ -243,9 +243,7 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
-*.sln
 *.dgml
-*.csproj
 *.laccdb
 
 TimeAndSched/Properties/Settings\.settings
