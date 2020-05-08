@@ -19,6 +19,9 @@ jobs:
       uses: actions/setup-dotnet@v1.4.0
       with:
         dotnet-version: '3.1.100'
-    - run: dotnet build $Env:GITHUB_WORKSPACE\ChillSched.sln --configuration Debug --no-restore
+    - name: Restore Nuget 
+      run: nuget restore $Env:GITHUB_WORKSPACE\ChillSched.sln 
+    - name: Build solution
+      run: dotnet build $Env:GITHUB_WORKSPACE\ChillSched.sln --configuration Debug --no-restore
     - name: Test
       run: dotnet test --no-restore --verbosity normal
