@@ -160,6 +160,8 @@ namespace FrontEnd.App.Views
                 EIV.ClearEventInfo();
                 EIV.UpdateEvents(User_Calendar.GetControl().SelectionRange.Start);
                 EIV.ToggleButtons();
+
+                RefreshEventSearch();
             }
         }
 
@@ -207,16 +209,23 @@ namespace FrontEnd.App.Views
 
         private void SearchBTN_Click(object sender, EventArgs e)
         {
+            RefreshEventSearch();
+        }
+
+        #region Helpers
+
+        private void RefreshEventSearch()
+        {
+            SEIV.ClearEventInfo();
+
             string searchTerm = Search_Box.Text;
             DateTime start = UseStartDate.Checked ? DateTime.Parse(Search_Start.Date).Date : DateTime.MaxValue;
-            DateTime end = UseEndDate.Checked ? 
+            DateTime end = UseEndDate.Checked ?
                 DateTime.Parse(Search_End.Date).Date.AddHours(23).AddMinutes(59).AddSeconds(59)
                 : DateTime.MinValue;
 
             SEIV.UpdateEvents(start, end, searchTerm);
         }
-
-        #region Helpers
 
         internal void UpdateCalendar()
         {

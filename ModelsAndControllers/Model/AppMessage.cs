@@ -55,5 +55,15 @@ namespace Backend.Model
         /// The time created
         /// </summary>
         public Time TimeCreated { get; set; }
+
+        /// <summary>
+        /// The last date the message was displayed
+        /// </summary>
+        public Date LastDateDisplayed { get; set; }
+
+        /// <summary>
+        /// The last the message was displayed
+        /// </summary>
+        public Time LastTimeDisplayed { get; set; }
     }
 }

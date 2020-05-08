@@ -77,7 +77,7 @@ namespace FrontEnd.App.Parts
         {
             try
             {
-                string id = ((AppMessage)MessagesLB.SelectedIndex())?.Id;
+                string id = ((AppMessage)MessagesLB.SelectedIndex()).Id;
 
                 if (!string.IsNullOrEmpty(id))
                 {
@@ -108,7 +108,7 @@ namespace FrontEnd.App.Parts
             {
                 string id = ((AppMessage)MessagesLB.SelectedIndex())?.Id;
 
-                if (_controller.Update(id))
+                if (_controller.Update(null))
                 {
                     ClearMessageDetails();
                     ToggleButtons();
