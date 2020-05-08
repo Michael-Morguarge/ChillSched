@@ -1,6 +1,6 @@
 # CHILLSCHED
 
-[![Image](resources/ChillSchedheader.png)](README.html)
+[![Image](resources/ChillSchedheader.png)](.)
 
 **ChillSched** is a portable desktop scheduling app that tracks events down to the second.
 
