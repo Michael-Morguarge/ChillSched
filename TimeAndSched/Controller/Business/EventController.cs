@@ -54,6 +54,7 @@ namespace FrontEnd.Controller.Business
         /// </summary>
         /// <param name="start">The start date</param>
         /// <param name="end">The end date</param>
+        /// <param name="searchTerm">The search term</param>
         /// <returns>The list of events between date range</returns>
         public IEnumerable<SavedEvent> GetEvents(Date start = null, Date end = null, string searchTerm = null)
         {
@@ -185,11 +186,18 @@ namespace FrontEnd.Controller.Business
             return _eventRepo.DeleteEvent(id);
         }
 
+        /// <summary>
+        /// Loads saved events from file
+        /// </summary>
+        /// <returns>Whether the events loaded</returns>
         public bool LoadEvents()
         {
             return _eventRepo.LoadEvents();
         }
 
+        /// <summary>
+        /// Saves events to file
+        /// </summary>
         public void SaveEvents()
         {
             _eventRepo.SaveEvents();

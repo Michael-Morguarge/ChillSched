@@ -94,23 +94,40 @@ namespace FrontEnd.App.Parts
             return id;
         }
 
+        /// <summary>
+        /// Toggles the CRUD buttons on the view
+        /// </summary>
+        /// <param name="enable">Whether to enable the CRUD buttons</param>
         public void ToggleButtons(bool enable = false)
         {
             ToggleViewButtons(enable);
         }
 
+        /// <summary>
+        /// Updates the views
+        /// </summary>
         public void UpdateEvents()
         {
             UpdateTodaysEvents();
             ForceUpdate();
         }
 
+        /// <summary>
+        /// Updates the views
+        /// </summary>
+        /// <param name="date">The date to set</param>
         public void UpdateEvents(DateTime date)
         {
             UpdateTodaysEvents(date);
             ForceUpdate();
         }
 
+        /// <summary>
+        /// Updates the views
+        /// </summary>
+        /// <param name="start">The start date</param>
+        /// <param name="end">The end date</param>
+        /// <param name="searchTerm">The search term</param>
         public void UpdateEvents(DateTime start, DateTime end, string searchTerm = null)
         {
             Date startDate = start == DateTime.MaxValue ? null : TimeAndDateUtility.ConvertDate_Date(start);
@@ -120,11 +137,17 @@ namespace FrontEnd.App.Parts
             UpdateTodaysEvents(startDate, endDate, searchTerm);
         }
 
+        /// <summary>
+        /// Updates the Event Details
+        /// </summary>
         public void UpdateEventDetailView()
         {
             UpdateEventDetails();
         }
 
+        /// <summary>
+        /// Clears the Event Details
+        /// </summary>
         public void ClearEventInfo()
         {
             ClearEventDetails();

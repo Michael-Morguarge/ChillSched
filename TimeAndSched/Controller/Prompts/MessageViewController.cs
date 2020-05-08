@@ -64,7 +64,7 @@ namespace FrontEnd.Controller.Prompts
             return true;
         }
 
-        public bool Update(string id)
+        public bool Update(AppMessage message)
         {
             //bool updated = _messageController.EditMessage();
 
