@@ -11,12 +11,13 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Abstracts\SetupControllerAbstract.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Abstracts\SetupCRUDControllerAbstract.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\iSetupController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IControl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ISetupController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Global\Generate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Implementations\DateRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Implementations\TimeRepository.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\iDateRepository.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\iTimeRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IDateRepository.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ITimeRepository.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Global\BackEndGlobals.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Date.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Time.cs" />

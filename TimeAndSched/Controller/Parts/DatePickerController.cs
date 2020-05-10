@@ -1,5 +1,5 @@
 ﻿using Shared.Global;
-using SharedItems.Abstracts;
+using Shared.Abstract;
 using System;
 using System.Windows.Forms;
 

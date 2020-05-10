@@ -1,6 +1,6 @@
 ﻿namespace FrontEnd.App.Parts
 {
-    partial class ManageMessageView
+    partial class MessagesView
     {
         /// <summary> 
         /// Required designer variable.

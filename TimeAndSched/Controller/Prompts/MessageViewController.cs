@@ -1,11 +1,14 @@
 ﻿using Backend.Model;
+using FrontEnd.App.Prompts;
 using FrontEnd.Controller.Business;
 using FrontEnd.View.Controller;
+using Shared.Global;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace FrontEnd.Controller.Prompts
 {
@@ -50,11 +53,48 @@ namespace FrontEnd.Controller.Prompts
             return messages;
         }
 
-        public bool Create()
+        public bool UpdateLastShown(string id)
         {
-            //bool created = _messageController.CreateMessage();
+            bool updated = false;
+            AppMessage message = _messageController.GetMessage(id);
 
-            return true;
+            if (message != null)
+            {
+                message.LastDateDisplayed = TimeAndDateUtility.GetCurrentDate();
+                message.LastTimeDisplayed = TimeAndDateUtility.GetCurrentTime();
+
+                updated = _messageController.EditMessage(message);
+            }
+
+            return updated;
+        }
+
+        public bool Add()
+        {
+            bool added = false;
+
+            try
+            {
+                MessageCrudView form = new MessageCrudView(_controls);
+                form.CreateView(CrudPurposes.Create);
+
+                form.ShowDialog();
+                AppMessage result = form.Data.Results;
+                DialogResult dialogResult = form.Data.DialogResult;
+
+                if (dialogResult != DialogResult.Cancel && result != null)
+                {
+                    added = _messageController.CreateMessage(result);
+                }
+
+                form.Dispose();
+            }
+            catch (Exception)
+            {
+                added = false;
+            }
+
+            return added;
         }
 
         public bool Remove(string id)
@@ -71,7 +111,7 @@ namespace FrontEnd.Controller.Prompts
             return true;
         }
 
-        public bool Toggle(string id)
+        public bool ToggleShow(string id)
         {
             //bool update = _messageController.EditMessage();
 

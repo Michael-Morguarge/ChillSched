@@ -10,7 +10,7 @@ namespace FrontEnd.App.Parts
     /// <summary>
     /// Partial class for Message Selection View
     /// </summary>
-    public partial class ManageMessageView : UserControl
+    public partial class MessagesView : UserControl
     {
         private string _parentId;
         private MessageViewController _controller;
@@ -24,7 +24,7 @@ namespace FrontEnd.App.Parts
         /// <summary>
         /// Constructor for the Partial View Controllers
         /// </summary>
-        public ManageMessageView()
+        public MessagesView()
         {
             InitializeComponent();
         }
@@ -41,6 +41,13 @@ namespace FrontEnd.App.Parts
             _parentId = parentId;
             _controller = controller;
             Setup();
+        }
+
+        public void UpdateMessagesView()
+        {
+            SearchTB.SetText(string.Empty);
+            UpdateMessages();
+            ToggleButtons(false, "-");
         }
 
         /// <summary>
@@ -71,13 +78,14 @@ namespace FrontEnd.App.Parts
         private void SearchButton_Click(object sender, EventArgs e)
         {
             UpdateMessages();
+            ToggleButtons(false, "-");
         }
 
         private void MessageListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
             {
-                string id = ((AppMessage)MessagesLB.SelectedIndex()).Id;
+                string id = ((AppMessage)MessagesLB.SelectedIndex())?.Id;
 
                 if (!string.IsNullOrEmpty(id))
                 {
@@ -93,10 +101,10 @@ namespace FrontEnd.App.Parts
 
         private void CreateButton_Click(object sender, EventArgs e)
         {
-            if (_controller.Create())
+            if (_controller.Add())
             {
                 ClearMessageDetails();
-                ToggleButtons();
+                ToggleButtons(false, "-");
                 UpdateMessages();
                 SearchTB.SetText(string.Empty);
             }
@@ -111,7 +119,7 @@ namespace FrontEnd.App.Parts
                 if (_controller.Update(null))
                 {
                     ClearMessageDetails();
-                    ToggleButtons();
+                    ToggleButtons(false, "-");
                     UpdateMessages();
                     SearchTB.SetText(string.Empty);
                 }
@@ -131,7 +139,7 @@ namespace FrontEnd.App.Parts
                 if (!string.IsNullOrEmpty(id) && _controller.Remove(id))
                 {
                     ClearMessageDetails();
-                    ToggleButtons();
+                    ToggleButtons(false, "-");
                     UpdateMessages();
                     SearchTB.SetText(string.Empty);
                 }
@@ -146,10 +154,10 @@ namespace FrontEnd.App.Parts
         {
             string id = ((AppMessage)MessagesLB.SelectedIndex())?.Id;
 
-            if (!string.IsNullOrEmpty(id) && _controller.Toggle(id))
+            if (!string.IsNullOrEmpty(id) && _controller.ToggleShow(id))
             {
                 ClearMessageDetails();
-                ToggleButtons();
+                ToggleButtons(false, "-");
                 UpdateMessages();
             }
         }
@@ -170,7 +178,7 @@ namespace FrontEnd.App.Parts
             }
         }
 
-        private void ToggleButtons(bool enable = false, string toggleText = null)
+        private void ToggleButtons(bool enable, string toggleText)
         {
             EditButton.Enabled = enable;
             RemoveButton.Enabled = enable;

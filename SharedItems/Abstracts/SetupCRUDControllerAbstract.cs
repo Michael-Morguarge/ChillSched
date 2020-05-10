@@ -1,8 +1,7 @@
 ﻿using Shared.Interface;
 using Shared.Global;
-using System.Collections.Generic;
 
-namespace SharedItems.Abstracts
+namespace Shared.Abstract
 {
     /// <summary>
     /// The setup for crud controls
@@ -38,69 +37,5 @@ namespace SharedItems.Abstracts
         {
             return _id;
         }
-    }
-    
-    /// <summary>
-    /// The setup for crud controls
-    /// </summary>
-    /// <typeparam name="S">The form type</typeparam>
-    /// <typeparam name="T">The items type</typeparam>
-    public abstract class SetupCRUDControllerAbstract<S, T> : ISetupController<S>, IControl
-    {
-        private S _form;
-        private List<T> _items;
-        private readonly string _id;
-
-        /// <summary>
-        /// Sets up the controller object
-        /// </summary>
-        /// <param name="form">The form</param>
-        /// <param name="items">The items</param>
-        public SetupCRUDControllerAbstract(S form, List<T> items)
-        {
-            _items = items;
-            _form = form;
-            _id = Generate.Id().ToString();
-        }
-
-        /// <summary>
-        /// See <see cref="ISetupController{S}.GetControl()"/>
-        /// </summary>
-        public S GetControl()
-        {
-            return _form;
-        }
-
-        /// <summary>
-        /// The items
-        /// </summary>
-        /// <returns>The list of controls</returns>
-        public List<T> GetItems()
-        {
-            return _items;
-        }
-
-        /// <summary>
-        /// See <see cref="IControl.GetId()"/>
-        /// </summary>
-        public string GetId()
-        {
-            return _id;
-        }
-
-        /// <summary>
-        /// The form
-        /// </summary>
-        public S Form { get; private set; }
-
-        /// <summary>
-        /// The items
-        /// </summary>
-        public List<T> Items { get; private set; }
-
-        /// <summary>
-        /// The id
-        /// </summary>
-        public string Id { get; private set; }
     }
 }

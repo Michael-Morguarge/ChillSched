@@ -39,6 +39,7 @@ namespace FrontEnd.App.Views
             UpdateCalendar();
             EIV.UpdateEvents(DateTime.Today);
             SEIV.UpdateEvents();
+            MMV.UpdateMessagesView();
             UpdateEventList();
         }
 
@@ -168,7 +169,7 @@ namespace FrontEnd.App.Views
         private void EventBackupStripMenuItem_Click(object sender, EventArgs e)
         {
             _events.SaveEvents();
-            MessageBox.Show("Successully saved events. Events save on every add, edit, delete.", "Events saved");
+            MessageBox.Show("Successully saved events.\nEvents save on application close and every add, edit and removal of an event.", "Events saved");
         }
 
         private void UseStartDate_CheckedChanged(object sender, EventArgs e)

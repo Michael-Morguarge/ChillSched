@@ -1,4 +1,4 @@
-﻿using SharedItems.Abstracts;
+﻿using Shared.Abstract;
 using System.Windows.Forms;
 
 namespace FrontEnd.Controller.Parts

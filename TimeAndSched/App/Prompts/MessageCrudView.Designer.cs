@@ -1,8 +1,6 @@
-﻿using FrontEnd.App.Parts;
-
-namespace FrontEnd.App.Prompts
+﻿namespace FrontEnd.App.Prompts
 {
-    partial class EventCrudView
+    partial class MessageCrudView
     {
         /// <summary>
         /// Required designer variable.
@@ -30,9 +28,20 @@ namespace FrontEnd.App.Prompts
         /// </summary>
         private void InitializeComponent()
         {
+            this.MV = new FrontEnd.App.Parts.MessageView();
             this.Error = new System.Windows.Forms.Label();
-            this.EIV = new FrontEnd.App.Parts.EventInfoView();
             this.SuspendLayout();
+            // 
+            // MV
+            // 
+            this.MV.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.MV.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.MV.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
+            this.MV.Location = new System.Drawing.Point(1, 1);
+            this.MV.Margin = new System.Windows.Forms.Padding(6);
+            this.MV.Name = "MV";
+            this.MV.Size = new System.Drawing.Size(348, 400);
+            this.MV.TabIndex = 0;
             // 
             // Error
             // 
@@ -40,44 +49,30 @@ namespace FrontEnd.App.Prompts
             this.Error.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.Error.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Error.Font = new System.Drawing.Font("Calibri", 25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Error.Location = new System.Drawing.Point(69, 138);
+            this.Error.Location = new System.Drawing.Point(71, 180);
             this.Error.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.Error.Name = "Error";
             this.Error.Size = new System.Drawing.Size(208, 41);
-            this.Error.TabIndex = 1;
+            this.Error.TabIndex = 2;
             this.Error.Text = "Invalid Access";
             this.Error.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.Error.Visible = false;
             // 
-            // EIV
-            // 
-            this.EIV.Location = new System.Drawing.Point(8, 6);
-            this.EIV.Margin = new System.Windows.Forms.Padding(2);
-            this.EIV.Name = "EIV";
-            this.EIV.Size = new System.Drawing.Size(331, 320);
-            this.EIV.TabIndex = 2;
-            // 
-            // EventCrudView
+            // MessageCrudView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.ClientSize = new System.Drawing.Size(347, 332);
-            this.Controls.Add(this.EIV);
+            this.ClientSize = new System.Drawing.Size(350, 400);
+            this.Controls.Add(this.MV);
             this.Controls.Add(this.Error);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "EventCrudView";
+            this.Name = "MessageCrudView";
             this.ShowIcon = false;
-            this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Event";
-            this.TopMost = true;
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GeneralForm_FormClosing);
+            this.Text = "MessageCrudView";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MessageCrudView_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -85,7 +80,7 @@ namespace FrontEnd.App.Prompts
 
         #endregion
 
+        private Parts.MessageView MV;
         private System.Windows.Forms.Label Error;
-        private EventInfoView EIV;
     }
 }

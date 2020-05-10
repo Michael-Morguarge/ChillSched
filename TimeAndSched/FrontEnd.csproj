@@ -168,17 +168,29 @@
     <Compile Include="App\Parts\EventsInfoView.Designer.cs">
       <DependentUpon>EventsInfoView.cs</DependentUpon>
     </Compile>
-    <Compile Include="App\Parts\ManageMessageView.cs">
+    <Compile Include="App\Parts\MessagesView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="App\Parts\ManageMessageView.Designer.cs">
-      <DependentUpon>ManageMessageView.cs</DependentUpon>
+    <Compile Include="App\Parts\MessagesView.Designer.cs">
+      <DependentUpon>MessagesView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="App\Parts\MessageView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="App\Parts\MessageView.Designer.cs">
+      <DependentUpon>MessageView.cs</DependentUpon>
     </Compile>
     <Compile Include="App\Prompts\EventCrudView.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="App\Prompts\EventCrudView.Designer.cs">
       <DependentUpon>EventCrudView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="App\Prompts\MessageCrudView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="App\Prompts\MessageCrudView.Designer.cs">
+      <DependentUpon>MessageCrudView.cs</DependentUpon>
     </Compile>
     <Compile Include="App\Views\MainApp.cs">
       <SubType>Form</SubType>
@@ -219,11 +231,17 @@
     <EmbeddedResource Include="App\Parts\EventsInfoView.resx">
       <DependentUpon>EventsInfoView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="App\Parts\ManageMessageView.resx">
-      <DependentUpon>ManageMessageView.cs</DependentUpon>
+    <EmbeddedResource Include="App\Parts\MessagesView.resx">
+      <DependentUpon>MessagesView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="App\Parts\MessageView.resx">
+      <DependentUpon>MessageView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="App\Prompts\EventCrudView.resx">
       <DependentUpon>EventCrudView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="App\Prompts\MessageCrudView.resx">
+      <DependentUpon>MessageCrudView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="App\Views\MainApp.resx">
       <DependentUpon>MainApp.cs</DependentUpon>

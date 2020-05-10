@@ -12,16 +12,4 @@
         /// <returns>The T control</returns>
         T GetControl();
     }
-
-    /// <summary>
-    /// An interface for connecting controls
-    /// </summary>
-    public interface IControl
-    {
-        /// <summary>
-        /// The control id
-        /// </summary>
-        /// <returns>The id of the T control</returns>
-        string GetId();
-    }
 }
