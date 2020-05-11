@@ -98,7 +98,7 @@
             // EventStartDateLB
             // 
             this.EventStartDateLB.Cursor = System.Windows.Forms.Cursors.Default;
-            this.EventStartDateLB.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EventStartDateLB.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.EventStartDateLB.Location = new System.Drawing.Point(3, 0);
             this.EventStartDateLB.Name = "EventStartDateLB";
             this.EventStartDateLB.Padding = new System.Windows.Forms.Padding(0, 5, 0, 5);
@@ -110,7 +110,7 @@
             // EventStartTimeLB
             // 
             this.EventStartTimeLB.Cursor = System.Windows.Forms.Cursors.Default;
-            this.EventStartTimeLB.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EventStartTimeLB.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.EventStartTimeLB.Location = new System.Drawing.Point(266, 0);
             this.EventStartTimeLB.Name = "EventStartTimeLB";
             this.EventStartTimeLB.Padding = new System.Windows.Forms.Padding(0, 5, 0, 5);
@@ -122,7 +122,7 @@
             // EventEndDateLB
             // 
             this.EventEndDateLB.Cursor = System.Windows.Forms.Cursors.Default;
-            this.EventEndDateLB.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EventEndDateLB.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.EventEndDateLB.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
             this.EventEndDateLB.Location = new System.Drawing.Point(3, 28);
             this.EventEndDateLB.Name = "EventEndDateLB";
@@ -135,7 +135,7 @@
             // EventEndTimeLB
             // 
             this.EventEndTimeLB.Cursor = System.Windows.Forms.Cursors.Default;
-            this.EventEndTimeLB.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EventEndTimeLB.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.EventEndTimeLB.ForeColor = System.Drawing.SystemColors.GrayText;
             this.EventEndTimeLB.Location = new System.Drawing.Point(266, 28);
             this.EventEndTimeLB.Name = "EventEndTimeLB";
@@ -187,7 +187,7 @@
             // EventStatusLB
             // 
             this.EventStatusLB.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.EventStatusLB.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EventStatusLB.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.EventStatusLB.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.EventStatusLB.Location = new System.Drawing.Point(3, 0);
             this.EventStatusLB.Name = "EventStatusLB";
@@ -198,7 +198,7 @@
             // 
             // CompletedDateLB
             // 
-            this.CompletedDateLB.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CompletedDateLB.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CompletedDateLB.Location = new System.Drawing.Point(3, 26);
             this.CompletedDateLB.Name = "CompletedDateLB";
             this.CompletedDateLB.Size = new System.Drawing.Size(254, 26);
@@ -208,7 +208,7 @@
             // 
             // EventCreateDateLB
             // 
-            this.EventCreateDateLB.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EventCreateDateLB.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.EventCreateDateLB.Location = new System.Drawing.Point(263, 26);
             this.EventCreateDateLB.Name = "EventCreateDateLB";
             this.EventCreateDateLB.Size = new System.Drawing.Size(254, 26);

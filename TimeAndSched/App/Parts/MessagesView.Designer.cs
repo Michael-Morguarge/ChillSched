@@ -254,7 +254,7 @@
             // 
             // MessageLastTimeDisplayedLB
             // 
-            this.MessageLastTimeDisplayedLB.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.MessageLastTimeDisplayedLB.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
             this.MessageLastTimeDisplayedLB.Location = new System.Drawing.Point(313, 241);
             this.MessageLastTimeDisplayedLB.Name = "MessageLastTimeDisplayedLB";
             this.MessageLastTimeDisplayedLB.Size = new System.Drawing.Size(303, 26);
@@ -280,7 +280,7 @@
             // 
             // MessageLastDateDisplayedLB
             // 
-            this.MessageLastDateDisplayedLB.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.MessageLastDateDisplayedLB.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
             this.MessageLastDateDisplayedLB.Location = new System.Drawing.Point(3, 241);
             this.MessageLastDateDisplayedLB.Name = "MessageLastDateDisplayedLB";
             this.MessageLastDateDisplayedLB.Size = new System.Drawing.Size(303, 26);
@@ -302,7 +302,7 @@
             // 
             // MessageTimeCreatedLB
             // 
-            this.MessageTimeCreatedLB.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.MessageTimeCreatedLB.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
             this.MessageTimeCreatedLB.Location = new System.Drawing.Point(313, 209);
             this.MessageTimeCreatedLB.Name = "MessageTimeCreatedLB";
             this.MessageTimeCreatedLB.Size = new System.Drawing.Size(303, 26);
@@ -312,7 +312,7 @@
             // 
             // MessageDateCreatedLB
             // 
-            this.MessageDateCreatedLB.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.MessageDateCreatedLB.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
             this.MessageDateCreatedLB.Location = new System.Drawing.Point(3, 209);
             this.MessageDateCreatedLB.Name = "MessageDateCreatedLB";
             this.MessageDateCreatedLB.Size = new System.Drawing.Size(303, 26);
