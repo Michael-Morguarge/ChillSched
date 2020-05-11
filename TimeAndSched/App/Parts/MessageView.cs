@@ -155,7 +155,7 @@ namespace FrontEnd.App.Parts
                 Title.SetText(title.Text.Contains("*") ? title.Text.Remove(title.Text.Length - 1) : title.Text);
             }
 
-            if (QuoteTB.Text == string.Empty)
+            if (string.IsNullOrEmpty(QuoteTB.Text) || QuoteTB.Text.Length > 32766)
             {
                 Quote.SetText(quote.Text.Contains("*") ? quote.Text : string.Format("{0}*", quote.Text));
                 error = true;

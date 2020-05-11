@@ -22,8 +22,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MessageDrawer", "MessageDrawer\MessageDrawer.shproj", "{447CBB38-D63B-432F-9646-9E933C25642C}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		MessageDrawer\MessageDrawer.projitems*{447cbb38-d63b-432f-9646-9e933c25642c}*SharedItemsImports = 13
 		SharedItems\SharedItems.projitems*{65ece9d6-0f5a-4b9b-b61f-529196014ede}*SharedItemsImports = 13
 		SharedItems\SharedItems.projitems*{d13b5135-97cb-4086-8e7c-a9afe818c97b}*SharedItemsImports = 4
 	EndGlobalSection
