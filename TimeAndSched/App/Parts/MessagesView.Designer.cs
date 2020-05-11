@@ -150,14 +150,14 @@
             this.CreateButton.UseVisualStyleBackColor = true;
             this.CreateButton.Click += new System.EventHandler(this.CreateButton_Click);
             // 
-            // ManageMessageView
+            // MessagesView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.Controls.Add(this.MessagesGB);
-            this.Name = "ManageMessageView";
-            this.Size = new System.Drawing.Size(376, 338);
+            this.Name = "MessagesView";
+            this.Size = new System.Drawing.Size(1020, 338);
             this.MessagesGB.ResumeLayout(false);
             this.MessagesGB.PerformLayout();
             this.ResumeLayout(false);
