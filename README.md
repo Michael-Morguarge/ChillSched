@@ -12,7 +12,7 @@
 - [Messge/Quote Help](https://mikeyjm145.github.io/ChillSched/Messages.html "Help for Message/Quotes")
 - [Release Notes](https://mikeyjm145.github.io/ChillSched/ReleaseNotes.html "Latest Release Notes")
 
-## [Boards (under construction)](https://mikeyjm145.github.io/ChillSched/Boards.html)
+## [Boards](https://mikeyjm145.github.io/ChillSched/GloBoards.html)
 
 - [Features](https://app.gitkraken.com/glo/board/XIfjG_lC3wAPkmAG)
 - [Functionality](https://app.gitkraken.com/glo/board/XIfjwX5wEgARWbBy)
