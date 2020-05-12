@@ -1,4 +1,4 @@
-﻿using SharedItems.Abstracts;
+﻿using Shared.Abstract;
 using System.Drawing;
 using System.Windows.Forms;
 

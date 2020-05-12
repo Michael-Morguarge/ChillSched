@@ -47,16 +47,16 @@ namespace FrontEnd.App.Parts
 
         private void Setup()
         {
-            ExpStartDate.Tag = _controls.Add(_parentId, new LabelController(ExpStartDate));
-            ExpStartTime.Tag = _controls.Add(_parentId, new LabelController(ExpStartTime));
-            ExpEndDate.Tag = _controls.Add(_parentId, new LabelController(ExpEndDate));
-            ExpEndTime.Tag = _controls.Add(_parentId, new LabelController(ExpEndTime));
-            Title.Tag = _controls.Add(_parentId, new LabelController(Title));
-            EventStatus.Tag = _controls.Add(_parentId, new LabelController(EventStatus));
-            CompletedDate.Tag = _controls.Add(_parentId, new LabelController(CompletedDate));
-            CreateDate.Tag = _controls.Add(_parentId, new LabelController(CreateDate));
-            Comment.Tag = _controls.Add(_parentId, new TextBoxController(Comment));
-            TodaysEvents.Tag = _controls.Add(_parentId, new ListBoxController(TodaysEvents));
+            EventStartDateLB.Tag = _controls.Add(_parentId, new LabelController(EventStartDateLB));
+            EventStartTimeLB.Tag = _controls.Add(_parentId, new LabelController(EventStartTimeLB));
+            EventEndDateLB.Tag = _controls.Add(_parentId, new LabelController(EventEndDateLB));
+            EventEndTimeLB.Tag = _controls.Add(_parentId, new LabelController(EventEndTimeLB));
+            EventTitleLB.Tag = _controls.Add(_parentId, new LabelController(EventTitleLB));
+            EventStatusLB.Tag = _controls.Add(_parentId, new LabelController(EventStatusLB));
+            CompletedDateLB.Tag = _controls.Add(_parentId, new LabelController(CompletedDateLB));
+            EventCreateDateLB.Tag = _controls.Add(_parentId, new LabelController(EventCreateDateLB));
+            EventCommentTB.Tag = _controls.Add(_parentId, new TextBoxController(EventCommentTB));
+            TodaysEventsListBox.Tag = _controls.Add(_parentId, new ListBoxController(TodaysEventsListBox));
 
             Todays_Events.SetMembers("Title", "Id");
         }
@@ -264,8 +264,8 @@ namespace FrontEnd.App.Parts
         {
             EditEvent.Enabled = enable;
             RemoveButton.Enabled = enable;
-            ToggleStatus.Enabled = !isBefore && enable;
-            ToggleStatus.BackColor = ToggleStatus.Enabled ? Color.WhiteSmoke : Color.Transparent;
+            ToggleEventStatus.Enabled = !isBefore && enable;
+            ToggleEventStatus.BackColor = ToggleEventStatus.Enabled ? Color.WhiteSmoke : Color.Transparent;
         }
 
         private void UpdateEventDetails()
@@ -307,10 +307,9 @@ namespace FrontEnd.App.Parts
             Exp_End_Time.SetText(dash);
             Created_Date.SetText(dash);
             Completion_Date.SetText(dash);
+            User_Title.SetText(dash);
             Event_Status.SetText(dash);
             Event_Status.SetBackColor(Color.DarkGray);
-
-            User_Title.SetText(dash);
 
             User_Comment.SetText(no_comment);
         }
@@ -343,33 +342,33 @@ namespace FrontEnd.App.Parts
 
         #region [ ListBoxes ]
 
-        private ListBoxController Todays_Events => (ListBoxController)_controls.Get(_parentId, TodaysEvents.Tag as string);
+        private ListBoxController Todays_Events => (ListBoxController)_controls.Get(_parentId, TodaysEventsListBox.Tag as string);
 
         #endregion
 
         #region [ TextBoxes ]
 
-        private TextBoxController User_Comment => (TextBoxController)_controls.Get(_parentId, Comment.Tag as string);
+        private TextBoxController User_Comment => (TextBoxController)_controls.Get(_parentId, EventCommentTB.Tag as string);
 
         #endregion
 
         #region [ Labels ]
 
-        private LabelController Exp_Start_Date => (LabelController)_controls.Get(_parentId, ExpStartDate.Tag as string);
+        private LabelController Exp_Start_Date => (LabelController)_controls.Get(_parentId, EventStartDateLB.Tag as string);
 
-        private LabelController Exp_Start_Time => (LabelController)_controls.Get(_parentId, ExpStartTime.Tag as string);
+        private LabelController Exp_Start_Time => (LabelController)_controls.Get(_parentId, EventStartTimeLB.Tag as string);
 
-        private LabelController Exp_End_Date => (LabelController)_controls.Get(_parentId, ExpEndDate.Tag as string);
+        private LabelController Exp_End_Date => (LabelController)_controls.Get(_parentId, EventEndDateLB.Tag as string);
 
-        private LabelController Exp_End_Time => (LabelController)_controls.Get(_parentId, ExpEndTime.Tag as string);
+        private LabelController Exp_End_Time => (LabelController)_controls.Get(_parentId, EventEndTimeLB.Tag as string);
 
-        private LabelController User_Title => (LabelController)_controls.Get(_parentId, Title.Tag as string);
+        private LabelController User_Title => (LabelController)_controls.Get(_parentId, EventTitleLB.Tag as string);
 
-        private LabelController Event_Status => (LabelController)_controls.Get(_parentId, EventStatus.Tag as string);
+        private LabelController Event_Status => (LabelController)_controls.Get(_parentId, EventStatusLB.Tag as string);
 
-        private LabelController Completion_Date => (LabelController)_controls.Get(_parentId, CompletedDate.Tag as string);
+        private LabelController Completion_Date => (LabelController)_controls.Get(_parentId, CompletedDateLB.Tag as string);
 
-        private LabelController Created_Date => (LabelController)_controls.Get(_parentId, CreateDate.Tag as string);
+        private LabelController Created_Date => (LabelController)_controls.Get(_parentId, EventCreateDateLB.Tag as string);
 
         #endregion
 

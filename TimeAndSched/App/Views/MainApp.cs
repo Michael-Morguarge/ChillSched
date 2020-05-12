@@ -39,6 +39,7 @@ namespace FrontEnd.App.Views
             UpdateCalendar();
             EIV.UpdateEvents(DateTime.Today);
             SEIV.UpdateEvents();
+            MMV.UpdateMessagesView();
             UpdateEventList();
         }
 
@@ -53,17 +54,17 @@ namespace FrontEnd.App.Views
             LastUpdated.Tag = _controls.Add(tag, new LabelController(LastUpdated));
             StartDateLbl.Tag = _controls.Add(tag, new LabelController(StartDateLbl));
             EndDateLbl.Tag = _controls.Add(tag, new LabelController(EndDateLbl));
-            Calendar.Tag = _controls.Add(tag, new CalendarController(Calendar));
+            EventCalendar.Tag = _controls.Add(tag, new CalendarController(EventCalendar));
             EventListView.Tag = _controls.Add(tag, new ListViewController(EventListView));
-            TextTB.Tag = _controls.Add(tag, new TextBoxController(TextTB));
-            SearchStartDate.Tag = _controls.Add(tag, new DatePickerController(SearchStartDate));
-            SearchEndDate.Tag = _controls.Add(tag, new DatePickerController(SearchEndDate));
+            SearchTextTB.Tag = _controls.Add(tag, new TextBoxController(SearchTextTB));
+            EventSearchStartDP.Tag = _controls.Add(tag, new DatePickerController(EventSearchStartDP));
+            EventSearchEndDP.Tag = _controls.Add(tag, new DatePickerController(EventSearchEndDP));
 
-            EIV.SetControls(tag, _controls, _events, User_Calendar.GetId());
+            EIV.SetControls(tag, _controls, _events, EventCal.GetId());
             EIV.SetTitle("Events for Day");
             EIV.UseCrudButtons(true);
 
-            SEIV.SetControls(tag, _controls, _events, User_Calendar.GetId());
+            SEIV.SetControls(tag, _controls, _events, EventCal.GetId());
             SEIV.SetTitle("Events");
             SEIV.UseCrudButtons(false);
 
@@ -148,7 +149,7 @@ namespace FrontEnd.App.Views
         private void Calendar_DateChanged(object sender, DateRangeEventArgs e)
         {
             EIV.ClearEventInfo();
-            EIV.UpdateEvents(User_Calendar.GetControl().SelectionRange.Start);
+            EIV.UpdateEvents(EventCal.GetControl().SelectionRange.Start);
             EIV.ToggleButtons();
         }
 
@@ -158,7 +159,7 @@ namespace FrontEnd.App.Views
             {
                 _events.SaveEvents();
                 EIV.ClearEventInfo();
-                EIV.UpdateEvents(User_Calendar.GetControl().SelectionRange.Start);
+                EIV.UpdateEvents(EventCal.GetControl().SelectionRange.Start);
                 EIV.ToggleButtons();
 
                 RefreshEventSearch();
@@ -168,7 +169,7 @@ namespace FrontEnd.App.Views
         private void EventBackupStripMenuItem_Click(object sender, EventArgs e)
         {
             _events.SaveEvents();
-            MessageBox.Show("Successully saved events. Events save on every add, edit, delete.", "Events saved");
+            MessageBox.Show("Successully saved events.\nEvents save on application close and every add, edit and removal of an event.", "Events saved");
         }
 
         private void UseStartDate_CheckedChanged(object sender, EventArgs e)
@@ -176,12 +177,12 @@ namespace FrontEnd.App.Views
             if (UseStartDate.Checked)
             {
                 Start_Date.SetForeColor(Color.Black);
-                Search_Start.Enable(true);
+                SearchStartDP.Enable(true);
             }
             else
             {
                 Start_Date.SetForeColor(Color.DimGray);
-                Search_Start.Enable(false);
+                SearchStartDP.Enable(false);
             }
         }
 
@@ -190,12 +191,12 @@ namespace FrontEnd.App.Views
             if (UseEndDate.Checked)
             {
                 End_Date.SetForeColor(Color.Black);
-                Search_End.Enable(true);
+                SearchEndDP.Enable(true);
             }
             else
             {
                 End_Date.SetForeColor(Color.DimGray);
-                Search_End.Enable(false);
+                SearchEndDP.Enable(false);
             }
         }
 
@@ -218,10 +219,10 @@ namespace FrontEnd.App.Views
         {
             SEIV.ClearEventInfo();
 
-            string searchTerm = Search_Box.Text;
-            DateTime start = UseStartDate.Checked ? DateTime.Parse(Search_Start.Date).Date : DateTime.MaxValue;
+            string searchTerm = SearchTB.Text;
+            DateTime start = UseStartDate.Checked ? DateTime.Parse(SearchStartDP.Date).Date : DateTime.MaxValue;
             DateTime end = UseEndDate.Checked ?
-                DateTime.Parse(Search_End.Date).Date.AddHours(23).AddMinutes(59).AddSeconds(59)
+                DateTime.Parse(SearchEndDP.Date).Date.AddHours(23).AddMinutes(59).AddSeconds(59)
                 : DateTime.MinValue;
 
             SEIV.UpdateEvents(start, end, searchTerm);
@@ -230,7 +231,7 @@ namespace FrontEnd.App.Views
         internal void UpdateCalendar()
         {
             DateTime[] dates = _events.GetAllEventDates();
-            User_Calendar.SetBoldedDates(dates);
+            EventCal.SetBoldedDates(dates);
         }
 
         internal void UpdateEventList()
@@ -240,7 +241,7 @@ namespace FrontEnd.App.Views
             Time time = TimeAndDateUtility.GetCurrentTime();
             string timeString = TimeAndDateUtility.ConvertTime_String(time);
             string dateString = TimeAndDateUtility.GetCurrentDateString(true);
-            Event_View.Update(events);
+            EventLV.Update(events);
             Last_Updated.SetText($"Last Updated: {dateString} {timeString}");
         }
 
@@ -250,17 +251,17 @@ namespace FrontEnd.App.Views
 
         #region [ ListBoxes ]
 
-        private ListViewController Event_View => (ListViewController)_controls.Get(Tag as string, EventListView.Tag as string);
+        private ListViewController EventLV => (ListViewController)_controls.Get(Tag as string, EventListView.Tag as string);
 
         #endregion
 
         #region [ Date ]
 
-        private CalendarController User_Calendar => (CalendarController)_controls.Get(Tag as string, Calendar.Tag as string);
+        private CalendarController EventCal => (CalendarController)_controls.Get(Tag as string, EventCalendar.Tag as string);
 
-        private DatePickerController Search_Start => (DatePickerController)_controls.Get(Tag as string, SearchStartDate.Tag as string);
+        private DatePickerController SearchStartDP => (DatePickerController)_controls.Get(Tag as string, EventSearchStartDP.Tag as string);
 
-        private DatePickerController Search_End => (DatePickerController)_controls.Get(Tag as string, SearchEndDate.Tag as string);
+        private DatePickerController SearchEndDP => (DatePickerController)_controls.Get(Tag as string, EventSearchEndDP.Tag as string);
 
         #endregion
 
@@ -280,7 +281,7 @@ namespace FrontEnd.App.Views
 
         #region [ TextBoxes ]
 
-        private TextBoxController Search_Box => (TextBoxController)_controls.Get(Tag as string, TextTB.Tag as string);
+        private TextBoxController SearchTB => (TextBoxController)_controls.Get(Tag as string, SearchTextTB.Tag as string);
 
         #endregion
 

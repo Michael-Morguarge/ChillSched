@@ -7,7 +7,7 @@ using FrontEnd.Controller.Models;
 namespace FrontEnd.App.Prompts
 {
     /// <summary>
-    /// Partial class for General Form
+    /// Partial class for Event CRUD
     /// </summary>
     public partial class EventCrudView : Form
     {
@@ -20,7 +20,7 @@ namespace FrontEnd.App.Prompts
         public DialogResultData<SavedEvent> Data { get; private set; }
         
         /// <summary>
-        /// The constructor for General Forms
+        /// The constructor for Event CRUD
         /// </summary>
         /// <param name="controls">The library of existing controls</param>
         public EventCrudView(ControlsAccess controls)

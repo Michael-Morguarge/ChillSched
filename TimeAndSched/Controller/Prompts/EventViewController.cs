@@ -272,16 +272,25 @@ namespace FrontEnd.Controller.Prompts
             return removed;
         }
 
+        /// <summary>
+        /// Loads events from save file
+        /// </summary>
         public void LoadEvents()
         {
             _eventController.LoadEvents();
         }
 
+        /// <summary>
+        /// Saves events to save file
+        /// </summary>
         public void SaveEvents()
         {
             _eventController.SaveEvents();
         }
 
+        /// <summary>
+        /// Cleans up class
+        /// </summary>
         public void Dispose()
         {
             GC.SuppressFinalize(this);

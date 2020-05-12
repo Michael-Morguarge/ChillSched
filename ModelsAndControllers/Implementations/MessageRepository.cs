@@ -140,10 +140,13 @@ namespace Backend.Implementations
 
                     if (message != null)
                     {
+                        message.Title = toUpdate.Title;
                         message.Quote = toUpdate.Quote;
                         message.Author = toUpdate.Author;
                         message.Source = toUpdate.Source;
                         message.Show = toUpdate.Show;
+                        message.LastDateDisplayed = toUpdate.LastDateDisplayed;
+                        message.LastTimeDisplayed = toUpdate.LastTimeDisplayed;
 
                         updated = true;
                     }

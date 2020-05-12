@@ -29,14 +29,14 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewGroup listViewGroup9 = new System.Windows.Forms.ListViewGroup("Complete", System.Windows.Forms.HorizontalAlignment.Center);
-            System.Windows.Forms.ListViewGroup listViewGroup10 = new System.Windows.Forms.ListViewGroup("Upcoming", System.Windows.Forms.HorizontalAlignment.Center);
-            System.Windows.Forms.ListViewGroup listViewGroup11 = new System.Windows.Forms.ListViewGroup("Happening Now", System.Windows.Forms.HorizontalAlignment.Center);
-            System.Windows.Forms.ListViewGroup listViewGroup12 = new System.Windows.Forms.ListViewGroup("Overdue", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup5 = new System.Windows.Forms.ListViewGroup("Complete", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup6 = new System.Windows.Forms.ListViewGroup("Upcoming", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup7 = new System.Windows.Forms.ListViewGroup("Happening Now", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup8 = new System.Windows.Forms.ListViewGroup("Overdue", System.Windows.Forms.HorizontalAlignment.Center);
             this.TimeTicker = new System.Windows.Forms.Timer(this.components);
             this.DateTicker = new System.Windows.Forms.Timer(this.components);
             this.CalendarTab = new System.Windows.Forms.TabPage();
-            this.Calendar = new System.Windows.Forms.MonthCalendar();
+            this.EventCalendar = new System.Windows.Forms.MonthCalendar();
             this.EIV = new FrontEnd.App.Parts.EventsInfoView();
             this.TimeTab = new System.Windows.Forms.TabPage();
             this.NextUpdateIn = new System.Windows.Forms.Label();
@@ -55,12 +55,18 @@
             this.SearchViews = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.SearchTextTB = new System.Windows.Forms.TextBox();
             this.TextLbl = new System.Windows.Forms.Label();
-            this.StartDateLbl = new System.Windows.Forms.Label();
+            this.SearchBTN = new System.Windows.Forms.Button();
+            this.EventSearchEndDP = new System.Windows.Forms.DateTimePicker();
             this.EndDateLbl = new System.Windows.Forms.Label();
+            this.UseEndDate = new System.Windows.Forms.CheckBox();
+            this.EventSearchStartDP = new System.Windows.Forms.DateTimePicker();
+            this.StartDateLbl = new System.Windows.Forms.Label();
+            this.UseStartDate = new System.Windows.Forms.CheckBox();
             this.SEIV = new FrontEnd.App.Parts.EventsInfoView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.MMV = new FrontEnd.App.Parts.ManageMessageView();
+            this.MMV = new FrontEnd.App.Parts.MessagesView();
             this.GeneralToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.DateTimeIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.DateTimeIconMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -78,12 +84,6 @@
             this.RightToolStripPanel = new System.Windows.Forms.ToolStripPanel();
             this.LeftToolStripPanel = new System.Windows.Forms.ToolStripPanel();
             this.ContentPanel = new System.Windows.Forms.ToolStripContentPanel();
-            this.TextTB = new System.Windows.Forms.TextBox();
-            this.SearchStartDate = new System.Windows.Forms.DateTimePicker();
-            this.SearchEndDate = new System.Windows.Forms.DateTimePicker();
-            this.SearchBTN = new System.Windows.Forms.Button();
-            this.UseStartDate = new System.Windows.Forms.CheckBox();
-            this.UseEndDate = new System.Windows.Forms.CheckBox();
             this.CalendarTab.SuspendLayout();
             this.TimeTab.SuspendLayout();
             this.TimeAndCalendarTabular.SuspendLayout();
@@ -111,7 +111,7 @@
             // CalendarTab
             // 
             this.CalendarTab.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.CalendarTab.Controls.Add(this.Calendar);
+            this.CalendarTab.Controls.Add(this.EventCalendar);
             this.CalendarTab.Controls.Add(this.EIV);
             this.CalendarTab.Location = new System.Drawing.Point(4, 29);
             this.CalendarTab.Name = "CalendarTab";
@@ -122,20 +122,20 @@
             // 
             // Calendar
             // 
-            this.Calendar.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.Calendar.CalendarDimensions = new System.Drawing.Size(1, 2);
-            this.Calendar.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.Calendar.FirstDayOfWeek = System.Windows.Forms.Day.Sunday;
-            this.Calendar.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Calendar.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.Calendar.Location = new System.Drawing.Point(12, 12);
-            this.Calendar.MaxSelectionCount = 1;
-            this.Calendar.Name = "Calendar";
-            this.Calendar.TabIndex = 0;
-            this.Calendar.TabStop = false;
-            this.Calendar.TitleBackColor = System.Drawing.SystemColors.HotTrack;
-            this.Calendar.TrailingForeColor = System.Drawing.SystemColors.ControlText;
-            this.Calendar.DateChanged += new System.Windows.Forms.DateRangeEventHandler(this.Calendar_DateChanged);
+            this.EventCalendar.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.EventCalendar.CalendarDimensions = new System.Drawing.Size(1, 2);
+            this.EventCalendar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.EventCalendar.FirstDayOfWeek = System.Windows.Forms.Day.Sunday;
+            this.EventCalendar.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EventCalendar.ForeColor = System.Drawing.SystemColors.ControlDark;
+            this.EventCalendar.Location = new System.Drawing.Point(12, 12);
+            this.EventCalendar.MaxSelectionCount = 1;
+            this.EventCalendar.Name = "Calendar";
+            this.EventCalendar.TabIndex = 0;
+            this.EventCalendar.TabStop = false;
+            this.EventCalendar.TitleBackColor = System.Drawing.SystemColors.HotTrack;
+            this.EventCalendar.TrailingForeColor = System.Drawing.SystemColors.ControlText;
+            this.EventCalendar.DateChanged += new System.Windows.Forms.DateRangeEventHandler(this.Calendar_DateChanged);
             // 
             // EIV
             // 
@@ -222,23 +222,23 @@
             this.EventListView.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.EventListView.FullRowSelect = true;
             this.EventListView.GridLines = true;
-            listViewGroup9.Header = "Complete";
-            listViewGroup9.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
-            listViewGroup9.Name = "Complete";
-            listViewGroup10.Header = "Upcoming";
-            listViewGroup10.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
-            listViewGroup10.Name = "Upcoming";
-            listViewGroup11.Header = "Happening Now";
-            listViewGroup11.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
-            listViewGroup11.Name = "HappeningNow";
-            listViewGroup12.Header = "Overdue";
-            listViewGroup12.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
-            listViewGroup12.Name = "Overdue";
+            listViewGroup5.Header = "Complete";
+            listViewGroup5.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup5.Name = "Complete";
+            listViewGroup6.Header = "Upcoming";
+            listViewGroup6.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup6.Name = "Upcoming";
+            listViewGroup7.Header = "Happening Now";
+            listViewGroup7.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup7.Name = "HappeningNow";
+            listViewGroup8.Header = "Overdue";
+            listViewGroup8.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup8.Name = "Overdue";
             this.EventListView.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup9,
-            listViewGroup10,
-            listViewGroup11,
-            listViewGroup12});
+            listViewGroup5,
+            listViewGroup6,
+            listViewGroup7,
+            listViewGroup8});
             this.EventListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.EventListView.HideSelection = false;
             this.EventListView.Location = new System.Drawing.Point(638, 29);
@@ -367,13 +367,13 @@
             this.tableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Controls.Add(this.TextTB, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.SearchTextTB, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.TextLbl, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.SearchBTN, 0, 12);
-            this.tableLayoutPanel1.Controls.Add(this.SearchEndDate, 0, 10);
+            this.tableLayoutPanel1.Controls.Add(this.EventSearchEndDP, 0, 10);
             this.tableLayoutPanel1.Controls.Add(this.EndDateLbl, 0, 9);
             this.tableLayoutPanel1.Controls.Add(this.UseEndDate, 0, 8);
-            this.tableLayoutPanel1.Controls.Add(this.SearchStartDate, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this.EventSearchStartDP, 0, 6);
             this.tableLayoutPanel1.Controls.Add(this.StartDateLbl, 0, 5);
             this.tableLayoutPanel1.Controls.Add(this.UseStartDate, 0, 4);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(6, 6);
@@ -396,6 +396,15 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(206, 337);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
+            // TextTB
+            // 
+            this.SearchTextTB.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.SearchTextTB.Location = new System.Drawing.Point(3, 34);
+            this.SearchTextTB.Name = "TextTB";
+            this.SearchTextTB.Size = new System.Drawing.Size(200, 23);
+            this.SearchTextTB.TabIndex = 3;
+            this.SearchTextTB.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextTB_KeyUp);
+            // 
             // TextLbl
             // 
             this.TextLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
@@ -405,6 +414,63 @@
             this.TextLbl.TabIndex = 0;
             this.TextLbl.Text = "Text:";
             this.TextLbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // SearchBTN
+            // 
+            this.SearchBTN.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.SearchBTN.Location = new System.Drawing.Point(3, 284);
+            this.SearchBTN.Name = "SearchBTN";
+            this.SearchBTN.Size = new System.Drawing.Size(200, 27);
+            this.SearchBTN.TabIndex = 6;
+            this.SearchBTN.Text = "Search";
+            this.SearchBTN.UseVisualStyleBackColor = true;
+            this.SearchBTN.Click += new System.EventHandler(this.SearchBTN_Click);
+            // 
+            // SearchEndDate
+            // 
+            this.EventSearchEndDP.CustomFormat = "MM/dd/yyyy";
+            this.EventSearchEndDP.Enabled = false;
+            this.EventSearchEndDP.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.EventSearchEndDP.Location = new System.Drawing.Point(3, 232);
+            this.EventSearchEndDP.Name = "SearchEndDate";
+            this.EventSearchEndDP.Size = new System.Drawing.Size(200, 23);
+            this.EventSearchEndDP.TabIndex = 5;
+            this.EventSearchEndDP.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextTB_KeyUp);
+            // 
+            // EndDateLbl
+            // 
+            this.EndDateLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.EndDateLbl.ForeColor = System.Drawing.Color.DimGray;
+            this.EndDateLbl.Location = new System.Drawing.Point(3, 207);
+            this.EndDateLbl.Name = "EndDateLbl";
+            this.EndDateLbl.Size = new System.Drawing.Size(194, 20);
+            this.EndDateLbl.TabIndex = 2;
+            this.EndDateLbl.Text = "End Date:";
+            this.EndDateLbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // UseEndDate
+            // 
+            this.UseEndDate.AutoSize = true;
+            this.UseEndDate.Location = new System.Drawing.Point(3, 183);
+            this.UseEndDate.Name = "UseEndDate";
+            this.UseEndDate.Size = new System.Drawing.Size(183, 21);
+            this.UseEndDate.TabIndex = 8;
+            this.UseEndDate.Text = "Search with End Date";
+            this.UseEndDate.UseVisualStyleBackColor = true;
+            this.UseEndDate.CheckedChanged += new System.EventHandler(this.UseEndDate_CheckedChanged);
+            // 
+            // SearchStartDate
+            // 
+            this.EventSearchStartDP.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EventSearchStartDP.CustomFormat = "MM/dd/yyyy";
+            this.EventSearchStartDP.Enabled = false;
+            this.EventSearchStartDP.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
+            this.EventSearchStartDP.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.EventSearchStartDP.Location = new System.Drawing.Point(3, 134);
+            this.EventSearchStartDP.Name = "SearchStartDate";
+            this.EventSearchStartDP.Size = new System.Drawing.Size(200, 23);
+            this.EventSearchStartDP.TabIndex = 4;
+            this.EventSearchStartDP.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextTB_KeyUp);
             // 
             // StartDateLbl
             // 
@@ -417,16 +483,17 @@
             this.StartDateLbl.Text = "Start Date:";
             this.StartDateLbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // EndDateLbl
+            // UseStartDate
             // 
-            this.EndDateLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.EndDateLbl.ForeColor = System.Drawing.Color.DimGray;
-            this.EndDateLbl.Location = new System.Drawing.Point(3, 207);
-            this.EndDateLbl.Name = "EndDateLbl";
-            this.EndDateLbl.Size = new System.Drawing.Size(194, 20);
-            this.EndDateLbl.TabIndex = 2;
-            this.EndDateLbl.Text = "End Date:";
-            this.EndDateLbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.UseStartDate.AutoSize = true;
+            this.UseStartDate.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.UseStartDate.Location = new System.Drawing.Point(3, 83);
+            this.UseStartDate.Name = "UseStartDate";
+            this.UseStartDate.Size = new System.Drawing.Size(196, 21);
+            this.UseStartDate.TabIndex = 7;
+            this.UseStartDate.Text = "Search with Start Date";
+            this.UseStartDate.UseVisualStyleBackColor = true;
+            this.UseStartDate.CheckedChanged += new System.EventHandler(this.UseStartDate_CheckedChanged);
             // 
             // SEIV
             // 
@@ -453,9 +520,9 @@
             // 
             this.MMV.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.MMV.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.MMV.Location = new System.Drawing.Point(0, 2);
+            this.MMV.Location = new System.Drawing.Point(8, 3);
             this.MMV.Name = "MMV";
-            this.MMV.Size = new System.Drawing.Size(377, 340);
+            this.MMV.Size = new System.Drawing.Size(1023, 340);
             this.MMV.TabIndex = 0;
             // 
             // GeneralToolTip
@@ -609,73 +676,6 @@
             this.ContentPanel.AutoScroll = true;
             this.ContentPanel.Size = new System.Drawing.Size(1092, 462);
             // 
-            // TextTB
-            // 
-            this.TextTB.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.TextTB.Location = new System.Drawing.Point(3, 34);
-            this.TextTB.Name = "TextTB";
-            this.TextTB.Size = new System.Drawing.Size(200, 23);
-            this.TextTB.TabIndex = 3;
-            this.TextTB.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextTB_KeyUp);
-            // 
-            // SearchStartDate
-            // 
-            this.SearchStartDate.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SearchStartDate.CustomFormat = "MM/dd/yyyy";
-            this.SearchStartDate.Enabled = false;
-            this.SearchStartDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
-            this.SearchStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.SearchStartDate.Location = new System.Drawing.Point(3, 134);
-            this.SearchStartDate.Name = "SearchStartDate";
-            this.SearchStartDate.Size = new System.Drawing.Size(200, 23);
-            this.SearchStartDate.TabIndex = 4;
-            this.SearchStartDate.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextTB_KeyUp);
-            // 
-            // SearchEndDate
-            // 
-            this.SearchEndDate.CustomFormat = "MM/dd/yyyy";
-            this.SearchEndDate.Enabled = false;
-            this.SearchEndDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.SearchEndDate.Location = new System.Drawing.Point(3, 232);
-            this.SearchEndDate.Name = "SearchEndDate";
-            this.SearchEndDate.Size = new System.Drawing.Size(200, 23);
-            this.SearchEndDate.TabIndex = 5;
-            this.SearchEndDate.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextTB_KeyUp);
-            // 
-            // SearchBTN
-            // 
-            this.SearchBTN.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.SearchBTN.Location = new System.Drawing.Point(3, 284);
-            this.SearchBTN.Name = "SearchBTN";
-            this.SearchBTN.Size = new System.Drawing.Size(200, 27);
-            this.SearchBTN.TabIndex = 6;
-            this.SearchBTN.Text = "Search";
-            this.SearchBTN.UseVisualStyleBackColor = true;
-            this.SearchBTN.Click += new System.EventHandler(this.SearchBTN_Click);
-            // 
-            // UseStartDate
-            // 
-            this.UseStartDate.AutoSize = true;
-            this.UseStartDate.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.UseStartDate.Location = new System.Drawing.Point(3, 83);
-            this.UseStartDate.Name = "UseStartDate";
-            this.UseStartDate.Size = new System.Drawing.Size(196, 21);
-            this.UseStartDate.TabIndex = 7;
-            this.UseStartDate.Text = "Search with Start Date";
-            this.UseStartDate.UseVisualStyleBackColor = true;
-            this.UseStartDate.CheckedChanged += new System.EventHandler(this.UseStartDate_CheckedChanged);
-            // 
-            // UseEndDate
-            // 
-            this.UseEndDate.AutoSize = true;
-            this.UseEndDate.Location = new System.Drawing.Point(3, 183);
-            this.UseEndDate.Name = "UseEndDate";
-            this.UseEndDate.Size = new System.Drawing.Size(183, 21);
-            this.UseEndDate.TabIndex = 8;
-            this.UseEndDate.Text = "Search with End Date";
-            this.UseEndDate.UseVisualStyleBackColor = true;
-            this.UseEndDate.CheckedChanged += new System.EventHandler(this.UseEndDate_CheckedChanged);
-            // 
             // MainApp
             // 
             this.AccessibleDescription = "The main window";
@@ -722,7 +722,7 @@
         private System.Windows.Forms.Timer TimeTicker;
         private System.Windows.Forms.Timer DateTicker;
         private System.Windows.Forms.TabPage CalendarTab;
-        private System.Windows.Forms.MonthCalendar Calendar;
+        private System.Windows.Forms.MonthCalendar EventCalendar;
         private System.Windows.Forms.TabPage TimeTab;
         private System.Windows.Forms.Label Date;
         private System.Windows.Forms.Label Time;
@@ -763,10 +763,10 @@
         private System.Windows.Forms.Label TextLbl;
         private System.Windows.Forms.Label StartDateLbl;
         private System.Windows.Forms.Label EndDateLbl;
-        private Parts.ManageMessageView MMV;
-        private System.Windows.Forms.TextBox TextTB;
-        private System.Windows.Forms.DateTimePicker SearchStartDate;
-        private System.Windows.Forms.DateTimePicker SearchEndDate;
+        private Parts.MessagesView MMV;
+        private System.Windows.Forms.TextBox SearchTextTB;
+        private System.Windows.Forms.DateTimePicker EventSearchStartDP;
+        private System.Windows.Forms.DateTimePicker EventSearchEndDP;
         private System.Windows.Forms.Button SearchBTN;
         private System.Windows.Forms.CheckBox UseStartDate;
         private System.Windows.Forms.CheckBox UseEndDate;

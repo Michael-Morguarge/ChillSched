@@ -2,10 +2,17 @@
 
 [![Image](docs/resources/ChillSchedheader.png)](https://mikeyjm145.github.io/ChillSched/ "ChillSched")
 
-**ChillSched** is a portable desktop scheduling app that tracks events down to the second.
+![.NET Core](https://github.com/mikeyjm145/ChillSched/workflows/.NET%20Core/badge.svg?branch=Development)
 
-[ChillSched official site](https://mikeyjm145.github.io/ChillSched/ "ChillSched Official Site")
+**ChillSched** is a portable desktop scheduling app that tracks events down to the second!
 
-[Events Help](https://mikeyjm145.github.io/ChillSched/pages/Events.html "Help for Events")
+## [ChillSched official site](https://mikeyjm145.github.io/ChillSched/ "ChillSched Official Site")
 
-[Messge/Quote Help](https://mikeyjm145.github.io/ChillSched/ "Help for Message/Quotes")
+- [Events Help](https://mikeyjm145.github.io/ChillSched/pages/Events.html "Help for Events")
+- [Messge/Quote Help](https://mikeyjm145.github.io/ChillSched/Messages.html "Help for Message/Quotes")
+- [Release Notes](https://mikeyjm145.github.io/ChillSched/ReleaseNotes.html "Latest Release Notes")
+
+## [Boards (under construction)](https://mikeyjm145.github.io/ChillSched/Boards.html)
+
+- [Features](https://app.gitkraken.com/glo/board/XIfjG_lC3wAPkmAG)
+- [Functionality](https://app.gitkraken.com/glo/board/XIfjwX5wEgARWbBy)

@@ -1,7 +1,7 @@
 ﻿using Shared.Interface;
 using Shared.Global;
 
-namespace SharedItems.Abstracts
+namespace Shared.Abstract
 {
     /// <summary>
     /// The setup for controls

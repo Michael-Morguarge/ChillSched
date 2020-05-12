@@ -38,6 +38,21 @@ namespace FrontEnd.App.Parts
             Setup();
         }
 
+        private void Setup()
+        {
+            TitleLB.Tag = _controls.Add(_parentId, new LabelController(TitleLB));
+            StartLB.Tag = _controls.Add(_parentId, new LabelController(StartLB));
+            EndLB.Tag = _controls.Add(_parentId, new LabelController(EndLB));
+
+            EventTitleTB.Tag = _controls.Add(_parentId, new TextBoxController(EventTitleTB));
+            EventCommentTB.Tag = _controls.Add(_parentId, new TextBoxController(EventCommentTB));
+
+            StartPickerDP.Tag = _controls.Add(_parentId, new DatePickerController(StartPickerDP));
+            StartPickerDP.MinDate = DateTime.Now;
+            EndPickerDP.Tag = _controls.Add(_parentId, new DatePickerController(EndPickerDP));
+            EndPickerDP.MinDate = DateTime.Now;
+        }
+
         public void SetPurpose(CrudPurposes purpose)
         {
             Data.Results = new SavedEvent();
@@ -85,37 +100,37 @@ namespace FrontEnd.App.Parts
                 case CrudPurposes.None:
                     {
                         Data.Error = false;
-                        BookmarkMaker.Enabled = true;
+                        EventModal.Enabled = true;
                         Confirm.Enabled = false;
                         Confirm.Visible = false;
-                        BookmarkMaker.Text = "View Bookmark";
+                        EventModal.Text = "View Event";
                         Confirm.Text = "...";
                         Cancel.Text = "Ok";
-                        return;
+                        break;
                     }
 
                 case CrudPurposes.Create:
                     {
                         Data.Error = false;
-                        BookmarkMaker.Enabled = true;
+                        EventModal.Enabled = true;
                         Confirm.Enabled = true;
                         Confirm.Visible = true;
-                        BookmarkMaker.Text = "Create Bookmark";
+                        EventModal.Text = "Create Event";
                         Confirm.Text = "Create";
                         Cancel.Text = "Cancel";
-                        return;
+                        break;
                     }
 
                 case CrudPurposes.Edit:
                     {
                         Data.Error = false;
-                        BookmarkMaker.Enabled = true;
+                        EventModal.Enabled = true;
                         Confirm.Enabled = true;
                         Confirm.Visible = true;
-                        BookmarkMaker.Text = "Edit Bookmark";
+                        EventModal.Text = "Edit Event";
                         Confirm.Text = "Update";
                         Cancel.Text = "Cancel";
-                        return;
+                        break;
                     }
 
                 case CrudPurposes.Error:
@@ -123,12 +138,12 @@ namespace FrontEnd.App.Parts
                         Data.Error = true;
                         Confirm.Enabled = false;
                         Confirm.Visible = false;
-                        BookmarkMaker.Enabled = false;
-                        BookmarkMaker.Visible = false;
-                        BookmarkMaker.Text = "...";
+                        EventModal.Enabled = false;
+                        EventModal.Visible = false;
+                        EventModal.Text = "Error";
                         Confirm.Text = "...";
-                        Cancel.Text = "...";
-                        return;
+                        Cancel.Text = "Ok";
+                        break;
                     }
 
                 default:
@@ -136,29 +151,14 @@ namespace FrontEnd.App.Parts
                         Data.Error = true;
                         Confirm.Enabled = false;
                         Confirm.Visible = false;
-                        BookmarkMaker.Enabled = false;
-                        BookmarkMaker.Visible = false;
-                        BookmarkMaker.Text = "...";
+                        EventModal.Enabled = false;
+                        EventModal.Visible = false;
+                        EventModal.Text = "...";
                         Confirm.Text = "...";
-                        Cancel.Text = "...";
+                        Cancel.Text = "Ok";
                         return;
                     }
             }
-        }
-
-        private void Setup()
-        {
-            BMTitle.Tag = _controls.Add(_parentId, new LabelController(BMTitle));
-            BMStart.Tag = _controls.Add(_parentId, new LabelController(BMStart));
-            BMEnd.Tag = _controls.Add(_parentId, new LabelController(BMEnd));
-
-            BMTitleTB.Tag = _controls.Add(_parentId, new TextBoxController(BMTitleTB));
-            BMCommentTB.Tag = _controls.Add(_parentId, new TextBoxController(BMCommentTB));
-
-            BMStartPicker.Tag = _controls.Add(_parentId, new DatePickerController(BMStartPicker));
-            BMStartPicker.MinDate = DateTime.Now;
-            BMEndPicker.Tag = _controls.Add(_parentId, new DatePickerController(BMEndPicker));
-            BMEndPicker.MinDate = DateTime.Now;
         }
 
         private void Cancel_Click(object sender, EventArgs e)
@@ -187,34 +187,34 @@ namespace FrontEnd.App.Parts
             bool error = false;
             Label title = Title.GetControl();
 
-            if (TitleTB.Text == "")
+            if (TitleTB.Text == string.Empty)
             {
-                title.Text = title.Text.Contains("*") ? title.Text : string.Format("{0}*", title.Text);
+                Title.SetText(title.Text.Contains("*") ? title.Text : string.Format("{0}*", title.Text));
                 error = true;
             }
             else
             {
-                title.Text = title.Text.Contains("*") ? title.Text.Remove(title.Text.Length - 1) : title.Text;
+                Title.SetText(title.Text.Contains("*") ? title.Text.Remove(title.Text.Length - 1) : title.Text);
             }
 
             Label start = Start.GetControl();
             Label end = End.GetControl();
             if (CheckStartAndEndDate())
             {
-                start.Text = start.Text.Contains("*") ? start.Text : string.Format("{0}*", start.Text);
-                end.Text = end.Text.Contains("*") ? end.Text : string.Format("{0}*", end.Text);
+                Start.SetText(start.Text.Contains("*") ? start.Text : string.Format("{0}*", start.Text));
+                End.SetText(end.Text.Contains("*") ? end.Text : string.Format("{0}*", end.Text));
                 error = true;
             }
             else if (CheckMinDate())
             {
-                start.Text = start.Text.Contains("*") ? start.Text : string.Format("{0}*", start.Text);
-                end.Text = end.Text.Contains("*") ? end.Text : string.Format("{0}*", end.Text);
+                Start.SetText(start.Text.Contains("*") ? start.Text : string.Format("{0}*", start.Text));
+                End.SetText(end.Text.Contains("*") ? end.Text : string.Format("{0}*", end.Text));
                 error = true;
             }
             else
             {
-                start.Text = start.Text.Contains("*") ? start.Text.Remove(start.Text.Length - 1) : start.Text;
-                end.Text = end.Text.Contains("*") ? end.Text.Remove(end.Text.Length - 1) : end.Text;
+                Start.SetText(start.Text.Contains("*") ? start.Text.Remove(start.Text.Length - 1) : start.Text);
+                End.SetText(end.Text.Contains("*") ? end.Text.Remove(end.Text.Length - 1) : end.Text);
             }
 
             if (error)
@@ -279,27 +279,27 @@ namespace FrontEnd.App.Parts
 
         #region [ TextBoxes ]
 
-        private TextBoxController TitleTB => (TextBoxController)_controls.Get(_parentId, BMTitleTB.Tag as string);
+        private TextBoxController TitleTB => (TextBoxController)_controls.Get(_parentId, EventTitleTB.Tag as string);
 
-        private TextBoxController CommentTB => (TextBoxController)_controls.Get(_parentId, BMCommentTB.Tag as string);
+        private TextBoxController CommentTB => (TextBoxController)_controls.Get(_parentId, EventCommentTB.Tag as string);
 
         #endregion
 
         #region [ Date ]
 
-        private DatePickerController StartPicker => (DatePickerController)_controls.Get(_parentId, BMStartPicker.Tag as string);
+        private DatePickerController StartPicker => (DatePickerController)_controls.Get(_parentId, StartPickerDP.Tag as string);
 
-        private DatePickerController EndPicker => (DatePickerController)_controls.Get(_parentId, BMEndPicker.Tag as string);
+        private DatePickerController EndPicker => (DatePickerController)_controls.Get(_parentId, EndPickerDP.Tag as string);
 
         #endregion
 
         #region [ Labels ]
 
-        private LabelController Title => (LabelController)_controls.Get(_parentId, BMTitle.Tag as string);
+        private LabelController Title => (LabelController)_controls.Get(_parentId, TitleLB.Tag as string);
 
-        private LabelController Start => (LabelController)_controls.Get(_parentId, BMStart.Tag as string);
+        private LabelController Start => (LabelController)_controls.Get(_parentId, StartLB.Tag as string);
 
-        private LabelController End => (LabelController)_controls.Get(_parentId, BMEnd.Tag as string);
+        private LabelController End => (LabelController)_controls.Get(_parentId, EndLB.Tag as string);
 
         #endregion
 

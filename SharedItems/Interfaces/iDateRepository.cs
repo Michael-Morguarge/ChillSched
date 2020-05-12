@@ -1,5 +1,4 @@
-﻿
-using Shared.Model;
+﻿using Shared.Model;
 using Shared.Global;
 
 namespace Shared.Interface
