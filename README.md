@@ -6,8 +6,13 @@
 
 **ChillSched** is a portable desktop scheduling app that tracks events down to the second!
 
-[ChillSched official site](https://mikeyjm145.github.io/ChillSched/ "ChillSched Official Site")
+## [ChillSched official site](https://mikeyjm145.github.io/ChillSched/ "ChillSched Official Site")
 
-[Events Help](https://mikeyjm145.github.io/ChillSched/pages/Events.html "Help for Events")
+ - [Events Help](https://mikeyjm145.github.io/ChillSched/pages/Events.html "Help for Events")
+ - [Messge/Quote Help](https://mikeyjm145.github.io/ChillSched/Messages.html "Help for Message/Quotes")
+ - [Release Notes (under construction)](https://mikeyjm145.github.io/ChillSched/ReleaseNotes.html "Latest Release Notes")
 
-[Messge/Quote Help](https://mikeyjm145.github.io/ChillSched/ "Help for Message/Quotes")
+## [Boards (under construction)](https://mikeyjm145.github.io/ChillSched/Boards.html)
+ - [Bugs](https://app.gitkraken.com/glo/board/XIfjyPkhKgAP0c16)
+ - [Features](https://app.gitkraken.com/glo/board/XIfjG_lC3wAPkmAG)
+ - [Functionality](https://app.gitkraken.com/glo/board/XIfjwX5wEgARWbBy)
