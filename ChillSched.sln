@@ -3,20 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend", "ModelsAndControllers\Backend.csproj", "{D13B5135-97CB-4086-8E7C-A9AFE818C97B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrontEnd", "TimeAndSched\FrontEnd.csproj", "{18361E09-B261-435C-826F-D645D9D6807E}"
-	ProjectSection(ProjectDependencies) = postProject
-		{D13B5135-97CB-4086-8E7C-A9AFE818C97B} = {D13B5135-97CB-4086-8E7C-A9AFE818C97B}
-	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Testing", "BackEndTesting\Testing.csproj", "{0BE048BF-535C-42B9-9ECC-8B336EC9E361}"
-	ProjectSection(ProjectDependencies) = postProject
-		{D13B5135-97CB-4086-8E7C-A9AFE818C97B} = {D13B5135-97CB-4086-8E7C-A9AFE818C97B}
-	EndProjectSection
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SharedItems", "SharedItems\SharedItems.shproj", "{65ECE9D6-0F5A-4B9B-B61F-529196014EDE}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1C466F3B-7ED0-4C3F-BE82-E1F634549E1F}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
@@ -24,11 +10,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MessageDrawer", "MessageDrawer\MessageDrawer.shproj", "{447CBB38-D63B-432F-9646-9E933C25642C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend", "Backend\Backend.csproj", "{D13B5135-97CB-4086-8E7C-A9AFE818C97B}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Shared", "Shared\Shared.shproj", "{65ECE9D6-0F5A-4B9B-B61F-529196014EDE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frontend", "Frontend\Frontend.csproj", "{18361E09-B261-435C-826F-D645D9D6807E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppTesting", "AppTesting\AppTesting.csproj", "{ACED5CE3-1DBA-465C-80A1-4D13327484F8}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		MessageDrawer\MessageDrawer.projitems*{447cbb38-d63b-432f-9646-9e933c25642c}*SharedItemsImports = 13
-		SharedItems\SharedItems.projitems*{65ece9d6-0f5a-4b9b-b61f-529196014ede}*SharedItemsImports = 13
-		SharedItems\SharedItems.projitems*{d13b5135-97cb-4086-8e7c-a9afe818c97b}*SharedItemsImports = 4
+		Shared\Shared.projitems*{d13b5135-97cb-4086-8e7c-a9afe818c97b}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,25 +64,26 @@ Global
 		{18361E09-B261-435C-826F-D645D9D6807E}.Release|x64.ActiveCfg = Release|x86
 		{18361E09-B261-435C-826F-D645D9D6807E}.Release|x86.ActiveCfg = Release|x86
 		{18361E09-B261-435C-826F-D645D9D6807E}.Release|x86.Build.0 = Release|x86
-		{0BE048BF-535C-42B9-9ECC-8B336EC9E361}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0BE048BF-535C-42B9-9ECC-8B336EC9E361}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0BE048BF-535C-42B9-9ECC-8B336EC9E361}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{0BE048BF-535C-42B9-9ECC-8B336EC9E361}.Debug|ARM.Build.0 = Debug|Any CPU
-		{0BE048BF-535C-42B9-9ECC-8B336EC9E361}.Debug|ARM64.ActiveCfg = Debug|Any CPU
-		{0BE048BF-535C-42B9-9ECC-8B336EC9E361}.Debug|ARM64.Build.0 = Debug|Any CPU
-		{0BE048BF-535C-42B9-9ECC-8B336EC9E361}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{0BE048BF-535C-42B9-9ECC-8B336EC9E361}.Debug|x64.Build.0 = Debug|Any CPU
-		{0BE048BF-535C-42B9-9ECC-8B336EC9E361}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{0BE048BF-535C-42B9-9ECC-8B336EC9E361}.Debug|x86.Build.0 = Debug|Any CPU
-		{0BE048BF-535C-42B9-9ECC-8B336EC9E361}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0BE048BF-535C-42B9-9ECC-8B336EC9E361}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0BE048BF-535C-42B9-9ECC-8B336EC9E361}.Release|ARM.ActiveCfg = Release|Any CPU
-		{0BE048BF-535C-42B9-9ECC-8B336EC9E361}.Release|ARM.Build.0 = Release|Any CPU
-		{0BE048BF-535C-42B9-9ECC-8B336EC9E361}.Release|ARM64.ActiveCfg = Release|Any CPU
-		{0BE048BF-535C-42B9-9ECC-8B336EC9E361}.Release|ARM64.Build.0 = Release|Any CPU
-		{0BE048BF-535C-42B9-9ECC-8B336EC9E361}.Release|x64.ActiveCfg = Release|Any CPU
-		{0BE048BF-535C-42B9-9ECC-8B336EC9E361}.Release|x64.Build.0 = Release|Any CPU
-		{0BE048BF-535C-42B9-9ECC-8B336EC9E361}.Release|x86.ActiveCfg = Release|Any CPU
+		{ACED5CE3-1DBA-465C-80A1-4D13327484F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACED5CE3-1DBA-465C-80A1-4D13327484F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACED5CE3-1DBA-465C-80A1-4D13327484F8}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{ACED5CE3-1DBA-465C-80A1-4D13327484F8}.Debug|ARM.Build.0 = Debug|Any CPU
+		{ACED5CE3-1DBA-465C-80A1-4D13327484F8}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{ACED5CE3-1DBA-465C-80A1-4D13327484F8}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{ACED5CE3-1DBA-465C-80A1-4D13327484F8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{ACED5CE3-1DBA-465C-80A1-4D13327484F8}.Debug|x64.Build.0 = Debug|Any CPU
+		{ACED5CE3-1DBA-465C-80A1-4D13327484F8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{ACED5CE3-1DBA-465C-80A1-4D13327484F8}.Debug|x86.Build.0 = Debug|Any CPU
+		{ACED5CE3-1DBA-465C-80A1-4D13327484F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACED5CE3-1DBA-465C-80A1-4D13327484F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACED5CE3-1DBA-465C-80A1-4D13327484F8}.Release|ARM.ActiveCfg = Release|Any CPU
+		{ACED5CE3-1DBA-465C-80A1-4D13327484F8}.Release|ARM.Build.0 = Release|Any CPU
+		{ACED5CE3-1DBA-465C-80A1-4D13327484F8}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{ACED5CE3-1DBA-465C-80A1-4D13327484F8}.Release|ARM64.Build.0 = Release|Any CPU
+		{ACED5CE3-1DBA-465C-80A1-4D13327484F8}.Release|x64.ActiveCfg = Release|Any CPU
+		{ACED5CE3-1DBA-465C-80A1-4D13327484F8}.Release|x64.Build.0 = Release|Any CPU
+		{ACED5CE3-1DBA-465C-80A1-4D13327484F8}.Release|x86.ActiveCfg = Release|Any CPU
+		{ACED5CE3-1DBA-465C-80A1-4D13327484F8}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
