@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewGroup listViewGroup5 = new System.Windows.Forms.ListViewGroup("Complete", System.Windows.Forms.HorizontalAlignment.Center);
-            System.Windows.Forms.ListViewGroup listViewGroup6 = new System.Windows.Forms.ListViewGroup("Upcoming", System.Windows.Forms.HorizontalAlignment.Center);
-            System.Windows.Forms.ListViewGroup listViewGroup7 = new System.Windows.Forms.ListViewGroup("Happening Now", System.Windows.Forms.HorizontalAlignment.Center);
-            System.Windows.Forms.ListViewGroup listViewGroup8 = new System.Windows.Forms.ListViewGroup("Overdue", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup49 = new System.Windows.Forms.ListViewGroup("Complete", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup50 = new System.Windows.Forms.ListViewGroup("Upcoming", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup51 = new System.Windows.Forms.ListViewGroup("Happening Now", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup52 = new System.Windows.Forms.ListViewGroup("Overdue", System.Windows.Forms.HorizontalAlignment.Center);
             this.TimeTicker = new System.Windows.Forms.Timer(this.components);
             this.DateTicker = new System.Windows.Forms.Timer(this.components);
             this.CalendarTab = new System.Windows.Forms.TabPage();
@@ -78,12 +78,25 @@
             this.CloseStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EventsStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CreateEventStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tirggerBackupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.EventDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.TriggerEventBackupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ImportEventsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ExportEventsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MessagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BottomToolStripPanel = new System.Windows.Forms.ToolStripPanel();
             this.TopToolStripPanel = new System.Windows.Forms.ToolStripPanel();
             this.RightToolStripPanel = new System.Windows.Forms.ToolStripPanel();
             this.LeftToolStripPanel = new System.Windows.Forms.ToolStripPanel();
             this.ContentPanel = new System.Windows.Forms.ToolStripContentPanel();
+            this.CreateMessageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MessageDataManagementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.TriggerMessagesBackupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ImportMessagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ExportMessagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MiscToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.TriggerImportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ImportAllDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportAllDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CalendarTab.SuspendLayout();
             this.TimeTab.SuspendLayout();
             this.TimeAndCalendarTabular.SuspendLayout();
@@ -120,7 +133,7 @@
             this.CalendarTab.TabIndex = 0;
             this.CalendarTab.Text = "Calendar";
             // 
-            // Calendar
+            // EventCalendar
             // 
             this.EventCalendar.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.EventCalendar.CalendarDimensions = new System.Drawing.Size(1, 2);
@@ -130,7 +143,7 @@
             this.EventCalendar.ForeColor = System.Drawing.SystemColors.ControlDark;
             this.EventCalendar.Location = new System.Drawing.Point(12, 12);
             this.EventCalendar.MaxSelectionCount = 1;
-            this.EventCalendar.Name = "Calendar";
+            this.EventCalendar.Name = "EventCalendar";
             this.EventCalendar.TabIndex = 0;
             this.EventCalendar.TabStop = false;
             this.EventCalendar.TitleBackColor = System.Drawing.SystemColors.HotTrack;
@@ -222,23 +235,23 @@
             this.EventListView.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.EventListView.FullRowSelect = true;
             this.EventListView.GridLines = true;
-            listViewGroup5.Header = "Complete";
-            listViewGroup5.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
-            listViewGroup5.Name = "Complete";
-            listViewGroup6.Header = "Upcoming";
-            listViewGroup6.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
-            listViewGroup6.Name = "Upcoming";
-            listViewGroup7.Header = "Happening Now";
-            listViewGroup7.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
-            listViewGroup7.Name = "HappeningNow";
-            listViewGroup8.Header = "Overdue";
-            listViewGroup8.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
-            listViewGroup8.Name = "Overdue";
+            listViewGroup49.Header = "Complete";
+            listViewGroup49.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup49.Name = "Complete";
+            listViewGroup50.Header = "Upcoming";
+            listViewGroup50.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup50.Name = "Upcoming";
+            listViewGroup51.Header = "Happening Now";
+            listViewGroup51.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup51.Name = "HappeningNow";
+            listViewGroup52.Header = "Overdue";
+            listViewGroup52.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup52.Name = "Overdue";
             this.EventListView.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup5,
-            listViewGroup6,
-            listViewGroup7,
-            listViewGroup8});
+            listViewGroup49,
+            listViewGroup50,
+            listViewGroup51,
+            listViewGroup52});
             this.EventListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.EventListView.HideSelection = false;
             this.EventListView.Location = new System.Drawing.Point(638, 29);
@@ -396,11 +409,11 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(206, 337);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
-            // TextTB
+            // SearchTextTB
             // 
             this.SearchTextTB.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.SearchTextTB.Location = new System.Drawing.Point(3, 34);
-            this.SearchTextTB.Name = "TextTB";
+            this.SearchTextTB.Name = "SearchTextTB";
             this.SearchTextTB.Size = new System.Drawing.Size(200, 23);
             this.SearchTextTB.TabIndex = 3;
             this.SearchTextTB.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextTB_KeyUp);
@@ -426,13 +439,13 @@
             this.SearchBTN.UseVisualStyleBackColor = true;
             this.SearchBTN.Click += new System.EventHandler(this.SearchBTN_Click);
             // 
-            // SearchEndDate
+            // EventSearchEndDP
             // 
             this.EventSearchEndDP.CustomFormat = "MM/dd/yyyy";
             this.EventSearchEndDP.Enabled = false;
             this.EventSearchEndDP.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.EventSearchEndDP.Location = new System.Drawing.Point(3, 232);
-            this.EventSearchEndDP.Name = "SearchEndDate";
+            this.EventSearchEndDP.Name = "EventSearchEndDP";
             this.EventSearchEndDP.Size = new System.Drawing.Size(200, 23);
             this.EventSearchEndDP.TabIndex = 5;
             this.EventSearchEndDP.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextTB_KeyUp);
@@ -459,7 +472,7 @@
             this.UseEndDate.UseVisualStyleBackColor = true;
             this.UseEndDate.CheckedChanged += new System.EventHandler(this.UseEndDate_CheckedChanged);
             // 
-            // SearchStartDate
+            // EventSearchStartDP
             // 
             this.EventSearchStartDP.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.EventSearchStartDP.CustomFormat = "MM/dd/yyyy";
@@ -467,7 +480,7 @@
             this.EventSearchStartDP.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
             this.EventSearchStartDP.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.EventSearchStartDP.Location = new System.Drawing.Point(3, 134);
-            this.EventSearchStartDP.Name = "SearchStartDate";
+            this.EventSearchStartDP.Name = "EventSearchStartDP";
             this.EventSearchStartDP.Size = new System.Drawing.Size(200, 23);
             this.EventSearchStartDP.TabIndex = 4;
             this.EventSearchStartDP.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextTB_KeyUp);
@@ -572,7 +585,9 @@
             this.ChillSchedMenuStrip.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.ChillSchedMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.WelcomeToChillSchedToolStripMenuItem,
-            this.EventsStripMenuItem});
+            this.EventsStripMenuItem,
+            this.MessagesToolStripMenuItem,
+            this.MiscToolStripMenuItem});
             this.ChillSchedMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.ChillSchedMenuStrip.Name = "ChillSchedMenuStrip";
             this.ChillSchedMenuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -595,14 +610,14 @@
             // AboutStripMenuItem
             // 
             this.AboutStripMenuItem.Name = "AboutStripMenuItem";
-            this.AboutStripMenuItem.Size = new System.Drawing.Size(116, 24);
+            this.AboutStripMenuItem.Size = new System.Drawing.Size(180, 24);
             this.AboutStripMenuItem.Text = "About";
             this.AboutStripMenuItem.Click += new System.EventHandler(this.AboutStripMenuItem_Click);
             // 
             // CloseStripMenuItem
             // 
             this.CloseStripMenuItem.Name = "CloseStripMenuItem";
-            this.CloseStripMenuItem.Size = new System.Drawing.Size(116, 24);
+            this.CloseStripMenuItem.Size = new System.Drawing.Size(180, 24);
             this.CloseStripMenuItem.Text = "Close";
             this.CloseStripMenuItem.Click += new System.EventHandler(this.CloseStripMenuItem_Click);
             // 
@@ -610,7 +625,7 @@
             // 
             this.EventsStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.CreateEventStripMenuItem,
-            this.tirggerBackupToolStripMenuItem});
+            this.EventDataToolStripMenuItem});
             this.EventsStripMenuItem.Name = "EventsStripMenuItem";
             this.EventsStripMenuItem.ShortcutKeyDisplayString = "";
             this.EventsStripMenuItem.Size = new System.Drawing.Size(61, 28);
@@ -620,20 +635,61 @@
             // 
             this.CreateEventStripMenuItem.Name = "CreateEventStripMenuItem";
             this.CreateEventStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.C)));
-            this.CreateEventStripMenuItem.Size = new System.Drawing.Size(254, 24);
+            | System.Windows.Forms.Keys.A)));
+            this.CreateEventStripMenuItem.Size = new System.Drawing.Size(243, 24);
             this.CreateEventStripMenuItem.Text = "Create Event";
-            this.CreateEventStripMenuItem.ToolTipText = "Create an event";
+            this.CreateEventStripMenuItem.ToolTipText = "Create an event.";
             this.CreateEventStripMenuItem.Click += new System.EventHandler(this.CreateEvent_Click);
             // 
-            // tirggerBackupToolStripMenuItem
+            // EventDataToolStripMenuItem
             // 
-            this.tirggerBackupToolStripMenuItem.Name = "tirggerBackupToolStripMenuItem";
-            this.tirggerBackupToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.EventDataToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.TriggerEventBackupToolStripMenuItem,
+            this.ImportEventsToolStripMenuItem,
+            this.ExportEventsToolStripMenuItem});
+            this.EventDataToolStripMenuItem.Name = "EventDataToolStripMenuItem";
+            this.EventDataToolStripMenuItem.ShowShortcutKeys = false;
+            this.EventDataToolStripMenuItem.Size = new System.Drawing.Size(243, 24);
+            this.EventDataToolStripMenuItem.Text = "Event Data Management";
+            // 
+            // TriggerEventBackupToolStripMenuItem
+            // 
+            this.TriggerEventBackupToolStripMenuItem.Name = "TriggerEventBackupToolStripMenuItem";
+            this.TriggerEventBackupToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.B)));
-            this.tirggerBackupToolStripMenuItem.Size = new System.Drawing.Size(254, 24);
-            this.tirggerBackupToolStripMenuItem.Text = "Trigger Backup";
-            this.tirggerBackupToolStripMenuItem.Click += new System.EventHandler(this.EventBackupStripMenuItem_Click);
+            this.TriggerEventBackupToolStripMenuItem.Size = new System.Drawing.Size(298, 24);
+            this.TriggerEventBackupToolStripMenuItem.Text = "Trigger Events Backup";
+            this.TriggerEventBackupToolStripMenuItem.ToolTipText = "Triggers a backup of current events. All events are backed up on application clos" +
+    "e, adds, updates and deletes.";
+            this.TriggerEventBackupToolStripMenuItem.Click += new System.EventHandler(this.EventBackupStripMenuItem_Click);
+            // 
+            // ImportEventsToolStripMenuItem
+            // 
+            this.ImportEventsToolStripMenuItem.Name = "ImportEventsToolStripMenuItem";
+            this.ImportEventsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.C)));
+            this.ImportEventsToolStripMenuItem.Size = new System.Drawing.Size(298, 24);
+            this.ImportEventsToolStripMenuItem.Text = "Import Events";
+            this.ImportEventsToolStripMenuItem.ToolTipText = "Imports events from file.";
+            // 
+            // ExportEventsToolStripMenuItem
+            // 
+            this.ExportEventsToolStripMenuItem.Name = "ExportEventsToolStripMenuItem";
+            this.ExportEventsToolStripMenuItem.ShortcutKeyDisplayString = "";
+            this.ExportEventsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.D)));
+            this.ExportEventsToolStripMenuItem.Size = new System.Drawing.Size(298, 24);
+            this.ExportEventsToolStripMenuItem.Text = "Export Events";
+            this.ExportEventsToolStripMenuItem.ToolTipText = "Export events to a custom location.";
+            // 
+            // MessagesToolStripMenuItem
+            // 
+            this.MessagesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.CreateMessageToolStripMenuItem,
+            this.MessageDataManagementToolStripMenuItem});
+            this.MessagesToolStripMenuItem.Name = "MessagesToolStripMenuItem";
+            this.MessagesToolStripMenuItem.Size = new System.Drawing.Size(81, 28);
+            this.MessagesToolStripMenuItem.Text = "Messages";
             // 
             // BottomToolStripPanel
             // 
@@ -675,6 +731,93 @@
             // 
             this.ContentPanel.AutoScroll = true;
             this.ContentPanel.Size = new System.Drawing.Size(1092, 462);
+            // 
+            // CreateMessageToolStripMenuItem
+            // 
+            this.CreateMessageToolStripMenuItem.Name = "CreateMessageToolStripMenuItem";
+            this.CreateMessageToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.E)));
+            this.CreateMessageToolStripMenuItem.Size = new System.Drawing.Size(261, 24);
+            this.CreateMessageToolStripMenuItem.Text = "Create Message";
+            this.CreateMessageToolStripMenuItem.ToolTipText = "Creates a message.";
+            this.CreateMessageToolStripMenuItem.Click += new System.EventHandler(this.CreateMessageToolStripMenuItem_Click);
+            // 
+            // MessageDataManagementToolStripMenuItem
+            // 
+            this.MessageDataManagementToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.TriggerMessagesBackupToolStripMenuItem,
+            this.ImportMessagesToolStripMenuItem,
+            this.ExportMessagesToolStripMenuItem});
+            this.MessageDataManagementToolStripMenuItem.Name = "MessageDataManagementToolStripMenuItem";
+            this.MessageDataManagementToolStripMenuItem.Size = new System.Drawing.Size(261, 24);
+            this.MessageDataManagementToolStripMenuItem.Text = "Message Data Management";
+            // 
+            // TriggerMessagesBackupToolStripMenuItem
+            // 
+            this.TriggerMessagesBackupToolStripMenuItem.Name = "TriggerMessagesBackupToolStripMenuItem";
+            this.TriggerMessagesBackupToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.F)));
+            this.TriggerMessagesBackupToolStripMenuItem.Size = new System.Drawing.Size(317, 24);
+            this.TriggerMessagesBackupToolStripMenuItem.Text = "Trigger Messages Backup";
+            this.TriggerMessagesBackupToolStripMenuItem.ToolTipText = "Triggers a backup of current messages. All messages are backed up application clo" +
+    "se, adds, updates and deletes.";
+            this.TriggerMessagesBackupToolStripMenuItem.Click += new System.EventHandler(this.TriggerMessagesBackupToolStripMenuItem_Click);
+            // 
+            // ImportMessagesToolStripMenuItem
+            // 
+            this.ImportMessagesToolStripMenuItem.Name = "ImportMessagesToolStripMenuItem";
+            this.ImportMessagesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.G)));
+            this.ImportMessagesToolStripMenuItem.Size = new System.Drawing.Size(317, 24);
+            this.ImportMessagesToolStripMenuItem.Text = "Import Messages";
+            this.ImportMessagesToolStripMenuItem.ToolTipText = "Imports messages from file.";
+            // 
+            // ExportMessagesToolStripMenuItem
+            // 
+            this.ExportMessagesToolStripMenuItem.Name = "ExportMessagesToolStripMenuItem";
+            this.ExportMessagesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.H)));
+            this.ExportMessagesToolStripMenuItem.Size = new System.Drawing.Size(317, 24);
+            this.ExportMessagesToolStripMenuItem.Text = "Export Messages";
+            this.ExportMessagesToolStripMenuItem.ToolTipText = "Exports messages to a custom location.";
+            // 
+            // MiscToolStripMenuItem
+            // 
+            this.MiscToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.TriggerImportToolStripMenuItem,
+            this.ImportAllDataToolStripMenuItem,
+            this.exportAllDataToolStripMenuItem});
+            this.MiscToolStripMenuItem.Name = "MiscToolStripMenuItem";
+            this.MiscToolStripMenuItem.Size = new System.Drawing.Size(49, 28);
+            this.MiscToolStripMenuItem.Text = "Misc";
+            // 
+            // TriggerImportToolStripMenuItem
+            // 
+            this.TriggerImportToolStripMenuItem.Name = "TriggerImportToolStripMenuItem";
+            this.TriggerImportToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.I)));
+            this.TriggerImportToolStripMenuItem.Size = new System.Drawing.Size(255, 24);
+            this.TriggerImportToolStripMenuItem.Text = "Trigger Backup";
+            this.TriggerImportToolStripMenuItem.ToolTipText = "Triggers a backup of current events and messages. All events and messages are bac" +
+    "ked up application close, adds, updates,and deletes.";
+            // 
+            // ImportAllDataToolStripMenuItem
+            // 
+            this.ImportAllDataToolStripMenuItem.Name = "ImportAllDataToolStripMenuItem";
+            this.ImportAllDataToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.J)));
+            this.ImportAllDataToolStripMenuItem.Size = new System.Drawing.Size(255, 24);
+            this.ImportAllDataToolStripMenuItem.Text = "Import All Data";
+            this.ImportAllDataToolStripMenuItem.ToolTipText = "Imports all data from files.";
+            // 
+            // exportAllDataToolStripMenuItem
+            // 
+            this.exportAllDataToolStripMenuItem.Name = "exportAllDataToolStripMenuItem";
+            this.exportAllDataToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.K)));
+            this.exportAllDataToolStripMenuItem.Size = new System.Drawing.Size(255, 24);
+            this.exportAllDataToolStripMenuItem.Text = "Export All Data";
+            this.exportAllDataToolStripMenuItem.ToolTipText = "Exports all data to a custom location.";
             // 
             // MainApp
             // 
@@ -757,7 +900,7 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private Parts.EventsInfoView EIV;
-        private System.Windows.Forms.ToolStripMenuItem tirggerBackupToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem TriggerEventBackupToolStripMenuItem;
         private Parts.EventsInfoView SEIV;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label TextLbl;
@@ -770,6 +913,19 @@
         private System.Windows.Forms.Button SearchBTN;
         private System.Windows.Forms.CheckBox UseStartDate;
         private System.Windows.Forms.CheckBox UseEndDate;
+        private System.Windows.Forms.ToolStripMenuItem ExportEventsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ImportEventsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem MessagesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem EventDataToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem CreateMessageToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem MessageDataManagementToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem TriggerMessagesBackupToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ImportMessagesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ExportMessagesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem MiscToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem TriggerImportToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ImportAllDataToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportAllDataToolStripMenuItem;
     }
 }
 

@@ -223,7 +223,7 @@
             this.MessageSourcesTB.Size = new System.Drawing.Size(300, 68);
             this.MessageSourcesTB.TabIndex = 0;
             this.MessageSourcesTB.TabStop = false;
-            this.MessageSourcesTB.Text = "No Source(s)";
+            this.MessageSourcesTB.Text = "No source(s)";
             // 
             // MessageAuthorsTB
             // 
@@ -238,7 +238,7 @@
             this.MessageAuthorsTB.Size = new System.Drawing.Size(300, 68);
             this.MessageAuthorsTB.TabIndex = 0;
             this.MessageAuthorsTB.TabStop = false;
-            this.MessageAuthorsTB.Text = "No Author(s)";
+            this.MessageAuthorsTB.Text = "No author(s)";
             // 
             // MessageTitleLB
             // 

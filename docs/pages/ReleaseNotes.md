@@ -15,6 +15,8 @@
 #### Features for Events
 
 - Search based on name (*title, comment*) and start/end date
+- Updates to Backup
+- Import/Export save file
 
 #### Features for Messages
 
@@ -25,6 +27,7 @@
 - Toggle Show/Hide
 - Search based on name (*title, message, authors, sources*)
 - Preview message layout
+- Backup/Import/Export save file
 
 #### Sharing Features
 
@@ -32,7 +35,9 @@
 
 #### Overall
 
-- Menu modified to have new options
+- Menu modified to show new options and reflect changes
+-Backup/Import/Export
+
 
 ---
 

@@ -5,7 +5,6 @@ using Backend.Model;
 using Frontend.Controller.Parts;
 using Frontend.Controller.Prompts;
 using System.Drawing;
-using Shared.Model;
 using Shared.Global;
 
 namespace Frontend.App.Parts
@@ -15,8 +14,17 @@ namespace Frontend.App.Parts
     /// </summary>
     public partial class MessagesView : UserControl
     {
+        private const string DASH = "-";
+        private const string NO_MESSAGE = "No message";
+        private const string NO_AUTHORS = "No author(s)";
+        private const string NO_SOURCES = "No source(s)";
+        private const string SHOW = "Show";
+        private const string HIDE = "Hide";
+        private const string ENABLE = "Enabled";
+        private const string DISABLE = "Disabled";
+
         private string _parentId;
-        private MessageViewController _controller;
+        private MessageViewController _messages;
         private ControlsAccess _controls;
 
         /// <summary>
@@ -37,27 +45,8 @@ namespace Frontend.App.Parts
         {
             _controls = controls;
             _parentId = parentId;
-            _controller = controller;
+            _messages = controller;
             Setup();
-        }
-
-        /// <summary>
-        /// Updates the messages view
-        /// </summary>
-        public void UpdateMessagesView()
-        {
-            SearchTB.SetText(string.Empty);
-            UpdateMessages();
-            ToggleButtons(false, "-");
-        }
-
-        /// <summary>
-        /// Sets the title of the Group Box
-        /// </summary>
-        /// <param name="title">The title to set</param>
-        public void SetTitle(string title)
-        {
-            MessageInfoGB.Text = title;
         }
 
         private void Setup()
@@ -80,6 +69,33 @@ namespace Frontend.App.Parts
             MessagesLB.SetMembers("Title", "Id");
         }
 
+        /// <summary>
+        /// Updates the messages view
+        /// </summary>
+        public void UpdateMessagesView()
+        {
+            SearchTB.SetText(string.Empty);
+            UpdateMessages();
+            ToggleButtons(false, DASH);
+        }
+
+        /// <summary>
+        /// Clears the message info view
+        /// </summary>
+        public void ClearMessageInfo()
+        {
+            ClearMessageDetails();
+        }
+
+        /// <summary>
+        /// Sets the title of the Group Box
+        /// </summary>
+        /// <param name="title">The title to set</param>
+        public void SetTitle(string title)
+        {
+            MessageInfoGB.Text = title;
+        }
+
         private void SearchBox_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -91,7 +107,7 @@ namespace Frontend.App.Parts
         private void SearchButton_Click(object sender, EventArgs e)
         {
             ClearMessageDetails();
-            ToggleButtons(false, "-");
+            ToggleButtons(false, DASH);
             UpdateMessages();
         }
 
@@ -102,10 +118,11 @@ namespace Frontend.App.Parts
 
         private void CreateButton_Click(object sender, EventArgs e)
         {
-            if (_controller.Add())
+            if (_messages.Add())
             {
+                _messages.SaveMessages();
                 ClearMessageDetails();
-                ToggleButtons(false, "-");
+                ToggleButtons(false, DASH);
                 UpdateMessages();
                 SearchTB.SetText(string.Empty);
             }
@@ -117,17 +134,18 @@ namespace Frontend.App.Parts
             {
                 string id = ((AppMessage)MessagesLB.SelectedIndex())?.Id;
 
-                if (_controller.Update(null))
+                if (_messages.Update(id))
                 {
+                    _messages.SaveMessages();
                     ClearMessageDetails();
-                    ToggleButtons(false, "-");
+                    ToggleButtons(false, DASH);
                     UpdateMessages();
                     SearchTB.SetText(string.Empty);
                 }
             }
             catch (Exception)
             {
-                //Something happened
+                // Something happened
             }
         }
 
@@ -137,10 +155,11 @@ namespace Frontend.App.Parts
             {
                 string id = ((AppMessage)MessagesLB.SelectedIndex())?.Id;
 
-                if (!string.IsNullOrEmpty(id) && _controller.Remove(id))
+                if (!string.IsNullOrEmpty(id) && _messages.Remove(id))
                 {
+                    _messages.SaveMessages();
                     ClearMessageDetails();
-                    ToggleButtons(false, "-");
+                    ToggleButtons(false, DASH);
                     UpdateMessages();
                     SearchTB.SetText(string.Empty);
                 }
@@ -155,10 +174,11 @@ namespace Frontend.App.Parts
         {
             string id = ((AppMessage)MessagesLB.SelectedIndex())?.Id;
 
-            if (!string.IsNullOrEmpty(id) && _controller.ToggleShow(id))
+            if (!string.IsNullOrEmpty(id) && _messages.ToggleShow(id))
             {
+                _messages.SaveMessages();
                 ClearMessageDetails();
-                ToggleButtons(false, "-");
+                ToggleButtons(false, DASH);
                 UpdateMessages();
             }
         }
@@ -172,12 +192,12 @@ namespace Frontend.App.Parts
                 string id = ((AppMessage)MessagesLB.SelectedIndex())?.Id;
                 if (!string.IsNullOrEmpty(id))
                 {
-                    AppMessage message = _controller.GetMessage(id);
+                    AppMessage message = _messages.GetMessage(id);
 
                     if (message != null)
                     {
                         SetMessageDetails(message);
-                        ToggleButtons(true, message.Show ? "Hide" : "Show");
+                        ToggleButtons(true, message.Show ? HIDE : SHOW);
                     }
                 }
             }
@@ -191,24 +211,24 @@ namespace Frontend.App.Parts
         {
             Title.SetText(message.Title);
             MessageTB.SetText(message.Quote);
-            AuthorsTB.SetText(string.IsNullOrEmpty(message.Author) ? "No Author(s)" : message.Author);
-            SourcesTB.SetText(string.IsNullOrEmpty(message.Source) ? "No Source(s)" : message.Source);
+            AuthorsTB.SetText(string.IsNullOrEmpty(message.Author) ? NO_AUTHORS : message.Author);
+            SourcesTB.SetText(string.IsNullOrEmpty(message.Source) ? NO_SOURCES : message.Source);
 
             Date_Created.SetText(TimeAndDateUtility.ConvertDate_String(message.DateCreated, true));
             Time_Created.SetText(TimeAndDateUtility.ConvertTime_String(message.TimeCreated));
 
             bool fullLastDisplayedDate = message.LastDateDisplayed == null || message.LastTimeDisplayed == null;
             Last_Displayed_Date.SetText(fullLastDisplayedDate ?
-                "-" : TimeAndDateUtility.ConvertDate_String(message.LastDateDisplayed, true));
+                DASH : TimeAndDateUtility.ConvertDate_String(message.LastDateDisplayed, true));
 
             Last_Displayed_Time.SetText(fullLastDisplayedDate ?
-                "-" : TimeAndDateUtility.ConvertTime_String(message.LastTimeDisplayed));
+                DASH : TimeAndDateUtility.ConvertTime_String(message.LastTimeDisplayed));
 
-            Status.SetText(message.Show ? "Enabled" :"Disabled");
+            Status.SetText(message.Show ? ENABLE : DISABLE);
             Status.SetBackColor(message.Show ? Color.DarkGreen : Color.DarkRed);
             Status.SetForeColor(Color.WhiteSmoke);
 
-            string preview = $"\"{MessageTB.Text}\"\r\n\r\n    -{AuthorsTB.Text}\r\n\r\nSources:\r\n    {SourcesTB.Text}";
+            string preview = $"\"{MessageTB.Text}\"\r\n\r\n    - {AuthorsTB.Text}\r\n\r\nSources:\r\n    {SourcesTB.Text}";
             PreviewTB.SetText(preview);
         }
 
@@ -216,14 +236,31 @@ namespace Frontend.App.Parts
         {
             if (string.IsNullOrEmpty(SearchTB.Text))
             {
-                object[] messages = _controller.GetAll();
+                object[] messages = _messages.GetAll();
                 MessagesLB.Update(messages);
             }
             else
             {
-                object[] messages = _controller.GetAll(SearchTB.Text);
+                object[] messages = _messages.GetAll(SearchTB.Text);
                 MessagesLB.Update(messages);
             }
+        }
+
+        private void ClearMessageDetails()
+        {
+            Title.SetText(DASH);
+            Date_Created.SetText(DASH);
+            Time_Created.SetText(DASH);
+            Last_Displayed_Date.SetText(DASH);
+            Last_Displayed_Time.SetText(DASH);
+            Status.SetText(DASH);
+            Status.SetBackColor(Color.DarkGray);
+            Status.SetForeColor(Color.Black);
+
+            MessageTB.SetText(NO_MESSAGE);
+            PreviewTB.SetText(NO_MESSAGE);
+            AuthorsTB.SetText(NO_AUTHORS);
+            SourcesTB.SetText(NO_SOURCES);
         }
 
         private void ToggleButtons(bool enable, string toggleText)
@@ -232,28 +269,6 @@ namespace Frontend.App.Parts
             RemoveButton.Enabled = enable;
             ToggleButton.Enabled = enable;
             ToggleButton.Text = toggleText ?? ToggleButton.Text;
-        }
-
-        private void ClearMessageDetails()
-        {
-            const string dash = "-";
-            const string no_message = "No message";
-            const string no_authors = "No author(s)";
-            const string no_sources = "No source(s)";
-
-            Title.SetText(dash);
-            Date_Created.SetText(dash);
-            Time_Created.SetText(dash);
-            Last_Displayed_Date.SetText(dash);
-            Last_Displayed_Time.SetText(dash);
-            Status.SetText(dash);
-            Status.SetBackColor(Color.DarkGray);
-            Status.SetForeColor(Color.Black);
-
-            MessageTB.SetText(no_message);
-            PreviewTB.SetText(no_message);
-            AuthorsTB.SetText(no_authors);
-            SourcesTB.SetText(no_sources);
         }
 
         #endregion Helpers

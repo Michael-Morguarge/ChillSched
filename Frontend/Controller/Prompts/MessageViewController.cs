@@ -4,10 +4,7 @@ using Frontend.Controller.Business;
 using Frontend.View.Controller;
 using Shared.Global;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Frontend.Controller.Prompts
@@ -167,32 +164,28 @@ namespace Frontend.Controller.Prompts
 
             try
             {
-                AppMessage message = _messageController.GetMessage(id);
-
-                if (message != null)
+                if (!string.IsNullOrEmpty(id))
                 {
-                    MessageCrudView form = new MessageCrudView(_controls);
-                    form.CreateView(CrudPurposes.Edit);
-
-                    form.ShowDialog();
-                    AppMessage result = form.Data.Results;
-                    DialogResult dialogResult = form.Data.DialogResult;
-
-                    if (dialogResult != DialogResult.Cancel && result != null)
-                    {
-                        updated = _messageController.EditMessage(result);
-                    }
-
-                    form.Dispose();
+                    updated = _messageController.ToggleShow(id);
                 }
             }
             catch (Exception)
             {
-                MessageBox.Show("Unable to update item.", "Please try again.", MessageBoxButtons.OK);
+                MessageBox.Show("Unable to toggle item.", "Please try again.", MessageBoxButtons.OK);
                 updated = false;
             }
 
             return updated;
+        }
+
+        public void SaveMessages()
+        {
+            _messageController.SaveMessages();
+        }
+
+        public bool LoadMessages()
+        {
+            return _messageController.LoadMessages();
         }
     }
 }

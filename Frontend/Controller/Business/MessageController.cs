@@ -2,6 +2,7 @@
 using Backend.Inferfaces;
 using Backend.Model;
 using Shared.Global;
+using System;
 using System.Collections.Generic;
 
 namespace Frontend.Controller.Business
@@ -107,6 +108,16 @@ namespace Frontend.Controller.Business
             bool updated = _messageRepo.UpdateMessage(message);
 
             return updated;
+        }
+
+        public void SaveMessages()
+        {
+            _messageRepo.SaveMessages();
+        }
+
+        public bool LoadMessages()
+        {
+            return _messageRepo.LoadMessages();
         }
     }
 }

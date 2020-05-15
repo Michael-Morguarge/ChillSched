@@ -199,7 +199,10 @@ namespace Frontend.Controller.Prompts
 
             try
             {
-                updated = _eventController.ToggleStatus(id);
+                if (!string.IsNullOrEmpty(id))
+                {
+                    updated = _eventController.ToggleStatus(id);
+                }
             }
             catch (Exception)
             {
@@ -287,9 +290,9 @@ namespace Frontend.Controller.Prompts
         /// <summary>
         /// Loads events from save file
         /// </summary>
-        public void LoadEvents()
+        public bool LoadEvents()
         {
-            _eventController.LoadEvents();
+            return _eventController.LoadEvents();
         }
 
         /// <summary>
@@ -298,14 +301,6 @@ namespace Frontend.Controller.Prompts
         public void SaveEvents()
         {
             _eventController.SaveEvents();
-        }
-
-        /// <summary>
-        /// Cleans up class
-        /// </summary>
-        public void Dispose()
-        {
-            GC.SuppressFinalize(this);
         }
     }
 }

@@ -35,12 +35,15 @@ namespace Frontend.App.Views
             _messages = new MessageViewController(_controls);
             Setup();
 
-            _events.LoadEvents();
-            UpdateCalendar();
-            EIV.UpdateEvents(DateTime.Today);
-            SEIV.UpdateEvents();
+            if (_events.LoadEvents())
+            {
+                EIV.UpdateEvents(DateTime.Today);
+                SEIV.UpdateEvents();
+                UpdateEventList();
+            }
+
+            _messages.LoadMessages();
             MMV.UpdateMessagesView();
-            UpdateEventList();
         }
 
         private void Setup()
@@ -134,6 +137,7 @@ namespace Frontend.App.Views
             if (result == DialogResult.Yes)
             {
                 _events.SaveEvents();
+                _messages.SaveMessages();
             }
             else
             {
@@ -169,7 +173,23 @@ namespace Frontend.App.Views
         private void EventBackupStripMenuItem_Click(object sender, EventArgs e)
         {
             _events.SaveEvents();
-            MessageBox.Show("Successully saved events.\nEvents save on application close and every add, edit and removal of an event.", "Events saved");
+            MessageBox.Show("Successully saved events.\nEvents save on application close, adds, updates and deletes of an event.", "Events saved");
+        }
+
+        private void CreateMessageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_messages.Add())
+            {
+                _messages.SaveMessages();
+                MMV.ClearMessageInfo();
+                MMV.UpdateMessagesView();
+            }
+        }
+
+        private void TriggerMessagesBackupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _messages.SaveMessages();
+            MessageBox.Show("Successully saved messages.\nMessages save on application close, adds, updates and deletes of a message.", "Messages saved");
         }
 
         private void UseStartDate_CheckedChanged(object sender, EventArgs e)

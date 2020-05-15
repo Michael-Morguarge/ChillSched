@@ -7,6 +7,7 @@ using System.Linq;
 using System;
 using Shared.Model;
 using Shared.Global;
+using Microsoft.SqlServer.Server;
 
 namespace Backend.Implementations
 {
@@ -24,6 +25,7 @@ namespace Backend.Implementations
         private const string PlusReplace = "{PLUS}";
         private const string InnerNewlineReplace = "{INNERNEWLINE}";
         private const string QuotationReplace = "{D_QUOTE}";
+        private const string EqualsReplace = "{EQ_SIGN}";
 
         //private readonly DataLayer _dataAccess;
 
@@ -177,16 +179,15 @@ namespace Backend.Implementations
 
             try
             {
-                string content = string.Empty;
 #if DEBUG
-                content = File.ReadAllText("..\\..\\Resources\\Events\\temp.saved");
+                string content = File.ReadAllText("..\\..\\Resources\\Events\\EventTestDebug.saved");
 #else
-                content = File.ReadAllText(".\\Resources\\Events\\temp.saved");
-#endif 
+                string content = File.ReadAllText(".\\Resources\\Events\\EventLog.saved");
+#endif
 
                 if (!string.IsNullOrEmpty(content))
                 {
-                    List<List<KeyValuePair<string, string>>> eventsArray =
+                    List<List<KeyValuePair<string, string>>> dataArray =
                         content.Split(new[] { EventSeparator }, StringSplitOptions.RemoveEmptyEntries)
                                .Select(x =>
                                    x.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
@@ -199,9 +200,9 @@ namespace Backend.Implementations
 
                     List<SavedEvent> events = new List<SavedEvent>();
 
-                    foreach (List<KeyValuePair<string, string>> eventData in eventsArray)
+                    foreach (List<KeyValuePair<string, string>> data in dataArray)
                     {
-                        SavedEvent item = CreateEventFromLoadedData(eventData);
+                        SavedEvent item = CreateEventFromLoadedData(data);
                         SavedEvents.Add(item);
                     }
 
@@ -219,30 +220,17 @@ namespace Backend.Implementations
         private SavedEvent CreateEventFromLoadedData(List<KeyValuePair<string, string>> data)
         {
             string id = data.Single(x => x.Key == "Id").Value.Replace(Quotation, string.Empty);
-
-            string title =
-                data.Single(x => x.Key == "Title").Value
-                    .Replace(Quotation, string.Empty)
-                    .Replace(QuotationReplace, Quotation)
-                    .Replace(PlusReplace, DateSeparator)
-                    .Replace(TildeReplace, Tilde);
-
-            string comment =
-                data.Single(x => x.Key == "Comment").Value
-                    .Replace(Quotation, string.Empty)
-                    .Replace(QuotationReplace, Quotation)
-                    .Replace(InnerNewlineReplace, Environment.NewLine)
-                    .Replace(PlusReplace, DateSeparator)
-                    .Replace(TildeReplace, Tilde);
+            string title = FormatText(data.Single(x => x.Key == "Title").Value);
+            string comment = FormatRichText(data.Single(x => x.Key == "Comment").Value);
 
             bool completed = bool.Parse(data.Single(x => x.Key == "Completed").Value.Replace(Quotation, string.Empty));
 
-            (Date Date, Time Time) created_date_time = GetDateAndTime(data, "DateCreated");
-            (Date Date, Time Time) completed_date_time = GetDateAndTime(data, "DateCompleted");
-            (Date Date, Time Time) activation_date_time = GetDateAndTime(data, "ActivationDate");
-            (Date Date, Time Time) deactivation_date_time = GetDateAndTime(data, "DeactivationDate");
+            (Date Date, Time Time) created_date_time = GetDateAndTime(data.Single(x => x.Key == "DateCreated").Value);
+            (Date Date, Time Time) completed_date_time = GetDateAndTime(data.Single(x => x.Key == "DateCompleted").Value);
+            (Date Date, Time Time) activation_date_time = GetDateAndTime(data.Single(x => x.Key == "ActivationDate").Value);
+            (Date Date, Time Time) deactivation_date_time = GetDateAndTime(data.Single(x => x.Key == "DeactivationDate").Value);
 
-            SavedEvent outgoing =
+            SavedEvent @event =
                 new SavedEvent
                 {
                     Id = id,
@@ -258,14 +246,13 @@ namespace Backend.Implementations
                     DeactivationDate = deactivation_date_time.Date,
                     DeactivationTime = deactivation_date_time.Time
                 };
-            return outgoing;
+            return @event;
         }
 
-        private (Date Date, Time Time) GetDateAndTime(List<KeyValuePair<string, string>> dateAndTime, string field)
+        private (Date Date, Time Time) GetDateAndTime(string dateAndTime)
         {
             string[] date_time =
-                dateAndTime.Single(x => x.Key == field).Value
-                           .Replace(Quotation, string.Empty)
+                dateAndTime.Replace(Quotation, string.Empty)
                            .Split(new[] { DateSeparator }, StringSplitOptions.RemoveEmptyEntries);
             bool containsBoth = date_time.Length == 2;
             Date date = containsBoth ? TimeAndDateUtility.ConvertString_Date(date_time[0]) : null;
@@ -279,43 +266,78 @@ namespace Backend.Implementations
         /// </summary>
         public void SaveEvents()
         {
-            string eventString = string.Empty;
-            foreach (SavedEvent @event in SavedEvents)
+            try
             {
-                string completed = @event.Completed ? "True" : "False";
+                string eventString = string.Empty;
 
-                string createdDate = TimeAndDateUtility.ConvertDate_String(@event.DateCreated);
-                string createdTime = TimeAndDateUtility.ConvertTime_String(@event.TimeCreated);
+                foreach (SavedEvent @event in SavedEvents)
+                {
+                    string isCompleted = @event.Completed ? "True" : "False";
+                    string created = FormatDate(@event.DateCreated, @event.TimeCreated);
+                    string completed = FormatDate(@event.DateCompleted, @event.TimeCompleted);
+                    string active = FormatDate(@event.ActivationDate, @event.ActivationTime);
+                    string inactive = FormatDate(@event.DeactivationDate, @event.DeactivationTime);
+                    string title = FormatText(@event.Title, true);
+                    string comment = FormatRichText(@event.Comment, true);
 
-                string completeDate = TimeAndDateUtility.ConvertDate_String(@event.DateCompleted);
-                string completeTime = TimeAndDateUtility.ConvertTime_String(@event.TimeCompleted);
-
-                string activeDate = TimeAndDateUtility.ConvertDate_String(@event.ActivationDate);
-                string activeTime = TimeAndDateUtility.ConvertTime_String(@event.ActivationTime);
-
-                string inactiveDate = TimeAndDateUtility.ConvertDate_String(@event.DeactivationDate);
-                string inactiveTime = TimeAndDateUtility.ConvertTime_String(@event.DeactivationTime);
-
-                string title = @event.Title.Replace(Quotation, QuotationReplace).Replace(DateSeparator, PlusReplace).Replace(Tilde, TildeReplace);
-                string comment = @event.Comment.Replace(Quotation, QuotationReplace).Replace(Environment.NewLine, InnerNewlineReplace).Replace("\n", InnerNewlineReplace).Replace(DateSeparator, PlusReplace).Replace(Tilde, TildeReplace);
-
-                eventString +=
-                    $"Id=\"{@event.Id}\"{Environment.NewLine}" +
-                    $"Title=\"{title}\"{Environment.NewLine}" +
-                    $"Comment=\"{comment}\"{Environment.NewLine}" +
-                    $"Completed=\"{completed}\"{Environment.NewLine}" +
-                    $"DateCreated=\"{createdDate}+{createdTime}\"{Environment.NewLine}" +
-                    $"DateCompleted=\"{completeDate}+{completeTime}\"{Environment.NewLine}" +
-                    $"ActivationDate=\"{activeDate}+{activeTime}\"{Environment.NewLine}" +
-                    $"DeactivationDate=\"{inactiveDate}+{inactiveTime}\"{Environment.NewLine}" +
-                    $"~~~{Environment.NewLine}";
-            }
+                    eventString +=
+                        $"Id=\"{@event.Id}\"{Environment.NewLine}" +
+                        $"Title=\"{title}\"{Environment.NewLine}" +
+                        $"Comment=\"{comment}\"{Environment.NewLine}" +
+                        $"Completed=\"{isCompleted}\"{Environment.NewLine}" +
+                        $"DateCreated=\"{created}\"{Environment.NewLine}" +
+                        $"DateCompleted=\"{completed}\"{Environment.NewLine}" +
+                        $"ActivationDate=\"{active}\"{Environment.NewLine}" +
+                        $"DeactivationDate=\"{inactive}\"{Environment.NewLine}" +
+                        $"~~~{Environment.NewLine}";
+                }
 
 #if DEBUG
-            File.WriteAllText("..\\..\\Resources\\Events\\tempNew.saved", eventString);
+                File.WriteAllText("..\\..\\Resources\\Events\\EventResultDebug.saved", eventString);
 #else
-            File.WriteAllText(".\\Resources\\Events\\temp.saved", eventString);
+                File.WriteAllText(".\\Resources\\Events\\EventLog.saved", eventString);
 #endif
+            }
+            catch (Exception)
+            {
+                // Something happened
+            }
+        }
+
+        private string FormatDate(Date date, Time time)
+        {
+            return $"{TimeAndDateUtility.ConvertDate_String(date)}+{TimeAndDateUtility.ConvertTime_String(time)}";
+        }
+
+        private string FormatText(string text, bool isExport = false)
+        {
+            return isExport ?
+                text.Replace(Quotation, QuotationReplace)
+                    .Replace(DateSeparator, PlusReplace)
+                    .Replace(Tilde, TildeReplace)
+                    .Replace(AssignSeparator, EqualsReplace)
+                : text.Replace(Quotation, string.Empty)
+                      .Replace(QuotationReplace, Quotation)
+                      .Replace(PlusReplace, DateSeparator)
+                      .Replace(TildeReplace, Tilde)
+                      .Replace(EqualsReplace, AssignSeparator);
+        }
+
+        private string FormatRichText(string text, bool isExport = false)
+        {
+            return isExport ?
+                text.Replace(Quotation, QuotationReplace)
+                    .Replace(Environment.NewLine, InnerNewlineReplace)
+                    .Replace("\n", InnerNewlineReplace)
+                    .Replace(DateSeparator, PlusReplace)
+                    .Replace(Tilde, TildeReplace)
+                    .Replace(AssignSeparator, EqualsReplace)
+                : text.Replace(Quotation, string.Empty)
+                      .Replace(QuotationReplace, Quotation)
+                      .Replace(InnerNewlineReplace, Environment.NewLine)
+                      .Replace(PlusReplace, DateSeparator)
+                      .Replace(TildeReplace, Tilde)
+                      .Replace(EqualsReplace, AssignSeparator);
         }
     }
 }
