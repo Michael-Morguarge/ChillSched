@@ -7,6 +7,8 @@ using Shared.Global;
 using Frontend.Controller.Prompts;
 using Frontend.Controller.Parts;
 using Shared.Model;
+using System.IO;
+using System.Linq;
 
 namespace Frontend.App.Views
 {
@@ -190,6 +192,30 @@ namespace Frontend.App.Views
         {
             _messages.SaveMessages();
             MessageBox.Show("Successully saved messages.\nMessages save on application close, adds, updates and deletes of a message.", "Messages saved");
+        }
+
+        private void TriggerAllBackupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _events.SaveEvents();
+            _messages.SaveMessages();
+
+            MessageBox.Show("Successully saved Events and Messages.\nEvents and Messages save on application close, adds, updates and deletes.", "All saved");
+        }
+
+        private void ImportAllDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult result = OpenFileDialog.ShowDialog();
+        }
+
+        private void ExportAllDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult result = FolderBrowserDialog.ShowDialog();
+            DirectoryInfo info = new DirectoryInfo(FolderBrowserDialog.SelectedPath);
+
+            if (info.GetFiles("*.*").Any())
+                MessageBox.Show("Create new folder");
+            else
+                MessageBox.Show("Good to go");
         }
 
         private void UseStartDate_CheckedChanged(object sender, EventArgs e)

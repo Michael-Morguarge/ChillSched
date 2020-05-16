@@ -179,7 +179,7 @@ namespace Frontend.App.Parts
                     Quote = QuoteTB.Text,
                     Author = AuthorTB.Text,
                     Source = SourceTB.Text,
-                    Show = MessageShowRB.Checked ? true : false
+                    Show = MessageShowRB.Checked
                 };
 
                 Data.Error = false;

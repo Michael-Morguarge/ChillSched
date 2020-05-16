@@ -7,6 +7,10 @@ namespace Shared.Global
     /// </summary>
     public class Generate
     {
+        /// <summary>
+        /// Creates an Id
+        /// </summary>
+        /// <returns>A guid</returns>
         public static Guid Id()
         {
             return Guid.NewGuid();

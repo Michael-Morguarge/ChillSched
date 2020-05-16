@@ -1,10 +1,9 @@
 ﻿using Backend.Inferfaces;
 using Backend.Model;
-using Shared.Global;
-using Shared.Model;
+using FileOperations.Implementations;
+using FileOperations.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace Backend.Implementations
@@ -15,17 +14,7 @@ namespace Backend.Implementations
     public class MessageRepository : IMessageRepository
     {
         private readonly List<AppMessage> Messages;
-
-        private const string DateSeparator = "+";
-        private const string AssignSeparator = "=";
-        private const string EventSeparator = "~~~";
-        private const string Quotation = "\"";
-        private const string Tilde = "~";
-        private const string TildeReplace = "{TILDE}";
-        private const string PlusReplace = "{PLUS}";
-        private const string InnerNewlineReplace = "{INNERNEWLINE}";
-        private const string QuotationReplace = "{D_QUOTE}";
-        private const string EqualsReplace = "{EQ_SIGN}";
+        private readonly IFileOperations<AppMessage> io;
 
         /// <summary>
         /// Constructor for the Message Repository
@@ -33,6 +22,7 @@ namespace Backend.Implementations
         public MessageRepository()
         {
             Messages = new List<AppMessage>();
+            io = new MessageIO();
         }
 
         /// <summary>
@@ -124,91 +114,41 @@ namespace Backend.Implementations
         }
 
         /// <summary>
-        /// Implements <see cref="IMessageRepository.LoadMessages()" />
+        /// Implements <see cref="IMessageRepository.LoadMessages(bool)" />
         /// </summary>
-        public bool LoadMessages()
+        public bool LoadMessages(bool overwrite = false)
         {
-            bool loaded = false;
-
-            try
+            if (overwrite)
             {
-#if DEBUG
-                string content = File.ReadAllText("..\\..\\Resources\\Messages\\MessageTestDebug.saved");
-#else
-                string content = File.ReadAllText(".\\Resources\\Messages\\MessageLog.saved");
-#endif
-
-                if (!string.IsNullOrEmpty(content))
-                {
-                    List<List<KeyValuePair<string, string>>> dataArray =
-                        content.Split(new[] { EventSeparator }, StringSplitOptions.RemoveEmptyEntries)
-                               .Select(x =>
-                                   x.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
-                                    .Select(y =>
-                                        y.Split(new[] { AssignSeparator }, StringSplitOptions.None))
-                                         .Select(a => new KeyValuePair<string, string>(a[0], a.ElementAtOrDefault(1) ?? string.Empty))
-                                    .ToList())
-                               .Where(x => x.Any())
-                               .ToList();
-
-                    foreach (List<KeyValuePair<string, string>> data in dataArray)
-                    {
-                        AppMessage item = CreateMessageFromLoadedData(data);
-                        Messages.Add(item);
-                    }
-
-                    loaded = true;
-                }
+                Messages.AddRange(io.Load());
             }
-            catch (Exception)
+            else
             {
-                loaded = false;
+                List<AppMessage> messages = io.Load();
+                List<AppMessage> filtered = messages.Where(x => !Messages.Any(y => y.Id == x.Id)).ToList();
+                Messages.AddRange(filtered);
             }
 
-            return loaded;
+            return true;
         }
 
-        private AppMessage CreateMessageFromLoadedData(List<KeyValuePair<string, string>> data)
+        /// <summary>
+        /// Implements <see cref="IMessageRepository.LoadMessagesExternal(string, bool)" />
+        /// </summary>
+        public bool LoadMessagesExternal(string path, bool overwrite = false)
         {
-            string id = data.Single(x => x.Key == "Id").Value.Replace(Quotation, string.Empty);
-            string title = FormatText(data.Single(x => x.Key == "Title").Value);
-            string quote = FormatRichText(data.Single(x => x.Key == "Quote").Value);
-            string author = FormatText(data.Single(x => x.Key == "Author").Value);
-            string source = FormatText(data.Single(x => x.Key == "Source").Value);
+            if (overwrite)
+            {
+                Messages.AddRange(io.Load(path));
+            }
+            else
+            {
+                List<AppMessage> messages = io.Load(path);
+                List<AppMessage> filtered = messages.Where(x => !Messages.Any(y => y.Id == x.Id)).ToList();
+                Messages.AddRange(filtered);
+            }
 
-            bool show = bool.Parse(data.Single(x => x.Key == "Show").Value.Replace(Quotation, string.Empty));
-
-            (Date Date, Time Time) created_date_time = GetDateAndTime(data.Single(x => x.Key == "DateCreated").Value);
-            (Date Date, Time Time) lastDisplayed_date_time = GetDateAndTime(data.Single(x => x.Key == "DateLastDisplayed").Value);
-
-            AppMessage message =
-                new AppMessage
-                {
-                    Id = id,
-                    Title = title,
-                    Quote = quote,
-                    Author = author,
-                    Source = source,
-                    Show = show,
-                    DateCreated = created_date_time.Date,
-                    TimeCreated = created_date_time.Time,
-                    LastDateDisplayed = lastDisplayed_date_time.Date,
-                    LastTimeDisplayed = lastDisplayed_date_time.Time
-                };
-
-            return message;
-        }
-
-        private (Date Date, Time Time) GetDateAndTime(string dateAndTime)
-        {
-            string[] date_time =
-                dateAndTime.Replace(Quotation, string.Empty)
-                           .Split(new[] { DateSeparator }, StringSplitOptions.RemoveEmptyEntries);
-            bool containsBoth = date_time.Length == 2;
-            Date date = containsBoth ? TimeAndDateUtility.ConvertString_Date(date_time[0]) : null;
-            Time time = containsBoth ? TimeAndDateUtility.ConvertString_Time(date_time[1]) : null;
-
-            return (date, time);
+            return true;
         }
 
         /// <summary>
@@ -216,71 +156,15 @@ namespace Backend.Implementations
         /// </summary>
         public void SaveMessages()
         {
-            string messageString = string.Empty;
-
-            foreach (AppMessage message in Messages)
-            {
-                string show = message.Show ? "True" : "False";
-                string created = FormatDate(message.DateCreated, message.TimeCreated);
-                string lastDisplayed = FormatDate(message.LastDateDisplayed, message.LastTimeDisplayed);
-                string title = FormatText(message.Title, true);
-                string quote = FormatRichText(message.Quote, true);
-                string author = FormatText(message.Author, true);
-                string source = FormatText(message.Source, true);
-
-                messageString +=
-                    $"Id=\"{message.Id}\"{Environment.NewLine}" +
-                    $"Title=\"{title}\"{Environment.NewLine}" +
-                    $"Quote=\"{quote}\"{Environment.NewLine}" +
-                    $"Author=\"{author}\"{Environment.NewLine}" +
-                    $"Source=\"{source}\"{Environment.NewLine}" +
-                    $"Show=\"{show}\"{Environment.NewLine}" +
-                    $"DateCreated=\"{created}\"{Environment.NewLine}" +
-                    $"DateLastDisplayed=\"{lastDisplayed}\"{Environment.NewLine}" +
-                    $"~~~{Environment.NewLine}";
-
-#if DEBUG
-            File.WriteAllText("..\\..\\Resources\\Messages\\MessageResultDebug.saved", messageString);
-#else
-            File.WriteAllText(".\\Resources\\Messages\\MessageLog.saved", messageString);
-#endif
-            }
+            io.Save(Messages);
         }
 
-        private string FormatDate(Date date, Time time)
+        /// <summary>
+        /// Implements <see cref="IMessageRepository.SaveMessagesExternal(string)" />
+        /// </summary>
+        public void SaveMessagesExternal(string path)
         {
-            return $"{TimeAndDateUtility.ConvertDate_String(date)}+{TimeAndDateUtility.ConvertTime_String(time)}";
-        }
-
-        private string FormatText(string text, bool isExport = false)
-        {
-            return isExport ?
-                text.Replace(Quotation, QuotationReplace)
-                    .Replace(DateSeparator, PlusReplace)
-                    .Replace(Tilde, TildeReplace)
-                    .Replace(AssignSeparator, EqualsReplace)
-                : text.Replace(Quotation, string.Empty)
-                      .Replace(QuotationReplace, Quotation)
-                      .Replace(PlusReplace, DateSeparator)
-                      .Replace(TildeReplace, Tilde)
-                      .Replace(EqualsReplace, AssignSeparator);
-        }
-
-        private string FormatRichText(string text, bool isExport = false)
-        {
-            return isExport ?
-                text.Replace(Quotation, QuotationReplace)
-                    .Replace(Environment.NewLine, InnerNewlineReplace)
-                    .Replace("\n", InnerNewlineReplace)
-                    .Replace(DateSeparator, PlusReplace)
-                    .Replace(Tilde, TildeReplace)
-                    .Replace(AssignSeparator, EqualsReplace)
-                : text.Replace(Quotation, string.Empty)
-                      .Replace(QuotationReplace, Quotation)
-                      .Replace(InnerNewlineReplace, Environment.NewLine)
-                      .Replace(PlusReplace, DateSeparator)
-                      .Replace(TildeReplace, Tilde)
-                      .Replace(EqualsReplace, AssignSeparator);
+            io.Save(Messages, path);
         }
 
         /// <summary>

@@ -66,14 +66,28 @@ namespace Backend.Inferfaces
         IEnumerable<SavedEvent> GetEvents(Date start, Date end);
 
         /// <summary>
-        /// Loads the events from the save file
+        /// Loads the events
         /// </summary>
         /// <returns>Whether the events are loaded</returns>
-        bool LoadEvents();
+        bool LoadEvents(bool overwrite = false);
 
         /// <summary>
-        /// Saves to the events to a save file
+        /// Loads the events from an external source
+        /// </summary>
+        /// <param name="path">The file path to load from</param>
+        /// <param name="overwrite">Whether to overwrite the current data</param>
+        /// <returns>Whether the events were loaded</returns>
+        bool LoadEventsExternal(string path, bool overwrite = false);
+
+        /// <summary>
+        /// Saves to the events
         /// </summary>
         void SaveEvents();
+
+        /// <summary>
+        /// Saves the events to an external source
+        /// </summary>
+        /// <param name="path">The path to save to</param>
+        void SaveEventsExternal(string path);
     }
 }

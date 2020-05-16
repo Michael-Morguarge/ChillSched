@@ -6,7 +6,7 @@
     <OutputType>WinExe</OutputType>
     <NoStandardLibraries>false</NoStandardLibraries>
     <AssemblyName>Frontend</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -105,7 +105,6 @@
     <None Include="app.config" />
     <None Include="App\App.config" />
     <None Include="FrontEnd_TemporaryKey.pfx" />
-    <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
@@ -234,6 +233,71 @@
       <Project>{5e04b9f1-a9f8-4b9d-b042-27b921f3cb65}</Project>
       <Name>Backend</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Shared\Shared.csproj">
+      <Project>{37434af6-57a4-4517-93cb-6b1c3a74f25f}</Project>
+      <Name>Shared</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="EnvDTE">
+      <Version>8.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="EnvDTE80">
+      <Version>8.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeCoverage">
+      <Version>16.7.0-preview-20200428-01</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Net.Compilers">
+      <Version>3.6.0-4.final</Version>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.OLE.Interop">
+      <Version>7.10.6071</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.SDK.EmbedInteropTypes">
+      <Version>15.0.30</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Shell.Interop">
+      <Version>7.10.6072</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Shell.Interop.10.0">
+      <Version>10.0.30320</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Shell.Interop.11.0">
+      <Version>11.0.61031</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Shell.Interop.12.0">
+      <Version>12.0.30111</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Shell.Interop.8.0">
+      <Version>8.0.50728</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.TextManager.Interop">
+      <Version>7.10.6071</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.TextManager.Interop.8.0">
+      <Version>8.0.50728</Version>
+    </PackageReference>
+    <PackageReference Include="NuGet.VisualStudio">
+      <Version>5.6.0-preview.3.6558</Version>
+    </PackageReference>
+    <PackageReference Include="stdole">
+      <Version>7.0.3303</Version>
+    </PackageReference>
+    <PackageReference Include="VSSDK.DTE">
+      <Version>7.0.4</Version>
+    </PackageReference>
+    <PackageReference Include="VSSDK.IDE">
+      <Version>7.0.4</Version>
+    </PackageReference>
+    <PackageReference Include="VSSDK.IDE.12">
+      <Version>12.0.4</Version>
+    </PackageReference>
+    <PackageReference Include="VSSDK.TemplateWizardInterface">
+      <Version>12.0.4</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>
