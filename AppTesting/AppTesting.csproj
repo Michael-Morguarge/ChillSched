@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Backend2\Backend.csproj" />
     <ProjectReference Include="..\Backend\Backend.csproj" />
     <ProjectReference Include="..\Frontend\Frontend.csproj" />
     <ProjectReference Include="..\Shared\Shared.csproj" />

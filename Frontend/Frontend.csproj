@@ -230,7 +230,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Backend\Backend.csproj">
-      <Project>{5e04b9f1-a9f8-4b9d-b042-27b921f3cb65}</Project>
+      <Project>{58a8d9a2-2d75-4ff4-8494-d31cffedd7dd}</Project>
       <Name>Backend</Name>
     </ProjectReference>
     <ProjectReference Include="..\Shared\Shared.csproj">

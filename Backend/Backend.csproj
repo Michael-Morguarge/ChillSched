@@ -1,196 +1,33 @@
-﻿<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{D13B5135-97CB-4086-8E7C-A9AFE818C97B}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <NoStandardLibraries>false</NoStandardLibraries>
-    <AssemblyName>BackEnd</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
-    <FileAlignment>512</FileAlignment>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
-    <IsPackable>true</IsPackable>
+    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <Prefer32Bit>false</Prefer32Bit>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <CodeAnalysisRuleSet>Backend.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
-    <Prefer32Bit>false</Prefer32Bit>
-    <CodeAnalysisRuleSet>Backend.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup>
-    <RootNamespace>BackEnd</RootNamespace>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-  </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System">
-      <HintPath>..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\System.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq" />
+    <Compile Remove="Database\Access\**" />
+    <EmbeddedResource Remove="Database\Access\**" />
+    <None Remove="Database\Access\**" />
   </ItemGroup>
+
   <ItemGroup>
-    <None Include="..\.editorconfig">
-      <Link>.editorconfig</Link>
-    </None>
-    <None Include="Backend.ruleset" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
+    <Compile Remove="Abstracts\DataAbstract.cs" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="Implementations\MessageRepository.cs" />
-    <Compile Include="Inferfaces\IEventRepository.cs" />
-    <Compile Include="Inferfaces\IFileOperations.cs" />
-    <Compile Include="Inferfaces\IMessageRepository.cs" />
-    <Compile Include="IO\EventIO.cs" />
-    <Compile Include="IO\IO.cs" />
-    <Compile Include="IO\MessageIO.cs" />
-    <Compile Include="Model\AppMessage.cs" />
-    <Compile Include="Model\Data.cs" />
-    <Compile Include="Model\SavedEvent.cs" />
-    <Compile Include="Implementations\EventRepository.cs" />
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
+    <None Remove="app.config" />
+    <None Remove="Database\App.config" />
+    <None Remove="Database\database.accdb" />
+    <None Remove="Database\database.laccdb" />
   </ItemGroup>
-  <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.7.1">
-      <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.7.1 %28x86 and x64%29</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-  </ItemGroup>
+
   <ItemGroup>
     <Folder Include="Abstracts\" />
     <Folder Include="Database\" />
-    <Folder Include="Properties\DataSources\" />
   </ItemGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\Shared\Shared.csproj">
-      <Project>{37434af6-57a4-4517-93cb-6b1c3a74f25f}</Project>
-      <Name>Shared</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\Shared\Shared.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="EnvDTE">
-      <Version>8.0.2</Version>
-    </PackageReference>
-    <PackageReference Include="EnvDTE80">
-      <Version>8.0.3</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.CodeCoverage">
-      <Version>16.7.0-preview-20200428-01</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Net.Compilers">
-      <Version>3.6.0-4.final</Version>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.OLE.Interop">
-      <Version>7.10.6071</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.SDK.EmbedInteropTypes">
-      <Version>15.0.30</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Shell.Interop">
-      <Version>7.10.6072</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Shell.Interop.10.0">
-      <Version>10.0.30320</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Shell.Interop.11.0">
-      <Version>11.0.61031</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Shell.Interop.12.0">
-      <Version>12.0.30111</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Shell.Interop.8.0">
-      <Version>8.0.50728</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.TextManager.Interop">
-      <Version>7.10.6071</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.TextManager.Interop.8.0">
-      <Version>8.0.50728</Version>
-    </PackageReference>
-    <PackageReference Include="NuGet.VisualStudio">
-      <Version>5.6.0-preview.3.6558</Version>
-    </PackageReference>
-    <PackageReference Include="stdole">
-      <Version>7.0.3303</Version>
-    </PackageReference>
-    <PackageReference Include="VSSDK.DTE">
-      <Version>7.0.4</Version>
-    </PackageReference>
-    <PackageReference Include="VSSDK.IDE">
-      <Version>7.0.4</Version>
-    </PackageReference>
-    <PackageReference Include="VSSDK.IDE.12">
-      <Version>12.0.4</Version>
-    </PackageReference>
-    <PackageReference Include="VSSDK.TemplateWizardInterface">
-      <Version>12.0.4</Version>
-    </PackageReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSHARP.Targets" />
-  <ProjectExtensions>
-    <VisualStudio AllowExistingFolder="true" />
-  </ProjectExtensions>
+
 </Project>
