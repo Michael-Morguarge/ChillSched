@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Database\Access\**" />
+    <EmbeddedResource Remove="Database\Access\**" />
+    <None Remove="Database\Access\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Abstracts\DataAbstract.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="app.config" />
+    <None Remove="Database\App.config" />
+    <None Remove="Database\database.accdb" />
+    <None Remove="Database\database.laccdb" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Abstracts\" />
+    <Folder Include="Database\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Shared\Shared.csproj" />
+  </ItemGroup>
+
+</Project>

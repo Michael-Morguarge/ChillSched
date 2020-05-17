@@ -250,3 +250,18 @@ TimeAndSched/Properties/Settings\.settings
 
 TimeAndSched/Properties/Settings1\.Designer\.cs
 /ModelsAndControllers/Backend.ruleset
+*.ruleset
+
+Backend2/
+
+MigrationBackup/
+
+Backend/Abstracts/DataAbstract.cs
+
+Backend/Database/
+
+Backend/Properties/DataSources/
+
+Frontend2/
+
+Shared2/
