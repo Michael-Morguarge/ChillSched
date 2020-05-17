@@ -62,17 +62,19 @@ namespace Backend.Inferfaces
         /// <param name="path">The file path to load from</param>
         /// <param name="overwrite">Whether to overwrite the current data</param>
         /// <returns>Whether the messages were loaded</returns>
-        bool LoadMessagesExternal(string path, bool overwrite = false);
+        bool LoadMessages(string path, bool overwrite = false);
 
         /// <summary>
         /// Saves the messages
         /// </summary>
-        void SaveMessages();
+        /// <returns>Whether the messages were fully saved</returns>
+        bool SaveMessages();
 
         /// <summary>
         /// Saves the messages to a an external source
         /// </summary>
         /// <param name="path">The file path to save to</param>
-        void SaveMessagesExternal(string path);
+        /// <returns>Whether the messages were fully saved</returns>
+        bool SaveMessages(string path);
     }
 }

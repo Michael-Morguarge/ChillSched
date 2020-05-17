@@ -290,17 +290,17 @@ namespace Frontend.Controller.Prompts
         /// <summary>
         /// Loads events from save file
         /// </summary>
-        public bool LoadEvents()
+        public bool LoadEvents(bool overwrite = false)
         {
-            return _eventController.LoadEvents();
+            return _eventController.LoadEvents(overwrite);
         }
 
         /// <summary>
         /// Saves events to save file
         /// </summary>
-        public void SaveEvents()
+        public bool SaveEvents()
         {
-            _eventController.SaveEvents();
+            return _eventController.SaveEvents();
         }
     }
 }

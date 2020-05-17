@@ -29,25 +29,17 @@ namespace Frontend.Controller.Prompts
 
         public AppMessage GetMessage(string id)
         {
-            AppMessage message = _messageController.GetMessage(id);
-
-            return message;
+            return _messageController.GetMessage(id);
         }
 
         public object[] GetAll()
         {
-            object[] messages = 
-                _messageController.GetMessages().Select(x => (object)x).Distinct().ToArray();
-
-            return messages;
+            return _messageController.GetMessages().Select(x => (object)x).Distinct().ToArray();
         }
 
         public object[] GetAll(string searchTerm)
         {
-            object[] messages =
-                _messageController.GetMessages(searchTerm).Select(x => (object)x).Distinct().ToArray();
-
-            return messages;
+            return _messageController.GetMessages(searchTerm).Select(x => (object)x).Distinct().ToArray();
         }
 
         public bool UpdateLastShown(string id)
@@ -178,14 +170,24 @@ namespace Frontend.Controller.Prompts
             return updated;
         }
 
-        public void SaveMessages()
+        public bool SaveMessages()
         {
-            _messageController.SaveMessages();
+            return _messageController.SaveMessages();
         }
 
-        public bool LoadMessages()
+        public bool SaveMessages(string path)
         {
-            return _messageController.LoadMessages();
+            return _messageController.SaveMessages(path);
+        }
+
+        public bool LoadMessages(bool overwrite = false)
+        {
+            return _messageController.LoadMessages(overwrite);
+        }
+
+        public bool LoadMessages(string path, bool overwrite = false)
+        {
+            return _messageController.LoadMessages(path, overwrite);
         }
     }
 }

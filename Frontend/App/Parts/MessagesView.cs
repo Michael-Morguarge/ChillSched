@@ -120,7 +120,9 @@ namespace Frontend.App.Parts
         {
             if (_messages.Add())
             {
-                _messages.SaveMessages();
+                if (_messages.SaveMessages())
+                    MessageBox.Show("Unable to save some or all messages.", "Error Occurred.", MessageBoxButtons.OK);
+
                 ClearMessageDetails();
                 ToggleButtons(false, DASH);
                 UpdateMessages();
@@ -136,7 +138,9 @@ namespace Frontend.App.Parts
 
                 if (_messages.Update(id))
                 {
-                    _messages.SaveMessages();
+                    if (_messages.SaveMessages())
+                        MessageBox.Show("Unable to save some or all messages.", "Error Occurred.", MessageBoxButtons.OK);
+
                     ClearMessageDetails();
                     ToggleButtons(false, DASH);
                     UpdateMessages();
@@ -157,7 +161,9 @@ namespace Frontend.App.Parts
 
                 if (!string.IsNullOrEmpty(id) && _messages.Remove(id))
                 {
-                    _messages.SaveMessages();
+                    if (_messages.SaveMessages())
+                        MessageBox.Show("Unable to save some or all messages.", "Error Occurred.", MessageBoxButtons.OK);
+
                     ClearMessageDetails();
                     ToggleButtons(false, DASH);
                     UpdateMessages();
@@ -176,7 +182,9 @@ namespace Frontend.App.Parts
 
             if (!string.IsNullOrEmpty(id) && _messages.ToggleShow(id))
             {
-                _messages.SaveMessages();
+                if (_messages.SaveMessages())
+                    MessageBox.Show("Unable to save some or all messages.", "Error Occurred.", MessageBoxButtons.OK);
+
                 ClearMessageDetails();
                 ToggleButtons(false, DASH);
                 UpdateMessages();

@@ -189,18 +189,41 @@ namespace Frontend.Controller.Business
         /// <summary>
         /// Loads saved events from file
         /// </summary>
+        /// <param name="overwrite">Whether to overwrite data</param>
         /// <returns>Whether the events loaded</returns>
-        public bool LoadEvents()
+        public bool LoadEvents(bool overwrite = false)
         {
-            return _eventRepo.LoadEvents();
+            return _eventRepo.LoadEvents(overwrite);
+        }
+
+        /// <summary>
+        /// Loads saved events from file
+        /// </summary>
+        /// <param name="path">The file path to load from</param>
+        /// <param name="overwrite">Whether to overwrite data</param>
+        /// <returns>Whether the events loaded</returns>
+        public bool LoadEvents(string path, bool overwrite = false)
+        {
+            return _eventRepo.LoadEvents(path, overwrite);
         }
 
         /// <summary>
         /// Saves events to file
         /// </summary>
-        public void SaveEvents()
+        /// <returns>Whether the events were fully saved</returns>
+        public bool SaveEvents()
         {
-            _eventRepo.SaveEvents();
+            return _eventRepo.SaveEvents();
+        }
+
+        /// <summary>
+        /// Saves events to file
+        /// </summary>
+        /// <param name="path">The file path to save to</param>
+        /// <returns>Whether the events were fully saved</returns>
+        public bool SaveEvents(string path)
+        {
+            return _eventRepo.SaveEvents(path);
         }
     }
 }

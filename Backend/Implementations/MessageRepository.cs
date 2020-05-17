@@ -1,7 +1,6 @@
 ﻿using Backend.Inferfaces;
 using Backend.Model;
 using FileOperations.Implementations;
-using FileOperations.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +13,7 @@ namespace Backend.Implementations
     public class MessageRepository : IMessageRepository
     {
         private readonly List<AppMessage> Messages;
-        private readonly IFileOperations<AppMessage> io;
+        private readonly MessageIO io;
 
         /// <summary>
         /// Constructor for the Message Repository
@@ -120,6 +119,7 @@ namespace Backend.Implementations
         {
             if (overwrite)
             {
+                Messages.Clear();
                 Messages.AddRange(io.Load());
             }
             else
@@ -133,12 +133,13 @@ namespace Backend.Implementations
         }
 
         /// <summary>
-        /// Implements <see cref="IMessageRepository.LoadMessagesExternal(string, bool)" />
+        /// Implements <see cref="IMessageRepository.LoadMessages(string, bool)" />
         /// </summary>
-        public bool LoadMessagesExternal(string path, bool overwrite = false)
+        public bool LoadMessages(string path, bool overwrite = false)
         {
             if (overwrite)
             {
+                Messages.Clear();
                 Messages.AddRange(io.Load(path));
             }
             else
@@ -148,23 +149,27 @@ namespace Backend.Implementations
                 Messages.AddRange(filtered);
             }
 
-            return true;
+            return io.FullyLoaded;
         }
 
         /// <summary>
         /// Implements <see cref="IMessageRepository.SaveMessages()" />
         /// </summary>
-        public void SaveMessages()
+        public bool SaveMessages()
         {
             io.Save(Messages);
+
+            return io.FullySaved;
         }
 
         /// <summary>
-        /// Implements <see cref="IMessageRepository.SaveMessagesExternal(string)" />
+        /// Implements <see cref="IMessageRepository.SaveMessages(string)" />
         /// </summary>
-        public void SaveMessagesExternal(string path)
+        public bool SaveMessages(string path)
         {
             io.Save(Messages, path);
+
+            return io.FullySaved;
         }
 
         /// <summary>

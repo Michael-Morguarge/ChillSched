@@ -77,17 +77,19 @@ namespace Backend.Inferfaces
         /// <param name="path">The file path to load from</param>
         /// <param name="overwrite">Whether to overwrite the current data</param>
         /// <returns>Whether the events were loaded</returns>
-        bool LoadEventsExternal(string path, bool overwrite = false);
+        bool LoadEvents(string path, bool overwrite = false);
 
         /// <summary>
         /// Saves to the events
         /// </summary>
-        void SaveEvents();
+        /// <returns>Whether the events were fully saved</returns>
+        bool SaveEvents();
 
         /// <summary>
         /// Saves the events to an external source
         /// </summary>
         /// <param name="path">The path to save to</param>
-        void SaveEventsExternal(string path);
+        /// <returns>Whether the events were fully saved</returns>
+        bool SaveEvents(string path);
     }
 }

@@ -37,14 +37,16 @@ namespace Frontend.App.Views
             _messages = new MessageViewController(_controls);
             Setup();
 
-            if (_events.LoadEvents())
-            {
-                EIV.UpdateEvents(DateTime.Today);
-                SEIV.UpdateEvents();
-                UpdateEventList();
-            }
+            if (!_events.LoadEvents())
+                MessageBox.Show("Unable to save some or all events.", "Error Occurred.", MessageBoxButtons.OK);
 
-            _messages.LoadMessages();
+            EIV.UpdateEvents(DateTime.Today);
+            SEIV.UpdateEvents();
+            UpdateEventList();
+
+            if (!_messages.LoadMessages())
+                MessageBox.Show("Unable to save some or all messages.", "Error Occurred.", MessageBoxButtons.OK);
+
             MMV.UpdateMessagesView();
         }
 
@@ -138,8 +140,8 @@ namespace Frontend.App.Views
             DialogResult result = MessageBox.Show("Are you sure you want to exit?", "Exit ChillSched", MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
             {
-                _events.SaveEvents();
-                _messages.SaveMessages();
+                if (!_events.SaveEvents() && _messages.SaveMessages())
+                    MessageBox.Show("Unable to save some or all events and messages.", "Error Occurred.", MessageBoxButtons.OK);
             }
             else
             {
@@ -163,7 +165,9 @@ namespace Frontend.App.Views
         {
             if (_events.Add())
             {
-                _events.SaveEvents();
+                if (!_events.SaveEvents())
+                    MessageBox.Show("Unable to save some or all events.", "Error Occurred.", MessageBoxButtons.OK);
+
                 EIV.ClearEventInfo();
                 EIV.UpdateEvents(EventCal.GetControl().SelectionRange.Start);
                 EIV.ToggleButtons();
@@ -174,15 +178,19 @@ namespace Frontend.App.Views
 
         private void EventBackupStripMenuItem_Click(object sender, EventArgs e)
         {
-            _events.SaveEvents();
-            MessageBox.Show("Successully saved events.\nEvents save on application close, adds, updates and deletes of an event.", "Events saved");
+            if (!_events.SaveEvents())
+                MessageBox.Show("Unable to save some or all events.", "Error Occurred.", MessageBoxButtons.OK);
+            else
+                MessageBox.Show("Successully saved events.\nEvents save on application close, adds, updates and deletes of an event.", "Events saved");
         }
 
         private void CreateMessageToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (_messages.Add())
             {
-                _messages.SaveMessages();
+                if (!_messages.SaveMessages())
+                    MessageBox.Show("Unable to save some or all messages.", "Error Occurred.", MessageBoxButtons.OK);
+
                 MMV.ClearMessageInfo();
                 MMV.UpdateMessagesView();
             }
@@ -190,16 +198,18 @@ namespace Frontend.App.Views
 
         private void TriggerMessagesBackupToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _messages.SaveMessages();
-            MessageBox.Show("Successully saved messages.\nMessages save on application close, adds, updates and deletes of a message.", "Messages saved");
+            if (_messages.SaveMessages())
+                MessageBox.Show("Unable to save some or all messages.", "Error Occurred.", MessageBoxButtons.OK);
+            else
+                MessageBox.Show("Successully saved messages.\nMessages save on application close, adds, updates and deletes of a message.", "Messages saved");
         }
 
         private void TriggerAllBackupToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _events.SaveEvents();
-            _messages.SaveMessages();
-
-            MessageBox.Show("Successully saved Events and Messages.\nEvents and Messages save on application close, adds, updates and deletes.", "All saved");
+            if (!_events.SaveEvents() || !_messages.SaveMessages())
+                MessageBox.Show("Unable to save some or all events and messages.", "Error Occurred.", MessageBoxButtons.OK);
+            else
+                MessageBox.Show("Successully saved Events and Messages.\nEvents and Messages save on application close, adds, updates and deletes.", "All saved");
         }
 
         private void ImportAllDataToolStripMenuItem_Click(object sender, EventArgs e)

@@ -2,7 +2,6 @@
 using Backend.Inferfaces;
 using Backend.Model;
 using Shared.Global;
-using System;
 using System.Collections.Generic;
 
 namespace Frontend.Controller.Business
@@ -64,9 +63,7 @@ namespace Frontend.Controller.Business
                 message.TimeCreated = TimeAndDateUtility.GetCurrentTime();
             }
 
-            bool added = _messageRepo.AddMessage(message);
-
-            return added;
+            return _messageRepo.AddMessage(message);
         }
 
         /// <summary>
@@ -76,9 +73,7 @@ namespace Frontend.Controller.Business
         /// <returns>Whether the message was updated</returns>
         public bool EditMessage(AppMessage message)
         {
-            bool updated = _messageRepo.UpdateMessage(message);
-
-            return updated;
+            return _messageRepo.UpdateMessage(message);
         }
 
         /// <summary>
@@ -105,19 +100,27 @@ namespace Frontend.Controller.Business
                 message.Show = !message.Show;
             }
 
-            bool updated = _messageRepo.UpdateMessage(message);
-
-            return updated;
+            return _messageRepo.UpdateMessage(message);
         }
 
-        public void SaveMessages()
+        public bool SaveMessages()
         {
-            _messageRepo.SaveMessages();
+            return _messageRepo.SaveMessages();
         }
 
-        public bool LoadMessages()
+        public bool SaveMessages(string path)
         {
-            return _messageRepo.LoadMessages();
+            return _messageRepo.SaveMessages(path);
+        }
+
+        public bool LoadMessages(bool overwrite = false)
+        {
+            return _messageRepo.LoadMessages(overwrite);
+        }
+
+        public bool LoadMessages(string path, bool overwrite = false)
+        {
+            return _messageRepo.LoadMessages(path, overwrite);
         }
     }
 }

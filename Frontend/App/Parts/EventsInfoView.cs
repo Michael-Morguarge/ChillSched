@@ -18,8 +18,11 @@ namespace Frontend.App.Parts
     {
         private ControlsAccess _controls;
         private string _parentId;
-        private EventViewController _controller;
+        private EventViewController _events;
         private CalendarController _calendar;
+
+        private const string DASH = "-";
+        private const string NO_COMMENT = "No comment";
 
         /// <summary>
         /// Contructor for the Partial View Controllers
@@ -39,7 +42,7 @@ namespace Frontend.App.Parts
         {
             _controls = controls;
             _parentId = parentId;
-            _controller = controller;
+            _events = controller;
             _calendar = (CalendarController)_controls.Get(parentId, calendarId);
 
             Setup();
@@ -160,9 +163,11 @@ namespace Frontend.App.Parts
 
         private void AddEvent_Click(object sender, EventArgs e)
         {
-            if (_controller.Add())
+            if (_events.Add())
             {
-                _controller.SaveEvents();
+                if (!_events.SaveEvents())
+                    MessageBox.Show("Unable to save some or all events.", "Error Occurred.", MessageBoxButtons.OK);
+
                 ClearEventDetails();
                 UpdateTodaysEvents(_calendar.GetControl().SelectionStart);
                 ToggleButtons();
@@ -173,9 +178,11 @@ namespace Frontend.App.Parts
         private void EditEvent_Click(object sender, EventArgs e)
         {
             string id = ((SavedEvent)Todays_Events.SelectedIndex()).Id;
-            if (_controller.Update(id))
+            if (_events.Update(id))
             {
-                _controller.SaveEvents();
+                if (!_events.SaveEvents())
+                    MessageBox.Show("Unable to save some or all events.", "Error Occurred.", MessageBoxButtons.OK);
+
                 ClearEventDetails();
                 ForceUpdate();
                 UpdateTodaysEvents(_calendar.GetControl().SelectionStart);
@@ -186,9 +193,11 @@ namespace Frontend.App.Parts
         private void RemoveButton_Click(object sender, EventArgs e)
         {
             string id = ((SavedEvent)Todays_Events.SelectedIndex()).Id;
-            if (_controller.Remove(id))
+            if (_events.Remove(id))
             {
-                _controller.SaveEvents();
+                if (!_events.SaveEvents())
+                    MessageBox.Show("Unable to save some or all events.", "Error Occurred.", MessageBoxButtons.OK);
+
                 ClearEventDetails();
                 ForceUpdate();
                 UpdateTodaysEvents(_calendar.GetControl().SelectionStart);
@@ -199,9 +208,11 @@ namespace Frontend.App.Parts
         private void ToggleStatus_Click(object sender, EventArgs e)
         {
             string id = ((SavedEvent)Todays_Events.SelectedIndex()).Id;
-            if (_controller.ToggleStatus(id))
+            if (_events.ToggleStatus(id))
             {
-                _controller.SaveEvents();
+                if (!_events.SaveEvents())
+                    MessageBox.Show("Unable to save some or all events.", "Error Occurred.", MessageBoxButtons.OK);
+
                 ClearEventDetails();
                 ForceUpdate();
                 UpdateTodaysEvents(_calendar.GetControl().SelectionStart);
@@ -236,11 +247,10 @@ namespace Frontend.App.Parts
             Created_Date.SetText(
                 $"{TimeAndDateUtility.ConvertDate_String(@event.DateCreated, true)} {TimeAndDateUtility.ConvertTime_String(@event.TimeCreated)}");
 
-            if (@event.Completed && @event.DateCompleted != null && @event.TimeCompleted != null)
-            {
-                Completion_Date.SetText(
-                    $"{TimeAndDateUtility.ConvertDate_String(@event.DateCompleted, true)} {TimeAndDateUtility.ConvertTime_String(@event.TimeCompleted)}");
-            }
+            Completion_Date.SetText(
+                @event.Completed && @event.DateCompleted != null && @event.TimeCompleted != null ?
+                    $"{TimeAndDateUtility.ConvertDate_String(@event.DateCompleted, true)} {TimeAndDateUtility.ConvertTime_String(@event.TimeCompleted)}"
+                    : DASH);
 
             Event_Status.SetText(
                 @event.Completed ? "Complete"
@@ -257,7 +267,7 @@ namespace Frontend.App.Parts
 
             User_Title.SetText(@event.Title);
 
-            User_Comment.SetText(@event.Comment);
+            User_Comment.SetText(!string.IsNullOrEmpty(@event.Comment) ? @event.Comment : NO_COMMENT);
         }
 
         private void ToggleViewButtons(bool enable, bool isBefore = false)
@@ -275,7 +285,7 @@ namespace Frontend.App.Parts
                 string id = ((SavedEvent)Todays_Events.SelectedIndex())?.Id;
                 if (!string.IsNullOrEmpty(id))
                 {
-                    SavedEvent @event = _controller.GetEvent(id);
+                    SavedEvent @event = _events.GetEvent(id);
 
                     if (@event != null)
                     {
@@ -298,25 +308,22 @@ namespace Frontend.App.Parts
 
         private void ClearEventDetails()
         {
-            const string dash = "-";
-            const string no_comment = "No comment";
-
-            Exp_Start_Date.SetText(dash);
-            Exp_Start_Time.SetText(dash);
-            Exp_End_Date.SetText(dash);
-            Exp_End_Time.SetText(dash);
-            Created_Date.SetText(dash);
-            Completion_Date.SetText(dash);
-            User_Title.SetText(dash);
-            Event_Status.SetText(dash);
+            Exp_Start_Date.SetText(DASH);
+            Exp_Start_Time.SetText(DASH);
+            Exp_End_Date.SetText(DASH);
+            Exp_End_Time.SetText(DASH);
+            Created_Date.SetText(DASH);
+            Completion_Date.SetText(DASH);
+            User_Title.SetText(DASH);
+            Event_Status.SetText(DASH);
             Event_Status.SetBackColor(Color.DarkGray);
 
-            User_Comment.SetText(no_comment);
+            User_Comment.SetText(NO_COMMENT);
         }
 
         private void UpdateTodaysEvents()
         {
-            object[] eventList = _controller.GetAll();
+            object[] eventList = _events.GetAll();
 
             Todays_Events.Update(eventList);
         }
@@ -324,14 +331,14 @@ namespace Frontend.App.Parts
         private void UpdateTodaysEvents(DateTime selectedDate)
         {
             Date date = TimeAndDateUtility.ConvertDate_Date(selectedDate);
-            object[] eventList = _controller.GetAll(date);
+            object[] eventList = _events.GetAll(date);
 
             Todays_Events.Update(eventList);
         }
 
         private void UpdateTodaysEvents(Date start, Date end, string searchTerm = null)
         {
-            object[] eventList = _controller.GetAll(start, end, searchTerm);
+            object[] eventList = _events.GetAll(start, end, searchTerm);
 
             Todays_Events.Update(eventList);
         }

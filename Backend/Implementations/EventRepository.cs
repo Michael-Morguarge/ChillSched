@@ -7,7 +7,6 @@ using System;
 using Shared.Model;
 using Shared.Global;
 using FileOperations.Implementations;
-using FileOperations.Interfaces;
 //using Microsoft.SqlServer.Server;
 
 namespace Backend.Implementations
@@ -20,7 +19,7 @@ namespace Backend.Implementations
         //private readonly DataLayer _dataAccess;
 
         private readonly List<SavedEvent> SavedEvents;
-        private readonly IFileOperations<SavedEvent> io;
+        private readonly EventIO io;
 
         /// <summary>
         /// Construtor for the EventRepository
@@ -169,6 +168,7 @@ namespace Backend.Implementations
         {
             if (overwrite)
             {
+                SavedEvents.Clear();
                 SavedEvents.AddRange(io.Load());
             }
             else
@@ -178,16 +178,17 @@ namespace Backend.Implementations
                 SavedEvents.AddRange(filtered);
             }
 
-            return true;
+            return io.FullyLoaded;
         }
 
         /// <summary>
-        /// Implements <see cref="IEventRepository.LoadEventsExternal(string, bool)" />
+        /// Implements <see cref="IEventRepository.LoadEvents(string, bool)" />
         /// </summary>
-        public bool LoadEventsExternal(string path, bool overwrite = false)
+        public bool LoadEvents(string path, bool overwrite = false)
         {
             if (overwrite)
             {
+                SavedEvents.Clear();
                 SavedEvents.AddRange(io.Load(path));
             }
             else
@@ -197,23 +198,27 @@ namespace Backend.Implementations
                 SavedEvents.AddRange(filtered);
             }
 
-            return true;
+            return io.FullyLoaded;
         }
 
         /// <summary>
         /// Implements <see cref="IEventRepository.SaveEvents()" />
         /// </summary>
-        public void SaveEvents()
+        public bool SaveEvents()
         {
             io.Save(SavedEvents);
+
+            return io.FullySaved;
         }
 
         /// <summary>
-        /// Implements <see cref="IEventRepository.SaveEventsExternal(string)" />
+        /// Implements <see cref="IEventRepository.SaveEvents(string)" />
         /// </summary>
-        public void SaveEventsExternal(string path)
+        public bool SaveEvents(string path)
         {
             io.Save(SavedEvents, path);
+
+            return io.FullySaved;
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Backend.Model;
+using FileOperations.Constants;
 using FileOperations.Interfaces;
 using FileOperations.Models;
-using Shared.Global;
 using Shared.Model;
 using System;
 using System.Collections.Generic;
@@ -15,13 +15,16 @@ namespace FileOperations.Implementations
     /// </summary>
     public class MessageIO : IFileOperations<AppMessage>
     {
-#if DEBUG
-        private const string DefaultImportPath = "..\\..\\Resources\\Messages\\MessageTestDebug.saved";
-        private const string DefaultExportPath = "..\\..\\Resources\\Messages\\MessageResultDebug.saved";
-#else
-        private const string DefaultImportPath = ".\\Resources\\Messages\\MessageLog.saved";
-        private const string DefaultExportPath = ".\\Resources\\Messages\\MessageLog.saved";
-#endif
+        /// <summary>
+        /// Whether the data was fully loaded
+        /// </summary>
+        public bool FullyLoaded { get; private set; } = true;
+
+        /// <summary>
+        /// Whether the data was fully saved
+        /// </summary>
+        public bool FullySaved { get; private set; } = true;
+
         /// <summary>
         /// Implements <see cref="IFileOperations{SavedEvent}.Load(string)" />
         /// </summary>
@@ -32,16 +35,16 @@ namespace FileOperations.Implementations
             try
             {
                 Data<string, string> data = new Data<string, string>();
-                string content = File.ReadAllText(string.IsNullOrEmpty(path) ? DefaultImportPath : path);
+                string content = File.ReadAllText(string.IsNullOrEmpty(path) ?  MIOConts.DefaultImportPath : path);
 
                 if (!string.IsNullOrEmpty(content) && messages != null)
                 {
                     data.TempDataStore =
-                        content.Split(new[] { IO.EventSeparator }, StringSplitOptions.RemoveEmptyEntries)
+                        content.Split(new[] { IO.Tildes }, StringSplitOptions.RemoveEmptyEntries)
                                .Select(x =>
                                    x.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
                                     .Select(y =>
-                                        y.Split(new[] { IO.AssignSeparator }, StringSplitOptions.None))
+                                        y.Split(new[] { IO.EqSign }, StringSplitOptions.None))
                                          .Select(a => new KeyValuePair<string, string>(a[0], a.ElementAtOrDefault(1) ?? string.Empty))
                                     .ToList())
                                .Where(x => x.Any())
@@ -49,14 +52,21 @@ namespace FileOperations.Implementations
 
                     foreach (List<KeyValuePair<string, string>> subData in data.TempDataStore)
                     {
-                        AppMessage item = CreateMessageFromLoadedData(subData);
-                        messages.Add(item);
+                        try
+                        {
+                            AppMessage item = CreateMessageFromLoadedData(subData);
+                            messages.Add(item);
+                        }
+                        catch (Exception)
+                        {
+                            FullyLoaded = false;
+                        }
                     }
                 }
             }
             catch (Exception)
             {
-                //Something happened
+                FullyLoaded = false;
             }
 
             return messages;
@@ -67,30 +77,44 @@ namespace FileOperations.Implementations
         /// </summary>
         public void Save(List<AppMessage> messages, string path = null)
         {
-            string messageString = string.Empty;
-
-            foreach (AppMessage message in messages)
+            try
             {
-                string show = message.Show ? "True" : "False";
-                string created = FormatDate(message.DateCreated, message.TimeCreated);
-                string lastDisplayed = FormatDate(message.LastDateDisplayed, message.LastTimeDisplayed);
-                string title = FormatText(message.Title, true);
-                string quote = FormatRichText(message.Quote, true);
-                string author = FormatText(message.Author, true);
-                string source = FormatText(message.Source, true);
+                string messageString = string.Empty;
 
-                messageString +=
-                    $"Id=\"{message.Id}\"{Environment.NewLine}" +
-                    $"Title=\"{title}\"{Environment.NewLine}" +
-                    $"Quote=\"{quote}\"{Environment.NewLine}" +
-                    $"Author=\"{author}\"{Environment.NewLine}" +
-                    $"Source=\"{source}\"{Environment.NewLine}" +
-                    $"Show=\"{show}\"{Environment.NewLine}" +
-                    $"DateCreated=\"{created}\"{Environment.NewLine}" +
-                    $"DateLastDisplayed=\"{lastDisplayed}\"{Environment.NewLine}" +
-                    $"~~~{Environment.NewLine}";
+                foreach (AppMessage message in messages)
+                {
+                    try
+                    {
+                        string show = message.Show ? "True" : "False";
+                        string created = IO.FormatDate(message.DateCreated, message.TimeCreated);
+                        string lastDisplayed = IO.FormatDate(message.LastDateDisplayed, message.LastTimeDisplayed);
+                        string title = IO.FormatText(message.Title, true);
+                        string quote = IO.FormatRichText(message.Quote, true);
+                        string author = IO.FormatText(message.Author, true);
+                        string source = IO.FormatText(message.Source, true);
 
-                File.WriteAllText(string.IsNullOrEmpty(path) ? DefaultExportPath : path, messageString);
+                        messageString +=
+                            $"{MIOConts.Id}{IO.EqSign}{IO.Quotes}{message.Id}{IO.Quotes}{Environment.NewLine}" +
+                            $"{MIOConts.Title}{IO.EqSign}{IO.Quotes}{title}{IO.Quotes}{Environment.NewLine}" +
+                            $"{MIOConts.Quote}{IO.EqSign}{IO.Quotes}{quote}{IO.Quotes}{Environment.NewLine}" +
+                            $"{MIOConts.Author}{IO.EqSign}{IO.Quotes}{author}{IO.Quotes}{Environment.NewLine}" +
+                            $"{MIOConts.Source}{IO.EqSign}{IO.Quotes}{source}{IO.Quotes}{Environment.NewLine}" +
+                            $"{MIOConts.Show}{IO.EqSign}{IO.Quotes}{show}{IO.Quotes}{Environment.NewLine}" +
+                            $"{MIOConts.DateCreated}{IO.EqSign}{IO.Quotes}{created}{IO.Quotes}{Environment.NewLine}" +
+                            $"{MIOConts.DateLastDisplayed}{IO.EqSign}{IO.Quotes}{lastDisplayed}{IO.Quotes}{Environment.NewLine}" +
+                            $"{IO.Tildes}{Environment.NewLine}";
+                    }
+                    catch (Exception)
+                    {
+                        FullySaved = false;
+                    }
+                }
+
+                File.WriteAllText(string.IsNullOrEmpty(path) ? MIOConts.DefaultExportPath : path, messageString);
+            }
+            catch (Exception)
+            {
+                FullySaved = false;
             }
         }
 
@@ -98,16 +122,17 @@ namespace FileOperations.Implementations
 
         private AppMessage CreateMessageFromLoadedData(List<KeyValuePair<string, string>> data)
         {
-            string id = data.Single(x => x.Key == "Id").Value.Replace(IO.Quotation, string.Empty);
-            string title = FormatText(data.Single(x => x.Key == "Title").Value);
-            string quote = FormatRichText(data.Single(x => x.Key == "Quote").Value);
-            string author = FormatText(data.Single(x => x.Key == "Author").Value);
-            string source = FormatText(data.Single(x => x.Key == "Source").Value);
+            string id = IO.TestId(data.Single(x => x.Key == MIOConts.Id).Value.Replace(IO.Quotes, string.Empty));
 
-            bool show = bool.Parse(data.Single(x => x.Key == "Show").Value.Replace(IO.Quotation, string.Empty));
+            string title = IO.FormatText(IO.TestText(data.Single(x => x.Key == MIOConts.Title).Value));
+            string quote = IO.FormatRichText(IO.TestText(data.Single(x => x.Key == MIOConts.Quote).Value));
+            string author = IO.FormatText(IO.TestText(data.Single(x => x.Key == MIOConts.Author).Value));
+            string source = IO.FormatText(IO.TestText(data.Single(x => x.Key == MIOConts.Source).Value));
 
-            (Date Date, Time Time) created_date_time = GetDateAndTime(data.Single(x => x.Key == "DateCreated").Value);
-            (Date Date, Time Time) lastDisplayed_date_time = GetDateAndTime(data.Single(x => x.Key == "DateLastDisplayed").Value);
+            bool show = IO.TestBoolean(data.Single(x => x.Key == MIOConts.Show).Value);
+
+            (Date Date, Time Time) created_date_time = IO.TestDate(data.Single(x => x.Key == MIOConts.DateCreated).Value);
+            (Date Date, Time Time) lastDisplayed_date_time = IO.TestDate(data.Single(x => x.Key == MIOConts.DateLastDisplayed).Value);
 
             AppMessage message =
                 new AppMessage
@@ -125,54 +150,6 @@ namespace FileOperations.Implementations
                 };
 
             return message;
-        }
-
-        private (Date Date, Time Time) GetDateAndTime(string dateAndTime)
-        {
-            string[] date_time =
-                dateAndTime.Replace(IO.Quotation, string.Empty)
-                           .Split(new[] { IO.DateSeparator }, StringSplitOptions.RemoveEmptyEntries);
-            bool containsBoth = date_time.Length == 2;
-            Date date = containsBoth ? TimeAndDateUtility.ConvertString_Date(date_time[0]) : null;
-            Time time = containsBoth ? TimeAndDateUtility.ConvertString_Time(date_time[1]) : null;
-
-            return (date, time);
-        }
-
-        private string FormatDate(Date date, Time time)
-        {
-            return $"{TimeAndDateUtility.ConvertDate_String(date)}+{TimeAndDateUtility.ConvertTime_String(time)}";
-        }
-
-        private string FormatText(string text, bool isExport = false)
-        {
-            return isExport ?
-                text.Replace(IO.Quotation, IO.QuotationReplace)
-                    .Replace(IO.DateSeparator, IO.PlusReplace)
-                    .Replace(IO.Tilde, IO.TildeReplace)
-                    .Replace(IO.AssignSeparator, IO.EqualsReplace)
-                : text.Replace(IO.Quotation, string.Empty)
-                      .Replace(IO.QuotationReplace, IO.Quotation)
-                      .Replace(IO.PlusReplace, IO.DateSeparator)
-                      .Replace(IO.TildeReplace, IO.Tilde)
-                      .Replace(IO.EqualsReplace, IO.AssignSeparator);
-        }
-
-        private string FormatRichText(string text, bool isExport = false)
-        {
-            return isExport ?
-                text.Replace(IO.Quotation, IO.QuotationReplace)
-                    .Replace(Environment.NewLine, IO.InnerNewlineReplace)
-                    .Replace("\n", IO.InnerNewlineReplace)
-                    .Replace(IO.DateSeparator, IO.PlusReplace)
-                    .Replace(IO.Tilde, IO.TildeReplace)
-                    .Replace(IO.AssignSeparator, IO.EqualsReplace)
-                : text.Replace(IO.Quotation, string.Empty)
-                      .Replace(IO.QuotationReplace, IO.Quotation)
-                      .Replace(IO.InnerNewlineReplace, Environment.NewLine)
-                      .Replace(IO.PlusReplace, IO.DateSeparator)
-                      .Replace(IO.TildeReplace, IO.Tilde)
-                      .Replace(IO.EqualsReplace, IO.AssignSeparator);
         }
 
         #endregion HELPERS
