@@ -2,7 +2,7 @@
 
 [![Image](../resources/ChillSchedheader.png)](../.)
 
-## RELEASE Stabel.2 (7/1/2020)
+## RELEASE Stable.2 (7/1/2020)
 
 *Coming soon!*
 
@@ -37,7 +37,6 @@
 
 - Menu modified to show new options and reflect changes
 -Backup/Import/Export
-
 
 ---
 
