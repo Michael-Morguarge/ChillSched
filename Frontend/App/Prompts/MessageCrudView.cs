@@ -2,14 +2,6 @@
 using Frontend.Controller.Models;
 using Frontend.View.Controller;
 using Shared.Global;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Frontend.App.Prompts

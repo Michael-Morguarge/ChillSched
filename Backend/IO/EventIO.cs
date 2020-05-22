@@ -5,7 +5,6 @@ using FileOperations.Models;
 using Shared.Model;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace FileOperations.Implementations
@@ -18,37 +17,34 @@ namespace FileOperations.Implementations
         /// <summary>
         /// Whether the data was fully loaed
         /// </summary>
-        public bool FullyLoaded { get; private set; } = true;
+        public bool FullyLoaded { get; private set; }
 
         /// <summary>
         /// Whether the data was fully saved
         /// </summary>
-        public bool FullySaved { get; private set; } = true;
+        public bool FullySaved { get; private set; }
 
         /// <summary>
-        /// Implements <see cref="IFileOperations{SavedEvent}.Load(string)" />
+        /// Implements <see cref="IFileOperations{SavedEvent}.ConvertData(List{SavedEvent})" />
         /// </summary>
-        public List<SavedEvent> Load(string path = null)
+        public string ConvertData(List<SavedEvent> items)
+        {
+            return ConvertToData(items);
+        }
+
+        /// <summary>
+        /// Implements <see cref="IFileOperations{SavedEvent}.Parse(string)" />
+        /// </summary>
+        public List<SavedEvent> Parse(string content)
         {
             List<SavedEvent> events = new List<SavedEvent>();
+            FullyLoaded = true;
 
             try
             {
-                Data<string, string> data = new Data<string, string>();
-                string content = File.ReadAllText(string.IsNullOrEmpty(path) ? EIOConstants.DefaultImportPath : path);
-
                 if (!string.IsNullOrEmpty(content))
                 {
-                    data.TempDataStore =
-                        content.Split(new[] { IO.Tildes }, StringSplitOptions.RemoveEmptyEntries)
-                               .Select(x =>
-                                   x.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
-                                    .Select(y =>
-                                        y.Split(new[] { IO.EqSign }, StringSplitOptions.None))
-                                         .Select(a => new KeyValuePair<string, string>(a[0], a.ElementAtOrDefault(1) ?? string.Empty))
-                                    .ToList())
-                               .Where(x => x.Any())
-                               .ToList();
+                    Data<string, string> data = IO.ParseContent(content);
 
                     foreach (List<KeyValuePair<string, string>> subData in data.TempDataStore)
                     {
@@ -79,38 +75,10 @@ namespace FileOperations.Implementations
         {
             try
             {
-                string eventString = string.Empty;
+                FullySaved = true;
+                string eventString = ConvertToData(events);
 
-                foreach (SavedEvent @event in events)
-                {
-                    try
-                    {
-                        string isCompleted = @event.Completed ? "True" : "False";
-                        string created = IO.FormatDate(@event.DateCreated, @event.TimeCreated);
-                        string completed = IO.FormatDate(@event.DateCompleted, @event.TimeCompleted);
-                        string active = IO.FormatDate(@event.ActivationDate, @event.ActivationTime);
-                        string inactive = IO.FormatDate(@event.DeactivationDate, @event.DeactivationTime);
-                        string title = IO.FormatText(@event.Title, true);
-                        string comment = IO.FormatRichText(@event.Comment, true);
-
-                        eventString +=
-                            $"{EIOConstants.Id}{IO.EqSign}{IO.Quotes}{@event.Id}{IO.Quotes}{Environment.NewLine}" +
-                            $"{EIOConstants.Title}{IO.EqSign}{IO.Quotes}{title}{IO.Quotes}{Environment.NewLine}" +
-                            $"{EIOConstants.Comment}{IO.EqSign}{IO.Quotes}{comment}{IO.Quotes}{Environment.NewLine}" +
-                            $"{EIOConstants.Completed}{IO.EqSign}{IO.Quotes}{isCompleted}{IO.Quotes}{Environment.NewLine}" +
-                            $"{EIOConstants.DateCreated}{IO.EqSign}{IO.Quotes}{created}{IO.Quotes}{Environment.NewLine}" +
-                            $"{EIOConstants.DateCompleted}{IO.EqSign}{IO.Quotes}{completed}{IO.Quotes}{Environment.NewLine}" +
-                            $"{EIOConstants.ActivationDate}{IO.EqSign}{IO.Quotes}{active}{IO.Quotes}{Environment.NewLine}" +
-                            $"{EIOConstants.DeactivationDate}{IO.EqSign}{IO.Quotes}{inactive}{IO.Quotes}{Environment.NewLine}" +
-                            $"{IO.Tildes}{Environment.NewLine}";
-                    }
-                    catch (Exception)
-                    {
-                        FullySaved = false;
-                    }
-                }
-
-                File.WriteAllText(string.IsNullOrEmpty(path) ? EIOConstants.DefaultExportPath : path, eventString);
+                AllIO.BackupChanges(eventString, FileTypes.EVENT);
             }
             catch (Exception)
             {
@@ -120,18 +88,55 @@ namespace FileOperations.Implementations
 
         #region HELPERS
 
+        private string ConvertToData(List<SavedEvent> events)
+        {
+            string eventString = string.Empty;
+
+            foreach (SavedEvent @event in events)
+            {
+                try
+                {
+                    string isCompleted = @event.Completed ? "True" : "False";
+                    string created = IO.FormatDate(@event.DateCreated, @event.TimeCreated);
+                    string completed = IO.FormatDate(@event.DateCompleted, @event.TimeCompleted);
+                    string active = IO.FormatDate(@event.ActivationDate, @event.ActivationTime);
+                    string inactive = IO.FormatDate(@event.DeactivationDate, @event.DeactivationTime);
+                    string title = IO.FormatText(@event.Title, true);
+                    string comment = IO.FormatRichText(@event.Comment, true);
+                    string ENL = Environment.NewLine;
+
+                    eventString +=
+                        $"{EIOConsts.Id}{IO.EqSign}{IO.Quotes}{@event.Id}{IO.Quotes}{ENL}" +
+                        $"{EIOConsts.Title}{IO.EqSign}{IO.Quotes}{title}{IO.Quotes}{ENL}" +
+                        $"{EIOConsts.Comment}{IO.EqSign}{IO.Quotes}{comment}{IO.Quotes}{ENL}" +
+                        $"{EIOConsts.Completed}{IO.EqSign}{IO.Quotes}{isCompleted}{IO.Quotes}{ENL}" +
+                        $"{EIOConsts.DateCreated}{IO.EqSign}{IO.Quotes}{created}{IO.Quotes}{ENL}" +
+                        $"{EIOConsts.DateCompleted}{IO.EqSign}{IO.Quotes}{completed}{IO.Quotes}{ENL}" +
+                        $"{EIOConsts.ActivationDate}{IO.EqSign}{IO.Quotes}{active}{IO.Quotes}{ENL}" +
+                        $"{EIOConsts.DeactivationDate}{IO.EqSign}{IO.Quotes}{inactive}{IO.Quotes}{ENL}" +
+                        $"{IO.Tildes}{ENL}";
+                }
+                catch (Exception)
+                {
+                    FullySaved = false;
+                }
+            }
+
+            return eventString;
+        }
+
         private SavedEvent CreateEventFromLoadedData(List<KeyValuePair<string, string>> data)
         {
-            string id = IO.TestId(data.Single(x => x.Key == EIOConstants.Id).Value.Replace(IO.Quotes, string.Empty));
-            string title = IO.FormatText(IO.TestText(data.Single(x => x.Key == EIOConstants.Title).Value));
-            string comment = IO.FormatRichText(IO.TestText(data.Single(x => x.Key == EIOConstants.Comment).Value));
+            string id = IO.TestId(data.Single(x => x.Key == EIOConsts.Id).Value.Replace(IO.Quotes, string.Empty));
+            string title = IO.FormatText(IO.TestText(data.Single(x => x.Key == EIOConsts.Title).Value));
+            string comment = IO.FormatRichText(IO.TestText(data.Single(x => x.Key == EIOConsts.Comment).Value));
 
-            bool completed = IO.TestBoolean(data.Single(x => x.Key == EIOConstants.Completed).Value);
+            bool completed = IO.TestBoolean(data.Single(x => x.Key == EIOConsts.Completed).Value);
 
-            (Date Date, Time Time) created_date_time = IO.TestDate(data.Single(x => x.Key == EIOConstants.DateCreated).Value);
-            (Date Date, Time Time) completed_date_time = IO.TestDate(data.Single(x => x.Key == EIOConstants.DateCompleted).Value);
-            (Date Date, Time Time) activation_date_time = IO.TestDate(data.Single(x => x.Key == EIOConstants.ActivationDate).Value);
-            (Date Date, Time Time) deactivation_date_time = IO.TestDate(data.Single(x => x.Key == EIOConstants.DeactivationDate).Value);
+            (Date Date, Time Time) created_date_time = IO.TestDate(data.Single(x => x.Key == EIOConsts.DateCreated).Value);
+            (Date Date, Time Time) completed_date_time = IO.TestDate(data.Single(x => x.Key == EIOConsts.DateCompleted).Value);
+            (Date Date, Time Time) activation_date_time = IO.TestDate(data.Single(x => x.Key == EIOConsts.ActivationDate).Value);
+            (Date Date, Time Time) deactivation_date_time = IO.TestDate(data.Single(x => x.Key == EIOConsts.DeactivationDate).Value);
 
             SavedEvent @event =
                 new SavedEvent
@@ -149,6 +154,7 @@ namespace FileOperations.Implementations
                     DeactivationDate = deactivation_date_time.Date,
                     DeactivationTime = deactivation_date_time.Time
                 };
+
             return @event;
         }
 

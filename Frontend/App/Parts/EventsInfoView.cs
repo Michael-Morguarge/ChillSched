@@ -166,7 +166,7 @@ namespace Frontend.App.Parts
             if (_events.Add())
             {
                 if (!_events.SaveEvents())
-                    MessageBox.Show("Unable to save some or all events.", "Error Occurred.", MessageBoxButtons.OK);
+                    MessageBox.Show("Unable to save some or all events.", "Error Occurred.", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 ClearEventDetails();
                 UpdateTodaysEvents(_calendar.GetControl().SelectionStart);
@@ -181,7 +181,7 @@ namespace Frontend.App.Parts
             if (_events.Update(id))
             {
                 if (!_events.SaveEvents())
-                    MessageBox.Show("Unable to save some or all events.", "Error Occurred.", MessageBoxButtons.OK);
+                    MessageBox.Show("Unable to save some or all events.", "Error Occurred.", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 ClearEventDetails();
                 ForceUpdate();
@@ -196,7 +196,7 @@ namespace Frontend.App.Parts
             if (_events.Remove(id))
             {
                 if (!_events.SaveEvents())
-                    MessageBox.Show("Unable to save some or all events.", "Error Occurred.", MessageBoxButtons.OK);
+                    MessageBox.Show("Unable to save some or all events.", "Error Occurred.", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 ClearEventDetails();
                 ForceUpdate();
@@ -211,7 +211,7 @@ namespace Frontend.App.Parts
             if (_events.ToggleStatus(id))
             {
                 if (!_events.SaveEvents())
-                    MessageBox.Show("Unable to save some or all events.", "Error Occurred.", MessageBoxButtons.OK);
+                    MessageBox.Show("Unable to save some or all events.", "Error Occurred.", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 ClearEventDetails();
                 ForceUpdate();
@@ -227,6 +227,7 @@ namespace Frontend.App.Parts
             MainApp form = (_controls.Get(_parentId, _parentId) as FormController).GetControl() as MainApp;
             form.UpdateCalendar();
             form.UpdateEventList();
+            form.RefreshEventSearch();
         }
 
         private void SetEventDetails(SavedEvent @event)

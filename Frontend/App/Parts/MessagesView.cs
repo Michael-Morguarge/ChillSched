@@ -120,8 +120,8 @@ namespace Frontend.App.Parts
         {
             if (_messages.Add())
             {
-                if (_messages.SaveMessages())
-                    MessageBox.Show("Unable to save some or all messages.", "Error Occurred.", MessageBoxButtons.OK);
+                if (!_messages.SaveMessages())
+                    MessageBox.Show("Unable to save some or all messages.", "Error Occurred.", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 ClearMessageDetails();
                 ToggleButtons(false, DASH);
@@ -138,8 +138,8 @@ namespace Frontend.App.Parts
 
                 if (_messages.Update(id))
                 {
-                    if (_messages.SaveMessages())
-                        MessageBox.Show("Unable to save some or all messages.", "Error Occurred.", MessageBoxButtons.OK);
+                    if (!_messages.SaveMessages())
+                        MessageBox.Show("Unable to save some or all messages.", "Error Occurred.", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                     ClearMessageDetails();
                     ToggleButtons(false, DASH);
@@ -161,8 +161,8 @@ namespace Frontend.App.Parts
 
                 if (!string.IsNullOrEmpty(id) && _messages.Remove(id))
                 {
-                    if (_messages.SaveMessages())
-                        MessageBox.Show("Unable to save some or all messages.", "Error Occurred.", MessageBoxButtons.OK);
+                    if (!_messages.SaveMessages())
+                        MessageBox.Show("Unable to save some or all messages.", "Error Occurred.", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                     ClearMessageDetails();
                     ToggleButtons(false, DASH);
@@ -178,16 +178,23 @@ namespace Frontend.App.Parts
 
         private void ToggleButton_Click(object sender, EventArgs e)
         {
-            string id = ((AppMessage)MessagesLB.SelectedIndex())?.Id;
-
-            if (!string.IsNullOrEmpty(id) && _messages.ToggleShow(id))
+            try
             {
-                if (_messages.SaveMessages())
-                    MessageBox.Show("Unable to save some or all messages.", "Error Occurred.", MessageBoxButtons.OK);
+                string id = ((AppMessage)MessagesLB.SelectedIndex())?.Id;
 
-                ClearMessageDetails();
-                ToggleButtons(false, DASH);
-                UpdateMessages();
+                if (!string.IsNullOrEmpty(id) && _messages.ToggleShow(id))
+                {
+                    if (!_messages.SaveMessages())
+                        MessageBox.Show("Unable to save some or all messages.", "Error Occurred.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    ClearMessageDetails();
+                    ToggleButtons(false, DASH);
+                    UpdateMessages();
+                }
+            }
+            catch (Exception)
+            {
+                // Something happened
             }
         }
 

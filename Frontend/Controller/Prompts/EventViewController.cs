@@ -290,17 +290,41 @@ namespace Frontend.Controller.Prompts
         /// <summary>
         /// Loads events from save file
         /// </summary>
+        /// <param name="overwrite">Whether to overwrite the current data</param>
+        /// <returns>Whether the events were fully loaded</returns>
         public bool LoadEvents(bool overwrite = false)
         {
             return _eventController.LoadEvents(overwrite);
         }
 
         /// <summary>
+        /// Loads events from sepcified save file
+        /// </summary>
+        /// <param name="path">The path to pull data from</param>
+        /// <param name="overwrite">Whether to overwrite the current data</param>
+        /// <returns>Whether the events were fully loaded</returns>
+        public bool LoadEvents(string path, bool overwrite = false)
+        {
+            return _eventController.LoadEvents(path, overwrite);
+        }
+
+        /// <summary>
         /// Saves events to save file
         /// </summary>
+        /// <returns>Whether the events were fully saved</returns>
         public bool SaveEvents()
         {
             return _eventController.SaveEvents();
+        }
+
+        /// <summary>
+        /// Saves the events to a specified location
+        /// </summary>
+        /// <param name="path">The path to save the local data</param>
+        /// <returns>Whether the events were fully saved</returns>
+        public bool SaveEvents(string path)
+        {
+            return _eventController.SaveEvents(path);
         }
     }
 }

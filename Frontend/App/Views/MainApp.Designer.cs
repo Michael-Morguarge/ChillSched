@@ -29,10 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewGroup listViewGroup5 = new System.Windows.Forms.ListViewGroup("Complete", System.Windows.Forms.HorizontalAlignment.Center);
-            System.Windows.Forms.ListViewGroup listViewGroup6 = new System.Windows.Forms.ListViewGroup("Upcoming", System.Windows.Forms.HorizontalAlignment.Center);
-            System.Windows.Forms.ListViewGroup listViewGroup7 = new System.Windows.Forms.ListViewGroup("Happening Now", System.Windows.Forms.HorizontalAlignment.Center);
-            System.Windows.Forms.ListViewGroup listViewGroup8 = new System.Windows.Forms.ListViewGroup("Overdue", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Complete", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Upcoming", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("Happening Now", System.Windows.Forms.HorizontalAlignment.Center);
+            System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("Overdue", System.Windows.Forms.HorizontalAlignment.Center);
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainApp));
             this.TimeTicker = new System.Windows.Forms.Timer(this.components);
             this.DateTicker = new System.Windows.Forms.Timer(this.components);
             this.CalendarTab = new System.Windows.Forms.TabPage();
@@ -84,7 +85,7 @@
             this.MessageDataManagementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TriggerMessagesBackupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ImportMessagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportMessagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ExportMessagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MiscToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DataManagementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TriggerAllBackupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -97,10 +98,10 @@
             this.LeftToolStripPanel = new System.Windows.Forms.ToolStripPanel();
             this.ContentPanel = new System.Windows.Forms.ToolStripContentPanel();
             this.OpenFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.FolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.EIV = new Frontend.App.Parts.EventsInfoView();
             this.SEIV = new Frontend.App.Parts.EventsInfoView();
             this.MMV = new Frontend.App.Parts.MessagesView();
-            this.FolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.CalendarTab.SuspendLayout();
             this.TimeTab.SuspendLayout();
             this.TimeAndCalendarTabular.SuspendLayout();
@@ -127,7 +128,7 @@
             // 
             // CalendarTab
             // 
-            this.CalendarTab.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.CalendarTab.BackColor = System.Drawing.SystemColors.Control;
             this.CalendarTab.Controls.Add(this.EventCalendar);
             this.CalendarTab.Controls.Add(this.EIV);
             this.CalendarTab.Location = new System.Drawing.Point(4, 29);
@@ -155,7 +156,7 @@
             // 
             // TimeTab
             // 
-            this.TimeTab.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.TimeTab.BackColor = System.Drawing.SystemColors.Control;
             this.TimeTab.Controls.Add(this.NextUpdateIn);
             this.TimeTab.Controls.Add(this.NextUpdateProgress);
             this.TimeTab.Controls.Add(this.LastUpdated);
@@ -229,23 +230,23 @@
             this.EventListView.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.EventListView.FullRowSelect = true;
             this.EventListView.GridLines = true;
-            listViewGroup5.Header = "Complete";
-            listViewGroup5.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
-            listViewGroup5.Name = "Complete";
-            listViewGroup6.Header = "Upcoming";
-            listViewGroup6.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
-            listViewGroup6.Name = "Upcoming";
-            listViewGroup7.Header = "Happening Now";
-            listViewGroup7.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
-            listViewGroup7.Name = "HappeningNow";
-            listViewGroup8.Header = "Overdue";
-            listViewGroup8.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
-            listViewGroup8.Name = "Overdue";
+            listViewGroup1.Header = "Complete";
+            listViewGroup1.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup1.Name = "Complete";
+            listViewGroup2.Header = "Upcoming";
+            listViewGroup2.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup2.Name = "Upcoming";
+            listViewGroup3.Header = "Happening Now";
+            listViewGroup3.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup3.Name = "HappeningNow";
+            listViewGroup4.Header = "Overdue";
+            listViewGroup4.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
+            listViewGroup4.Name = "Overdue";
             this.EventListView.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup5,
-            listViewGroup6,
-            listViewGroup7,
-            listViewGroup8});
+            listViewGroup1,
+            listViewGroup2,
+            listViewGroup3,
+            listViewGroup4});
             this.EventListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.EventListView.HideSelection = false;
             this.EventListView.Location = new System.Drawing.Point(638, 29);
@@ -331,7 +332,7 @@
             // 
             // SearchTab
             // 
-            this.SearchTab.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.SearchTab.BackColor = System.Drawing.SystemColors.Control;
             this.SearchTab.Controls.Add(this.SearchViews);
             this.SearchTab.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.SearchTab.Location = new System.Drawing.Point(4, 29);
@@ -356,7 +357,6 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.tabPage1.Controls.Add(this.tableLayoutPanel1);
             this.tabPage1.Controls.Add(this.SEIV);
             this.tabPage1.Location = new System.Drawing.Point(4, 29);
@@ -554,7 +554,7 @@
             // ChillSchedMenuStrip
             // 
             this.ChillSchedMenuStrip.AutoSize = false;
-            this.ChillSchedMenuStrip.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.ChillSchedMenuStrip.BackColor = System.Drawing.SystemColors.Control;
             this.ChillSchedMenuStrip.Dock = System.Windows.Forms.DockStyle.None;
             this.ChillSchedMenuStrip.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.ChillSchedMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -645,6 +645,7 @@
             this.ImportEventsToolStripMenuItem.Size = new System.Drawing.Size(298, 24);
             this.ImportEventsToolStripMenuItem.Text = "Import Events";
             this.ImportEventsToolStripMenuItem.ToolTipText = "Imports events from file.";
+            this.ImportEventsToolStripMenuItem.Click += new System.EventHandler(this.ImportEventsToolStripMenuItem_Click);
             // 
             // ExportEventsToolStripMenuItem
             // 
@@ -655,6 +656,7 @@
             this.ExportEventsToolStripMenuItem.Size = new System.Drawing.Size(298, 24);
             this.ExportEventsToolStripMenuItem.Text = "Export Events";
             this.ExportEventsToolStripMenuItem.ToolTipText = "Export events to a custom location.";
+            this.ExportEventsToolStripMenuItem.Click += new System.EventHandler(this.ExportEventsToolStripMenuItem_Click);
             // 
             // MessagesToolStripMenuItem
             // 
@@ -680,7 +682,7 @@
             this.MessageDataManagementToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.TriggerMessagesBackupToolStripMenuItem,
             this.ImportMessagesToolStripMenuItem,
-            this.exportMessagesToolStripMenuItem});
+            this.ExportMessagesToolStripMenuItem});
             this.MessageDataManagementToolStripMenuItem.Name = "MessageDataManagementToolStripMenuItem";
             this.MessageDataManagementToolStripMenuItem.Size = new System.Drawing.Size(261, 24);
             this.MessageDataManagementToolStripMenuItem.Text = "Message Data Management";
@@ -704,14 +706,16 @@
             this.ImportMessagesToolStripMenuItem.Size = new System.Drawing.Size(317, 24);
             this.ImportMessagesToolStripMenuItem.Text = "Import Messages";
             this.ImportMessagesToolStripMenuItem.ToolTipText = "Imports messages from file.";
+            this.ImportMessagesToolStripMenuItem.Click += new System.EventHandler(this.ImportMessagesToolStripMenuItem_Click);
             // 
-            // exportMessagesToolStripMenuItem
+            // ExportMessagesToolStripMenuItem
             // 
-            this.exportMessagesToolStripMenuItem.Name = "exportMessagesToolStripMenuItem";
-            this.exportMessagesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.ExportMessagesToolStripMenuItem.Name = "ExportMessagesToolStripMenuItem";
+            this.ExportMessagesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.H)));
-            this.exportMessagesToolStripMenuItem.Size = new System.Drawing.Size(317, 24);
-            this.exportMessagesToolStripMenuItem.Text = "Export Messages";
+            this.ExportMessagesToolStripMenuItem.Size = new System.Drawing.Size(317, 24);
+            this.ExportMessagesToolStripMenuItem.Text = "Export Messages";
+            this.ExportMessagesToolStripMenuItem.Click += new System.EventHandler(this.ExportMessagesToolStripMenuItem_Click);
             // 
             // MiscToolStripMenuItem
             // 
@@ -815,10 +819,13 @@
             this.OpenFileDialog.DefaultExt = "saved";
             this.OpenFileDialog.FileName = "OpenFileDialog";
             this.OpenFileDialog.Filter = "ChillSched Save|*.saved";
-            this.OpenFileDialog.Multiselect = true;
-            this.OpenFileDialog.ReadOnlyChecked = true;
             this.OpenFileDialog.SupportMultiDottedExtensions = true;
             this.OpenFileDialog.Title = "Import All Data";
+            // 
+            // FolderBrowserDialog
+            // 
+            this.FolderBrowserDialog.Description = "Select a folder to save the application data.";
+            this.FolderBrowserDialog.RootFolder = System.Environment.SpecialFolder.MyComputer;
             // 
             // EIV
             // 
@@ -847,10 +854,6 @@
             this.MMV.Size = new System.Drawing.Size(1023, 340);
             this.MMV.TabIndex = 0;
             // 
-            // FolderBrowserDialog
-            // 
-            this.FolderBrowserDialog.Description = "Select a folder to save the application data.";
-            // 
             // MainApp
             // 
             this.AccessibleDescription = "The main window";
@@ -866,11 +869,11 @@
             this.Cursor = System.Windows.Forms.Cursors.Default;
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.ChillSchedMenuStrip;
             this.MaximizeBox = false;
             this.Name = "MainApp";
             this.Opacity = 0.95D;
-            this.ShowIcon = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ChillSched";
@@ -959,7 +962,7 @@
         private System.Windows.Forms.ToolStripMenuItem TriggerAllBackupToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ImportAllDataToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ExportAllDataToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem exportMessagesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ExportMessagesToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog OpenFileDialog;
         private System.Windows.Forms.FolderBrowserDialog FolderBrowserDialog;
     }

@@ -7,6 +7,7 @@ using System;
 using Shared.Model;
 using Shared.Global;
 using FileOperations.Implementations;
+using FileOperations.Constants;
 //using Microsoft.SqlServer.Server;
 
 namespace Backend.Implementations
@@ -166,17 +167,15 @@ namespace Backend.Implementations
         /// </summary>
         public bool LoadEvents(bool overwrite = false)
         {
+            (string Events, string Messages) = AllIO.ImportChanges();
+            List<SavedEvent> events = io.Parse(Events);
+            List<SavedEvent> filtered = overwrite ? events : events.Where(x => !SavedEvents.Any(y => y.Id == x.Id)).ToList();
+            
             if (overwrite)
-            {
                 SavedEvents.Clear();
-                SavedEvents.AddRange(io.Load());
-            }
-            else
-            {
-                List<SavedEvent> messages = io.Load();
-                List<SavedEvent> filtered = messages.Where(x => !SavedEvents.Any(y => y.Id == x.Id)).ToList();
+
+            if (events.Any())
                 SavedEvents.AddRange(filtered);
-            }
 
             return io.FullyLoaded;
         }
@@ -186,17 +185,16 @@ namespace Backend.Implementations
         /// </summary>
         public bool LoadEvents(string path, bool overwrite = false)
         {
+
+            (string Events, string Messages) = AllIO.ImportChanges(path);
+            List<SavedEvent> events = io.Parse(Events);
+            List<SavedEvent> filtered = overwrite ? events : events.Where(x => !SavedEvents.Any(y => y.Id == x.Id)).ToList();
+
             if (overwrite)
-            {
                 SavedEvents.Clear();
-                SavedEvents.AddRange(io.Load(path));
-            }
-            else
-            {
-                List<SavedEvent> messages = io.Load(path);
-                List<SavedEvent> filtered = messages.Where(x => !SavedEvents.Any(y => y.Id == x.Id)).ToList();
-                SavedEvents.AddRange(filtered);
-            }
+
+            if (events.Any())
+                SavedEvents.AddRange(events);
 
             return io.FullyLoaded;
         }
@@ -216,9 +214,19 @@ namespace Backend.Implementations
         /// </summary>
         public bool SaveEvents(string path)
         {
-            io.Save(SavedEvents, path);
+            bool exported = true;
 
-            return io.FullySaved;
+            try
+            {
+                AllIO.ExportSingle(path, FileTypes.EVENT);
+            }
+            catch (Exception)
+            {
+
+                exported = false;
+            }
+
+            return exported;
         }
     }
 }
