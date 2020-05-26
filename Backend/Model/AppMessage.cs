@@ -49,21 +49,11 @@ namespace Backend.Model
         /// <summary>
         /// The date created
         /// </summary>
-        public Date DateCreated { get; set; }
-
-        /// <summary>
-        /// The time created
-        /// </summary>
-        public Time TimeCreated { get; set; }
+        public DateAndTime CreatedDate { get; set; }
 
         /// <summary>
         /// The last date the message was displayed
         /// </summary>
-        public Date LastDateDisplayed { get; set; }
-
-        /// <summary>
-        /// The last the message was displayed
-        /// </summary>
-        public Time LastTimeDisplayed { get; set; }
+        public DateAndTime LastDisplayedDate { get; set; }
     }
 }

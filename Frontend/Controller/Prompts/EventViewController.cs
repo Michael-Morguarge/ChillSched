@@ -46,18 +46,16 @@ namespace Frontend.Controller.Prompts
             DateTime startDate = today.AddDays(-(today.Day - 1));
             DateTime endDate = today.AddDays(maxDay - today.Day).AddHours(23 - today.Hour).AddMinutes(59 - today.Minute).AddSeconds(59 - today.Second);
 
-            Date todaysDate = TimeAndDateUtility.ConvertDate_Date(today);
-            Time todaysTime = TimeAndDateUtility.ConvertTime_Time(today);
-            Date start = TimeAndDateUtility.ConvertDate_Date(startDate);
-            Date end = TimeAndDateUtility.ConvertDate_Date(endDate);
-            Time endTime = TimeAndDateUtility.ConvertTime_Time(endDate);
+            DateAndTime todaysDate = TimeAndDateUtility.ConvertDateTime_DateAndTime(today);
+            DateAndTime start = TimeAndDateUtility.ConvertDateTime_DateAndTime(startDate);
+            DateAndTime end = TimeAndDateUtility.ConvertDateTime_DateAndTime(endDate);
 
             List<SavedEvent> events = _eventController.GetEvents(start, end).ToList();
             List<ListViewItem> items = new List<ListViewItem>();
 
             events.ForEach(x =>
                 {
-                    string[] details = CalculateStatus(todaysDate, todaysTime, x, end, endTime);
+                    string[] details = CalculateStatus(todaysDate, x, end);
                     string date = details[1];
                     ListViewItem item = new ListViewItem(details)
                     {
@@ -75,15 +73,10 @@ namespace Frontend.Controller.Prompts
             return items.ToArray();
         }
 
-        private string[] CalculateStatus(Date start, Time startTime, SavedEvent @event, Date end, Time endTime)
+        private string[] CalculateStatus(DateAndTime start, SavedEvent @event, DateAndTime end)
         {
             (TimeSpan TimeDiff, DateCompare Comparison) diff =
-                TimeAndDateUtility.ComputeDiff(
-                    (start, startTime),
-                    (@event.ActivationDate, @event.ActivationTime, @event.DeactivationDate, @event.DeactivationTime),
-                    (end, endTime)
-                );
-
+                TimeAndDateUtility.ComputeDiff(start, (@event.ActivationDate, @event.DeactivationDate), end);
 
             DateCompare comparison = diff.Comparison;
             string template = string.Empty;
@@ -140,7 +133,7 @@ namespace Frontend.Controller.Prompts
         /// <param name="end">The end date</param>
         /// <param name="searchTerm">The term to search with</param>
         /// <returns>The list of saved events</returns>
-        public object[] GetAll(Date start = null, Date end = null, string searchTerm = null)
+        public object[] GetAll(DateAndTime start = null, DateAndTime end = null, string searchTerm = null)
         {
             return _eventController.GetEvents(start, end, searchTerm).Select(x => (object)x).Distinct().ToArray();
         }

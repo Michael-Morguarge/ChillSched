@@ -97,10 +97,10 @@ namespace FileOperations.Implementations
                 try
                 {
                     string isCompleted = @event.Completed ? "True" : "False";
-                    string created = IO.FormatDate(@event.DateCreated, @event.TimeCreated);
-                    string completed = IO.FormatDate(@event.DateCompleted, @event.TimeCompleted);
-                    string active = IO.FormatDate(@event.ActivationDate, @event.ActivationTime);
-                    string inactive = IO.FormatDate(@event.DeactivationDate, @event.DeactivationTime);
+                    string created = IO.FormatDate(@event.CreatedDate);
+                    string completed = IO.FormatDate(@event.CompletedDate);
+                    string active = IO.FormatDate(@event.ActivationDate);
+                    string inactive = IO.FormatDate(@event.DeactivationDate);
                     string title = IO.FormatText(@event.Title, true);
                     string comment = IO.FormatRichText(@event.Comment, true);
                     string ENL = Environment.NewLine;
@@ -133,10 +133,10 @@ namespace FileOperations.Implementations
 
             bool completed = IO.TestBoolean(data.Single(x => x.Key == EIOConsts.Completed).Value);
 
-            (Date Date, Time Time) created_date_time = IO.TestDate(data.Single(x => x.Key == EIOConsts.DateCreated).Value);
-            (Date Date, Time Time) completed_date_time = IO.TestDate(data.Single(x => x.Key == EIOConsts.DateCompleted).Value);
-            (Date Date, Time Time) activation_date_time = IO.TestDate(data.Single(x => x.Key == EIOConsts.ActivationDate).Value);
-            (Date Date, Time Time) deactivation_date_time = IO.TestDate(data.Single(x => x.Key == EIOConsts.DeactivationDate).Value);
+            DateAndTime created_date_time = IO.TestDate(data.Single(x => x.Key == EIOConsts.DateCreated).Value);
+            DateAndTime completed_date_time = IO.TestDate(data.Single(x => x.Key == EIOConsts.DateCompleted).Value);
+            DateAndTime activation_date_time = IO.TestDate(data.Single(x => x.Key == EIOConsts.ActivationDate).Value);
+            DateAndTime deactivation_date_time = IO.TestDate(data.Single(x => x.Key == EIOConsts.DeactivationDate).Value);
 
             SavedEvent @event =
                 new SavedEvent
@@ -144,15 +144,11 @@ namespace FileOperations.Implementations
                     Id = id,
                     Title = title,
                     Comment = comment,
-                    DateCreated = created_date_time.Date,
-                    TimeCreated = created_date_time.Time,
+                    CreatedDate = created_date_time,
                     Completed = completed,
-                    DateCompleted = completed_date_time.Date,
-                    TimeCompleted = completed_date_time.Time,
-                    ActivationDate = activation_date_time.Date,
-                    ActivationTime = activation_date_time.Time,
-                    DeactivationDate = deactivation_date_time.Date,
-                    DeactivationTime = deactivation_date_time.Time
+                    CompletedDate = completed_date_time,
+                    ActivationDate = activation_date_time,
+                    DeactivationDate = deactivation_date_time
                 };
 
             return @event;

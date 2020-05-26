@@ -36,44 +36,12 @@ namespace Backend.Model
         /// </summary>
         public bool Completed { get; set; }
 
-        /// <summary>
-        /// The date the event was completed
-        /// </summary>
-        public Date DateCompleted { get; set; }
+        public DateAndTime CompletedDate { get; set; }
 
-        /// <summary>
-        /// The time the event was completed
-        /// </summary>
-        public Time TimeCompleted { get; set; }
+        public DateAndTime CreatedDate { get; set; }
 
-        /// <summary>
-        /// The time the event was created
-        /// </summary>
-        public Time TimeCreated { get; set; }
-        
-        /// <summary>
-        /// The date the event was created
-        /// </summary>
-        public Date DateCreated { get; set; }
+        public DateAndTime ActivationDate { get; set; }
 
-        /// <summary>
-        /// The time the event is set to start
-        /// </summary>
-        public Time ActivationTime { get; set; }
-        
-        /// <summary>
-        /// The time the event is set to end
-        /// </summary>
-        public Time DeactivationTime { get; set; }
-
-        /// <summary>
-        /// The date the event is set to start
-        /// </summary>
-        public Date ActivationDate { get; set; }
-
-        /// <summary>
-        /// The date the event is set to end
-        /// </summary>
-        public Date DeactivationDate { get; set; }
+        public DateAndTime DeactivationDate { get; set; }
     }
 }

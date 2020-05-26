@@ -2,6 +2,7 @@
 using Backend.Inferfaces;
 using Backend.Model;
 using Shared.Global;
+using Shared.Model;
 using System.Collections.Generic;
 
 namespace Frontend.Controller.Business
@@ -59,8 +60,7 @@ namespace Frontend.Controller.Business
         {
             if (message != null)
             {
-                message.DateCreated = TimeAndDateUtility.GetCurrentDate();
-                message.TimeCreated = TimeAndDateUtility.GetCurrentTime();
+                message.CreatedDate = new DateAndTime(TimeAndDateUtility.GetCurrentDate(), TimeAndDateUtility.GetCurrentTime());
             }
 
             return _messageRepo.AddMessage(message);

@@ -48,7 +48,7 @@ namespace Backend.Inferfaces
         /// </summary>
         /// <param name="date">The current date</param>
         /// <returns>A list of saved events</returns>
-        IEnumerable<SavedEvent> GetEvents(Date date);
+        IEnumerable<SavedEvent> GetEvents(DateAndTime date);
 
         /// <summary>
         /// Gets all events
@@ -63,7 +63,7 @@ namespace Backend.Inferfaces
         /// <param name="start">The start date</param>
         /// <param name="end">The end date</param>
         /// <returns>A list of saved events</returns>
-        IEnumerable<SavedEvent> GetEvents(Date start, Date end);
+        IEnumerable<SavedEvent> GetEvents(DateAndTime start, DateAndTime end);
 
         /// <summary>
         /// Loads the events

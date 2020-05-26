@@ -133,8 +133,8 @@ namespace Frontend.App.Parts
         /// <param name="searchTerm">The search term</param>
         public void UpdateEvents(DateTime start, DateTime end, string searchTerm = null)
         {
-            Date startDate = start == DateTime.MaxValue ? null : TimeAndDateUtility.ConvertDate_Date(start);
-            Date endDate = end == DateTime.MinValue ? null : TimeAndDateUtility.ConvertDate_Date(end);
+            DateAndTime startDate = start == DateTime.MaxValue ? null : TimeAndDateUtility.ConvertDateTime_DateAndTime(start);
+            DateAndTime endDate = end == DateTime.MinValue ? null : TimeAndDateUtility.ConvertDateTime_DateAndTime(end);
 
             ClearEventDetails();
             UpdateTodaysEvents(startDate, endDate, searchTerm);
@@ -168,10 +168,7 @@ namespace Frontend.App.Parts
                 if (!_events.SaveEvents())
                     MessageBox.Show("Unable to save some or all events.", "Error Occurred.", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-                ClearEventDetails();
-                UpdateTodaysEvents(_calendar.GetControl().SelectionStart);
-                ToggleButtons();
-                ForceUpdate();
+                UpdateView();
             }
         }
 
@@ -183,10 +180,7 @@ namespace Frontend.App.Parts
                 if (!_events.SaveEvents())
                     MessageBox.Show("Unable to save some or all events.", "Error Occurred.", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-                ClearEventDetails();
-                ForceUpdate();
-                UpdateTodaysEvents(_calendar.GetControl().SelectionStart);
-                ToggleButtons();
+                UpdateView();
             }
         }
 
@@ -198,10 +192,7 @@ namespace Frontend.App.Parts
                 if (!_events.SaveEvents())
                     MessageBox.Show("Unable to save some or all events.", "Error Occurred.", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-                ClearEventDetails();
-                ForceUpdate();
-                UpdateTodaysEvents(_calendar.GetControl().SelectionStart);
-                ToggleButtons();
+                UpdateView();
             }
         }
 
@@ -213,14 +204,19 @@ namespace Frontend.App.Parts
                 if (!_events.SaveEvents())
                     MessageBox.Show("Unable to save some or all events.", "Error Occurred.", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-                ClearEventDetails();
-                ForceUpdate();
-                UpdateTodaysEvents(_calendar.GetControl().SelectionStart);
-                ToggleButtons();
+                UpdateView();
             }
         }
 
         #region Helpers
+
+        private void UpdateView()
+        {
+            ClearEventDetails();
+            ForceUpdate();
+            UpdateTodaysEvents(_calendar.GetControl().SelectionStart);
+            ToggleButtons();
+        }
 
         private void ForceUpdate()
         {
@@ -232,38 +228,33 @@ namespace Frontend.App.Parts
 
         private void SetEventDetails(SavedEvent @event)
         {
-            Date currDate = TimeAndDateUtility.GetCurrentDate();
-            Time currTime = TimeAndDateUtility.GetCurrentTime();
+            DateAndTime currDate = new DateAndTime(TimeAndDateUtility.GetCurrentDate(), TimeAndDateUtility.GetCurrentTime());
+            DateAndTime eventStartDate = @event.ActivationDate;
+            DateAndTime eventEndDate = @event.DeactivationDate;
 
-            Date eventStartDate = @event.ActivationDate;
-            Time eventStartTime = @event.ActivationTime;
-
-            Date eventEndDate = @event.DeactivationDate;
-            Time eventEndTime = @event.DeactivationTime;
-
-            Exp_Start_Date.SetText(TimeAndDateUtility.ConvertDate_String(@event.ActivationDate, true));
-            Exp_Start_Time.SetText(TimeAndDateUtility.ConvertTime_String(@event.ActivationTime));
-            Exp_End_Date.SetText(TimeAndDateUtility.ConvertDate_String(@event.DeactivationDate, true));
-            Exp_End_Time.SetText(TimeAndDateUtility.ConvertTime_String(@event.DeactivationTime));
+            Exp_Start_Date.SetText(TimeAndDateUtility.ConvertDate_String(@event.ActivationDate.Date, true));
+            Exp_Start_Time.SetText(TimeAndDateUtility.ConvertTime_String(@event.ActivationDate.Time));
+            Exp_End_Date.SetText(TimeAndDateUtility.ConvertDate_String(@event.DeactivationDate.Date, true));
+            Exp_End_Time.SetText(TimeAndDateUtility.ConvertTime_String(@event.DeactivationDate.Time));
             Created_Date.SetText(
-                $"{TimeAndDateUtility.ConvertDate_String(@event.DateCreated, true)} {TimeAndDateUtility.ConvertTime_String(@event.TimeCreated)}");
+                $"{TimeAndDateUtility.ConvertDate_String(@event.CreatedDate.Date, true)} {TimeAndDateUtility.ConvertTime_String(@event.CreatedDate.Time)}");
 
             Completion_Date.SetText(
-                @event.Completed && @event.DateCompleted != null && @event.TimeCompleted != null ?
-                    $"{TimeAndDateUtility.ConvertDate_String(@event.DateCompleted, true)} {TimeAndDateUtility.ConvertTime_String(@event.TimeCompleted)}"
+                @event.Completed && @event.CompletedDate != null && @event.CompletedDate.Date != null && @event.CompletedDate.Time != null ?
+                    $"{TimeAndDateUtility.ConvertDate_String(@event.CompletedDate.Date, true)} {TimeAndDateUtility.ConvertTime_String(@event.CompletedDate.Time)}"
                     : DASH);
 
             Event_Status.SetText(
                 @event.Completed ? "Complete"
-                    : TimeAndDateUtility.IsBeforeRange(eventStartDate, eventStartTime, currDate, currTime) ?
+                    : TimeAndDateUtility.IsBeforeRange(eventStartDate, currDate) ?
                         "Upcoming"
-                        : TimeAndDateUtility.IsWithinRange(eventStartDate, eventStartTime, currDate, currTime, eventEndDate, eventEndTime) ?
+                        : TimeAndDateUtility.IsWithinRange(eventStartDate, currDate, eventEndDate) ?
                             "In Progress" : "Overdue");
             Event_Status.SetBackColor(
                 @event.Completed ? Color.DarkGreen
-                    : TimeAndDateUtility.IsBeforeRange(eventStartDate, eventStartTime, currDate, currTime) ?
+                    : TimeAndDateUtility.IsBeforeRange(eventStartDate, currDate) ?
                         Color.DarkGray
-                        : TimeAndDateUtility.IsWithinRange(eventStartDate, eventStartTime, currDate, currTime, eventEndDate, eventEndTime) ?
+                        : TimeAndDateUtility.IsWithinRange(eventStartDate, currDate, eventEndDate) ?
                             Color.DarkBlue : Color.DarkRed);
 
             User_Title.SetText(@event.Title);
@@ -290,14 +281,10 @@ namespace Frontend.App.Parts
 
                     if (@event != null)
                     {
-                        Date currDate = TimeAndDateUtility.GetCurrentDate();
-                        Time currTime = TimeAndDateUtility.GetCurrentTime();
-
-                        Date eventStartDate = @event.ActivationDate;
-                        Time eventStartTime = @event.ActivationTime;
+                        DateAndTime currDate = new DateAndTime(TimeAndDateUtility.GetCurrentDate(), TimeAndDateUtility.GetCurrentTime());
 
                         SetEventDetails(@event);
-                        ToggleViewButtons(true, TimeAndDateUtility.IsBeforeRange(eventStartDate, eventStartTime, currDate, currTime));
+                        ToggleViewButtons(true, TimeAndDateUtility.IsBeforeRange(@event.ActivationDate, currDate));
                     }
                 }
             }
@@ -331,13 +318,13 @@ namespace Frontend.App.Parts
 
         private void UpdateTodaysEvents(DateTime selectedDate)
         {
-            Date date = TimeAndDateUtility.ConvertDate_Date(selectedDate);
+            DateAndTime date = TimeAndDateUtility.ConvertDateTime_DateAndTime(selectedDate);
             object[] eventList = _events.GetAll(date);
 
             Todays_Events.Update(eventList);
         }
 
-        private void UpdateTodaysEvents(Date start, Date end, string searchTerm = null)
+        private void UpdateTodaysEvents(DateAndTime start, DateAndTime end, string searchTerm = null)
         {
             object[] eventList = _events.GetAll(start, end, searchTerm);
 

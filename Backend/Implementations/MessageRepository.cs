@@ -136,7 +136,7 @@ namespace Backend.Implementations
         /// </summary>
         public bool LoadMessages(string path, bool overwrite = false)
         {
-            (string Events, string Messages) = AllIO.ImportChanges();
+            (string Events, string Messages) = AllIO.ImportChanges(path);
             List<AppMessage> messages = io.Parse(Messages);
             List<AppMessage> filtered = overwrite ? messages : messages.Where(x => !AppMessages.Any(y => y.Id == x.Id)).ToList();
 
@@ -198,8 +198,7 @@ namespace Backend.Implementations
                         message.Author = toUpdate.Author;
                         message.Source = toUpdate.Source;
                         message.Show = toUpdate.Show;
-                        message.LastDateDisplayed = toUpdate.LastDateDisplayed;
-                        message.LastTimeDisplayed = toUpdate.LastTimeDisplayed;
+                        message.LastDisplayedDate = toUpdate.LastDisplayedDate;
 
                         updated = true;
                     }

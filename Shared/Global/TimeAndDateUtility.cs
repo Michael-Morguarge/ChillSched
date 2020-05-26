@@ -47,7 +47,7 @@ namespace Shared.Global
         /// </summary>
         /// <param name="time">The time to convert</param>
         /// <returns>The string converted time</returns>
-        public static string ConvertTime_String(DateTime time)
+        public static string ConvertDateTime_TimeString(DateTime time)
         {
             return string.Format(
                 "{0}:{1}:{2} {3}",
@@ -86,7 +86,7 @@ namespace Shared.Global
         /// </summary>
         /// <param name="time">The datetime time</param>
         /// <returns>The converted time</returns>
-        public static Time ConvertTime_Time(DateTime time)
+        public static Time ConvertDateTime_Time(DateTime time)
         {
             return new Time
             {
@@ -204,7 +204,7 @@ namespace Shared.Global
         /// </summary>
         /// <param name="date">The date</param>
         /// <returns>A date object</returns>
-        public static Date ConvertDate_Date(DateTime date)
+        public static Date ConvertDateTime_Date(DateTime date)
         {
             return new Date
             {
@@ -220,7 +220,7 @@ namespace Shared.Global
         /// </summary>
         /// <param name="date">The date</param>
         /// <returns>The date string</returns>
-        public static string ConvertDate_String(DateTime date, bool shorten = false)
+        public static string ConvertDateTime_String(DateTime date, bool shorten = false)
         {
             string dateString = shorten
                 ? string.Format(
@@ -272,6 +272,25 @@ namespace Shared.Global
 
         #endregion Date
 
+        #region DateAndTime
+
+        /// <summary>
+        /// Converts a DateTime to a DateTime
+        /// </summary>
+        /// <param name="dateTime">The date to convert</param>
+        /// <returns>A DateAndTime object</returns>
+        public static DateAndTime ConvertDateTime_DateAndTime(DateTime dateTime)
+        {
+            Date date = ConvertDateTime_Date(dateTime);
+            Time time = ConvertDateTime_Time(dateTime) ?? new Time { Hours = 12, Minutes = 0, Seconds = 0, TimeofDay = TimeAndDateGlobals.GetTimeOfDay((int)TimeOfDay.AM) };
+
+            DateAndTime dateAndTime = new DateAndTime(date, time);
+
+            return dateAndTime;
+        }
+
+        #endregion DateAndTime
+
         #region DateTime
 
         /// <summary>
@@ -279,7 +298,7 @@ namespace Shared.Global
         /// </summary>
         /// <param name="date">The date</param>
         /// <returns>A datetime object</returns>
-        public static DateTime ConvertDateAndTime_Date(Date date)
+        public static DateTime ConvertDate_DateTime(Date date)
         {
             DateTime newDate = new DateTime(
                 date.Year,
@@ -296,8 +315,11 @@ namespace Shared.Global
         /// <param name="date">The date</param>
         /// <param name="time">The time</param>
         /// <returns>A datetime object</returns>
-        public static DateTime ConvertDateAndTime_Date(Date date, Time time)
+        public static DateTime ConvertDateAndTime_DateTime(DateAndTime dateAndTime)
         {
+            Date date = dateAndTime.Date;
+            Time time = dateAndTime.Time;
+
             DateTime newDate = new DateTime(
                 date.Year,
                 (int)TimeAndDateGlobals.GetMonth(date.Month),
@@ -329,9 +351,9 @@ namespace Shared.Global
         /// <returns>Whether the date is within range</returns>
         public static bool IsWithinRange(Date beginDate, Date dateToCheck, Date endDate)
         {
-            DateTime begin = ConvertDateAndTime_Date(beginDate);
-            DateTime end = ConvertDateAndTime_Date(endDate);
-            DateTime curr = ConvertDateAndTime_Date(dateToCheck);
+            DateTime begin = ConvertDate_DateTime(beginDate);
+            DateTime end = ConvertDate_DateTime(endDate);
+            DateTime curr = ConvertDate_DateTime(dateToCheck);
 
             bool beginMatchRange = curr >= begin;
             bool endMatchRange = curr <= end;
@@ -342,18 +364,15 @@ namespace Shared.Global
         /// <summary>
         /// Checks if date is within range
         /// </summary>
-        /// <param name="beginDate">The start date</param>
-        /// <param name="beginTime">The start time</param>
-        /// <param name="dateToCheck">Date to examine</param>
-        /// <param name="timeToCheck">Time to examine</param>
-        /// <param name="endDate">The end date</param>
-        /// <param name="endTime">The end time</param>
-        /// <returns>Whether the date is within range</returns>
-        public static bool IsWithinRange(Date beginDate, Time beginTime, Date dateToCheck, Time timeToCheck, Date endDate, Time endTime)
+        /// <param name="beginDateAndTime">The start date and time</param>
+        /// <param name="incomingDateAndTime">Date and time to examine</param>
+        /// <param name="endDateAndTime">The end date and time</param>
+        /// <returns>Whether the incoming date is within range</returns>
+        public static bool IsWithinRange(DateAndTime beginDateAndTime, DateAndTime incomingDateAndTime, DateAndTime endDateAndTime)
         {
-            DateTime begin = ConvertDateAndTime_Date(beginDate, beginTime);
-            DateTime end = ConvertDateAndTime_Date(endDate, endTime);
-            DateTime curr = ConvertDateAndTime_Date(dateToCheck, timeToCheck);
+            DateTime begin = ConvertDateAndTime_DateTime(beginDateAndTime);
+            DateTime end = ConvertDateAndTime_DateTime(endDateAndTime);
+            DateTime curr = ConvertDateAndTime_DateTime(incomingDateAndTime);
 
             bool beginMatchRange = curr >= begin;
             bool endMatchRange = curr <= end;
@@ -369,10 +388,10 @@ namespace Shared.Global
         /// <param name="dateToCheck">Date to examine</param>
         /// <param name="timeToCheck">Time to examine</param>
         /// <returns>Whether the date is before range</returns>
-        public static bool IsBeforeRange(Date beginDate, Time beginTime, Date dateToCheck, Time timeToCheck)
+        public static bool IsBeforeRange(DateAndTime beginDateAndTime, DateAndTime incomingDateAndTime)
         {
-            DateTime begin = ConvertDateAndTime_Date(beginDate, beginTime);
-            DateTime curr = ConvertDateAndTime_Date(dateToCheck, timeToCheck);
+            DateTime begin = ConvertDateAndTime_DateTime(beginDateAndTime);
+            DateTime curr = ConvertDateAndTime_DateTime(incomingDateAndTime);
 
             bool beginMatchRange = curr < begin;
 
@@ -387,10 +406,10 @@ namespace Shared.Global
         /// <param name="endDate">The end date</param>
         /// <param name="endTime">The end time</param>
         /// <returns>Whether the date is after range</returns>
-        public static bool IsAfterRange(Date dateToCheck, Time timeToCheck, Date endDate, Time endTime)
+        public static bool IsAfterRange(DateAndTime incomingDateAndTime, DateAndTime endDateAndTime)
         {
-            DateTime end = ConvertDateAndTime_Date(endDate, endTime);
-            DateTime curr = ConvertDateAndTime_Date(dateToCheck, timeToCheck);
+            DateTime end = ConvertDateAndTime_DateTime(endDateAndTime);
+            DateTime curr = ConvertDateAndTime_DateTime(incomingDateAndTime);
 
             bool beginMatchRange = curr > end;
 
@@ -405,21 +424,21 @@ namespace Shared.Global
         /// Calculates the difference between dates
         /// </summary>
         /// <param name="start">Start date and time</param>
-        /// <param name="event">Event date and time</param>
+        /// <param name="event">Event dates and times</param>
         /// <param name="end">End date and time</param>
         /// <returns>The time difference and relative timeline location</returns>
-        public static (TimeSpan TimeDiff, DateCompare Comparison) ComputeDiff((Date date, Time time) start, (Date startDate, Time startTime, Date endDate, Time endTime) @event, (Date date, Time time) end)
+        public static (TimeSpan TimeDiff, DateCompare Comparison) ComputeDiff(DateAndTime start, (DateAndTime startDateTime, DateAndTime endDateTime) @event, DateAndTime end)
         {
-            bool EventStart_Before_Start = IsBeforeRange(start.date, start.time, @event.startDate, @event.startTime);
-            bool EventStart_Between_Start_End = IsWithinRange(start.date, start.time, @event.startDate, @event.startTime, end.date, end.time);
+            bool EventStart_Before_Start = IsBeforeRange(start, @event.startDateTime);
+            bool EventStart_Between_Start_End = IsWithinRange(start, @event.startDateTime, end);
 
-            bool EventEnd_Before_Start = IsBeforeRange(start.date, start.time, @event.endDate, @event.endTime);
-            bool EventEnd_After_End = IsAfterRange(@event.endDate, @event.endTime, end.date, end.time);
-            bool EventEnd_Between_Start_End = IsWithinRange(start.date, start.time, @event.endDate, @event.endTime, end.date, end.time);
+            bool EventEnd_Before_Start = IsBeforeRange(start, @event.endDateTime);
+            bool EventEnd_After_End = IsAfterRange(@event.endDateTime, end);
+            bool EventEnd_Between_Start_End = IsWithinRange(start, @event.endDateTime, end);
 
-            DateTime startDate = ConvertDateAndTime_Date(start.date, start.time);
-            DateTime eventStart = ConvertDateAndTime_Date(@event.startDate, @event.startTime);
-            DateTime eventEnd = ConvertDateAndTime_Date(@event.endDate, @event.endTime);
+            DateTime startDate = ConvertDateAndTime_DateTime(start);
+            DateTime eventStart = ConvertDateAndTime_DateTime(@event.startDateTime);
+            DateTime eventEnd = ConvertDateAndTime_DateTime(@event.endDateTime);
 
             TimeSpan span = new TimeSpan();
             DateCompare template = DateCompare.None;
@@ -439,6 +458,59 @@ namespace Shared.Global
                 span = startDate.Subtract(eventEnd);
                 template = DateCompare.After;
             }
+
+            return (TimeDiff: span, Comparison: template);
+        }
+
+        /// <summary>
+        /// Calculates differences between dates
+        /// </summary>
+        /// <param name="start">The start date</param>
+        /// <param name="curr">The current date</param>
+        /// <param name="end">The end date</param>
+        /// <returns>Time difference and relative time location</returns>
+        public static (TimeSpan TimeDiff, DateCompare Comparison) ComputeDiff(DateAndTime start, DateAndTime curr, DateAndTime end)
+        {
+            bool EventStart_Before_Start = IsBeforeRange(start, curr);
+            bool EventStart_Between_Start_End = IsWithinRange(start, curr, end);
+
+            bool EventEnd_Before_Start = IsBeforeRange(start, curr);
+            bool EventEnd_After_End = IsAfterRange(curr, end);
+            bool EventEnd_Between_Start_End = IsWithinRange(start, curr, end);
+
+            DateTime startDate = ConvertDateAndTime_DateTime(start);
+            DateTime eventStart = ConvertDateAndTime_DateTime(curr);
+            DateTime eventEnd = ConvertDateAndTime_DateTime(curr);
+
+            TimeSpan span = new TimeSpan();
+            DateCompare template = DateCompare.None;
+
+            if (EventStart_Between_Start_End)
+            {
+                span = eventStart.Subtract(startDate);
+                template = DateCompare.Before;
+            }
+            else if (EventStart_Before_Start && (EventEnd_Between_Start_End || EventEnd_After_End))
+            {
+                span = eventEnd.Subtract(startDate);
+                template = DateCompare.During;
+            }
+            else if (EventStart_Before_Start && EventEnd_Before_Start)
+            {
+                span = startDate.Subtract(eventEnd);
+                template = DateCompare.After;
+            }
+
+            return (TimeDiff: span, Comparison: template);
+        }
+
+        public static (TimeSpan TimeDiff, DateCompare Comparison) ComputeDiff(DateAndTime startDateAndTime, DateAndTime endDateAndTime)
+        {
+            DateTime start = ConvertDateAndTime_DateTime(startDateAndTime);
+            DateTime end = ConvertDateAndTime_DateTime(endDateAndTime);
+
+            TimeSpan span = end.Subtract(start);
+            DateCompare template = DateCompare.After;
 
             return (TimeDiff: span, Comparison: template);
         }

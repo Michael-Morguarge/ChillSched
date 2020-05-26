@@ -130,9 +130,9 @@ namespace FileOperations.Constants
                       .Replace(EqualsReplace, EqSign);
         }
 
-        public static string FormatDate(Date date, Time time)
+        public static string FormatDate(DateAndTime date)
         {
-            return $"{TimeAndDateUtility.ConvertDate_String(date)}{PlusSign}{TimeAndDateUtility.ConvertTime_String(time)}";
+            return $"{TimeAndDateUtility.ConvertDate_String(date.Date)}{PlusSign}{TimeAndDateUtility.ConvertTime_String(date.Time)}";
         }
 
         public static string TestId(string id)
@@ -155,7 +155,7 @@ namespace FileOperations.Constants
             return text;
         }
 
-        public static (Date Date, Time Time) TestDate(string dateAndTime)
+        public static DateAndTime TestDate(string dateAndTime)
         {
             string[] date_time =
                 dateAndTime.Replace(Quotes, string.Empty)
@@ -178,7 +178,7 @@ namespace FileOperations.Constants
                 time = TimeAndDateUtility.ConvertString_Time(date_time[1]);
             }
 
-            return (date, time);
+            return new DateAndTime(date, time);
         }
 
         public static bool TestBoolean(string boolean)
@@ -203,6 +203,18 @@ namespace FileOperations.Constants
             string backup = File.ReadAllText(AllIOConsts.DefaultPath);
             DateTime date = DateTime.Now;
             File.WriteAllText(string.Format(DefaultExportPath, date.ToString("(MM-dd-yy-hh-mm-ss)")), backup);
+            CleanFileDirectory();
+        }
+
+        private static void CleanFileDirectory()
+        {
+            DirectoryInfo directory = new DirectoryInfo(AllIOConsts.DefaultDirectory);
+            FileInfo[] files = directory.GetFiles("Backup_*").OrderByDescending(x => x.CreationTimeUtc).Skip(5).ToArray();
+
+            foreach (FileInfo file in files)
+            {
+                file.Delete();
+            }
         }
     }
 
@@ -210,8 +222,10 @@ namespace FileOperations.Constants
     {
 #if DEBUG
         public const string DefaultPath = "..\\..\\Resources\\All\\AllTest.saved";
+        public const string DefaultDirectory = "..\\..\\Resources\\All\\";
 #else
         public const string DefaultPath = ".\\Resources\\All\\AllLog.saved";
+        public const string DefaultDirectory = ".\\Resources\\All\\";
 #endif
 
         public const string DefaultFileName = "Export_All_{0}.saved";

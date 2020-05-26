@@ -31,8 +31,7 @@ namespace Testing.Backend
             {
                 Id = "1",
                 Title = "1",
-                DateCreated = TimeAndDateUtility.ConvertDate_Date(DateTime.Today),
-                TimeCreated = TimeAndDateUtility.ConvertTime_Time(DateTime.Today),
+                CreatedDate = TimeAndDateUtility.ConvertDateTime_DateAndTime(DateTime.Today),
                 Quote = "Test quote",
                 Author = "Test author",
                 Show = true,
@@ -48,8 +47,12 @@ namespace Testing.Backend
             Assert.AreEqual(actual.Id, result.Id);
             Assert.AreEqual(actual.Title, result.Title);
             Assert.AreEqual(
-                TimeAndDateUtility.ConvertDateAndTime_Date(actual.DateCreated, actual.TimeCreated),
-                TimeAndDateUtility.ConvertDateAndTime_Date(result.DateCreated, result.TimeCreated)
+                actual.CreatedDate.Date,
+                result.CreatedDate.Date
+            );
+            Assert.AreEqual(
+                actual.CreatedDate.Time,
+                result.CreatedDate.Time
             );
             Assert.AreEqual(actual.Quote, result.Quote);
             Assert.AreEqual(actual.Author, result.Author);
@@ -65,8 +68,7 @@ namespace Testing.Backend
             {
                 Id = "1",
                 Title = "1",
-                DateCreated = TimeAndDateUtility.ConvertDate_Date(DateTime.Today),
-                TimeCreated = TimeAndDateUtility.ConvertTime_Time(DateTime.Today),
+                CreatedDate = TimeAndDateUtility.ConvertDateTime_DateAndTime(DateTime.Today),
                 Quote = "Test quote",
                 Author = "Test author",
                 Show = true,
@@ -91,8 +93,7 @@ namespace Testing.Backend
             {
                 Id = "1",
                 Title = "1",
-                DateCreated = TimeAndDateUtility.ConvertDate_Date(DateTime.Today),
-                TimeCreated = TimeAndDateUtility.ConvertTime_Time(DateTime.Today),
+                CreatedDate = TimeAndDateUtility.ConvertDateTime_DateAndTime(DateTime.Today),
                 Quote = "Test quote",
                 Author = "Test author",
                 Show = true,
@@ -117,8 +118,7 @@ namespace Testing.Backend
             {
                 Id = "1",
                 Title = "1",
-                DateCreated = TimeAndDateUtility.ConvertDate_Date(DateTime.Today),
-                TimeCreated = TimeAndDateUtility.ConvertTime_Time(DateTime.Today),
+                CreatedDate = TimeAndDateUtility.ConvertDateTime_DateAndTime(DateTime.Today),
                 Quote = "Test quote",
                 Author = "Test author",
                 Show = true,
@@ -129,8 +129,7 @@ namespace Testing.Backend
             {
                 Id = "2",
                 Title = "2",
-                DateCreated = TimeAndDateUtility.ConvertDate_Date(DateTime.Today),
-                TimeCreated = TimeAndDateUtility.ConvertTime_Time(DateTime.Today),
+                CreatedDate = TimeAndDateUtility.ConvertDateTime_DateAndTime(DateTime.Today),
                 Quote = "Test quote",
                 Author = "Test author",
                 Show = true,
@@ -155,8 +154,7 @@ namespace Testing.Backend
             {
                 Id = "1",
                 Title = "1",
-                DateCreated = TimeAndDateUtility.ConvertDate_Date(DateTime.Today),
-                TimeCreated = TimeAndDateUtility.ConvertTime_Time(DateTime.Today),
+                CreatedDate = TimeAndDateUtility.ConvertDateTime_DateAndTime(DateTime.Today),
                 Quote = "Test quote 1",
                 Author = "Test author",
                 Show = true,
@@ -167,8 +165,7 @@ namespace Testing.Backend
             {
                 Id = "2",
                 Title = "2",
-                DateCreated = TimeAndDateUtility.ConvertDate_Date(DateTime.Today),
-                TimeCreated = TimeAndDateUtility.ConvertTime_Time(DateTime.Today),
+                CreatedDate = TimeAndDateUtility.ConvertDateTime_DateAndTime(DateTime.Today),
                 Quote = "Test quote 2",
                 Author = "Test author",
                 Show = true,
@@ -193,8 +190,7 @@ namespace Testing.Backend
             {
                 Id = "1",
                 Title = "1",
-                DateCreated = TimeAndDateUtility.ConvertDate_Date(DateTime.Today),
-                TimeCreated = TimeAndDateUtility.ConvertTime_Time(DateTime.Today),
+                CreatedDate = TimeAndDateUtility.ConvertDateTime_DateAndTime(DateTime.Today),
                 Quote = "Test quote",
                 Author = "Test author",
                 Show = true,
@@ -205,8 +201,7 @@ namespace Testing.Backend
             {
                 Id = "2",
                 Title = "2",
-                DateCreated = TimeAndDateUtility.ConvertDate_Date(DateTime.Today),
-                TimeCreated = TimeAndDateUtility.ConvertTime_Time(DateTime.Today),
+                CreatedDate = TimeAndDateUtility.ConvertDateTime_DateAndTime(DateTime.Today),
                 Quote = "Test quote",
                 Author = "Test author",
                 Show = false,
@@ -235,8 +230,7 @@ namespace Testing.Backend
             {
                 Id = "1",
                 Title = "1",
-                DateCreated = TimeAndDateUtility.ConvertDate_Date(DateTime.Today),
-                TimeCreated = TimeAndDateUtility.ConvertTime_Time(DateTime.Today),
+                CreatedDate = TimeAndDateUtility.ConvertDateTime_DateAndTime(DateTime.Today),
                 Quote = "Test quote",
                 Author = "Test author",
                 Show = true,
@@ -271,8 +265,7 @@ namespace Testing.Backend
             {
                 Id = "1",
                 Title = "1",
-                DateCreated = TimeAndDateUtility.ConvertDate_Date(DateTime.Today),
-                TimeCreated = TimeAndDateUtility.ConvertTime_Time(DateTime.Today),
+                CreatedDate = TimeAndDateUtility.ConvertDateTime_DateAndTime(DateTime.Today),
                 Quote = "Test quote",
                 Author = "Test author",
                 Show = true,
@@ -283,8 +276,7 @@ namespace Testing.Backend
             {
                 Id = "1",
                 Title = "2",
-                DateCreated = actual.DateCreated,
-                TimeCreated = actual.TimeCreated,
+                CreatedDate = actual.CreatedDate,
                 Quote = "Quote test",
                 Author = "Author test",
                 Show = false,
@@ -306,8 +298,12 @@ namespace Testing.Backend
             Assert.AreEqual(actual2.Id, result.Id);
             Assert.AreEqual(actual2.Title, result.Title);
             Assert.AreEqual(
-                TimeAndDateUtility.ConvertDateAndTime_Date(actual2.DateCreated, actual2.TimeCreated),
-                TimeAndDateUtility.ConvertDateAndTime_Date(result.DateCreated, result.TimeCreated)
+                actual2.CreatedDate.Date,
+                result.CreatedDate.Date
+            );
+            Assert.AreEqual(
+                actual2.CreatedDate.Time,
+                result.CreatedDate.Time
             );
             Assert.AreEqual(actual2.Quote, result.Quote);
             Assert.AreEqual(actual2.Author, result.Author);
@@ -323,8 +319,7 @@ namespace Testing.Backend
             {
                 Id = "1",
                 Title = "1",
-                DateCreated = TimeAndDateUtility.ConvertDate_Date(DateTime.Today),
-                TimeCreated = TimeAndDateUtility.ConvertTime_Time(DateTime.Today),
+                CreatedDate = TimeAndDateUtility.ConvertDateTime_DateAndTime(DateTime.Today),
                 Quote = "Test quote",
                 Author = "Test author",
                 Show = true,
@@ -335,8 +330,7 @@ namespace Testing.Backend
             {
                 Id = "2",
                 Title = "2",
-                DateCreated = TimeAndDateUtility.ConvertDate_Date(DateTime.Today),
-                TimeCreated = TimeAndDateUtility.ConvertTime_Time(DateTime.Today),
+                CreatedDate = TimeAndDateUtility.ConvertDateTime_DateAndTime(DateTime.Today),
                 Quote = "Quote test",
                 Author = "Author test",
                 Show = false,
@@ -375,8 +369,7 @@ namespace Testing.Backend
             {
                 Id = "1",
                 Title = "1",
-                DateCreated = TimeAndDateUtility.ConvertDate_Date(DateTime.Today),
-                TimeCreated = TimeAndDateUtility.ConvertTime_Time(DateTime.Today),
+                CreatedDate = TimeAndDateUtility.ConvertDateTime_DateAndTime(DateTime.Today),
                 Quote = "Test quote",
                 Author = "Test author",
                 Show = true,
@@ -387,8 +380,7 @@ namespace Testing.Backend
             {
                 Id = "2",
                 Title = "2",
-                DateCreated = TimeAndDateUtility.ConvertDate_Date(DateTime.Today),
-                TimeCreated = TimeAndDateUtility.ConvertTime_Time(DateTime.Today),
+                CreatedDate = TimeAndDateUtility.ConvertDateTime_DateAndTime(DateTime.Today),
                 Quote = "Quote test",
                 Author = "Author test",
                 Show = false,
@@ -415,8 +407,7 @@ namespace Testing.Backend
             {
                 Id = "1",
                 Title = "1",
-                DateCreated = TimeAndDateUtility.ConvertDate_Date(DateTime.Today),
-                TimeCreated = TimeAndDateUtility.ConvertTime_Time(DateTime.Today),
+                CreatedDate = TimeAndDateUtility.ConvertDateTime_DateAndTime(DateTime.Today),
                 Quote = "Test quote",
                 Author = "Test author",
                 Show = true,
@@ -427,8 +418,7 @@ namespace Testing.Backend
             {
                 Id = "2",
                 Title = "2",
-                DateCreated = TimeAndDateUtility.ConvertDate_Date(DateTime.Today),
-                TimeCreated = TimeAndDateUtility.ConvertTime_Time(DateTime.Today),
+                CreatedDate = TimeAndDateUtility.ConvertDateTime_DateAndTime(DateTime.Today),
                 Quote = "Quote test",
                 Author = "Author test",
                 Show = false,

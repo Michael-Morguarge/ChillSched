@@ -5,6 +5,7 @@ using Frontend.View.Controller;
 using Shared.Global;
 using Frontend.Controller.Parts;
 using Frontend.Controller.Models;
+using Shared.Model;
 
 namespace Frontend.App.Parts
 {
@@ -67,8 +68,8 @@ namespace Frontend.App.Parts
             CommentTB.SetText(@event.Comment ?? string.Empty);
             DateTime now = DateTime.Now;
 
-            DateTime start = TimeAndDateUtility.ConvertDateAndTime_Date(@event.ActivationDate, @event.ActivationTime);
-            DateTime end = TimeAndDateUtility.ConvertDateAndTime_Date(@event.DeactivationDate, @event.DeactivationTime);
+            DateTime start = TimeAndDateUtility.ConvertDateAndTime_DateTime(@event.ActivationDate);
+            DateTime end = TimeAndDateUtility.ConvertDateAndTime_DateTime(@event.DeactivationDate);
 
             StartPicker.SetDates(now > start ? start.Date : now.Date, start, DateTime.MaxValue);
             EndPicker.SetDates(now > end ? end.Date : now.Date, end, DateTime.MaxValue);
@@ -229,10 +230,8 @@ namespace Frontend.App.Parts
                 {
                     Title = TitleTB.Text,
                     Comment = CommentTB.Text,
-                    ActivationDate = TimeAndDateUtility.ConvertString_Date(StartPicker.Date),
-                    ActivationTime = TimeAndDateUtility.ConvertString_Time(StartPicker.Time),
-                    DeactivationDate = TimeAndDateUtility.ConvertString_Date(EndPicker.Date),
-                    DeactivationTime = TimeAndDateUtility.ConvertString_Time(EndPicker.Time)
+                    ActivationDate = new DateAndTime(TimeAndDateUtility.ConvertString_Date(StartPicker.Date), TimeAndDateUtility.ConvertString_Time(StartPicker.Time)),
+                    DeactivationDate = new DateAndTime(TimeAndDateUtility.ConvertString_Date(EndPicker.Date), TimeAndDateUtility.ConvertString_Time(StartPicker.Time))
                 };
 
                 Data.Error = false;

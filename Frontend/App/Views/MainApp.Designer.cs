@@ -39,6 +39,10 @@
             this.CalendarTab = new System.Windows.Forms.TabPage();
             this.EventCalendar = new System.Windows.Forms.MonthCalendar();
             this.TimeTab = new System.Windows.Forms.TabPage();
+            this.PromptUser = new System.Windows.Forms.Label();
+            this.CopyMessage = new System.Windows.Forms.Label();
+            this.RefreshMessage = new System.Windows.Forms.Label();
+            this.MessageDisplay = new System.Windows.Forms.RichTextBox();
             this.NextUpdateIn = new System.Windows.Forms.Label();
             this.NextUpdateProgress = new System.Windows.Forms.ProgressBar();
             this.LastUpdated = new System.Windows.Forms.Label();
@@ -46,8 +50,6 @@
             this.EventListView = new System.Windows.Forms.ListView();
             this.EventTitle = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.TimeTilEvent = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.LatestEvent = new System.Windows.Forms.Label();
-            this.ViewEvent = new System.Windows.Forms.Button();
             this.Date = new System.Windows.Forms.Label();
             this.Time = new System.Windows.Forms.Label();
             this.TimeAndCalendarTabular = new System.Windows.Forms.TabControl();
@@ -99,6 +101,7 @@
             this.ContentPanel = new System.Windows.Forms.ToolStripContentPanel();
             this.OpenFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.FolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.MessageTicker = new System.Windows.Forms.Timer(this.components);
             this.EIV = new Frontend.App.Parts.EventsInfoView();
             this.SEIV = new Frontend.App.Parts.EventsInfoView();
             this.MMV = new Frontend.App.Parts.MessagesView();
@@ -157,13 +160,15 @@
             // TimeTab
             // 
             this.TimeTab.BackColor = System.Drawing.SystemColors.Control;
+            this.TimeTab.Controls.Add(this.PromptUser);
+            this.TimeTab.Controls.Add(this.CopyMessage);
+            this.TimeTab.Controls.Add(this.RefreshMessage);
+            this.TimeTab.Controls.Add(this.MessageDisplay);
             this.TimeTab.Controls.Add(this.NextUpdateIn);
             this.TimeTab.Controls.Add(this.NextUpdateProgress);
             this.TimeTab.Controls.Add(this.LastUpdated);
             this.TimeTab.Controls.Add(this.CurrMonthsEvents);
             this.TimeTab.Controls.Add(this.EventListView);
-            this.TimeTab.Controls.Add(this.LatestEvent);
-            this.TimeTab.Controls.Add(this.ViewEvent);
             this.TimeTab.Controls.Add(this.Date);
             this.TimeTab.Controls.Add(this.Time);
             this.TimeTab.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -173,6 +178,69 @@
             this.TimeTab.Size = new System.Drawing.Size(1060, 393);
             this.TimeTab.TabIndex = 0;
             this.TimeTab.Text = "Welcome";
+            // 
+            // PromptUser
+            // 
+            this.PromptUser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.PromptUser.AutoSize = true;
+            this.PromptUser.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.PromptUser.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.PromptUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PromptUser.Location = new System.Drawing.Point(280, 245);
+            this.PromptUser.Name = "PromptUser";
+            this.PromptUser.Size = new System.Drawing.Size(83, 46);
+            this.PromptUser.TabIndex = 0;
+            this.PromptUser.Text = "Loading\r\n⏳";
+            this.PromptUser.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.PromptUser.Visible = false;
+            // 
+            // CopyMessage
+            // 
+            this.CopyMessage.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.CopyMessage.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.CopyMessage.Font = new System.Drawing.Font("Bahnschrift", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CopyMessage.Location = new System.Drawing.Point(570, 297);
+            this.CopyMessage.Name = "CopyMessage";
+            this.CopyMessage.Size = new System.Drawing.Size(35, 35);
+            this.CopyMessage.TabIndex = 6;
+            this.CopyMessage.Text = "💾";
+            this.CopyMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.GeneralToolTip.SetToolTip(this.CopyMessage, "Copy");
+            this.CopyMessage.Click += new System.EventHandler(this.CopyMessage_Click);
+            this.CopyMessage.MouseEnter += new System.EventHandler(this.Highlight_MouseHover);
+            this.CopyMessage.MouseLeave += new System.EventHandler(this.Highlight_MouseLeave);
+            // 
+            // RefreshMessage
+            // 
+            this.RefreshMessage.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.RefreshMessage.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.RefreshMessage.Font = new System.Drawing.Font("Bahnschrift", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RefreshMessage.Location = new System.Drawing.Point(570, 332);
+            this.RefreshMessage.Name = "RefreshMessage";
+            this.RefreshMessage.Size = new System.Drawing.Size(35, 35);
+            this.RefreshMessage.TabIndex = 5;
+            this.RefreshMessage.Text = "🔄 ";
+            this.RefreshMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.GeneralToolTip.SetToolTip(this.RefreshMessage, "Refresh");
+            this.RefreshMessage.Click += new System.EventHandler(this.RefreshMessage_Click);
+            this.RefreshMessage.MouseEnter += new System.EventHandler(this.Highlight_MouseHover);
+            this.RefreshMessage.MouseLeave += new System.EventHandler(this.Highlight_MouseLeave);
+            // 
+            // MessageDisplay
+            // 
+            this.MessageDisplay.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.MessageDisplay.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.MessageDisplay.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MessageDisplay.Location = new System.Drawing.Point(17, 170);
+            this.MessageDisplay.Name = "MessageDisplay";
+            this.MessageDisplay.ReadOnly = true;
+            this.MessageDisplay.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+            this.MessageDisplay.Size = new System.Drawing.Size(609, 197);
+            this.MessageDisplay.TabIndex = 0;
+            this.MessageDisplay.TabStop = false;
+            this.MessageDisplay.Text = "Welcome to ChillSched";
             // 
             // NextUpdateIn
             // 
@@ -268,29 +336,6 @@
             this.TimeTilEvent.Text = "Time Span";
             this.TimeTilEvent.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TimeTilEvent.Width = 219;
-            // 
-            // LatestEvent
-            // 
-            this.LatestEvent.BackColor = System.Drawing.Color.Transparent;
-            this.LatestEvent.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.LatestEvent.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LatestEvent.ForeColor = System.Drawing.SystemColors.Desktop;
-            this.LatestEvent.Location = new System.Drawing.Point(7, 172);
-            this.LatestEvent.Name = "LatestEvent";
-            this.LatestEvent.Size = new System.Drawing.Size(535, 127);
-            this.LatestEvent.TabIndex = 0;
-            this.LatestEvent.Text = "...";
-            this.LatestEvent.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // ViewEvent
-            // 
-            this.ViewEvent.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ViewEvent.Location = new System.Drawing.Point(547, 211);
-            this.ViewEvent.Name = "ViewEvent";
-            this.ViewEvent.Size = new System.Drawing.Size(75, 48);
-            this.ViewEvent.TabIndex = 0;
-            this.ViewEvent.Text = "VIEW";
-            this.ViewEvent.UseVisualStyleBackColor = true;
             // 
             // Date
             // 
@@ -827,6 +872,12 @@
             this.FolderBrowserDialog.Description = "Select a folder to save the application data.";
             this.FolderBrowserDialog.RootFolder = System.Environment.SpecialFolder.MyComputer;
             // 
+            // MessageTicker
+            // 
+            this.MessageTicker.Enabled = true;
+            this.MessageTicker.Interval = 500;
+            this.MessageTicker.Tick += new System.EventHandler(this.MessageTicker_Tick);
+            // 
             // EIV
             // 
             this.EIV.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
@@ -882,6 +933,7 @@
             this.Resize += new System.EventHandler(this.Main_Resize);
             this.CalendarTab.ResumeLayout(false);
             this.TimeTab.ResumeLayout(false);
+            this.TimeTab.PerformLayout();
             this.TimeAndCalendarTabular.ResumeLayout(false);
             this.SearchTab.ResumeLayout(false);
             this.SearchViews.ResumeLayout(false);
@@ -906,8 +958,6 @@
         private System.Windows.Forms.Label Time;
         private System.Windows.Forms.TabControl TimeAndCalendarTabular;
         private System.Windows.Forms.ToolTip GeneralToolTip;
-        private System.Windows.Forms.Label LatestEvent;
-        private System.Windows.Forms.Button ViewEvent;
         private System.Windows.Forms.NotifyIcon DateTimeIcon;
         private System.Windows.Forms.ListView EventListView;
         private System.Windows.Forms.ColumnHeader EventTitle;
@@ -965,6 +1015,11 @@
         private System.Windows.Forms.ToolStripMenuItem ExportMessagesToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog OpenFileDialog;
         private System.Windows.Forms.FolderBrowserDialog FolderBrowserDialog;
+        private System.Windows.Forms.Label CopyMessage;
+        private System.Windows.Forms.Label RefreshMessage;
+        internal System.Windows.Forms.RichTextBox MessageDisplay;
+        private System.Windows.Forms.Label PromptUser;
+        private System.Windows.Forms.Timer MessageTicker;
     }
 }
 

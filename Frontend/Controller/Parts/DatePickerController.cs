@@ -54,11 +54,11 @@ namespace Frontend.Controller.Parts
         /// <summary>
         /// The formatted date
         /// </summary>
-        public string Date => TimeAndDateUtility.ConvertDate_String(GetControl().Value);
+        public string Date => TimeAndDateUtility.ConvertDateTime_String(GetControl().Value);
 
         /// <summary>
         /// The formatted time
         /// </summary>
-        public string Time => TimeAndDateUtility.ConvertTime_String(GetControl().Value);
+        public string Time => TimeAndDateUtility.ConvertDateTime_TimeString(GetControl().Value);
     }
 }

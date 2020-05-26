@@ -97,8 +97,8 @@ namespace FileOperations.Implementations
                 try
                 {
                     string show = message.Show ? "True" : "False";
-                    string created = IO.FormatDate(message.DateCreated, message.TimeCreated);
-                    string lastDisplayed = IO.FormatDate(message.LastDateDisplayed, message.LastTimeDisplayed);
+                    string created = IO.FormatDate(message.CreatedDate);
+                    string lastDisplayed = IO.FormatDate(message.LastDisplayedDate);
                     string title = IO.FormatText(message.Title, true);
                     string quote = IO.FormatRichText(message.Quote, true);
                     string author = IO.FormatText(message.Author, true);
@@ -136,8 +136,8 @@ namespace FileOperations.Implementations
 
             bool show = IO.TestBoolean(data.Single(x => x.Key == MIOConsts.Show).Value);
 
-            (Date Date, Time Time) created_date_time = IO.TestDate(data.Single(x => x.Key == MIOConsts.DateCreated).Value);
-            (Date Date, Time Time) lastDisplayed_date_time = IO.TestDate(data.Single(x => x.Key == MIOConsts.DateLastDisplayed).Value);
+            DateAndTime created_date_time = IO.TestDate(data.Single(x => x.Key == MIOConsts.DateCreated).Value);
+            DateAndTime lastDisplayed_date_time = IO.TestDate(data.Single(x => x.Key == MIOConsts.DateLastDisplayed).Value);
 
             AppMessage message =
                 new AppMessage
@@ -148,10 +148,8 @@ namespace FileOperations.Implementations
                     Author = author,
                     Source = source,
                     Show = show,
-                    DateCreated = created_date_time.Date,
-                    TimeCreated = created_date_time.Time,
-                    LastDateDisplayed = lastDisplayed_date_time.Date,
-                    LastTimeDisplayed = lastDisplayed_date_time.Time
+                    CreatedDate = created_date_time,
+                    LastDisplayedDate = lastDisplayed_date_time,
                 };
 
             return message;

@@ -10,6 +10,7 @@ using Shared.Model;
 using System.IO;
 using FileOperations.Constants;
 using FileOperations.Implementations;
+using Shared.Implementation;
 
 namespace Frontend.App.Views
 {
@@ -21,6 +22,8 @@ namespace Frontend.App.Views
         private ControlsAccess _controls;
         private EventViewController _events;
         private MessageViewController _messages;
+        private OnDelay _delay;
+        private bool _error;
 
         /// <summary>
         /// Constructor for Partial View Controller
@@ -39,14 +42,20 @@ namespace Frontend.App.Views
             Setup();
 
             if (!_events.LoadEvents())
+            {
                 MessageBox.Show("Unable to save some or all events.", "Error Occurred.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _error = true;
+            }
 
             EIV.UpdateEvents(DateTime.Today);
             SEIV.UpdateEvents();
             UpdateEventList();
 
             if (!_messages.LoadMessages())
+            {
                 MessageBox.Show("Unable to save some or all messages.", "Error Occurred.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _error = true;
+            }
 
             MMV.UpdateMessagesView();
         }
@@ -58,13 +67,13 @@ namespace Frontend.App.Views
 
             Time.Tag = _controls.Add(tag, new LabelController(Time));
             Date.Tag = _controls.Add(tag, new LabelController(Date));
-            LatestEvent.Tag = _controls.Add(tag, new LabelController(LatestEvent));
             LastUpdated.Tag = _controls.Add(tag, new LabelController(LastUpdated));
             StartDateLbl.Tag = _controls.Add(tag, new LabelController(StartDateLbl));
             EndDateLbl.Tag = _controls.Add(tag, new LabelController(EndDateLbl));
             EventCalendar.Tag = _controls.Add(tag, new CalendarController(EventCalendar));
             EventListView.Tag = _controls.Add(tag, new ListViewController(EventListView));
             SearchTextTB.Tag = _controls.Add(tag, new TextBoxController(SearchTextTB));
+            MessageDisplay.Tag = _controls.Add(tag, new TextBoxController(MessageDisplay));
             EventSearchStartDP.Tag = _controls.Add(tag, new DatePickerController(EventSearchStartDP));
             EventSearchEndDP.Tag = _controls.Add(tag, new DatePickerController(EventSearchEndDP));
 
@@ -84,6 +93,8 @@ namespace Frontend.App.Views
 
             Icon = Resources.icon;
             DateTimeIcon.Icon = Resources.icon;
+
+            _delay = new OnDelay();
         }
 
         private void TimeTicker_Tick(object sender, EventArgs e)
@@ -109,6 +120,19 @@ namespace Frontend.App.Views
         private void DateTicker_Tick(object sender, EventArgs e)
         {
             User_Date.SetText(TimeAndDateUtility.GetCurrentDateString());
+        }
+
+        private void MessageTicker_Tick(object sender, EventArgs e)
+        {
+            Time time = TimeAndDateUtility.GetCurrentTime();
+
+            if (_delay.DateDelayed != null && _delay.DateContinued != null)
+                _delay.Unlock(new DateAndTime(TimeAndDateUtility.GetCurrentDate(), TimeAndDateUtility.GetCurrentTime()));
+
+            if (!_delay.Lock && time.Seconds % 30 == 0)
+            {
+                RefreshMessageDisplay();
+            }
         }
 
         private void Main_Resize(object sender, EventArgs e)
@@ -139,13 +163,16 @@ namespace Frontend.App.Views
             DialogResult result = MessageBox.Show("Are you sure you want to exit?", "Exit ChillSched", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
-                BackupIOConsts.ArchiveOldAll();
-                bool savedEvents = _events.SaveEvents();
-                bool savedMessages = _messages.SaveMessages();
+                if (!_error)
+                {
+                    BackupIOConsts.ArchiveOldAll();
+                    bool savedEvents = _events.SaveEvents();
+                    bool savedMessages = _messages.SaveMessages();
 
 
-                if (!savedEvents || !savedMessages)
-                    MessageBox.Show("Unable to save some or all events and messages.", "Error Occurred.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    if (!savedEvents || !savedMessages)
+                        MessageBox.Show("Unable to save some or all events and messages.", "Error Occurred.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             else
             {
@@ -198,6 +225,8 @@ namespace Frontend.App.Views
 
                 MMV.ClearMessageInfo();
                 MMV.UpdateMessagesView();
+
+                RefreshMessageDisplay();
             }
         }
 
@@ -411,7 +440,95 @@ namespace Frontend.App.Views
             RefreshEventSearch();
         }
 
+        private void Highlight_MouseLeave(object sender, EventArgs e)
+        {
+            Label label = (Label)sender;
+            label.BackColor = SystemColors.ControlLight;
+            label.ForeColor = Color.Black;
+        }
+
+        private void Highlight_MouseHover(object sender, EventArgs e)
+        {
+            Label label = (Label)sender;
+            label.BackColor = SystemColors.ControlDark;
+            label.ForeColor = Color.WhiteSmoke;
+        }
+
+        private void CopyMessage_Click(object sender, EventArgs e)
+        {
+            MessageTicker.Stop();
+            RefreshMessage.Enabled = false;
+            CopyMessage.Enabled = false;
+
+            Clipboard.SetText(MessageDisplay.Text);
+            PromptUser.Visible = true;
+            PromptUser.Text = "Copied\r\n💾";
+
+            Timer timer = new Timer
+            {
+                Interval = 1500
+            };
+
+            timer.Tick += (s, ee) =>
+            {
+                PromptUser.Visible = false;
+                PromptUser.Text = string.Empty;
+                timer.Stop();
+                MessageTicker.Start();
+                RefreshMessage.Enabled = true;
+                CopyMessage.Enabled = true;
+            };
+
+            timer.Start();
+        }
+
+        private void RefreshMessage_Click(object sender, EventArgs e)
+        {
+            MessageTicker.Stop();
+            RefreshMessage.Enabled = false;
+            CopyMessage.Enabled = false;
+            PromptUser.Visible = true;
+            int i = 0;
+            string loading = "Loading\r\n";
+            Timer timer = new Timer
+            {
+                Interval = 375
+            };
+
+            timer.Tick += (s, ee) =>
+            {
+                if (i % 2 == 0)
+                    PromptUser.Text = $"{loading}⏳";
+                else
+                    PromptUser.Text = $"{loading}⌛";
+
+                if (i == 7)
+                {
+                    PromptUser.Visible = false;
+                    PromptUser.Text = string.Empty;
+                    RefreshMessageDisplay();
+                    timer.Stop();
+                    MessageTicker.Start();
+                    RefreshMessage.Enabled = true;
+                    CopyMessage.Enabled = true;
+                }
+
+                i++;
+            };
+
+            _delay.SetDelay(30, new DateAndTime(TimeAndDateUtility.GetCurrentDate(), TimeAndDateUtility.GetCurrentTime()));
+            timer.Start();
+        }
+
         #region Helpers
+
+        internal void RefreshMessageDisplay()
+        {
+            string randomMessage = _messages.GetRandomMessage();
+            MDisplayTB.SetText(string.IsNullOrEmpty(randomMessage) ?
+                "Add messages in the message tab of search."
+                : _messages.GetRandomMessage());
+        }
 
         internal void RefreshEventSearch()
         {
@@ -480,6 +597,8 @@ namespace Frontend.App.Views
         #region [ TextBoxes ]
 
         private TextBoxController SearchTB => (TextBoxController)_controls.Get(Tag as string, SearchTextTB.Tag as string);
+
+        private TextBoxController MDisplayTB => (TextBoxController)_controls.Get(Tag as string, MessageDisplay.Tag as string);
 
         #endregion
 

@@ -60,6 +60,7 @@
             // MessageListBox
             // 
             this.MessageListBox.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.MessageListBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MessageListBox.FormattingEnabled = true;
             this.MessageListBox.ItemHeight = 20;
             this.MessageListBox.Items.AddRange(new object[] {

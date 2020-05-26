@@ -66,11 +66,9 @@ namespace Backend.Implementations
                     throw new Exception("Event not found.");
 
                 existingEvent.ActivationDate = @event.ActivationDate;
-                existingEvent.ActivationTime = @event.ActivationTime;
                 existingEvent.Comment = @event.Comment;
                 existingEvent.Completed = @event.Completed;
                 existingEvent.DeactivationDate = @event.DeactivationDate;
-                existingEvent.DeactivationTime = @event.DeactivationTime;
                 existingEvent.Title = @event.Title;
 
                 return true;
@@ -118,9 +116,9 @@ namespace Backend.Implementations
         }
 
         /// <summary>
-        /// Implements <see cref="IEventRepository.GetEvents(Date, Date)" />
+        /// Implements <see cref="IEventRepository.GetEvents(DateAndTime, DateAndTime)" />
         /// </summary>
-        public IEnumerable<SavedEvent> GetEvents(Date start, Date end)
+        public IEnumerable<SavedEvent> GetEvents(DateAndTime start, DateAndTime end)
         {
             return
                 SavedEvents.Where(x =>
@@ -144,9 +142,9 @@ namespace Backend.Implementations
         }
 
         /// <summary>
-        /// Implements <see cref="IEventRepository.GetEvents(Date)" />
+        /// Implements <see cref="IEventRepository.GetEvents(DateAndTime)" />
         /// </summary>
-        public IEnumerable<SavedEvent> GetEvents(Date date)
+        public IEnumerable<SavedEvent> GetEvents(DateAndTime date)
         {
             return
                 SavedEvents.Where(x => TimeAndDateUtility.IsWithinRange(x.ActivationDate, date, x.DeactivationDate))

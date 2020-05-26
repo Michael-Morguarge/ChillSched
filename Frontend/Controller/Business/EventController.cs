@@ -40,13 +40,11 @@ namespace Frontend.Controller.Business
         /// <returns>A list of the dates where events occur</returns>
         public IEnumerable<DateTime> GetAllEventDates()
         {
-            IEnumerable<DateTime> dates = 
+            return 
                 _eventRepo.GetEvents()
-                          .Select(x => TimeAndDateUtility.ConvertDateAndTime_Date(x.ActivationDate))
+                          .Select(x => TimeAndDateUtility.ConvertDateAndTime_DateTime(x.ActivationDate))
                           .Distinct()
                           .OrderBy(x => x);
-
-            return dates;
         }
 
         /// <summary>
@@ -56,7 +54,7 @@ namespace Frontend.Controller.Business
         /// <param name="end">The end date</param>
         /// <param name="searchTerm">The search term</param>
         /// <returns>The list of events between date range</returns>
-        public IEnumerable<SavedEvent> GetEvents(Date start = null, Date end = null, string searchTerm = null)
+        public IEnumerable<SavedEvent> GetEvents(DateAndTime start = null, DateAndTime end = null, string searchTerm = null)
         {
             IEnumerable<SavedEvent> events = new List<SavedEvent>();
 
@@ -76,13 +74,13 @@ namespace Frontend.Controller.Business
             return events.Any() ? events.OrderBy(x => x.Title) : events;
         }
 
-        private IEnumerable<SavedEvent> GetDateRestrictedResults(Date start, Date end)
+        private IEnumerable<SavedEvent> GetDateRestrictedResults(DateAndTime start, DateAndTime end)
         {
             bool nullStart = start == null;
             bool nullEnd = end == null;
 
             new List<SavedEvent>();
-            Date min = TimeAndDateUtility.ConvertDate_Date(DateTime.MinValue);
+            DateAndTime min = TimeAndDateUtility.ConvertDateTime_DateAndTime(DateTime.MinValue);
 
             IEnumerable<SavedEvent> events = !nullEnd && !nullStart ?
                 _eventRepo.GetEvents(start, end).ToList() : (nullEnd && !nullStart ?
@@ -92,14 +90,14 @@ namespace Frontend.Controller.Business
             return events;
         }
 
-        private IEnumerable<SavedEvent> GetSearchResults(Date start, Date end, string searchTerm)
+        private IEnumerable<SavedEvent> GetSearchResults(DateAndTime start, DateAndTime end, string searchTerm)
         {
             bool nullStart = start == null;
             bool nullEnd = end == null;
             bool nullSearch = string.IsNullOrEmpty(searchTerm);
 
             IEnumerable<SavedEvent> events = new List<SavedEvent>();
-            Date min = TimeAndDateUtility.ConvertDate_Date(DateTime.MinValue);
+            DateAndTime min = TimeAndDateUtility.ConvertDateTime_DateAndTime(DateTime.MinValue);
 
             List<SavedEvent> searchEvents = _eventRepo.GetEvents(searchTerm).ToList();
 
@@ -131,8 +129,7 @@ namespace Frontend.Controller.Business
         /// <returns>Whether the event was added</returns>
         public bool CreateEvent(SavedEvent @event)
         {
-            @event.DateCreated = TimeAndDateUtility.GetCurrentDate();
-            @event.TimeCreated = TimeAndDateUtility.GetCurrentTime();
+            @event.CreatedDate = new DateAndTime(TimeAndDateUtility.GetCurrentDate(), TimeAndDateUtility.GetCurrentTime());
 
             return _eventRepo.AddEvent(@event);
         }
@@ -162,15 +159,13 @@ namespace Frontend.Controller.Business
             if (@event.Completed)
             {
                 @event.Completed = false;
-                @event.DateCompleted = null;
-                @event.TimeCompleted = null;
+                @event.CompletedDate = null;
             }
             else
             {
                 DateTime date = DateTime.Now;
                 @event.Completed = true;
-                @event.DateCompleted = TimeAndDateUtility.ConvertDate_Date(date);
-                @event.TimeCompleted = TimeAndDateUtility.ConvertTime_Time(date);
+                @event.CompletedDate = TimeAndDateUtility.ConvertDateTime_DateAndTime(date);
             }
 
             return _eventRepo.UpdateEvent(@event);
