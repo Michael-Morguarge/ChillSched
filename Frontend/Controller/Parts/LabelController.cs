@@ -18,6 +18,8 @@ namespace Frontend.Controller.Parts
             //Control is set in base class.
         }
 
+        public void SetHoverText(ToolTip tooltip, string text) => tooltip.SetToolTip(GetControl(), text);
+
         /// <summary>
         /// Sets the label text
         /// </summary>

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.MessageListBox = new System.Windows.Forms.ListBox();
             this.MessagesGB = new System.Windows.Forms.GroupBox();
             this.MessageSearchBox = new System.Windows.Forms.TextBox();
@@ -49,10 +50,11 @@
             this.MessageTimeCreatedLB = new System.Windows.Forms.Label();
             this.MessageDateCreatedLB = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.MessagePreviewTB = new System.Windows.Forms.RichTextBox();
+            this.PromptUser = new System.Windows.Forms.Label();
             this.ExportAsImage = new System.Windows.Forms.Label();
             this.CopyMessage = new System.Windows.Forms.Label();
-            this.PromptUser = new System.Windows.Forms.Label();
+            this.MessagePreviewTB = new System.Windows.Forms.RichTextBox();
+            this.MessageToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.MessagesGB.SuspendLayout();
             this.MessageInfoGB.SuspendLayout();
             this.InfoTab.SuspendLayout();
@@ -116,6 +118,7 @@
             this.ToggleButton.Size = new System.Drawing.Size(80, 25);
             this.ToggleButton.TabIndex = 6;
             this.ToggleButton.Text = "-";
+            this.MessageToolTip.SetToolTip(this.ToggleButton, "Toggle show/hide status of a message.");
             this.ToggleButton.UseVisualStyleBackColor = true;
             this.ToggleButton.Click += new System.EventHandler(this.ToggleButton_Click);
             // 
@@ -128,6 +131,7 @@
             this.SearchButton.Size = new System.Drawing.Size(80, 26);
             this.SearchButton.TabIndex = 2;
             this.SearchButton.Text = "Search";
+            this.MessageToolTip.SetToolTip(this.SearchButton, "Search for a message.");
             this.SearchButton.UseVisualStyleBackColor = true;
             this.SearchButton.Click += new System.EventHandler(this.SearchButton_Click);
             // 
@@ -142,6 +146,7 @@
             this.RemoveButton.Size = new System.Drawing.Size(80, 25);
             this.RemoveButton.TabIndex = 5;
             this.RemoveButton.Text = "Remove";
+            this.MessageToolTip.SetToolTip(this.RemoveButton, "Remove a selected message.");
             this.RemoveButton.UseVisualStyleBackColor = true;
             this.RemoveButton.Click += new System.EventHandler(this.RemoveButton_Click);
             // 
@@ -156,6 +161,7 @@
             this.EditButton.Size = new System.Drawing.Size(80, 25);
             this.EditButton.TabIndex = 4;
             this.EditButton.Text = "Edit";
+            this.MessageToolTip.SetToolTip(this.EditButton, "Edit a selected message.");
             this.EditButton.UseVisualStyleBackColor = true;
             this.EditButton.Click += new System.EventHandler(this.EditButton_Click);
             // 
@@ -169,6 +175,7 @@
             this.CreateButton.Size = new System.Drawing.Size(80, 25);
             this.CreateButton.TabIndex = 3;
             this.CreateButton.Text = "Create";
+            this.MessageToolTip.SetToolTip(this.CreateButton, "Creates a message.");
             this.CreateButton.UseVisualStyleBackColor = true;
             this.CreateButton.Click += new System.EventHandler(this.CreateButton_Click);
             // 
@@ -228,6 +235,7 @@
             this.MessageSourcesTB.TabIndex = 0;
             this.MessageSourcesTB.TabStop = false;
             this.MessageSourcesTB.Text = "No source(s)";
+            this.MessageToolTip.SetToolTip(this.MessageSourcesTB, "Source of message.");
             // 
             // MessageAuthorsTB
             // 
@@ -243,6 +251,7 @@
             this.MessageAuthorsTB.TabIndex = 0;
             this.MessageAuthorsTB.TabStop = false;
             this.MessageAuthorsTB.Text = "No author(s)";
+            this.MessageToolTip.SetToolTip(this.MessageAuthorsTB, "Authors of message.");
             // 
             // MessageTitleLB
             // 
@@ -255,6 +264,7 @@
             this.MessageTitleLB.TabIndex = 0;
             this.MessageTitleLB.Text = "-";
             this.MessageTitleLB.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.MessageToolTip.SetToolTip(this.MessageTitleLB, "Title of message.");
             // 
             // MessageLastTimeDisplayedLB
             // 
@@ -265,6 +275,7 @@
             this.MessageLastTimeDisplayedLB.TabIndex = 4;
             this.MessageLastTimeDisplayedLB.Text = "-";
             this.MessageLastTimeDisplayedLB.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.MessageToolTip.SetToolTip(this.MessageLastTimeDisplayedLB, "Time message was last displayed.");
             // 
             // MessageInfoTB
             // 
@@ -281,6 +292,7 @@
             this.MessageInfoTB.TabIndex = 0;
             this.MessageInfoTB.TabStop = false;
             this.MessageInfoTB.Text = "No message";
+            this.MessageToolTip.SetToolTip(this.MessageInfoTB, "Quote of message.");
             // 
             // MessageLastDateDisplayedLB
             // 
@@ -291,6 +303,7 @@
             this.MessageLastDateDisplayedLB.TabIndex = 3;
             this.MessageLastDateDisplayedLB.Text = "-";
             this.MessageLastDateDisplayedLB.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.MessageToolTip.SetToolTip(this.MessageLastDateDisplayedLB, "Date message was las t displayed.");
             // 
             // MessageStatusLB
             // 
@@ -303,6 +316,7 @@
             this.MessageStatusLB.TabIndex = 0;
             this.MessageStatusLB.Text = "-";
             this.MessageStatusLB.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.MessageToolTip.SetToolTip(this.MessageStatusLB, "Message show/hide status.");
             // 
             // MessageTimeCreatedLB
             // 
@@ -313,6 +327,7 @@
             this.MessageTimeCreatedLB.TabIndex = 2;
             this.MessageTimeCreatedLB.Text = "-";
             this.MessageTimeCreatedLB.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.MessageToolTip.SetToolTip(this.MessageTimeCreatedLB, "Time message was created.");
             // 
             // MessageDateCreatedLB
             // 
@@ -323,6 +338,7 @@
             this.MessageDateCreatedLB.TabIndex = 1;
             this.MessageDateCreatedLB.Text = "-";
             this.MessageDateCreatedLB.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.MessageToolTip.SetToolTip(this.MessageDateCreatedLB, "Date message was created.");
             // 
             // tabPage2
             // 
@@ -340,51 +356,6 @@
             this.tabPage2.Text = "Preview";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // MessagePreviewTB
-            // 
-            this.MessagePreviewTB.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.MessagePreviewTB.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.MessagePreviewTB.Cursor = System.Windows.Forms.Cursors.Default;
-            this.MessagePreviewTB.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.MessagePreviewTB.Location = new System.Drawing.Point(7, 7);
-            this.MessagePreviewTB.Name = "MessagePreviewTB";
-            this.MessagePreviewTB.ReadOnly = true;
-            this.MessagePreviewTB.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.MessagePreviewTB.Size = new System.Drawing.Size(606, 256);
-            this.MessagePreviewTB.TabIndex = 0;
-            this.MessagePreviewTB.TabStop = false;
-            this.MessagePreviewTB.Text = "No message";
-            // 
-            // ExportAsImage
-            // 
-            this.ExportAsImage.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.ExportAsImage.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.ExportAsImage.Enabled = false;
-            this.ExportAsImage.Font = new System.Drawing.Font("Bahnschrift", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ExportAsImage.Location = new System.Drawing.Point(565, 189);
-            this.ExportAsImage.Name = "ExportAsImage";
-            this.ExportAsImage.Size = new System.Drawing.Size(35, 37);
-            this.ExportAsImage.TabIndex = 10;
-            this.ExportAsImage.Text = "🖌";
-            this.ExportAsImage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.ExportAsImage.MouseEnter += new System.EventHandler(this.Highlight_MouseHover);
-            this.ExportAsImage.MouseLeave += new System.EventHandler(this.Highlight_MouseLeave);
-            // 
-            // CopyMessage
-            // 
-            this.CopyMessage.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.CopyMessage.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.CopyMessage.Font = new System.Drawing.Font("Bahnschrift", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CopyMessage.Location = new System.Drawing.Point(565, 224);
-            this.CopyMessage.Name = "CopyMessage";
-            this.CopyMessage.Size = new System.Drawing.Size(35, 37);
-            this.CopyMessage.TabIndex = 9;
-            this.CopyMessage.Text = "💾";
-            this.CopyMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.CopyMessage.Click += new System.EventHandler(this.CopyMessage_Click);
-            this.CopyMessage.MouseEnter += new System.EventHandler(this.Highlight_MouseHover);
-            this.CopyMessage.MouseLeave += new System.EventHandler(this.Highlight_MouseLeave);
-            // 
             // PromptUser
             // 
             this.PromptUser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -401,6 +372,58 @@
             this.PromptUser.Text = "Loading\r\n⏳";
             this.PromptUser.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.PromptUser.Visible = false;
+            // 
+            // ExportAsImage
+            // 
+            this.ExportAsImage.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.ExportAsImage.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ExportAsImage.Enabled = false;
+            this.ExportAsImage.Font = new System.Drawing.Font("Bahnschrift", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ExportAsImage.Location = new System.Drawing.Point(565, 189);
+            this.ExportAsImage.Name = "ExportAsImage";
+            this.ExportAsImage.Size = new System.Drawing.Size(35, 37);
+            this.ExportAsImage.TabIndex = 10;
+            this.ExportAsImage.Text = "🖌";
+            this.ExportAsImage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.MessageToolTip.SetToolTip(this.ExportAsImage, "Export as image");
+            this.ExportAsImage.MouseEnter += new System.EventHandler(this.Highlight_MouseHover);
+            this.ExportAsImage.MouseLeave += new System.EventHandler(this.Highlight_MouseLeave);
+            // 
+            // CopyMessage
+            // 
+            this.CopyMessage.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.CopyMessage.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.CopyMessage.Font = new System.Drawing.Font("Bahnschrift", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CopyMessage.Location = new System.Drawing.Point(565, 224);
+            this.CopyMessage.Name = "CopyMessage";
+            this.CopyMessage.Size = new System.Drawing.Size(35, 37);
+            this.CopyMessage.TabIndex = 9;
+            this.CopyMessage.Text = "💾";
+            this.CopyMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.MessageToolTip.SetToolTip(this.CopyMessage, "Copy to clipboard");
+            this.CopyMessage.Click += new System.EventHandler(this.CopyMessage_Click);
+            this.CopyMessage.MouseEnter += new System.EventHandler(this.Highlight_MouseHover);
+            this.CopyMessage.MouseLeave += new System.EventHandler(this.Highlight_MouseLeave);
+            // 
+            // MessagePreviewTB
+            // 
+            this.MessagePreviewTB.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.MessagePreviewTB.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.MessagePreviewTB.Cursor = System.Windows.Forms.Cursors.Default;
+            this.MessagePreviewTB.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.MessagePreviewTB.Location = new System.Drawing.Point(7, 7);
+            this.MessagePreviewTB.Name = "MessagePreviewTB";
+            this.MessagePreviewTB.ReadOnly = true;
+            this.MessagePreviewTB.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+            this.MessagePreviewTB.Size = new System.Drawing.Size(606, 256);
+            this.MessagePreviewTB.TabIndex = 0;
+            this.MessagePreviewTB.TabStop = false;
+            this.MessagePreviewTB.Text = "No message";
+            // 
+            // MessageToolTip
+            // 
+            this.MessageToolTip.IsBalloon = true;
+            this.MessageToolTip.Tag = "";
             // 
             // MessagesView
             // 
@@ -449,5 +472,6 @@
         private System.Windows.Forms.Label ExportAsImage;
         private System.Windows.Forms.Label CopyMessage;
         private System.Windows.Forms.Label PromptUser;
+        private System.Windows.Forms.ToolTip MessageToolTip;
     }
 }

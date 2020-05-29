@@ -65,17 +65,17 @@ namespace Frontend.App.Views
             Tag = _controls.AddForm(this);
             string tag = Tag as string;
 
-            Time.Tag = _controls.Add(tag, new LabelController(Time));
-            Date.Tag = _controls.Add(tag, new LabelController(Date));
-            LastUpdated.Tag = _controls.Add(tag, new LabelController(LastUpdated));
+            TimeLbl.Tag = _controls.Add(tag, new LabelController(TimeLbl));
+            DateLbl.Tag = _controls.Add(tag, new LabelController(DateLbl));
+            LastUpdatedLbl.Tag = _controls.Add(tag, new LabelController(LastUpdatedLbl));
             StartDateLbl.Tag = _controls.Add(tag, new LabelController(StartDateLbl));
             EndDateLbl.Tag = _controls.Add(tag, new LabelController(EndDateLbl));
             EventCalendar.Tag = _controls.Add(tag, new CalendarController(EventCalendar));
             EventListView.Tag = _controls.Add(tag, new ListViewController(EventListView));
-            SearchTextTB.Tag = _controls.Add(tag, new TextBoxController(SearchTextTB));
-            MessageDisplay.Tag = _controls.Add(tag, new TextBoxController(MessageDisplay));
-            EventSearchStartDP.Tag = _controls.Add(tag, new DatePickerController(EventSearchStartDP));
-            EventSearchEndDP.Tag = _controls.Add(tag, new DatePickerController(EventSearchEndDP));
+            SearchTextTb.Tag = _controls.Add(tag, new TextBoxController(SearchTextTb));
+            MessageDisplayTb.Tag = _controls.Add(tag, new TextBoxController(MessageDisplayTb));
+            EventSearchStartDp.Tag = _controls.Add(tag, new DatePickerController(EventSearchStartDp));
+            EventSearchEndDp.Tag = _controls.Add(tag, new DatePickerController(EventSearchEndDp));
 
             EIV.SetControls(tag, _controls, _events, EventCal.GetId());
             EIV.SetTitle("Events for Day");
@@ -460,7 +460,7 @@ namespace Frontend.App.Views
             RefreshMessage.Enabled = false;
             CopyMessage.Enabled = false;
 
-            Clipboard.SetText(MessageDisplay.Text);
+            Clipboard.SetText(MessageDisplayTb.Text);
             PromptUser.Visible = true;
             PromptUser.Text = "Copied\r\n💾";
 
@@ -588,19 +588,19 @@ namespace Frontend.App.Views
 
         private CalendarController EventCal => (CalendarController)_controls.Get(Tag as string, EventCalendar.Tag as string);
 
-        private DatePickerController SearchStartDP => (DatePickerController)_controls.Get(Tag as string, EventSearchStartDP.Tag as string);
+        private DatePickerController SearchStartDP => (DatePickerController)_controls.Get(Tag as string, EventSearchStartDp.Tag as string);
 
-        private DatePickerController SearchEndDP => (DatePickerController)_controls.Get(Tag as string, EventSearchEndDP.Tag as string);
+        private DatePickerController SearchEndDP => (DatePickerController)_controls.Get(Tag as string, EventSearchEndDp.Tag as string);
 
         #endregion
 
         #region [ Labels ]
 
-        private LabelController User_Time => (LabelController)_controls.Get(Tag as string, Time.Tag as string);
+        private LabelController User_Time => (LabelController)_controls.Get(Tag as string, TimeLbl.Tag as string);
 
-        private LabelController User_Date => (LabelController)_controls.Get(Tag as string, Date.Tag as string);
+        private LabelController User_Date => (LabelController)_controls.Get(Tag as string, DateLbl.Tag as string);
 
-        private LabelController Last_Updated => (LabelController)_controls.Get(Tag as string, LastUpdated.Tag as string);
+        private LabelController Last_Updated => (LabelController)_controls.Get(Tag as string, LastUpdatedLbl.Tag as string);
 
         private LabelController Start_Date => (LabelController)_controls.Get(Tag as string, StartDateLbl.Tag as string);
 
@@ -610,9 +610,9 @@ namespace Frontend.App.Views
 
         #region [ TextBoxes ]
 
-        private TextBoxController SearchTB => (TextBoxController)_controls.Get(Tag as string, SearchTextTB.Tag as string);
+        private TextBoxController SearchTB => (TextBoxController)_controls.Get(Tag as string, SearchTextTb.Tag as string);
 
-        private TextBoxController MDisplayTB => (TextBoxController)_controls.Get(Tag as string, MessageDisplay.Tag as string);
+        private TextBoxController MDisplayTB => (TextBoxController)_controls.Get(Tag as string, MessageDisplayTb.Tag as string);
 
         #endregion
 
