@@ -8,7 +8,7 @@ namespace FrontendConsole
     {
         static void Main(string[] args)
         {
-            ICustomConsoleColor menu = new MenuFormat();
+            ICustomConsoleColor menu = new SampleFormat();
 
             menu.DisplayText("Hello World!");
             menu.Actions();

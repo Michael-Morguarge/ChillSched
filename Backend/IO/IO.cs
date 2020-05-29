@@ -132,7 +132,7 @@ namespace FileOperations.Constants
 
         public static string FormatDate(DateAndTime date)
         {
-            return $"{TimeAndDateUtility.ConvertDate_String(date.Date)}{PlusSign}{TimeAndDateUtility.ConvertTime_String(date.Time)}";
+            return date == null ? $"{PlusSign}" : $"{TimeAndDateUtility.ConvertDate_String(date.Date)}{PlusSign}{TimeAndDateUtility.ConvertTime_String(date.Time)}";
         }
 
         public static string TestId(string id)

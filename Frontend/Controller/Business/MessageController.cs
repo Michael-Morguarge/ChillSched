@@ -58,12 +58,15 @@ namespace Frontend.Controller.Business
         /// <returns>Whether the message was created</returns>
         public bool CreateMessage(AppMessage message)
         {
+            bool created = false;
+
             if (message != null)
             {
                 message.CreatedDate = new DateAndTime(TimeAndDateUtility.GetCurrentDate(), TimeAndDateUtility.GetCurrentTime());
+                created = _messageRepo.AddMessage(message);
             }
 
-            return _messageRepo.AddMessage(message);
+            return created;
         }
 
         /// <summary>

@@ -39,6 +39,7 @@
             this.CalendarTab = new System.Windows.Forms.TabPage();
             this.EventCalendar = new System.Windows.Forms.MonthCalendar();
             this.TimeTab = new System.Windows.Forms.TabPage();
+            this.ExportAsImage = new System.Windows.Forms.Label();
             this.PromptUser = new System.Windows.Forms.Label();
             this.CopyMessage = new System.Windows.Forms.Label();
             this.RefreshMessage = new System.Windows.Forms.Label();
@@ -160,6 +161,7 @@
             // TimeTab
             // 
             this.TimeTab.BackColor = System.Drawing.SystemColors.Control;
+            this.TimeTab.Controls.Add(this.ExportAsImage);
             this.TimeTab.Controls.Add(this.PromptUser);
             this.TimeTab.Controls.Add(this.CopyMessage);
             this.TimeTab.Controls.Add(this.RefreshMessage);
@@ -178,6 +180,23 @@
             this.TimeTab.Size = new System.Drawing.Size(1060, 393);
             this.TimeTab.TabIndex = 0;
             this.TimeTab.Text = "Welcome";
+            // 
+            // ExportAsImage
+            // 
+            this.ExportAsImage.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.ExportAsImage.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ExportAsImage.Enabled = false;
+            this.ExportAsImage.Font = new System.Drawing.Font("Bahnschrift", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ExportAsImage.Location = new System.Drawing.Point(570, 262);
+            this.ExportAsImage.Name = "ExportAsImage";
+            this.ExportAsImage.Size = new System.Drawing.Size(35, 35);
+            this.ExportAsImage.TabIndex = 7;
+            this.ExportAsImage.Text = "🖌";
+            this.ExportAsImage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.GeneralToolTip.SetToolTip(this.ExportAsImage, "Export As Image");
+            this.ExportAsImage.Click += new System.EventHandler(this.ExportAsImage_Click);
+            this.ExportAsImage.MouseEnter += new System.EventHandler(this.Highlight_MouseHover);
+            this.ExportAsImage.MouseLeave += new System.EventHandler(this.Highlight_MouseLeave);
             // 
             // PromptUser
             // 
@@ -1020,6 +1039,7 @@
         internal System.Windows.Forms.RichTextBox MessageDisplay;
         private System.Windows.Forms.Label PromptUser;
         private System.Windows.Forms.Timer MessageTicker;
+        private System.Windows.Forms.Label ExportAsImage;
     }
 }
 

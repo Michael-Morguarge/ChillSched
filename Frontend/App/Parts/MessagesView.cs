@@ -203,6 +203,44 @@ namespace Frontend.App.Parts
             }
         }
 
+        private void Highlight_MouseLeave(object sender, EventArgs e)
+        {
+            Label label = (Label)sender;
+            label.BackColor = SystemColors.ControlLight;
+            label.ForeColor = Color.Black;
+        }
+
+        private void Highlight_MouseHover(object sender, EventArgs e)
+        {
+            Label label = (Label)sender;
+            label.BackColor = SystemColors.ControlDark;
+            label.ForeColor = Color.WhiteSmoke;
+        }
+
+        private void CopyMessage_Click(object sender, EventArgs e)
+        {
+            CopyMessage.Enabled = false;
+
+            Clipboard.SetText(MessagePreviewTB.Text);
+            PromptUser.Visible = true;
+            PromptUser.Text = "Copied\r\n💾";
+
+            Timer timer = new Timer
+            {
+                Interval = 1500
+            };
+
+            timer.Tick += (s, ee) =>
+            {
+                PromptUser.Visible = false;
+                PromptUser.Text = string.Empty;
+                timer.Stop();
+                CopyMessage.Enabled = true;
+            };
+
+            timer.Start();
+        }
+
         #region Helpers
 
         private void UpdateMessageDetails()
@@ -269,7 +307,7 @@ namespace Frontend.App.Parts
         private void ClearMessageDisplay()
         {
             MainApp form = (_controls.Get(_parentId, _parentId) as FormController).GetControl() as MainApp;
-            form.RefreshMessageDisplay();
+            form.TriggerDelayedRefresh();
         }
 
         private void ClearMessageDetails()
@@ -295,6 +333,8 @@ namespace Frontend.App.Parts
             RemoveButton.Enabled = enable;
             ToggleButton.Enabled = enable;
             ToggleButton.Text = toggleText ?? ToggleButton.Text;
+            CopyMessage.Enabled = enable;
+            ExportAsImage.Enabled = enable;
         }
 
         #endregion Helpers

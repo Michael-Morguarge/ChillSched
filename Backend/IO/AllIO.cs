@@ -1,7 +1,6 @@
 ﻿using FileOperations.Constants;
 using System;
 using System.IO;
-using System.Linq;
 
 namespace FileOperations.Implementations
 {

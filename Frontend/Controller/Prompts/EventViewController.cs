@@ -6,6 +6,7 @@ using Shared.Global;
 using Shared.Model;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -57,6 +58,7 @@ namespace Frontend.Controller.Prompts
                 {
                     string[] details = CalculateStatus(todaysDate, x, end);
                     string date = details[1];
+
                     ListViewItem item = new ListViewItem(details)
                     {
                         Group =
@@ -66,11 +68,52 @@ namespace Frontend.Controller.Prompts
                                         : (date.Contains(OVERDUE_FROM) ? groups["Overdue"] : null)))
                     };
 
+                    item.Tag = x.Id;
+                    bool groupIsSet = item.Group != null && !string.IsNullOrEmpty(item.Group.Name);
+                    if (groupIsSet)
+                    {
+                        string groupName = item.Group.Name;
+
+                        int groupIndex = 
+                            groupName == "Complete" ? 1
+                                : groupName == "Upcoming" ? 2
+                                    : groupName == "HappeningNow" ? 3
+                                        : groupName == "Overdue" ? 4 : -1;
+
+                        SetVisualDetails(groupIndex, item);
+                        item.Tag = x.Id;
+                    }
+
                     items.Add(item);
                 }
             );
 
             return items.ToArray();
+        }
+
+        private void SetVisualDetails(int groupIndex, ListViewItem item)
+        {
+            switch (groupIndex)
+            {
+                case 2:
+                    item.Font = new Font(FontFamily.GenericSansSerif, 10, FontStyle.Bold);
+                    item.ForeColor = Color.DarkSlateGray;
+                    break;
+                case 3:
+                    item.Font = new Font(FontFamily.GenericSansSerif, 10, FontStyle.Italic);
+                    item.ForeColor = Color.DarkSlateBlue;
+                    break;
+                case 4:
+                    item.Font = new Font(FontFamily.GenericSansSerif, 10, FontStyle.Regular);
+                    item.ForeColor = Color.DarkRed;
+                    break;
+                case 1:
+                    item.Font = new Font(FontFamily.GenericSansSerif, 10, FontStyle.Bold | FontStyle.Italic);
+                    item.ForeColor = Color.DarkGreen;
+                    break;
+                default:
+                    break;
+            }
         }
 
         private string[] CalculateStatus(DateAndTime start, SavedEvent @event, DateAndTime end)

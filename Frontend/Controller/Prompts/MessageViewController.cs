@@ -229,6 +229,10 @@ namespace Frontend.Controller.Prompts
                     isNotShown = true;
 
                     _lastSeen.Add(message.Id);
+
+                    message.LastDisplayedDate = new DateAndTime(TimeAndDateUtility.GetCurrentDate(), TimeAndDateUtility.GetCurrentTime());
+
+                    _messageController.EditMessage(message);
                 }
             }
 

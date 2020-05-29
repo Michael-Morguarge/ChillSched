@@ -131,7 +131,7 @@ namespace Frontend.App.Views
 
             if (!_delay.Lock && time.Seconds % 30 == 0)
             {
-                RefreshMessageDisplay();
+                TriggerDelayedRefresh();
             }
         }
 
@@ -226,7 +226,7 @@ namespace Frontend.App.Views
                 MMV.ClearMessageInfo();
                 MMV.UpdateMessagesView();
 
-                RefreshMessageDisplay();
+                TriggerDelayedRefresh();
             }
         }
 
@@ -484,6 +484,21 @@ namespace Frontend.App.Views
 
         private void RefreshMessage_Click(object sender, EventArgs e)
         {
+            TriggerDelayedRefresh();
+        }
+
+        private void ExportAsImage_Click(object sender, EventArgs e)
+        {
+            string text = MDisplayTB.Text;
+            Font font = MDisplayTB.GetControl().Font;
+
+            //Graphics g = new Graphics();
+        }
+
+        #region Helpers
+
+        internal void TriggerDelayedRefresh()
+        {
             MessageTicker.Stop();
             RefreshMessage.Enabled = false;
             CopyMessage.Enabled = false;
@@ -520,12 +535,11 @@ namespace Frontend.App.Views
             timer.Start();
         }
 
-        #region Helpers
-
-        internal void RefreshMessageDisplay()
+        private void RefreshMessageDisplay()
         {
             string randomMessage = _messages.GetRandomMessage();
-            MDisplayTB.SetText(string.IsNullOrEmpty(randomMessage) ?
+            ExportAsImage.Enabled = !string.IsNullOrEmpty(randomMessage);
+            MDisplayTB.SetText(!ExportAsImage.Enabled ?
                 "Add messages in the message tab of search."
                 : _messages.GetRandomMessage());
         }

@@ -208,6 +208,64 @@ namespace Frontend.App.Parts
             }
         }
 
+        private void TodaysEventsListBox_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            e.DrawBackground();
+            Font font;
+            Brush brush;
+            int index = e.Index;
+            int status = -1;
+            string title = string.Empty;
+            ListBox lb = (ListBox)sender;
+            Graphics g = e.Graphics;
+
+            if (index > -1)
+            {
+                SavedEvent @event = null;
+                try { @event = (SavedEvent)lb.Items[index]; } catch (Exception) { /*Something happened*/ }
+
+                if (@event != null)
+                {
+                    DateAndTime currDate = new DateAndTime(TimeAndDateUtility.GetCurrentDate(), TimeAndDateUtility.GetCurrentTime());
+                    DateAndTime eventStartDate = @event.ActivationDate;
+                    DateAndTime eventEndDate = @event.DeactivationDate;
+
+                    status = @event.Completed ?
+                        4 : TimeAndDateUtility.IsBeforeRange(eventStartDate, currDate) ?
+                            1 : TimeAndDateUtility.IsWithinRange(eventStartDate, currDate, eventEndDate) ?
+                                2 : 3;
+
+                    title = @event.Title;
+                }
+            }
+
+            switch (status)
+            {
+                case 1:
+                    font = new Font(FontFamily.GenericSansSerif, 10, FontStyle.Bold);
+                    brush = Brushes.DarkSlateGray;
+                    break;
+                case 2:
+                    font = new Font(FontFamily.GenericSansSerif, 10, FontStyle.Italic);
+                    brush = Brushes.DarkSlateBlue;
+                    break;
+                case 3:
+                    font = new Font(FontFamily.GenericSansSerif, 10, FontStyle.Regular);
+                    brush = Brushes.DarkRed;
+                    break;
+                case 4:
+                    font = new Font(FontFamily.GenericSansSerif, 10, FontStyle.Bold | FontStyle.Italic);
+                    brush = Brushes.DarkGreen;
+                    break;
+                default:
+                    font = e.Font;
+                    brush = Brushes.Black;
+                    break;
+            }
+
+            g.DrawString(title, font, brush, e.Bounds, StringFormat.GenericDefault);
+        }
+
         #region Helpers
 
         private void UpdateView()
