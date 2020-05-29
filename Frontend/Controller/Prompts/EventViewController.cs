@@ -6,6 +6,7 @@ using Shared.Global;
 using Shared.Model;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -46,19 +47,18 @@ namespace Frontend.Controller.Prompts
             DateTime startDate = today.AddDays(-(today.Day - 1));
             DateTime endDate = today.AddDays(maxDay - today.Day).AddHours(23 - today.Hour).AddMinutes(59 - today.Minute).AddSeconds(59 - today.Second);
 
-            Date todaysDate = TimeAndDateUtility.ConvertDate_Date(today);
-            Time todaysTime = TimeAndDateUtility.ConvertTime_Time(today);
-            Date start = TimeAndDateUtility.ConvertDate_Date(startDate);
-            Date end = TimeAndDateUtility.ConvertDate_Date(endDate);
-            Time endTime = TimeAndDateUtility.ConvertTime_Time(endDate);
+            DateAndTime todaysDate = TimeAndDateUtility.ConvertDateTime_DateAndTime(today);
+            DateAndTime start = TimeAndDateUtility.ConvertDateTime_DateAndTime(startDate);
+            DateAndTime end = TimeAndDateUtility.ConvertDateTime_DateAndTime(endDate);
 
             List<SavedEvent> events = _eventController.GetEvents(start, end).ToList();
             List<ListViewItem> items = new List<ListViewItem>();
 
             events.ForEach(x =>
                 {
-                    string[] details = CalculateStatus(todaysDate, todaysTime, x, end, endTime);
+                    string[] details = CalculateStatus(todaysDate, x, end);
                     string date = details[1];
+
                     ListViewItem item = new ListViewItem(details)
                     {
                         Group =
@@ -68,6 +68,22 @@ namespace Frontend.Controller.Prompts
                                         : (date.Contains(OVERDUE_FROM) ? groups["Overdue"] : null)))
                     };
 
+                    item.Tag = x.Id;
+                    bool groupIsSet = item.Group != null && !string.IsNullOrEmpty(item.Group.Name);
+                    if (groupIsSet)
+                    {
+                        string groupName = item.Group.Name;
+
+                        int groupIndex = 
+                            groupName == "Complete" ? 1
+                                : groupName == "Upcoming" ? 2
+                                    : groupName == "HappeningNow" ? 3
+                                        : groupName == "Overdue" ? 4 : -1;
+
+                        SetVisualDetails(groupIndex, item);
+                        item.Tag = x.Id;
+                    }
+
                     items.Add(item);
                 }
             );
@@ -75,15 +91,35 @@ namespace Frontend.Controller.Prompts
             return items.ToArray();
         }
 
-        private string[] CalculateStatus(Date start, Time startTime, SavedEvent @event, Date end, Time endTime)
+        private void SetVisualDetails(int groupIndex, ListViewItem item)
+        {
+            switch (groupIndex)
+            {
+                case 2:
+                    item.Font = new Font(FontFamily.GenericSansSerif, 10, FontStyle.Bold);
+                    item.ForeColor = Color.DarkSlateGray;
+                    break;
+                case 3:
+                    item.Font = new Font(FontFamily.GenericSansSerif, 10, FontStyle.Italic);
+                    item.ForeColor = Color.DarkSlateBlue;
+                    break;
+                case 4:
+                    item.Font = new Font(FontFamily.GenericSansSerif, 10, FontStyle.Regular);
+                    item.ForeColor = Color.DarkRed;
+                    break;
+                case 1:
+                    item.Font = new Font(FontFamily.GenericSansSerif, 10, FontStyle.Bold | FontStyle.Italic);
+                    item.ForeColor = Color.DarkGreen;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private string[] CalculateStatus(DateAndTime start, SavedEvent @event, DateAndTime end)
         {
             (TimeSpan TimeDiff, DateCompare Comparison) diff =
-                TimeAndDateUtility.ComputeDiff(
-                    (start, startTime),
-                    (@event.ActivationDate, @event.ActivationTime, @event.DeactivationDate, @event.DeactivationTime),
-                    (end, endTime)
-                );
-
+                TimeAndDateUtility.ComputeDiff(start, (@event.ActivationDate, @event.DeactivationDate), end);
 
             DateCompare comparison = diff.Comparison;
             string template = string.Empty;
@@ -140,7 +176,7 @@ namespace Frontend.Controller.Prompts
         /// <param name="end">The end date</param>
         /// <param name="searchTerm">The term to search with</param>
         /// <returns>The list of saved events</returns>
-        public object[] GetAll(Date start = null, Date end = null, string searchTerm = null)
+        public object[] GetAll(DateAndTime start = null, DateAndTime end = null, string searchTerm = null)
         {
             return _eventController.GetEvents(start, end, searchTerm).Select(x => (object)x).Distinct().ToArray();
         }
@@ -290,17 +326,41 @@ namespace Frontend.Controller.Prompts
         /// <summary>
         /// Loads events from save file
         /// </summary>
+        /// <param name="overwrite">Whether to overwrite the current data</param>
+        /// <returns>Whether the events were fully loaded</returns>
         public bool LoadEvents(bool overwrite = false)
         {
             return _eventController.LoadEvents(overwrite);
         }
 
         /// <summary>
+        /// Loads events from sepcified save file
+        /// </summary>
+        /// <param name="path">The path to pull data from</param>
+        /// <param name="overwrite">Whether to overwrite the current data</param>
+        /// <returns>Whether the events were fully loaded</returns>
+        public bool LoadEvents(string path, bool overwrite = false)
+        {
+            return _eventController.LoadEvents(path, overwrite);
+        }
+
+        /// <summary>
         /// Saves events to save file
         /// </summary>
+        /// <returns>Whether the events were fully saved</returns>
         public bool SaveEvents()
         {
             return _eventController.SaveEvents();
+        }
+
+        /// <summary>
+        /// Saves the events to a specified location
+        /// </summary>
+        /// <param name="path">The path to save the local data</param>
+        /// <returns>Whether the events were fully saved</returns>
+        public bool SaveEvents(string path)
+        {
+            return _eventController.SaveEvents(path);
         }
     }
 }

@@ -1,9 +1,68 @@
-﻿using Shared.Global;
+﻿using FileOperations.Models;
+using Shared.Global;
 using Shared.Model;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace FileOperations.Constants
 {
+    /// <summary>
+    /// File type enum
+    /// </summary>
+    public enum FileTypes
+    {
+        ALL, EVENT, MESSAGE
+    }
+
+    public static class FileType
+    {
+        private const string MessageFileType = "MESSAGES";
+        private const string EventFileType = "EVENTS";
+
+        private const string FileTypeFormat = "[FileType=\"{0}\"]";
+
+        public static bool IsValidFileType(string fileType, FileTypes type)
+        {
+            bool isValid = false;
+            string fileTypeExpected =
+                type == FileTypes.EVENT ? EventFileType :
+                    type == FileTypes.MESSAGE ? MessageFileType : null;
+
+            if (fileTypeExpected != null && fileType == string.Format(FileTypeFormat, fileTypeExpected))
+                isValid = true;
+
+            return isValid;
+        }
+
+        public static string GetFileTypeString(FileTypes type)
+        {
+            string result = null;
+            string fileTypeExpected =
+                type == FileTypes.EVENT ? EventFileType :
+                    type == FileTypes.MESSAGE ? MessageFileType : null;
+
+            if (fileTypeExpected != null)
+                result = string.Format(FileTypeFormat, fileTypeExpected);
+
+            return result;
+        }
+
+        public static (int[] EventHeader, int[] MessageHeader) RankFileTypes(string content)
+        {
+            string @event = GetFileTypeString(FileTypes.EVENT);
+            string message = GetFileTypeString(FileTypes.MESSAGE);
+
+            int eventTypeIndex = content.IndexOf(GetFileTypeString(FileTypes.EVENT));
+            int messageTypeIndex = content.IndexOf(GetFileTypeString(FileTypes.MESSAGE));
+
+            return 
+                (EventHeader: new int[] { eventTypeIndex, @event.Length },
+                MessageHeader: new int[] { messageTypeIndex, message.Length });
+        }
+    }
+
     /// <summary>
     /// IO constants
     /// </summary>
@@ -20,6 +79,25 @@ namespace FileOperations.Constants
         public const string InnerNewlineReplace = "{INNERNEWLINE}";
         public const string QuotationReplace = "{D_QUOTE}";
         public const string EqualsReplace = "{EQ_SIGN}";
+
+        public static Data<string, string> ParseContent(string content)
+        {
+            Data<string, string> data = new Data<string, string>
+            {
+                TempDataStore =
+                    content.Split(new[] { IO.Tildes }, StringSplitOptions.RemoveEmptyEntries)
+                           .Select(x =>
+                               x.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
+                                .Select(y =>
+                                   y.Split(new[] { IO.EqSign }, StringSplitOptions.None))
+                                    .Select(a => new KeyValuePair<string, string>(a[0], a.ElementAtOrDefault(1) ?? string.Empty))
+                                .ToList())
+                           .Where(x => x.Any())
+                           .ToList()
+            };
+
+            return data;
+        }
 
         public static string FormatText(string text, bool isExport = false)
         {
@@ -52,9 +130,9 @@ namespace FileOperations.Constants
                       .Replace(EqualsReplace, EqSign);
         }
 
-        public static string FormatDate(Date date, Time time)
+        public static string FormatDate(DateAndTime date)
         {
-            return $"{TimeAndDateUtility.ConvertDate_String(date)}{PlusSign}{TimeAndDateUtility.ConvertTime_String(time)}";
+            return date == null ? $"{PlusSign}" : $"{TimeAndDateUtility.ConvertDate_String(date.Date)}{PlusSign}{TimeAndDateUtility.ConvertTime_String(date.Time)}";
         }
 
         public static string TestId(string id)
@@ -77,7 +155,7 @@ namespace FileOperations.Constants
             return text;
         }
 
-        public static (Date Date, Time Time) TestDate(string dateAndTime)
+        public static DateAndTime TestDate(string dateAndTime)
         {
             string[] date_time =
                 dateAndTime.Replace(Quotes, string.Empty)
@@ -100,7 +178,7 @@ namespace FileOperations.Constants
                 time = TimeAndDateUtility.ConvertString_Time(date_time[1]);
             }
 
-            return (date, time);
+            return new DateAndTime(date, time);
         }
 
         public static bool TestBoolean(string boolean)
@@ -112,10 +190,51 @@ namespace FileOperations.Constants
         }
     }
 
+    public static class BackupIOConsts
+    {
+#if DEBUG
+        private const string DefaultExportPath = "..\\..\\Resources\\All\\Backup_{0}.saved";
+#else
+        private const string DefaultExportPath = ".\\Resources\\All\\Backup_{0}.saved";
+#endif
+
+        public static void ArchiveOldAll()
+        {
+            string backup = File.ReadAllText(AllIOConsts.DefaultPath);
+            DateTime date = DateTime.Now;
+            File.WriteAllText(string.Format(DefaultExportPath, date.ToString("(MM-dd-yy-hh-mm-ss)")), backup);
+            CleanFileDirectory();
+        }
+
+        private static void CleanFileDirectory()
+        {
+            DirectoryInfo directory = new DirectoryInfo(AllIOConsts.DefaultDirectory);
+            FileInfo[] files = directory.GetFiles("Backup_*").OrderByDescending(x => x.CreationTimeUtc).Skip(5).ToArray();
+
+            foreach (FileInfo file in files)
+            {
+                file.Delete();
+            }
+        }
+    }
+
+    public static class AllIOConsts
+    {
+#if DEBUG
+        public const string DefaultPath = "..\\..\\Resources\\All\\AllTest.saved";
+        public const string DefaultDirectory = "..\\..\\Resources\\All\\";
+#else
+        public const string DefaultPath = ".\\Resources\\All\\AllLog.saved";
+        public const string DefaultDirectory = ".\\Resources\\All\\";
+#endif
+
+        public const string DefaultFileName = "Export_All_{0}.saved";
+    }
+
     /// <summary>
     /// Message IO Constants
     /// </summary>
-    public static class MIOConts
+    public static class MIOConsts
     {
         public const string Id = "Id";
         public const string Title = "Title";
@@ -126,19 +245,13 @@ namespace FileOperations.Constants
         public const string DateCreated = "DateCreated";
         public const string DateLastDisplayed = "DateLastDisplayed";
 
-#if DEBUG
-        public const string DefaultImportPath = "..\\..\\Resources\\Messages\\MessageTestDebug.saved";
-        public const string DefaultExportPath = "..\\..\\Resources\\Messages\\MessageResultDebug.saved";
-#else
-        public const string DefaultImportPath = ".\\Resources\\Messages\\MessageLog.saved";
-        public const string DefaultExportPath = ".\\Resources\\Messages\\MessageLog.saved";
-#endif
+        public const string DefaultFileName = "Export_Messages_{0}.saved";
     }
 
     /// <summary>
     /// Event IO Constants
     /// </summary>
-    public static class EIOConstants
+    public static class EIOConsts
     {
         public const string Id = "Id";
         public const string Title = "Title";
@@ -149,12 +262,6 @@ namespace FileOperations.Constants
         public const string ActivationDate = "ActivationDate";
         public const string DeactivationDate = "DeactivationDate";
 
-#if DEBUG
-        public const string DefaultImportPath = "..\\..\\Resources\\Events\\EventTestDebug.saved";
-        public const string DefaultExportPath = "..\\..\\Resources\\Events\\EventResultDebug.saved";
-#else
-        private const string DefaultImportPath = ".\\Resources\\Events\\EventLog.saved";
-        private const string DefaultExportPath = ".\\Resources\\Events\\EventLog.saved";
-#endif
+        public const string DefaultFileName = "Export_Events_{0}.saved";
     }
 }

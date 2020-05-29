@@ -1,5 +1,6 @@
 ﻿using Backend.Inferfaces;
 using Backend.Model;
+using FileOperations.Constants;
 using FileOperations.Implementations;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace Backend.Implementations
     /// </summary>
     public class MessageRepository : IMessageRepository
     {
-        private readonly List<AppMessage> Messages;
+        private readonly List<AppMessage> AppMessages;
         private readonly MessageIO io;
 
         /// <summary>
@@ -20,7 +21,7 @@ namespace Backend.Implementations
         /// </summary>
         public MessageRepository()
         {
-            Messages = new List<AppMessage>();
+            AppMessages = new List<AppMessage>();
             io = new MessageIO();
         }
 
@@ -33,7 +34,7 @@ namespace Backend.Implementations
 
             if (toAdd != null)
             {
-                Messages.Add(toAdd);
+                AppMessages.Add(toAdd);
                 added = true;
             }
 
@@ -51,12 +52,12 @@ namespace Backend.Implementations
             {
                 if (!string.IsNullOrEmpty(id))
                 {
-                    AppMessage existingMessage = Messages.SingleOrDefault(x => x.Id == id);
+                    AppMessage existingMessage = AppMessages.SingleOrDefault(x => x.Id == id);
 
                     if (existingMessage == null)
                         throw new Exception();
 
-                    deleted = Messages.Remove(existingMessage);
+                    deleted = AppMessages.Remove(existingMessage);
                 }
             }
             catch(Exception)
@@ -76,7 +77,7 @@ namespace Backend.Implementations
 
             if (!string.IsNullOrEmpty(id))
             {
-                message = Messages.SingleOrDefault(x => x.Id == id);
+                message = AppMessages.SingleOrDefault(x => x.Id == id);
             }
 
             return message;
@@ -87,7 +88,7 @@ namespace Backend.Implementations
         /// </summary>
         public IEnumerable<AppMessage> GetMessages()
         {
-            return Messages.AsReadOnly();
+            return AppMessages.AsReadOnly();
         }
 
         /// <summary>
@@ -101,7 +102,7 @@ namespace Backend.Implementations
             {
                 string loweredString = searchTerm.ToLower();
                 messages =
-                    Messages.Where(x =>
+                    AppMessages.Where(x =>
                         x.Title.Contains(loweredString)
                         || x.Author.ToLower().Contains(loweredString)
                         || x.Quote.ToLower().Contains(loweredString)
@@ -117,19 +118,17 @@ namespace Backend.Implementations
         /// </summary>
         public bool LoadMessages(bool overwrite = false)
         {
-            if (overwrite)
-            {
-                Messages.Clear();
-                Messages.AddRange(io.Load());
-            }
-            else
-            {
-                List<AppMessage> messages = io.Load();
-                List<AppMessage> filtered = messages.Where(x => !Messages.Any(y => y.Id == x.Id)).ToList();
-                Messages.AddRange(filtered);
-            }
+            (string Events, string Messages) = AllIO.ImportChanges();
+            List<AppMessage> messages = io.Parse(Messages);
+            List<AppMessage> filtered = overwrite ? messages : messages.Where(x => !AppMessages.Any(y => y.Id == x.Id)).ToList();
 
-            return true;
+            if (overwrite)
+                AppMessages.Clear();
+
+            if (messages.Any())
+                AppMessages.AddRange(filtered);
+
+            return io.FullyLoaded;
         }
 
         /// <summary>
@@ -137,17 +136,15 @@ namespace Backend.Implementations
         /// </summary>
         public bool LoadMessages(string path, bool overwrite = false)
         {
+            (string Events, string Messages) = AllIO.ImportChanges(path);
+            List<AppMessage> messages = io.Parse(Messages);
+            List<AppMessage> filtered = overwrite ? messages : messages.Where(x => !AppMessages.Any(y => y.Id == x.Id)).ToList();
+
             if (overwrite)
-            {
-                Messages.Clear();
-                Messages.AddRange(io.Load(path));
-            }
-            else
-            {
-                List<AppMessage> messages = io.Load(path);
-                List<AppMessage> filtered = messages.Where(x => !Messages.Any(y => y.Id == x.Id)).ToList();
-                Messages.AddRange(filtered);
-            }
+                AppMessages.Clear();
+
+            if (messages.Any())
+                AppMessages.AddRange(filtered);
 
             return io.FullyLoaded;
         }
@@ -157,7 +154,7 @@ namespace Backend.Implementations
         /// </summary>
         public bool SaveMessages()
         {
-            io.Save(Messages);
+            io.Save(AppMessages);
 
             return io.FullySaved;
         }
@@ -167,9 +164,18 @@ namespace Backend.Implementations
         /// </summary>
         public bool SaveMessages(string path)
         {
-            io.Save(Messages, path);
+            bool exported = true;
 
-            return io.FullySaved;
+            try
+            {
+                AllIO.ExportSingle(path, FileTypes.MESSAGE);
+            }
+            catch (Exception)
+            {
+                exported = false;
+            }
+
+            return exported;
         }
 
         /// <summary>
@@ -183,7 +189,7 @@ namespace Backend.Implementations
             {
                 if (toUpdate != null)
                 {
-                    AppMessage message = Messages.SingleOrDefault(x => x.Id == toUpdate.Id);
+                    AppMessage message = AppMessages.SingleOrDefault(x => x.Id == toUpdate.Id);
 
                     if (message != null)
                     {
@@ -192,8 +198,7 @@ namespace Backend.Implementations
                         message.Author = toUpdate.Author;
                         message.Source = toUpdate.Source;
                         message.Show = toUpdate.Show;
-                        message.LastDateDisplayed = toUpdate.LastDateDisplayed;
-                        message.LastTimeDisplayed = toUpdate.LastTimeDisplayed;
+                        message.LastDisplayedDate = toUpdate.LastDisplayedDate;
 
                         updated = true;
                     }

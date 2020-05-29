@@ -9,11 +9,10 @@ namespace FileOperations.Interfaces
     public interface IFileOperations<A>
     {
         /// <summary>
-        /// Loads data from file
+        /// Parses incoming data into <see cref="A"/>
         /// </summary>
-        /// <param name="path">The file path</param>
-        /// <returns>Whether the data was fully uploaded</returns>
-        List<A> Load(string path = null);
+        /// <param name="content">The text to parse</param>
+        List<A> Parse(string content);
 
         /// <summary>
         /// Saves data to file
@@ -21,5 +20,12 @@ namespace FileOperations.Interfaces
         /// <param name="items">The list to export</param>
         /// <param name="path">The file path</param>
         void Save(List<A> items, string path = null);
+
+        /// <summary>
+        /// Converts list to data
+        /// </summary>
+        /// <param name="items">The list to convert</param>
+        /// <returns>The stringified list</returns>
+        string ConvertData(List<A> items);
     }
 }

@@ -7,6 +7,7 @@ using System;
 using Shared.Model;
 using Shared.Global;
 using FileOperations.Implementations;
+using FileOperations.Constants;
 //using Microsoft.SqlServer.Server;
 
 namespace Backend.Implementations
@@ -65,11 +66,9 @@ namespace Backend.Implementations
                     throw new Exception("Event not found.");
 
                 existingEvent.ActivationDate = @event.ActivationDate;
-                existingEvent.ActivationTime = @event.ActivationTime;
                 existingEvent.Comment = @event.Comment;
                 existingEvent.Completed = @event.Completed;
                 existingEvent.DeactivationDate = @event.DeactivationDate;
-                existingEvent.DeactivationTime = @event.DeactivationTime;
                 existingEvent.Title = @event.Title;
 
                 return true;
@@ -117,9 +116,9 @@ namespace Backend.Implementations
         }
 
         /// <summary>
-        /// Implements <see cref="IEventRepository.GetEvents(Date, Date)" />
+        /// Implements <see cref="IEventRepository.GetEvents(DateAndTime, DateAndTime)" />
         /// </summary>
-        public IEnumerable<SavedEvent> GetEvents(Date start, Date end)
+        public IEnumerable<SavedEvent> GetEvents(DateAndTime start, DateAndTime end)
         {
             return
                 SavedEvents.Where(x =>
@@ -143,9 +142,9 @@ namespace Backend.Implementations
         }
 
         /// <summary>
-        /// Implements <see cref="IEventRepository.GetEvents(Date)" />
+        /// Implements <see cref="IEventRepository.GetEvents(DateAndTime)" />
         /// </summary>
-        public IEnumerable<SavedEvent> GetEvents(Date date)
+        public IEnumerable<SavedEvent> GetEvents(DateAndTime date)
         {
             return
                 SavedEvents.Where(x => TimeAndDateUtility.IsWithinRange(x.ActivationDate, date, x.DeactivationDate))
@@ -166,17 +165,15 @@ namespace Backend.Implementations
         /// </summary>
         public bool LoadEvents(bool overwrite = false)
         {
+            (string Events, string Messages) = AllIO.ImportChanges();
+            List<SavedEvent> events = io.Parse(Events);
+            List<SavedEvent> filtered = overwrite ? events : events.Where(x => !SavedEvents.Any(y => y.Id == x.Id)).ToList();
+            
             if (overwrite)
-            {
                 SavedEvents.Clear();
-                SavedEvents.AddRange(io.Load());
-            }
-            else
-            {
-                List<SavedEvent> messages = io.Load();
-                List<SavedEvent> filtered = messages.Where(x => !SavedEvents.Any(y => y.Id == x.Id)).ToList();
+
+            if (events.Any())
                 SavedEvents.AddRange(filtered);
-            }
 
             return io.FullyLoaded;
         }
@@ -186,17 +183,16 @@ namespace Backend.Implementations
         /// </summary>
         public bool LoadEvents(string path, bool overwrite = false)
         {
+
+            (string Events, string Messages) = AllIO.ImportChanges(path);
+            List<SavedEvent> events = io.Parse(Events);
+            List<SavedEvent> filtered = overwrite ? events : events.Where(x => !SavedEvents.Any(y => y.Id == x.Id)).ToList();
+
             if (overwrite)
-            {
                 SavedEvents.Clear();
-                SavedEvents.AddRange(io.Load(path));
-            }
-            else
-            {
-                List<SavedEvent> messages = io.Load(path);
-                List<SavedEvent> filtered = messages.Where(x => !SavedEvents.Any(y => y.Id == x.Id)).ToList();
-                SavedEvents.AddRange(filtered);
-            }
+
+            if (events.Any())
+                SavedEvents.AddRange(events);
 
             return io.FullyLoaded;
         }
@@ -216,9 +212,19 @@ namespace Backend.Implementations
         /// </summary>
         public bool SaveEvents(string path)
         {
-            io.Save(SavedEvents, path);
+            bool exported = true;
 
-            return io.FullySaved;
+            try
+            {
+                AllIO.ExportSingle(path, FileTypes.EVENT);
+            }
+            catch (Exception)
+            {
+
+                exported = false;
+            }
+
+            return exported;
         }
     }
 }

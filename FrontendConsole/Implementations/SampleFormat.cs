@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ConsoleApp.Customize.Implementation
 {
-    public class MenuFormat : ICustomConsoleColor
+    public class SampleFormat : ICustomConsoleColor
     {
         public void DisplayText(string text)
         {
@@ -69,7 +69,6 @@ namespace ConsoleApp.Customize.Implementation
                     Console.WriteLine($"{hintDogName} is done with your lack of respect. You have been executed.");
                 }
             }
-
         }
     }
 }

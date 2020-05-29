@@ -6,6 +6,7 @@ using Frontend.Controller.Parts;
 using Frontend.Controller.Prompts;
 using System.Drawing;
 using Shared.Global;
+using Frontend.App.Views;
 
 namespace Frontend.App.Parts
 {
@@ -120,13 +121,14 @@ namespace Frontend.App.Parts
         {
             if (_messages.Add())
             {
-                if (_messages.SaveMessages())
-                    MessageBox.Show("Unable to save some or all messages.", "Error Occurred.", MessageBoxButtons.OK);
+                if (!_messages.SaveMessages())
+                    MessageBox.Show("Unable to save some or all messages.", "Error Occurred.", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 ClearMessageDetails();
                 ToggleButtons(false, DASH);
-                UpdateMessages();
                 SearchTB.SetText(string.Empty);
+                UpdateMessages();
+                ClearMessageDisplay();
             }
         }
 
@@ -138,13 +140,14 @@ namespace Frontend.App.Parts
 
                 if (_messages.Update(id))
                 {
-                    if (_messages.SaveMessages())
-                        MessageBox.Show("Unable to save some or all messages.", "Error Occurred.", MessageBoxButtons.OK);
+                    if (!_messages.SaveMessages())
+                        MessageBox.Show("Unable to save some or all messages.", "Error Occurred.", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                     ClearMessageDetails();
                     ToggleButtons(false, DASH);
-                    UpdateMessages();
                     SearchTB.SetText(string.Empty);
+                    UpdateMessages();
+                    ClearMessageDisplay();
                 }
             }
             catch (Exception)
@@ -161,13 +164,14 @@ namespace Frontend.App.Parts
 
                 if (!string.IsNullOrEmpty(id) && _messages.Remove(id))
                 {
-                    if (_messages.SaveMessages())
-                        MessageBox.Show("Unable to save some or all messages.", "Error Occurred.", MessageBoxButtons.OK);
+                    if (!_messages.SaveMessages())
+                        MessageBox.Show("Unable to save some or all messages.", "Error Occurred.", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                     ClearMessageDetails();
                     ToggleButtons(false, DASH);
-                    UpdateMessages();
                     SearchTB.SetText(string.Empty);
+                    UpdateMessages();
+                    ClearMessageDisplay();
                 }
             }
             catch(Exception)
@@ -178,17 +182,63 @@ namespace Frontend.App.Parts
 
         private void ToggleButton_Click(object sender, EventArgs e)
         {
-            string id = ((AppMessage)MessagesLB.SelectedIndex())?.Id;
-
-            if (!string.IsNullOrEmpty(id) && _messages.ToggleShow(id))
+            try
             {
-                if (_messages.SaveMessages())
-                    MessageBox.Show("Unable to save some or all messages.", "Error Occurred.", MessageBoxButtons.OK);
+                string id = ((AppMessage)MessagesLB.SelectedIndex())?.Id;
 
-                ClearMessageDetails();
-                ToggleButtons(false, DASH);
-                UpdateMessages();
+                if (!string.IsNullOrEmpty(id) && _messages.ToggleShow(id))
+                {
+                    if (!_messages.SaveMessages())
+                        MessageBox.Show("Unable to save some or all messages.", "Error Occurred.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    ClearMessageDetails();
+                    ToggleButtons(false, DASH);
+                    UpdateMessages();
+                    ClearMessageDisplay();
+                }
             }
+            catch (Exception)
+            {
+                // Something happened
+            }
+        }
+
+        private void Highlight_MouseLeave(object sender, EventArgs e)
+        {
+            Label label = (Label)sender;
+            label.BackColor = SystemColors.ControlLight;
+            label.ForeColor = Color.Black;
+        }
+
+        private void Highlight_MouseHover(object sender, EventArgs e)
+        {
+            Label label = (Label)sender;
+            label.BackColor = SystemColors.ControlDark;
+            label.ForeColor = Color.WhiteSmoke;
+        }
+
+        private void CopyMessage_Click(object sender, EventArgs e)
+        {
+            CopyMessage.Enabled = false;
+
+            Clipboard.SetText(MessagePreviewTB.Text);
+            PromptUser.Visible = true;
+            PromptUser.Text = "Copied\r\n💾";
+
+            Timer timer = new Timer
+            {
+                Interval = 1500
+            };
+
+            timer.Tick += (s, ee) =>
+            {
+                PromptUser.Visible = false;
+                PromptUser.Text = string.Empty;
+                timer.Stop();
+                CopyMessage.Enabled = true;
+            };
+
+            timer.Start();
         }
 
         #region Helpers
@@ -222,15 +272,15 @@ namespace Frontend.App.Parts
             AuthorsTB.SetText(string.IsNullOrEmpty(message.Author) ? NO_AUTHORS : message.Author);
             SourcesTB.SetText(string.IsNullOrEmpty(message.Source) ? NO_SOURCES : message.Source);
 
-            Date_Created.SetText(TimeAndDateUtility.ConvertDate_String(message.DateCreated, true));
-            Time_Created.SetText(TimeAndDateUtility.ConvertTime_String(message.TimeCreated));
+            Date_Created.SetText(TimeAndDateUtility.ConvertDate_String(message.CreatedDate.Date, true));
+            Time_Created.SetText(TimeAndDateUtility.ConvertTime_String(message.CreatedDate.Time));
 
-            bool fullLastDisplayedDate = message.LastDateDisplayed == null || message.LastTimeDisplayed == null;
+            bool fullLastDisplayedDate = message.LastDisplayedDate == null || message.LastDisplayedDate.Date == null || message.LastDisplayedDate.Time == null;
             Last_Displayed_Date.SetText(fullLastDisplayedDate ?
-                DASH : TimeAndDateUtility.ConvertDate_String(message.LastDateDisplayed, true));
+                DASH : TimeAndDateUtility.ConvertDate_String(message.LastDisplayedDate.Date, true));
 
             Last_Displayed_Time.SetText(fullLastDisplayedDate ?
-                DASH : TimeAndDateUtility.ConvertTime_String(message.LastTimeDisplayed));
+                DASH : TimeAndDateUtility.ConvertTime_String(message.LastDisplayedDate.Time));
 
             Status.SetText(message.Show ? ENABLE : DISABLE);
             Status.SetBackColor(message.Show ? Color.DarkGreen : Color.DarkRed);
@@ -252,6 +302,12 @@ namespace Frontend.App.Parts
                 object[] messages = _messages.GetAll(SearchTB.Text);
                 MessagesLB.Update(messages);
             }
+        }
+
+        private void ClearMessageDisplay()
+        {
+            MainApp form = (_controls.Get(_parentId, _parentId) as FormController).GetControl() as MainApp;
+            form.TriggerDelayedRefresh();
         }
 
         private void ClearMessageDetails()
@@ -277,6 +333,8 @@ namespace Frontend.App.Parts
             RemoveButton.Enabled = enable;
             ToggleButton.Enabled = enable;
             ToggleButton.Text = toggleText ?? ToggleButton.Text;
+            CopyMessage.Enabled = enable;
+            ExportAsImage.Enabled = enable;
         }
 
         #endregion Helpers

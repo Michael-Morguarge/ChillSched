@@ -50,6 +50,9 @@
             this.MessageDateCreatedLB = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.MessagePreviewTB = new System.Windows.Forms.RichTextBox();
+            this.ExportAsImage = new System.Windows.Forms.Label();
+            this.CopyMessage = new System.Windows.Forms.Label();
+            this.PromptUser = new System.Windows.Forms.Label();
             this.MessagesGB.SuspendLayout();
             this.MessageInfoGB.SuspendLayout();
             this.InfoTab.SuspendLayout();
@@ -60,6 +63,7 @@
             // MessageListBox
             // 
             this.MessageListBox.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.MessageListBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MessageListBox.FormattingEnabled = true;
             this.MessageListBox.ItemHeight = 20;
             this.MessageListBox.Items.AddRange(new object[] {
@@ -324,6 +328,9 @@
             // 
             this.tabPage2.AutoScroll = true;
             this.tabPage2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.tabPage2.Controls.Add(this.PromptUser);
+            this.tabPage2.Controls.Add(this.ExportAsImage);
+            this.tabPage2.Controls.Add(this.CopyMessage);
             this.tabPage2.Controls.Add(this.MessagePreviewTB);
             this.tabPage2.Location = new System.Drawing.Point(4, 28);
             this.tabPage2.Name = "tabPage2";
@@ -348,6 +355,53 @@
             this.MessagePreviewTB.TabStop = false;
             this.MessagePreviewTB.Text = "No message";
             // 
+            // ExportAsImage
+            // 
+            this.ExportAsImage.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.ExportAsImage.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ExportAsImage.Enabled = false;
+            this.ExportAsImage.Font = new System.Drawing.Font("Bahnschrift", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ExportAsImage.Location = new System.Drawing.Point(565, 189);
+            this.ExportAsImage.Name = "ExportAsImage";
+            this.ExportAsImage.Size = new System.Drawing.Size(35, 37);
+            this.ExportAsImage.TabIndex = 10;
+            this.ExportAsImage.Text = "🖌";
+            this.ExportAsImage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.ExportAsImage.MouseEnter += new System.EventHandler(this.Highlight_MouseHover);
+            this.ExportAsImage.MouseLeave += new System.EventHandler(this.Highlight_MouseLeave);
+            // 
+            // CopyMessage
+            // 
+            this.CopyMessage.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.CopyMessage.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.CopyMessage.Font = new System.Drawing.Font("Bahnschrift", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CopyMessage.Location = new System.Drawing.Point(565, 224);
+            this.CopyMessage.Name = "CopyMessage";
+            this.CopyMessage.Size = new System.Drawing.Size(35, 37);
+            this.CopyMessage.TabIndex = 9;
+            this.CopyMessage.Text = "💾";
+            this.CopyMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.CopyMessage.Click += new System.EventHandler(this.CopyMessage_Click);
+            this.CopyMessage.MouseEnter += new System.EventHandler(this.Highlight_MouseHover);
+            this.CopyMessage.MouseLeave += new System.EventHandler(this.Highlight_MouseLeave);
+            // 
+            // PromptUser
+            // 
+            this.PromptUser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.PromptUser.AutoSize = true;
+            this.PromptUser.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.PromptUser.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.PromptUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PromptUser.Location = new System.Drawing.Point(268, 111);
+            this.PromptUser.Name = "PromptUser";
+            this.PromptUser.Size = new System.Drawing.Size(83, 46);
+            this.PromptUser.TabIndex = 11;
+            this.PromptUser.Text = "Loading\r\n⏳";
+            this.PromptUser.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.PromptUser.Visible = false;
+            // 
             // MessagesView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -363,6 +417,7 @@
             this.InfoTab.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -391,5 +446,8 @@
         private System.Windows.Forms.RichTextBox MessagePreviewTB;
         private System.Windows.Forms.RichTextBox MessageAuthorsTB;
         private System.Windows.Forms.RichTextBox MessageSourcesTB;
+        private System.Windows.Forms.Label ExportAsImage;
+        private System.Windows.Forms.Label CopyMessage;
+        private System.Windows.Forms.Label PromptUser;
     }
 }

@@ -70,6 +70,7 @@
             // TodaysEventsListBox
             // 
             this.TodaysEventsListBox.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.TodaysEventsListBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.TodaysEventsListBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TodaysEventsListBox.FormattingEnabled = true;
             this.TodaysEventsListBox.ItemHeight = 16;
@@ -79,6 +80,7 @@
             this.TodaysEventsListBox.Name = "TodaysEventsListBox";
             this.TodaysEventsListBox.Size = new System.Drawing.Size(257, 292);
             this.TodaysEventsListBox.TabIndex = 1;
+            this.TodaysEventsListBox.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.TodaysEventsListBox_DrawItem);
             this.TodaysEventsListBox.SelectedIndexChanged += new System.EventHandler(this.TodaysEvents_SelectedIndexChanged);
             // 
             // flowLayoutPanel1
