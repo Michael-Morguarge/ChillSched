@@ -38,36 +38,39 @@
             this.DateTicker = new System.Windows.Forms.Timer(this.components);
             this.CalendarTab = new System.Windows.Forms.TabPage();
             this.EventCalendar = new System.Windows.Forms.MonthCalendar();
+            this.EIV = new Frontend.App.Parts.EventsInfoView();
             this.TimeTab = new System.Windows.Forms.TabPage();
             this.ExportAsImage = new System.Windows.Forms.Label();
             this.PromptUser = new System.Windows.Forms.Label();
             this.CopyMessage = new System.Windows.Forms.Label();
             this.RefreshMessage = new System.Windows.Forms.Label();
-            this.MessageDisplay = new System.Windows.Forms.RichTextBox();
+            this.MessageDisplayTb = new System.Windows.Forms.RichTextBox();
             this.NextUpdateIn = new System.Windows.Forms.Label();
             this.NextUpdateProgress = new System.Windows.Forms.ProgressBar();
-            this.LastUpdated = new System.Windows.Forms.Label();
+            this.LastUpdatedLbl = new System.Windows.Forms.Label();
             this.CurrMonthsEvents = new System.Windows.Forms.Label();
             this.EventListView = new System.Windows.Forms.ListView();
             this.EventTitle = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.TimeTilEvent = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.Date = new System.Windows.Forms.Label();
-            this.Time = new System.Windows.Forms.Label();
+            this.DateLbl = new System.Windows.Forms.Label();
+            this.TimeLbl = new System.Windows.Forms.Label();
             this.TimeAndCalendarTabular = new System.Windows.Forms.TabControl();
             this.SearchTab = new System.Windows.Forms.TabPage();
             this.SearchViews = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.SearchTextTB = new System.Windows.Forms.TextBox();
+            this.SearchTextTb = new System.Windows.Forms.TextBox();
             this.TextLbl = new System.Windows.Forms.Label();
             this.SearchBTN = new System.Windows.Forms.Button();
-            this.EventSearchEndDP = new System.Windows.Forms.DateTimePicker();
+            this.EventSearchEndDp = new System.Windows.Forms.DateTimePicker();
             this.EndDateLbl = new System.Windows.Forms.Label();
             this.UseEndDate = new System.Windows.Forms.CheckBox();
-            this.EventSearchStartDP = new System.Windows.Forms.DateTimePicker();
+            this.EventSearchStartDp = new System.Windows.Forms.DateTimePicker();
             this.StartDateLbl = new System.Windows.Forms.Label();
             this.UseStartDate = new System.Windows.Forms.CheckBox();
+            this.SEIV = new Frontend.App.Parts.EventsInfoView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.MMV = new Frontend.App.Parts.MessagesView();
             this.GeneralToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.DateTimeIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.DateTimeIconMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -103,9 +106,6 @@
             this.OpenFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.FolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.MessageTicker = new System.Windows.Forms.Timer(this.components);
-            this.EIV = new Frontend.App.Parts.EventsInfoView();
-            this.SEIV = new Frontend.App.Parts.EventsInfoView();
-            this.MMV = new Frontend.App.Parts.MessagesView();
             this.CalendarTab.SuspendLayout();
             this.TimeTab.SuspendLayout();
             this.TimeAndCalendarTabular.SuspendLayout();
@@ -158,6 +158,15 @@
             this.EventCalendar.TrailingForeColor = System.Drawing.SystemColors.ControlText;
             this.EventCalendar.DateChanged += new System.Windows.Forms.DateRangeEventHandler(this.Calendar_DateChanged);
             // 
+            // EIV
+            // 
+            this.EIV.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.EIV.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.EIV.Location = new System.Drawing.Point(246, 3);
+            this.EIV.Name = "EIV";
+            this.EIV.Size = new System.Drawing.Size(814, 387);
+            this.EIV.TabIndex = 2;
+            // 
             // TimeTab
             // 
             this.TimeTab.BackColor = System.Drawing.SystemColors.Control;
@@ -165,14 +174,14 @@
             this.TimeTab.Controls.Add(this.PromptUser);
             this.TimeTab.Controls.Add(this.CopyMessage);
             this.TimeTab.Controls.Add(this.RefreshMessage);
-            this.TimeTab.Controls.Add(this.MessageDisplay);
+            this.TimeTab.Controls.Add(this.MessageDisplayTb);
             this.TimeTab.Controls.Add(this.NextUpdateIn);
             this.TimeTab.Controls.Add(this.NextUpdateProgress);
-            this.TimeTab.Controls.Add(this.LastUpdated);
+            this.TimeTab.Controls.Add(this.LastUpdatedLbl);
             this.TimeTab.Controls.Add(this.CurrMonthsEvents);
             this.TimeTab.Controls.Add(this.EventListView);
-            this.TimeTab.Controls.Add(this.Date);
-            this.TimeTab.Controls.Add(this.Time);
+            this.TimeTab.Controls.Add(this.DateLbl);
+            this.TimeTab.Controls.Add(this.TimeLbl);
             this.TimeTab.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TimeTab.Location = new System.Drawing.Point(4, 29);
             this.TimeTab.Name = "TimeTab";
@@ -193,7 +202,7 @@
             this.ExportAsImage.TabIndex = 7;
             this.ExportAsImage.Text = "🖌";
             this.ExportAsImage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.GeneralToolTip.SetToolTip(this.ExportAsImage, "Export As Image");
+            this.GeneralToolTip.SetToolTip(this.ExportAsImage, "Export as image");
             this.ExportAsImage.Click += new System.EventHandler(this.ExportAsImage_Click);
             this.ExportAsImage.MouseEnter += new System.EventHandler(this.Highlight_MouseHover);
             this.ExportAsImage.MouseLeave += new System.EventHandler(this.Highlight_MouseLeave);
@@ -226,7 +235,7 @@
             this.CopyMessage.TabIndex = 6;
             this.CopyMessage.Text = "💾";
             this.CopyMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.GeneralToolTip.SetToolTip(this.CopyMessage, "Copy");
+            this.GeneralToolTip.SetToolTip(this.CopyMessage, "Copy to clipboard");
             this.CopyMessage.Click += new System.EventHandler(this.CopyMessage_Click);
             this.CopyMessage.MouseEnter += new System.EventHandler(this.Highlight_MouseHover);
             this.CopyMessage.MouseLeave += new System.EventHandler(this.Highlight_MouseLeave);
@@ -242,24 +251,24 @@
             this.RefreshMessage.TabIndex = 5;
             this.RefreshMessage.Text = "🔄 ";
             this.RefreshMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.GeneralToolTip.SetToolTip(this.RefreshMessage, "Refresh");
+            this.GeneralToolTip.SetToolTip(this.RefreshMessage, "Refresh message view");
             this.RefreshMessage.Click += new System.EventHandler(this.RefreshMessage_Click);
             this.RefreshMessage.MouseEnter += new System.EventHandler(this.Highlight_MouseHover);
             this.RefreshMessage.MouseLeave += new System.EventHandler(this.Highlight_MouseLeave);
             // 
-            // MessageDisplay
+            // MessageDisplayTb
             // 
-            this.MessageDisplay.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.MessageDisplay.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.MessageDisplay.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MessageDisplay.Location = new System.Drawing.Point(17, 170);
-            this.MessageDisplay.Name = "MessageDisplay";
-            this.MessageDisplay.ReadOnly = true;
-            this.MessageDisplay.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.MessageDisplay.Size = new System.Drawing.Size(609, 197);
-            this.MessageDisplay.TabIndex = 0;
-            this.MessageDisplay.TabStop = false;
-            this.MessageDisplay.Text = "Welcome to ChillSched";
+            this.MessageDisplayTb.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.MessageDisplayTb.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.MessageDisplayTb.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MessageDisplayTb.Location = new System.Drawing.Point(17, 170);
+            this.MessageDisplayTb.Name = "MessageDisplayTb";
+            this.MessageDisplayTb.ReadOnly = true;
+            this.MessageDisplayTb.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+            this.MessageDisplayTb.Size = new System.Drawing.Size(609, 197);
+            this.MessageDisplayTb.TabIndex = 0;
+            this.MessageDisplayTb.TabStop = false;
+            this.MessageDisplayTb.Text = "Welcome to ChillSched";
             // 
             // NextUpdateIn
             // 
@@ -284,16 +293,16 @@
             this.NextUpdateProgress.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.NextUpdateProgress.TabIndex = 0;
             // 
-            // LastUpdated
+            // LastUpdatedLbl
             // 
-            this.LastUpdated.BackColor = System.Drawing.Color.Transparent;
-            this.LastUpdated.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LastUpdated.Location = new System.Drawing.Point(638, 360);
-            this.LastUpdated.Name = "LastUpdated";
-            this.LastUpdated.Size = new System.Drawing.Size(416, 26);
-            this.LastUpdated.TabIndex = 2;
-            this.LastUpdated.Text = "-";
-            this.LastUpdated.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LastUpdatedLbl.BackColor = System.Drawing.Color.Transparent;
+            this.LastUpdatedLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LastUpdatedLbl.Location = new System.Drawing.Point(638, 360);
+            this.LastUpdatedLbl.Name = "LastUpdatedLbl";
+            this.LastUpdatedLbl.Size = new System.Drawing.Size(416, 26);
+            this.LastUpdatedLbl.TabIndex = 2;
+            this.LastUpdatedLbl.Text = "-";
+            this.LastUpdatedLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // CurrMonthsEvents
             // 
@@ -356,29 +365,29 @@
             this.TimeTilEvent.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TimeTilEvent.Width = 219;
             // 
-            // Date
+            // DateLbl
             // 
-            this.Date.BackColor = System.Drawing.Color.Transparent;
-            this.Date.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Date.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.Date.Location = new System.Drawing.Point(6, 107);
-            this.Date.Name = "Date";
-            this.Date.Size = new System.Drawing.Size(616, 42);
-            this.Date.TabIndex = 0;
-            this.Date.Text = "...";
-            this.Date.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.DateLbl.BackColor = System.Drawing.Color.Transparent;
+            this.DateLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.DateLbl.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.DateLbl.Location = new System.Drawing.Point(6, 107);
+            this.DateLbl.Name = "DateLbl";
+            this.DateLbl.Size = new System.Drawing.Size(616, 42);
+            this.DateLbl.TabIndex = 0;
+            this.DateLbl.Text = "...";
+            this.DateLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // Time
+            // TimeLbl
             // 
-            this.Time.BackColor = System.Drawing.Color.White;
-            this.Time.Font = new System.Drawing.Font("Microsoft Sans Serif", 35F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Time.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.Time.Location = new System.Drawing.Point(144, 29);
-            this.Time.Name = "Time";
-            this.Time.Size = new System.Drawing.Size(340, 60);
-            this.Time.TabIndex = 0;
-            this.Time.Text = "...";
-            this.Time.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.TimeLbl.BackColor = System.Drawing.Color.White;
+            this.TimeLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 35F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TimeLbl.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.TimeLbl.Location = new System.Drawing.Point(144, 29);
+            this.TimeLbl.Name = "TimeLbl";
+            this.TimeLbl.Size = new System.Drawing.Size(340, 60);
+            this.TimeLbl.TabIndex = 0;
+            this.TimeLbl.Text = "...";
+            this.TimeLbl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // TimeAndCalendarTabular
             // 
@@ -436,13 +445,13 @@
             this.tableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Controls.Add(this.SearchTextTB, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.SearchTextTb, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.TextLbl, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.SearchBTN, 0, 12);
-            this.tableLayoutPanel1.Controls.Add(this.EventSearchEndDP, 0, 10);
+            this.tableLayoutPanel1.Controls.Add(this.EventSearchEndDp, 0, 10);
             this.tableLayoutPanel1.Controls.Add(this.EndDateLbl, 0, 9);
             this.tableLayoutPanel1.Controls.Add(this.UseEndDate, 0, 8);
-            this.tableLayoutPanel1.Controls.Add(this.EventSearchStartDP, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this.EventSearchStartDp, 0, 6);
             this.tableLayoutPanel1.Controls.Add(this.StartDateLbl, 0, 5);
             this.tableLayoutPanel1.Controls.Add(this.UseStartDate, 0, 4);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(6, 6);
@@ -465,14 +474,14 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(206, 337);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
-            // SearchTextTB
+            // SearchTextTb
             // 
-            this.SearchTextTB.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.SearchTextTB.Location = new System.Drawing.Point(3, 34);
-            this.SearchTextTB.Name = "SearchTextTB";
-            this.SearchTextTB.Size = new System.Drawing.Size(200, 23);
-            this.SearchTextTB.TabIndex = 3;
-            this.SearchTextTB.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextTB_KeyUp);
+            this.SearchTextTb.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.SearchTextTb.Location = new System.Drawing.Point(3, 34);
+            this.SearchTextTb.Name = "SearchTextTb";
+            this.SearchTextTb.Size = new System.Drawing.Size(200, 23);
+            this.SearchTextTb.TabIndex = 3;
+            this.SearchTextTb.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextTB_KeyUp);
             // 
             // TextLbl
             // 
@@ -495,16 +504,16 @@
             this.SearchBTN.UseVisualStyleBackColor = true;
             this.SearchBTN.Click += new System.EventHandler(this.SearchBTN_Click);
             // 
-            // EventSearchEndDP
+            // EventSearchEndDp
             // 
-            this.EventSearchEndDP.CustomFormat = "MM/dd/yyyy";
-            this.EventSearchEndDP.Enabled = false;
-            this.EventSearchEndDP.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.EventSearchEndDP.Location = new System.Drawing.Point(3, 232);
-            this.EventSearchEndDP.Name = "EventSearchEndDP";
-            this.EventSearchEndDP.Size = new System.Drawing.Size(200, 23);
-            this.EventSearchEndDP.TabIndex = 5;
-            this.EventSearchEndDP.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextTB_KeyUp);
+            this.EventSearchEndDp.CustomFormat = "MM/dd/yyyy";
+            this.EventSearchEndDp.Enabled = false;
+            this.EventSearchEndDp.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.EventSearchEndDp.Location = new System.Drawing.Point(3, 232);
+            this.EventSearchEndDp.Name = "EventSearchEndDp";
+            this.EventSearchEndDp.Size = new System.Drawing.Size(200, 23);
+            this.EventSearchEndDp.TabIndex = 5;
+            this.EventSearchEndDp.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextTB_KeyUp);
             // 
             // EndDateLbl
             // 
@@ -528,18 +537,18 @@
             this.UseEndDate.UseVisualStyleBackColor = true;
             this.UseEndDate.CheckedChanged += new System.EventHandler(this.UseEndDate_CheckedChanged);
             // 
-            // EventSearchStartDP
+            // EventSearchStartDp
             // 
-            this.EventSearchStartDP.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.EventSearchStartDP.CustomFormat = "MM/dd/yyyy";
-            this.EventSearchStartDP.Enabled = false;
-            this.EventSearchStartDP.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
-            this.EventSearchStartDP.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.EventSearchStartDP.Location = new System.Drawing.Point(3, 134);
-            this.EventSearchStartDP.Name = "EventSearchStartDP";
-            this.EventSearchStartDP.Size = new System.Drawing.Size(200, 23);
-            this.EventSearchStartDP.TabIndex = 4;
-            this.EventSearchStartDP.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextTB_KeyUp);
+            this.EventSearchStartDp.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EventSearchStartDp.CustomFormat = "MM/dd/yyyy";
+            this.EventSearchStartDp.Enabled = false;
+            this.EventSearchStartDp.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
+            this.EventSearchStartDp.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.EventSearchStartDp.Location = new System.Drawing.Point(3, 134);
+            this.EventSearchStartDp.Name = "EventSearchStartDp";
+            this.EventSearchStartDp.Size = new System.Drawing.Size(200, 23);
+            this.EventSearchStartDp.TabIndex = 4;
+            this.EventSearchStartDp.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TextTB_KeyUp);
             // 
             // StartDateLbl
             // 
@@ -564,6 +573,15 @@
             this.UseStartDate.UseVisualStyleBackColor = true;
             this.UseStartDate.CheckedChanged += new System.EventHandler(this.UseStartDate_CheckedChanged);
             // 
+            // SEIV
+            // 
+            this.SEIV.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.SEIV.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SEIV.Location = new System.Drawing.Point(218, 6);
+            this.SEIV.Name = "SEIV";
+            this.SEIV.Size = new System.Drawing.Size(814, 337);
+            this.SEIV.TabIndex = 0;
+            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.MMV);
@@ -575,6 +593,15 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Mesages";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // MMV
+            // 
+            this.MMV.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.MMV.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.MMV.Location = new System.Drawing.Point(8, 3);
+            this.MMV.Name = "MMV";
+            this.MMV.Size = new System.Drawing.Size(1023, 340);
+            this.MMV.TabIndex = 0;
             // 
             // GeneralToolTip
             // 
@@ -897,33 +924,6 @@
             this.MessageTicker.Interval = 500;
             this.MessageTicker.Tick += new System.EventHandler(this.MessageTicker_Tick);
             // 
-            // EIV
-            // 
-            this.EIV.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.EIV.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.EIV.Location = new System.Drawing.Point(246, 3);
-            this.EIV.Name = "EIV";
-            this.EIV.Size = new System.Drawing.Size(814, 387);
-            this.EIV.TabIndex = 2;
-            // 
-            // SEIV
-            // 
-            this.SEIV.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.SEIV.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SEIV.Location = new System.Drawing.Point(218, 6);
-            this.SEIV.Name = "SEIV";
-            this.SEIV.Size = new System.Drawing.Size(814, 337);
-            this.SEIV.TabIndex = 0;
-            // 
-            // MMV
-            // 
-            this.MMV.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.MMV.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.MMV.Location = new System.Drawing.Point(8, 3);
-            this.MMV.Name = "MMV";
-            this.MMV.Size = new System.Drawing.Size(1023, 340);
-            this.MMV.TabIndex = 0;
-            // 
             // MainApp
             // 
             this.AccessibleDescription = "The main window";
@@ -973,8 +973,8 @@
         private System.Windows.Forms.TabPage CalendarTab;
         private System.Windows.Forms.MonthCalendar EventCalendar;
         private System.Windows.Forms.TabPage TimeTab;
-        private System.Windows.Forms.Label Date;
-        private System.Windows.Forms.Label Time;
+        private System.Windows.Forms.Label DateLbl;
+        private System.Windows.Forms.Label TimeLbl;
         private System.Windows.Forms.TabControl TimeAndCalendarTabular;
         private System.Windows.Forms.ToolTip GeneralToolTip;
         private System.Windows.Forms.NotifyIcon DateTimeIcon;
@@ -983,7 +983,7 @@
         private System.Windows.Forms.ColumnHeader TimeTilEvent;
         private System.Windows.Forms.Label CurrMonthsEvents;
         private System.Windows.Forms.ProgressBar NextUpdateProgress;
-        private System.Windows.Forms.Label LastUpdated;
+        private System.Windows.Forms.Label LastUpdatedLbl;
         private System.Windows.Forms.Label NextUpdateIn;
         private System.Windows.Forms.MenuStrip ChillSchedMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem WelcomeToChillSchedToolStripMenuItem;
@@ -1011,9 +1011,9 @@
         private System.Windows.Forms.Label StartDateLbl;
         private System.Windows.Forms.Label EndDateLbl;
         private Parts.MessagesView MMV;
-        private System.Windows.Forms.TextBox SearchTextTB;
-        private System.Windows.Forms.DateTimePicker EventSearchStartDP;
-        private System.Windows.Forms.DateTimePicker EventSearchEndDP;
+        private System.Windows.Forms.TextBox SearchTextTb;
+        private System.Windows.Forms.DateTimePicker EventSearchStartDp;
+        private System.Windows.Forms.DateTimePicker EventSearchEndDp;
         private System.Windows.Forms.Button SearchBTN;
         private System.Windows.Forms.CheckBox UseStartDate;
         private System.Windows.Forms.CheckBox UseEndDate;
@@ -1036,7 +1036,7 @@
         private System.Windows.Forms.FolderBrowserDialog FolderBrowserDialog;
         private System.Windows.Forms.Label CopyMessage;
         private System.Windows.Forms.Label RefreshMessage;
-        internal System.Windows.Forms.RichTextBox MessageDisplay;
+        internal System.Windows.Forms.RichTextBox MessageDisplayTb;
         private System.Windows.Forms.Label PromptUser;
         private System.Windows.Forms.Timer MessageTicker;
         private System.Windows.Forms.Label ExportAsImage;

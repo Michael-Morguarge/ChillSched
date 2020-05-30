@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.YourEvents = new System.Windows.Forms.GroupBox();
             this.TodaysEventsListBox = new System.Windows.Forms.ListBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -47,6 +48,7 @@
             this.RemoveButton = new System.Windows.Forms.Button();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.ToggleEventStatus = new System.Windows.Forms.Button();
+            this.EventsToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.YourEvents.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
@@ -108,6 +110,7 @@
             this.EventStartDateLB.TabIndex = 0;
             this.EventStartDateLB.Text = "-";
             this.EventStartDateLB.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.EventsToolTip.SetToolTip(this.EventStartDateLB, "Event Start Date");
             // 
             // EventStartTimeLB
             // 
@@ -120,6 +123,7 @@
             this.EventStartTimeLB.TabIndex = 0;
             this.EventStartTimeLB.Text = "-";
             this.EventStartTimeLB.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.EventsToolTip.SetToolTip(this.EventStartTimeLB, "Event Start Time");
             // 
             // EventEndDateLB
             // 
@@ -133,6 +137,7 @@
             this.EventEndDateLB.TabIndex = 0;
             this.EventEndDateLB.Text = "-";
             this.EventEndDateLB.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.EventsToolTip.SetToolTip(this.EventEndDateLB, "Event End Date");
             // 
             // EventEndTimeLB
             // 
@@ -146,6 +151,7 @@
             this.EventEndTimeLB.TabIndex = 0;
             this.EventEndTimeLB.Text = "-";
             this.EventEndTimeLB.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.EventsToolTip.SetToolTip(this.EventEndTimeLB, "Event End Time");
             // 
             // EventTitleLB
             // 
@@ -161,6 +167,7 @@
             this.EventTitleLB.TabIndex = 0;
             this.EventTitleLB.Text = "-";
             this.EventTitleLB.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.EventsToolTip.SetToolTip(this.EventTitleLB, "Event Title");
             // 
             // EventCommentTB
             // 
@@ -175,6 +182,7 @@
             this.EventCommentTB.TabIndex = 3;
             this.EventCommentTB.Tag = "Comment";
             this.EventCommentTB.Text = "No comment";
+            this.EventsToolTip.SetToolTip(this.EventCommentTB, "Event Comment");
             // 
             // flowLayoutPanel2
             // 
@@ -197,6 +205,7 @@
             this.EventStatusLB.TabIndex = 0;
             this.EventStatusLB.Text = "-";
             this.EventStatusLB.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.EventsToolTip.SetToolTip(this.EventStatusLB, "Event Status");
             // 
             // CompletedDateLB
             // 
@@ -207,6 +216,7 @@
             this.CompletedDateLB.TabIndex = 2;
             this.CompletedDateLB.Text = "-";
             this.CompletedDateLB.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.EventsToolTip.SetToolTip(this.CompletedDateLB, "Date Completed");
             // 
             // EventCreateDateLB
             // 
@@ -217,6 +227,7 @@
             this.EventCreateDateLB.TabIndex = 3;
             this.EventCreateDateLB.Text = "-";
             this.EventCreateDateLB.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.EventsToolTip.SetToolTip(this.EventCreateDateLB, "Date Created");
             // 
             // CRUDButtonPanel
             // 
@@ -249,6 +260,7 @@
             this.AddEvent.Size = new System.Drawing.Size(85, 31);
             this.AddEvent.TabIndex = 2;
             this.AddEvent.Text = "Create";
+            this.EventsToolTip.SetToolTip(this.AddEvent, "Cretes an event.");
             this.AddEvent.UseVisualStyleBackColor = true;
             this.AddEvent.Click += new System.EventHandler(this.AddEvent_Click);
             // 
@@ -269,6 +281,7 @@
             this.EditEvent.Size = new System.Drawing.Size(85, 31);
             this.EditEvent.TabIndex = 3;
             this.EditEvent.Text = "Edit";
+            this.EventsToolTip.SetToolTip(this.EditEvent, "Edit the selected event.");
             this.EditEvent.UseVisualStyleBackColor = false;
             this.EditEvent.Click += new System.EventHandler(this.EditEvent_Click);
             // 
@@ -288,6 +301,7 @@
             this.RemoveButton.Size = new System.Drawing.Size(85, 31);
             this.RemoveButton.TabIndex = 4;
             this.RemoveButton.Text = "Remove";
+            this.EventsToolTip.SetToolTip(this.RemoveButton, "Remove the selected event.");
             this.RemoveButton.UseVisualStyleBackColor = false;
             this.RemoveButton.Click += new System.EventHandler(this.RemoveButton_Click);
             // 
@@ -314,8 +328,14 @@
             this.ToggleEventStatus.Size = new System.Drawing.Size(159, 31);
             this.ToggleEventStatus.TabIndex = 1;
             this.ToggleEventStatus.Text = "Toggle Status";
+            this.EventsToolTip.SetToolTip(this.ToggleEventStatus, "Toggles the event\'s status.");
             this.ToggleEventStatus.UseVisualStyleBackColor = false;
             this.ToggleEventStatus.Click += new System.EventHandler(this.ToggleStatus_Click);
+            // 
+            // EventsToolTip
+            // 
+            this.EventsToolTip.IsBalloon = true;
+            this.EventsToolTip.Tag = "";
             // 
             // EventsInfoView
             // 
@@ -354,5 +374,6 @@
         private System.Windows.Forms.Button RemoveButton;
         private System.Windows.Forms.Splitter splitter1;
         private System.Windows.Forms.Button ToggleEventStatus;
+        private System.Windows.Forms.ToolTip EventsToolTip;
     }
 }

@@ -20,6 +20,7 @@ namespace Frontend.Controller.Prompts
         private readonly ControlsAccess _controls;
         private readonly Random _rand;
         private readonly List<string> _lastSeen;
+        private string _lastShown;
 
         /// <summary>
         /// Constructor for Message View Controller
@@ -220,13 +221,14 @@ namespace Frontend.Controller.Prompts
 
                 message = messages.ElementAtOrDefault(_rand.Next(0, messages.Count));
 
-                if (message != null && !_lastSeen.Any(x => x == message.Id))
+                if (message != null && !_lastSeen.Any(x => x == message.Id) && _lastShown != message.Id)
                 {
                     string author = string.IsNullOrEmpty(message.Author) ? "No author(s)" : message.Author;
                     string source = string.IsNullOrEmpty(message.Source) ? "No source(s)" : message.Source;
 
                     display = $"\"{message.Quote}\"\r\n\r\n    - {author}\r\n\r\nSources:\r\n    {source}";
                     isNotShown = true;
+                    _lastShown = message.Id;
 
                     _lastSeen.Add(message.Id);
 
