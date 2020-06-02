@@ -342,24 +342,6 @@ namespace Shared.Global
 
         #region Comparisons
 
-        /// <summary>
-        /// Checks if date is within range
-        /// </summary>
-        /// <param name="beginDate">The start date</param>
-        /// <param name="dateToCheck">Date to examine</param>
-        /// <param name="endDate">The end date</param>
-        /// <returns>Whether the date is within range</returns>
-        public static bool IsWithinRange(Date beginDate, Date dateToCheck, Date endDate)
-        {
-            DateTime begin = ConvertDate_DateTime(beginDate);
-            DateTime end = ConvertDate_DateTime(endDate);
-            DateTime curr = ConvertDate_DateTime(dateToCheck);
-
-            bool beginMatchRange = curr >= begin;
-            bool endMatchRange = curr <= end;
-
-            return beginMatchRange && endMatchRange;
-        }
 
         /// <summary>
         /// Checks if date is within range
@@ -367,15 +349,16 @@ namespace Shared.Global
         /// <param name="beginDateAndTime">The start date and time</param>
         /// <param name="incomingDateAndTime">Date and time to examine</param>
         /// <param name="endDateAndTime">The end date and time</param>
+        /// <param name="specific">WHether to compare a specific date and time</param>
         /// <returns>Whether the incoming date is within range</returns>
-        public static bool IsWithinRange(DateAndTime beginDateAndTime, DateAndTime incomingDateAndTime, DateAndTime endDateAndTime)
+        public static bool IsWithinRange(DateAndTime beginDateAndTime, DateAndTime incomingDateAndTime, DateAndTime endDateAndTime, bool specific = true)
         {
             DateTime begin = ConvertDateAndTime_DateTime(beginDateAndTime);
             DateTime end = ConvertDateAndTime_DateTime(endDateAndTime);
             DateTime curr = ConvertDateAndTime_DateTime(incomingDateAndTime);
 
-            bool beginMatchRange = curr >= begin;
-            bool endMatchRange = curr <= end;
+            bool beginMatchRange = curr >= (specific ? begin : begin.AddHours(-begin.Hour).AddMinutes(-begin.Minute).AddSeconds(-begin.Second));
+            bool endMatchRange = curr <= (specific ? end : end.AddHours(23 - end.Hour).AddMinutes(59 - end.Minute).AddSeconds(59 - end.Second));
 
             return beginMatchRange && endMatchRange;
         }

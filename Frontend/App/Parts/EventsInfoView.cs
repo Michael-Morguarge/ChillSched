@@ -211,8 +211,10 @@ namespace Frontend.App.Parts
         private void TodaysEventsListBox_DrawItem(object sender, DrawItemEventArgs e)
         {
             e.DrawBackground();
+
             Font font;
-            Brush brush;
+            Brush brush = Brushes.Black;
+            Brush selectedBrush = new SolidBrush(Color.White);
             int index = e.Index;
             int status = -1;
             string title = string.Empty;
@@ -263,7 +265,16 @@ namespace Frontend.App.Parts
                     break;
             }
 
-            g.DrawString(title, font, brush, e.Bounds, StringFormat.GenericDefault);
+            if (lb.SelectedIndex == index)
+            {
+                g.FillRectangle(Brushes.Blue, e.Bounds);
+                g.DrawString(title, font, selectedBrush, e.Bounds, StringFormat.GenericDefault);
+            }
+            else
+            {
+                g.FillRectangle(Brushes.White, e.Bounds);
+                g.DrawString(title, font, brush, e.Bounds, StringFormat.GenericDefault);
+            }
         }
 
         #region Helpers
@@ -339,6 +350,7 @@ namespace Frontend.App.Parts
 
                     if (@event != null)
                     {
+                        TodaysEventsListBox.Refresh();
                         DateAndTime currDate = new DateAndTime(TimeAndDateUtility.GetCurrentDate(), TimeAndDateUtility.GetCurrentTime());
 
                         SetEventDetails(@event);

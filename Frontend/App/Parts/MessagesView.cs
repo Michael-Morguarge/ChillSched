@@ -241,6 +241,41 @@ namespace Frontend.App.Parts
             timer.Start();
         }
 
+
+        private void MessageListBox_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            e.DrawBackground();
+
+            Brush brush = Brushes.Black;
+            Brush selectedBrush = new SolidBrush(Color.White);
+            int index = e.Index;
+            string title = string.Empty;
+            ListBox lb = (ListBox)sender;
+            Graphics g = e.Graphics;
+
+            if (index > -1)
+            {
+                AppMessage message = null;
+                try { message = (AppMessage)lb.Items[index]; } catch (Exception) { /*Something happened*/ }
+
+                if (message != null)
+                {
+                    title = message.Title;
+                }
+            }
+
+            if (lb.SelectedIndex == index)
+            {
+                g.FillRectangle(Brushes.Blue, e.Bounds);
+                g.DrawString(title, e.Font, selectedBrush, e.Bounds, StringFormat.GenericDefault);
+            }
+            else
+            {
+                g.FillRectangle(Brushes.White, e.Bounds);
+                g.DrawString(title, e.Font, brush, e.Bounds, StringFormat.GenericDefault);
+            }
+        }
+
         #region Helpers
 
         private void UpdateMessageDetails()
@@ -398,5 +433,6 @@ namespace Frontend.App.Parts
         #endregion
 
         #endregion
+
     }
 }

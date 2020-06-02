@@ -147,7 +147,7 @@ namespace Backend.Implementations
         public IEnumerable<SavedEvent> GetEvents(DateAndTime date)
         {
             return
-                SavedEvents.Where(x => TimeAndDateUtility.IsWithinRange(x.ActivationDate, date, x.DeactivationDate))
+                SavedEvents.Where(x => TimeAndDateUtility.IsWithinRange(x.ActivationDate, date, x.DeactivationDate, false))
                            .ToList()
                            .AsReadOnly();
         }
