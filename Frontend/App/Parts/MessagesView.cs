@@ -246,12 +246,14 @@ namespace Frontend.App.Parts
         {
             e.DrawBackground();
 
-            Brush brush = Brushes.Black;
+            Font font;
+            Brush brush;
             Brush selectedBrush = new SolidBrush(Color.White);
             int index = e.Index;
             string title = string.Empty;
             ListBox lb = (ListBox)sender;
             Graphics g = e.Graphics;
+            int status = -1;
 
             if (index > -1)
             {
@@ -260,19 +262,31 @@ namespace Frontend.App.Parts
 
                 if (message != null)
                 {
+                    status = message.Show ? 1 : status;
                     title = message.Title;
                 }
+            }
+
+            if (status == 1)
+            {
+                font = new Font(FontFamily.GenericSansSerif, 10, FontStyle.Bold);
+                brush = Brushes.DarkGreen;
+            }
+            else
+            {
+                font = new Font(FontFamily.GenericSansSerif, 10, FontStyle.Regular);
+                brush = Brushes.DarkRed;
             }
 
             if (lb.SelectedIndex == index)
             {
                 g.FillRectangle(Brushes.Blue, e.Bounds);
-                g.DrawString(title, e.Font, selectedBrush, e.Bounds, StringFormat.GenericDefault);
+                g.DrawString(title, font, selectedBrush, e.Bounds, StringFormat.GenericDefault);
             }
             else
             {
                 g.FillRectangle(Brushes.White, e.Bounds);
-                g.DrawString(title, e.Font, brush, e.Bounds, StringFormat.GenericDefault);
+                g.DrawString(title, font, brush, e.Bounds, StringFormat.GenericDefault);
             }
         }
 
@@ -289,6 +303,7 @@ namespace Frontend.App.Parts
 
                     if (message != null)
                     {
+                        MessageListBox.Refresh();
                         SetMessageDetails(message);
                         ToggleButtons(true, message.Show ? HIDE : SHOW);
                     }
