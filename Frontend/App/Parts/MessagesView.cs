@@ -241,6 +241,55 @@ namespace Frontend.App.Parts
             timer.Start();
         }
 
+
+        private void MessageListBox_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            e.DrawBackground();
+
+            Font font;
+            Brush brush;
+            Brush selectedBrush = new SolidBrush(Color.White);
+            int index = e.Index;
+            string title = string.Empty;
+            ListBox lb = (ListBox)sender;
+            Graphics g = e.Graphics;
+            int status = -1;
+
+            if (index > -1)
+            {
+                AppMessage message = null;
+                try { message = (AppMessage)lb.Items[index]; } catch (Exception) { /*Something happened*/ }
+
+                if (message != null)
+                {
+                    status = message.Show ? 1 : status;
+                    title = message.Title;
+                }
+            }
+
+            if (status == 1)
+            {
+                font = new Font(FontFamily.GenericSansSerif, 10, FontStyle.Bold);
+                brush = Brushes.DarkGreen;
+            }
+            else
+            {
+                font = new Font(FontFamily.GenericSansSerif, 10, FontStyle.Regular);
+                brush = Brushes.DarkRed;
+            }
+
+            if (lb.SelectedIndex == index)
+            {
+                g.FillRectangle(Brushes.Blue, e.Bounds);
+                g.DrawString(title, font, selectedBrush, e.Bounds, StringFormat.GenericDefault);
+            }
+            else
+            {
+                g.FillRectangle(Brushes.White, e.Bounds);
+                g.DrawString(title, font, brush, e.Bounds, StringFormat.GenericDefault);
+            }
+        }
+
         #region Helpers
 
         private void UpdateMessageDetails()
@@ -254,6 +303,7 @@ namespace Frontend.App.Parts
 
                     if (message != null)
                     {
+                        MessageListBox.Refresh();
                         SetMessageDetails(message);
                         ToggleButtons(true, message.Show ? HIDE : SHOW);
                     }
@@ -398,5 +448,6 @@ namespace Frontend.App.Parts
         #endregion
 
         #endregion
+
     }
 }

@@ -65,7 +65,8 @@
             // MessageListBox
             // 
             this.MessageListBox.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.MessageListBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MessageListBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.MessageListBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MessageListBox.FormattingEnabled = true;
             this.MessageListBox.ItemHeight = 20;
             this.MessageListBox.Items.AddRange(new object[] {
@@ -75,6 +76,7 @@
             this.MessageListBox.Size = new System.Drawing.Size(277, 244);
             this.MessageListBox.Sorted = true;
             this.MessageListBox.TabIndex = 0;
+            this.MessageListBox.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.MessageListBox_DrawItem);
             this.MessageListBox.SelectedIndexChanged += new System.EventHandler(this.MessageListBox_SelectedIndexChanged);
             // 
             // MessagesGB
@@ -98,6 +100,7 @@
             // MessageSearchBox
             // 
             this.MessageSearchBox.AcceptsReturn = true;
+            this.MessageSearchBox.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.MessageSearchBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.HistoryList;
             this.MessageSearchBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.MessageSearchBox.Location = new System.Drawing.Point(6, 25);
