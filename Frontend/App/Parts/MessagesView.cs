@@ -34,6 +34,7 @@ namespace Frontend.App.Parts
         public MessagesView()
         {
             InitializeComponent();
+            SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
         }
 
         /// <summary>
@@ -115,6 +116,7 @@ namespace Frontend.App.Parts
         private void MessageListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             UpdateMessageDetails();
+            MessageListBox.Refresh();
         }
 
         private void CreateButton_Click(object sender, EventArgs e)
@@ -303,7 +305,6 @@ namespace Frontend.App.Parts
 
                     if (message != null)
                     {
-                        MessageListBox.Refresh();
                         SetMessageDetails(message);
                         ToggleButtons(true, message.Show ? HIDE : SHOW);
                     }

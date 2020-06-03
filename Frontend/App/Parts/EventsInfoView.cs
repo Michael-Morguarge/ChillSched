@@ -30,6 +30,7 @@ namespace Frontend.App.Parts
         public EventsInfoView()
         {
             InitializeComponent();
+            SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
         }
 
         /// <summary>
@@ -159,6 +160,7 @@ namespace Frontend.App.Parts
         private void TodaysEvents_SelectedIndexChanged(object sender, EventArgs e)
         {
             UpdateEventDetails();
+            TodaysEventsListBox.Refresh();
         }
 
         private void AddEvent_Click(object sender, EventArgs e)
@@ -210,16 +212,17 @@ namespace Frontend.App.Parts
 
         private void TodaysEventsListBox_DrawItem(object sender, DrawItemEventArgs e)
         {
-            e.DrawBackground();
-
+            
+            TodaysEventsListBox.SuspendLayout();
+            
             Font font;
-            Brush brush = Brushes.Black;
+            Brush brush;
             Brush selectedBrush = new SolidBrush(Color.White);
-            int index = e.Index;
             int status = -1;
             string title = string.Empty;
-            ListBox lb = (ListBox)sender;
             Graphics g = e.Graphics;
+            ListBox lb = (ListBox)sender;
+            int index = e.Index;
 
             if (index > -1)
             {
@@ -244,18 +247,22 @@ namespace Frontend.App.Parts
             switch (status)
             {
                 case 1:
+                    e.DrawBackground();
                     font = new Font(FontFamily.GenericSansSerif, 10, FontStyle.Bold);
                     brush = Brushes.DarkSlateGray;
                     break;
                 case 2:
+                    e.DrawBackground();
                     font = new Font(FontFamily.GenericSansSerif, 10, FontStyle.Italic);
                     brush = Brushes.DarkSlateBlue;
                     break;
                 case 3:
+                    e.DrawBackground();
                     font = new Font(FontFamily.GenericSansSerif, 10, FontStyle.Regular);
                     brush = Brushes.DarkRed;
                     break;
                 case 4:
+                    e.DrawBackground();
                     font = new Font(FontFamily.GenericSansSerif, 10, FontStyle.Bold | FontStyle.Italic);
                     brush = Brushes.DarkGreen;
                     break;
@@ -265,7 +272,7 @@ namespace Frontend.App.Parts
                     break;
             }
 
-            if (lb.SelectedIndex == index)
+            if (index > -1 && lb.SelectedIndex == index)
             {
                 g.FillRectangle(Brushes.Blue, e.Bounds);
                 g.DrawString(title, font, selectedBrush, e.Bounds, StringFormat.GenericDefault);
@@ -275,6 +282,8 @@ namespace Frontend.App.Parts
                 g.FillRectangle(Brushes.White, e.Bounds);
                 g.DrawString(title, font, brush, e.Bounds, StringFormat.GenericDefault);
             }
+
+            TodaysEventsListBox.ResumeLayout();
         }
 
         #region Helpers
@@ -285,6 +294,7 @@ namespace Frontend.App.Parts
             ForceUpdate();
             UpdateTodaysEvents(_calendar.GetControl().SelectionStart);
             ToggleButtons();
+            TodaysEventsListBox.Refresh();
         }
 
         private void ForceUpdate()
@@ -350,7 +360,6 @@ namespace Frontend.App.Parts
 
                     if (@event != null)
                     {
-                        TodaysEventsListBox.Refresh();
                         DateAndTime currDate = new DateAndTime(TimeAndDateUtility.GetCurrentDate(), TimeAndDateUtility.GetCurrentTime());
 
                         SetEventDetails(@event);
