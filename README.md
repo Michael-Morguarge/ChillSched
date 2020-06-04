@@ -2,6 +2,8 @@
 
 [![Image](docs/resources/ChillSchedheader.png)](https://michael-morguarge.github.io/ChillSched-Web/ "ChillSched")
 
+![Master Status](https://github.com/Michael-Morguarge/ChillSched/workflows/.NET%20Core/badge.svg?branch=master)
+
 ![Development Status](https://github.com/Michael-Morguarge/ChillSched/workflows/.NET%20Core/badge.svg?branch=Development)
 
 **ChillSched** is a portable desktop scheduling app that tracks events down to the second!
