@@ -193,7 +193,7 @@ namespace FileOperations.Constants
     public static class BackupIOConsts
     {
 #if DEBUG
-        private const string DefaultExportPath = "..\\..\\Resources\\All\\Backup_{0}.saved";
+        private const string DefaultExportPath = "..\\..\\..\\Resources\\All\\Backup_{0}.saved";
 #else
         private const string DefaultExportPath = ".\\Resources\\All\\Backup_{0}.saved";
 #endif
@@ -221,8 +221,8 @@ namespace FileOperations.Constants
     public static class AllIOConsts
     {
 #if DEBUG
-        public const string DefaultPath = "..\\..\\Resources\\All\\AllTest.saved";
-        public const string DefaultDirectory = "..\\..\\Resources\\All\\";
+        public const string DefaultPath = "..\\..\\..\\Resources\\All\\AllLog.saved";
+        public const string DefaultDirectory = "..\\..\\..\\Resources\\All\\";
 #else
         public const string DefaultPath = ".\\Resources\\All\\AllLog.saved";
         public const string DefaultDirectory = ".\\Resources\\All\\";

@@ -30,6 +30,7 @@ namespace Frontend.App.Prompts
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EventCrudView));
             this.Error = new System.Windows.Forms.Label();
             this.EIV = new Frontend.App.Parts.EventInfoView();
             this.SuspendLayout();
@@ -67,11 +68,11 @@ namespace Frontend.App.Prompts
             this.Controls.Add(this.EIV);
             this.Controls.Add(this.Error);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "EventCrudView";
-            this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

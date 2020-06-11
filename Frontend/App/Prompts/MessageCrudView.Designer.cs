@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MessageCrudView));
             this.MV = new Frontend.App.Parts.MessageView();
             this.Error = new System.Windows.Forms.Label();
             this.SuspendLayout();
@@ -66,12 +67,14 @@
             this.ClientSize = new System.Drawing.Size(350, 400);
             this.Controls.Add(this.MV);
             this.Controls.Add(this.Error);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MessageCrudView";
-            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "MessageCrudView";
+            this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MessageCrudView_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();

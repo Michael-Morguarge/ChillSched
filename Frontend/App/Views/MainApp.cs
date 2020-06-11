@@ -58,6 +58,8 @@ namespace Frontend.App.Views
             }
 
             MMV.UpdateMessagesView();
+
+            TimeAndCalendarTabular.SelectedIndex = 0;
         }
 
         private void Setup()
@@ -87,12 +89,10 @@ namespace Frontend.App.Views
 
             MMV.SetControls(tag, _controls, _messages);
             MMV.SetTitle("Messages");
+            MMV.SetTitle("Messages");
 
             User_Time.SetText(TimeAndDateUtility.GetCurrentTimeString());
             User_Date.SetText(TimeAndDateUtility.GetCurrentDateString());
-
-            Icon = Resources.icon;
-            DateTimeIcon.Icon = Resources.icon;
 
             _delay = new OnDelay();
         }
