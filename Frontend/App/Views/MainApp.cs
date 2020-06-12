@@ -1,5 +1,4 @@
-﻿using Frontend.Properties;
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
 using Frontend.View.Controller;
@@ -88,7 +87,6 @@ namespace Frontend.App.Views
             SEIV.UseCrudButtons(false);
 
             MMV.SetControls(tag, _controls, _messages);
-            MMV.SetTitle("Messages");
             MMV.SetTitle("Messages");
 
             User_Time.SetText(TimeAndDateUtility.GetCurrentTimeString());

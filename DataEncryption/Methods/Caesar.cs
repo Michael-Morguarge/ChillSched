@@ -57,26 +57,26 @@ namespace DataEncryption.Methods
             {
                 newValue =
                     LOWER_LETTERS.IsLowerBound(value) ?
-                        (char)('z' - _shift) :
+                        (char)('z' - _shift + 1) :
                         (char)(LOWER_LETTERS.IsLessThanLowerBound((char)(value - _shift)) ?
-                            ('z' + 1) - Math.Abs('a' - value + _shift) :  (value - _shift));
+                            'z' - Math.Abs('a' - value + _shift) + 1 :  (value - _shift));
                 
             }
             else if (UPPER_LETTERS.IsWithinRange(value))
             {
                 newValue =
                     UPPER_LETTERS.IsLowerBound(value) ?
-                        (char)('Z' - _shift) :
+                        (char)('Z' - _shift + 1) :
                         (char)(UPPER_LETTERS.IsLessThanLowerBound((char)(value - _shift)) ?
-                            ('Z' + 1) - Math.Abs('A' - value + _shift) : (value - _shift));
+                            'Z' - Math.Abs('A' - value + _shift) + 1 : (value - _shift));
             }
             else if (NUMBERS.IsWithinRange(value))
             {
                 newValue =
                     NUMBERS.IsLowerBound(value) ?
-                        (char)('9' - _shift) :
+                        (char)('9' - _shift + 1) :
                         (char)(NUMBERS.IsLessThanLowerBound((char)(value - _shift)) ?
-                            ('9' + 1) - Math.Abs('0' - value + _shift) : (value - _shift));
+                            '9' - Math.Abs('0' - value + _shift) + 1: (value - _shift));
             }
 
             return newValue;
@@ -90,7 +90,7 @@ namespace DataEncryption.Methods
             {
                 newValue =
                     LOWER_LETTERS.IsUpperBound(value) ?
-                        (char)('a' + _shift) :
+                        (char)('a' - 1 + _shift) :
                         (char)(LOWER_LETTERS.IsGreaterThanUpperBound((char)(value + _shift)) ?
                             Math.Abs(value - 'z' + _shift) + ('a' - 1) : (value + _shift));
             }
@@ -98,7 +98,7 @@ namespace DataEncryption.Methods
             {
                 newValue =
                     UPPER_LETTERS.IsUpperBound(value) ?
-                        (char)('A' + _shift) :
+                        (char)('A' - 1 + _shift) :
                         (char)(UPPER_LETTERS.IsGreaterThanUpperBound((char)(value + _shift)) ?
                             Math.Abs(value - 'Z' + _shift) + ('A' - 1) : (value + _shift));
             }
@@ -106,7 +106,7 @@ namespace DataEncryption.Methods
             {
                 newValue =
                     NUMBERS.IsUpperBound(value) ?
-                        (char)('0' + _shift) :
+                        (char)('0' - 1 + _shift) :
                         (char)(NUMBERS.IsGreaterThanUpperBound((char)(value + _shift)) ?
                             Math.Abs(value - '9' + _shift) + ('0' - 1) : (value + _shift));
             }

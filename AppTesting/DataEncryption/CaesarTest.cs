@@ -1,9 +1,5 @@
 ﻿using DataEncryption.Factories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SharpCompress.Crypto;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AppTesting.DataEncryption
 {
@@ -72,7 +68,14 @@ namespace AppTesting.DataEncryption
             Assert.AreEqual(expected, message);
         }
 
-        // test edge cases when decrypting: 'a' and 'z', '0' and '9', 'A' and 'Z'
+        [TestMethod]
+        public void WhenCaesarEncryptingMessage_ReturnsValidMultiMovedEdgeEncryption()
+        {
+            string expected = "9iI8";
+            string message = EncryptionFactory.ExecuteCryption('9', "zZ9");
+
+            Assert.AreEqual(expected, message);
+        }
 
         #endregion Encrypt
 
@@ -118,7 +121,7 @@ namespace AppTesting.DataEncryption
         public void WhenCaesarDecryptingMessageWithBelowMinChar_ReturnsEmptyString()
         {
             string expected = string.Empty;
-            string message = EncryptionFactory.ExecuteCryption('0', "bcd");
+            string message = EncryptionFactory.ExecuteCryption('0', "bcd", false);
 
             Assert.AreEqual(expected, message);
         }
@@ -127,12 +130,28 @@ namespace AppTesting.DataEncryption
         public void WhenCaesarDecryptingMessageWithAboveMaxChar_ReturnsEmptyString()
         {
             string expected = string.Empty;
-            string message = EncryptionFactory.ExecuteCryption(':', "jkl");
+            string message = EncryptionFactory.ExecuteCryption(':', "jkl", false);
 
             Assert.AreEqual(expected, message);
         }
 
-        // test edge cases when decrypting: 'a' and 'z', '0' and '9', 'A' and 'Z'
+        [TestMethod]
+        public void WhenCaesarDecryptingMessage_ReturnsValidSingleMovedEdgeDecryption()
+        {
+            string expected = "zZ9";
+            string message = EncryptionFactory.ExecuteCryption('1', "aA0", false);
+
+            Assert.AreEqual(expected, message);
+        }
+
+        [TestMethod]
+        public void WhenCaesarDecryptingMessage_ReturnsValidMultiMovedEdgeDecryption()
+        {
+            string expected = "zZ9";
+            string message = EncryptionFactory.ExecuteCryption('9', "iI8", false);
+
+            Assert.AreEqual(expected, message);
+        }
 
         #endregion Decrypt
     }
