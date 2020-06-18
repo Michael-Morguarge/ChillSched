@@ -12,6 +12,8 @@
 
   <ItemGroup>
     <Compile Remove="Abstracts\DataAbstract.cs" />
+    <Compile Remove="Inferfaces\IFileOperations.cs" />
+    <Compile Remove="Model\Data.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\IO\IO.csproj" />
     <ProjectReference Include="..\Shared\Shared.csproj" />
   </ItemGroup>
 

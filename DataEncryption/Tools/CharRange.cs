@@ -7,43 +7,43 @@ namespace DataEncryption.Tools
     /// </summary>
     public class CharRange
     {
-        private readonly char _lowerBound;
-        private readonly char _upperBound;
+        public char LowerBound { get; private set; }
+        public char UpperBound { get; private set; }
 
         /// <summary>
         /// Checks whether the key is within the char range.
         /// </summary>
         /// <param name="key">The value to check</param>
         /// <returns>Whether the key is valid for this range</returns>
-        public bool IsWithinRange(char key) => key >= _lowerBound && key <= _upperBound;
+        public bool IsWithinRange(char key) => key >= LowerBound && key <= UpperBound;
 
         /// <summary>
         /// Checks whether the key is greater than upper bound.
         /// </summary>
         /// <param name="key">The value to check</param>
         /// <returns>Whether the key is a valid value for this range</returns>
-        public bool IsGreaterThanUpperBound(char key) => key > _upperBound;
+        public bool IsGreaterThanUpperBound(char key) => key > UpperBound;
 
         /// <summary>
         /// Checks whether the key is less than the lower bound.
         /// </summary>
         /// <param name="key">The value to check</param>
         /// <returns>Whether the key is a valid value for this range</returns>
-        public bool IsLessThanLowerBound(char key) => _lowerBound > key;
+        public bool IsLessThanLowerBound(char key) => LowerBound > key;
 
         /// <summary>
         /// Checks if the key is the upper bound.
         /// </summary>
         /// <param name="key">The value to check</param>
         /// <returns>Whether the key is the upper bound</returns>
-        public bool IsUpperBound(char key) => key == _upperBound;
+        public bool IsUpperBound(char key) => key == UpperBound;
 
         /// <summary>
         /// Checks if the key is the lower bound.
         /// </summary>
         /// <param name="key">The value to check</param>
         /// <returns>Whether the key is the lower bound</returns>
-        public bool IsLowerBound(char key) => key == _lowerBound;
+        public bool IsLowerBound(char key) => key == LowerBound;
 
         /// <summary>
         /// Constructor for the CharRange class. Sets the min and max chars.
@@ -57,13 +57,13 @@ namespace DataEncryption.Tools
 
             if (lowerBound > upperBound)
             {
-                _lowerBound = upperBound;
-                _upperBound = lowerBound;
+                LowerBound = upperBound;
+                UpperBound = lowerBound;
             }
             else
             {
-                _lowerBound = lowerBound;
-                _upperBound = upperBound;
+                LowerBound = lowerBound;
+                UpperBound = upperBound;
             }
         }
     }
